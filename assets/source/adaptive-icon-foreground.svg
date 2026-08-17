@@ -1,0 +1,18 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <title>AyahNow Android adaptive icon foreground (transparent background, glyph within safe zone)</title>
+  <!-- Same glyph as icon.svg, scaled ~72% and centered so it sits within Android's adaptive-icon safe zone. -->
+  <g transform="translate(142,142) scale(0.72)">
+    <g stroke="#C8A45D" stroke-width="14" stroke-linecap="round" opacity="0.85">
+      <line x1="330" y1="230" x2="330" y2="150"/>
+      <line x1="270" y1="260" x2="210" y2="200"/>
+      <line x1="360" y1="290" x2="430" y2="230"/>
+    </g>
+    <rect x="232" y="330" width="560" height="420" rx="56" fill="#F7F3E8"/>
+    <circle cx="330" cy="430" r="26" fill="#C8A45D"/>
+    <rect x="384" y="410" width="320" height="26" rx="13" fill="#12372A" opacity="0.85"/>
+    <rect x="330" y="486" width="376" height="20" rx="10" fill="#12372A" opacity="0.35"/>
+    <rect x="330" y="524" width="376" height="20" rx="10" fill="#12372A" opacity="0.35"/>
+    <rect x="330" y="562" width="260" height="20" rx="10" fill="#12372A" opacity="0.35"/>
+    <rect x="330" y="640" width="140" height="44" rx="22" fill="#2F6B55"/>
+  </g>
+</svg>

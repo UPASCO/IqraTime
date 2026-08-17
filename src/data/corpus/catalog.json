@@ -1,0 +1,40 @@
+{
+  "_readme": "Editorial whitelist. Every entry here is status='draft' and isDemoOnly=true: none are 'publishable', so scripts/validateCorpus.ts in production mode will refuse to build until a qualified reviewer completes the checklist in docs/CORPUS.md and updates the status.",
+  "entries": [
+    {
+      "id": "94:5",
+      "status": "draft",
+      "themes": ["patience", "hope", "trials"],
+      "editorialNote": "Complete independent clause, extremely widely known standalone. Verify Arabic diacritics before publishing.",
+      "isDemoOnly": true
+    },
+    {
+      "id": "94:6",
+      "status": "draft",
+      "themes": ["patience", "hope", "trials"],
+      "editorialNote": "Near-identical wording to 94:5 (definite vs. indefinite article pattern in classical exegesis). Reviewer to decide whether both should rotate or only one should be publishable, to avoid apparent duplication in notifications.",
+      "isDemoOnly": true
+    },
+    {
+      "id": "2:152",
+      "status": "draft",
+      "themes": ["remembrance", "gratitude"],
+      "editorialNote": "Complete independent imperative sentence. Verify Arabic diacritics before publishing.",
+      "isDemoOnly": true
+    },
+    {
+      "id": "3:139",
+      "status": "draft",
+      "themes": ["courage", "hope", "trust_in_god"],
+      "editorialNote": "Complete independent sentence, commonly cited standalone for encouragement. Verify Arabic diacritics before publishing.",
+      "isDemoOnly": true
+    },
+    {
+      "id": "13:28",
+      "status": "draft",
+      "themes": ["inner_peace", "remembrance"],
+      "editorialNote": "Reads as a complete general statement about believers' hearts, though it grammatically continues a description begun in the preceding ayah (13:27). Reviewer to confirm this does not distort meaning when shown in isolation, per the editorial checklist in docs/CORPUS.md.",
+      "isDemoOnly": true
+    }
+  ]
+}
