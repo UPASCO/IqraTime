@@ -1,11 +1,11 @@
 {
-  "_readme": "DEVELOPMENT SAMPLE — NOT VERIFIED. See docs/CORPUS.md 'Provenance and known limitation'. This file's Arabic text was entered from the assistant's training-time knowledge of extremely well-known, short ayat. It was NOT downloaded from, or diffed against, Tanzil, corpus.quran.com, or any canonical digital mushaf during this development session, because this session's sandboxed network has no access to those hosts. Every entry MUST be verified character-by-character (including all diacritics) against a canonical source such as the Tanzil Uthmani text (https://tanzil.net) by a qualified reviewer before this data is used for anything beyond local development. scripts/validateCorpus.ts fails a production build until each entry's editorial status is 'publishable', which requires this verification.",
+  "_readme": "Arabic text sourced from the fawazahmed0/quran-api open dataset (github.com/fawazahmed0/quran-api, Unlicense/public-domain code), edition \"ara-quranuthmanihaf\": Uthmani script, Hafs 'an 'Asim riwaya, originally published by the King Fahd Complex for the Printing of the Holy Quran (Saudi Arabia) at qurancomplex.gov.sa. Fetched and structurally verified (surah/ayah reference match, non-empty, no truncation) during this session. This is a meaningful upgrade over hand-typed text, but editorial and religious sign-off by a qualified human per docs/CORPUS.md's checklist has NOT happened yet — status stays below \"publishable\" until that review is complete.",
   "entries": [
     {
       "id": "94:5",
       "surah": 94,
       "ayah": 5,
-      "text": "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا",
+      "text": "فَإِنَّ مَعَ ٱلۡعُسۡرِ يُسۡرًا",
       "surahNameArabic": "الشرح",
       "surahNameTransliterated": "Ash-Sharh"
     },
@@ -13,7 +13,7 @@
       "id": "94:6",
       "surah": 94,
       "ayah": 6,
-      "text": "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+      "text": "إِنَّ مَعَ ٱلۡعُسۡرِ يُسۡرࣰ ا",
       "surahNameArabic": "الشرح",
       "surahNameTransliterated": "Ash-Sharh"
     },
@@ -21,25 +21,113 @@
       "id": "2:152",
       "surah": 2,
       "ayah": 152,
-      "text": "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ",
+      "text": "فَٱذۡكُرُونِيٓ أَذۡكُرۡكُمۡ وَٱشۡكُرُواْ لِي وَلَا تَكۡفُرُونِ",
       "surahNameArabic": "البقرة",
-      "surahNameTransliterated": "Al-Baqarah"
+      "surahNameTransliterated": "Al-Baqara"
+    },
+    {
+      "id": "2:153",
+      "surah": 2,
+      "ayah": 153,
+      "text": "يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُواْ ٱسۡتَعِينُواْ بِٱلصَّبۡرِ وَٱلصَّلَوٰةِۚ إِنَّ ٱللَّهَ مَعَ ٱلصَّٰبِرِينَ",
+      "surahNameArabic": "البقرة",
+      "surahNameTransliterated": "Al-Baqara"
+    },
+    {
+      "id": "2:45",
+      "surah": 2,
+      "ayah": 45,
+      "text": "وَٱسۡتَعِينُواْ بِٱلصَّبۡرِ وَٱلصَّلَوٰةِۚ وَإِنَّهَا لَكَبِيرَةٌ إِلَّا عَلَى ٱلۡخَٰشِعِينَ",
+      "surahNameArabic": "البقرة",
+      "surahNameTransliterated": "Al-Baqara"
     },
     {
       "id": "3:139",
       "surah": 3,
       "ayah": 139,
-      "text": "وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنتُمُ الْأَعْلَوْنَ إِن كُنتُم مُّؤْمِنِينَ",
+      "text": "وَلَا تَهِنُواْ وَلَا تَحۡزَنُواْ وَأَنتُمُ ٱلۡأَعۡلَوۡنَ إِن كُنتُم مُّؤۡمِنِينَ",
       "surahNameArabic": "آل عمران",
-      "surahNameTransliterated": "Aal-E-Imran"
+      "surahNameTransliterated": "Aal-Imran"
+    },
+    {
+      "id": "3:173",
+      "surah": 3,
+      "ayah": 173,
+      "text": "ٱلَّذِينَ قَالَ لَهُمُ ٱلنَّاسُ إِنَّ ٱلنَّاسَ قَدۡ جَمَعُواْ لَكُمۡ فَٱخۡشَوۡهُمۡ فَزَادَهُمۡ إِيمَٰنࣰ ا وَقَالُواْ حَسۡبُنَا ٱللَّهُ وَنِعۡمَ ٱلۡوَكِيلُ",
+      "surahNameArabic": "آل عمران",
+      "surahNameTransliterated": "Aal-Imran"
+    },
+    {
+      "id": "3:200",
+      "surah": 3,
+      "ayah": 200,
+      "text": "يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُواْ ٱصۡبِرُواْ وَصَابِرُواْ وَرَابِطُواْ وَٱتَّقُواْ ٱللَّهَ لَعَلَّكُمۡ تُفۡلِحُونَ",
+      "surahNameArabic": "آل عمران",
+      "surahNameTransliterated": "Aal-Imran"
+    },
+    {
+      "id": "9:51",
+      "surah": 9,
+      "ayah": 51,
+      "text": "قُل لَّن يُصِيبَنَآ إِلَّا مَا كَتَبَ ٱللَّهُ لَنَا هُوَ مَوۡلَىٰنَاۚ وَعَلَى ٱللَّهِ فَلۡيَتَوَكَّلِ ٱلۡمُؤۡمِنُونَ",
+      "surahNameArabic": "التوبة",
+      "surahNameTransliterated": "Al-Tawba"
     },
     {
       "id": "13:28",
       "surah": 13,
       "ayah": 28,
-      "text": "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+      "text": "ٱلَّذِينَ ءَامَنُواْ وَتَطۡمَئِنُّ قُلُوبُهُم بِذِكۡرِ ٱللَّهِۗ أَلَا بِذِكۡرِ ٱللَّهِ تَطۡمَئِنُّ ٱلۡقُلُوبُ",
       "surahNameArabic": "الرعد",
       "surahNameTransliterated": "Ar-Ra'd"
+    },
+    {
+      "id": "16:97",
+      "surah": 16,
+      "ayah": 97,
+      "text": "مَنۡ عَمِلَ صَٰلِحࣰ ا مِّن ذَكَرٍ أَوۡ أُنثَىٰ وَهُوَ مُؤۡمِنࣱ فَلَنُحۡيِيَنَّهُۥ حَيَوٰةࣰ طَيِّبَةࣰۖ وَلَنَجۡزِيَنَّهُمۡ أَجۡرَهُم بِأَحۡسَنِ مَا كَانُواْ يَعۡمَلُونَ",
+      "surahNameArabic": "النحل",
+      "surahNameTransliterated": "An-Nahl"
+    },
+    {
+      "id": "21:87",
+      "surah": 21,
+      "ayah": 87,
+      "text": "وَذَا ٱلنُّونِ إِذ ذَّهَبَ مُغَٰضِبࣰ ا فَظَنَّ أَن لَّن نَّقۡدِرَ عَلَيۡهِ فَنَادَىٰ فِي ٱلظُّلُمَٰتِ أَن لَّآ إِلَٰهَ إِلَّآ أَنتَ سُبۡحَٰنَكَ إِنِّي كُنتُ مِنَ ٱلظَّٰلِمِينَ",
+      "surahNameArabic": "الأنبياء",
+      "surahNameTransliterated": "Al-Anbiya"
+    },
+    {
+      "id": "39:10",
+      "surah": 39,
+      "ayah": 10,
+      "text": "قُلۡ يَٰعِبَادِ ٱلَّذِينَ ءَامَنُواْ ٱتَّقُواْ رَبَّكُمۡۚ لِلَّذِينَ أَحۡسَنُواْ فِي هَٰذِهِ ٱلدُّنۡيَا حَسَنَةࣱۗ وَأَرۡضُ ٱللَّهِ وَٰسِعَةٌۗ إِنَّمَا يُوَفَّى ٱلصَّٰبِرُونَ أَجۡرَهُم بِغَيۡرِ حِسَابࣲ‏",
+      "surahNameArabic": "الزمر",
+      "surahNameTransliterated": "Az-Zumar"
+    },
+    {
+      "id": "41:30",
+      "surah": 41,
+      "ayah": 30,
+      "text": "إِنَّ ٱلَّذِينَ قَالُواْ رَبُّنَا ٱللَّهُ ثُمَّ ٱسۡتَقَٰمُواْ تَتَنَزَّلُ عَلَيۡهِمُ ٱلۡمَلَٰٓئِكَةُ أَلَّا تَخَافُواْ وَلَا تَحۡزَنُواْ وَأَبۡشِرُواْ بِٱلۡجَنَّةِ ٱلَّتِي كُنتُمۡ تُوعَدُونَ",
+      "surahNameArabic": "فصلت",
+      "surahNameTransliterated": "Fussilat"
+    },
+    {
+      "id": "49:13",
+      "surah": 49,
+      "ayah": 13,
+      "text": "يَٰٓأَيُّهَا ٱلنَّاسُ إِنَّا خَلَقۡنَٰكُم مِّن ذَكَرࣲ وَأُنثَىٰ وَجَعَلۡنَٰكُمۡ شُعُوبࣰ ا وَقَبَآئِلَ لِتَعَارَفُوٓاْۚ إِنَّ أَكۡرَمَكُمۡ عِندَ ٱللَّهِ أَتۡقَىٰكُمۡۚ إِنَّ ٱللَّهَ عَلِيمٌ خَبِيرࣱ‏",
+      "surahNameArabic": "الحجرات",
+      "surahNameTransliterated": "Al-Hujurat"
+    },
+    {
+      "id": "55:13",
+      "surah": 55,
+      "ayah": 13,
+      "text": "فَبِأَيِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+      "surahNameArabic": "الرحمن",
+      "surahNameTransliterated": "Ar-Rahman"
     }
   ]
 }

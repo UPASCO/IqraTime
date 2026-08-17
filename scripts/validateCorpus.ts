@@ -26,6 +26,17 @@ interface Finding {
   readonly message: string;
 }
 
+/** Returns the furthest-along status in the list, per EDITORIAL_STATUS_ORDER. */
+function highestStatusAmong(statuses: readonly string[]): string {
+  let best = EDITORIAL_STATUS_ORDER[0] as string;
+  for (const status of statuses) {
+    if (EDITORIAL_STATUS_ORDER.indexOf(status as never) > EDITORIAL_STATUS_ORDER.indexOf(best as never)) {
+      best = status;
+    }
+  }
+  return best;
+}
+
 function main(): void {
   const isProduction = process.env.CORPUS_ENV === "production";
   const findings: Finding[] = [];
@@ -67,12 +78,20 @@ function main(): void {
         findings.push({ level: "error", message: `Entry "${id}" references unknown theme "${theme}"` });
       }
     }
-    if (entry.catalog.status !== "publishable" && !entry.catalog.isDemoOnly) {
-      findings.push({
-        level: "warning",
-        message: `Entry "${id}" is not publishable and not marked isDemoOnly — clarify its intent`,
-      });
-    }
+  }
+
+  // Summarize review progress once, rather than emitting one warning per
+  // entry: entries legitimately sit below "publishable" while awaiting the
+  // human editorial/religious review in docs/CORPUS.md.
+  const awaitingReview = entries.filter((e) => e.catalog.status !== "publishable");
+  if (awaitingReview.length > 0) {
+    findings.push({
+      level: "warning",
+      message:
+        `${awaitingReview.length} of ${entries.length} entries are awaiting human editorial/religious review ` +
+        `(highest status reached: "${highestStatusAmong(awaitingReview.map((e) => e.catalog.status))}"). ` +
+        "Complete the checklist in docs/CORPUS.md and promote each to \"publishable\" before a production build.",
+    });
   }
 
   // --- Translation source registry checks -----------------------------
@@ -90,7 +109,9 @@ function main(): void {
     if (!(locale in catalogs)) {
       findings.push({ level: "error", message: `Missing UI translation catalog for locale "${locale}"` });
     }
-    if (!hasAnyTranslations(locale)) {
+    // Arabic needs no "translation": the Arabic source text itself is what
+    // Arabic-locale users read, served directly from arabic.json.
+    if (locale !== "ar" && !hasAnyTranslations(locale)) {
       findings.push({
         level: isProduction ? "error" : "warning",
         message: `No Quran translation corpus imported for locale "${locale}" — see docs/TRANSLATIONS.md`,

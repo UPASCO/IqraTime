@@ -1,4 +1,12 @@
-import { getFullCorpus, getPublishableCorpus, getRuntimeCorpus, getCorpusEntry } from "@/data/corpus";
+import {
+  getFullCorpus,
+  getPublishableCorpus,
+  getRuntimeCorpus,
+  getCorpusEntry,
+  getTranslation,
+  hasAnyTranslations,
+  translationSources,
+} from "@/data/corpus";
 import { EDITORIAL_STATUS_ORDER, parseAyahId, makeAyahId } from "@/domain/types";
 
 describe("shipped corpus integrity", () => {
@@ -67,16 +75,74 @@ describe("shipped corpus integrity", () => {
 });
 
 describe("production-build corpus gate", () => {
-  it("the demo corpus contains no 'publishable' entries yet (this is expected and intentional)", () => {
-    // See docs/CORPUS.md: the shipped sample data is explicitly draft-status
-    // pending human religious/editorial review, so a production build must
-    // end up with zero usable ayat until that review happens — which is
-    // exactly what scripts/validateCorpus.ts is designed to catch and block on.
+  it("contains no 'publishable' entries yet (expected: human religious/editorial review is still pending)", () => {
+    // See docs/CORPUS.md: the Arabic text and translations are now sourced
+    // from recognized corpora and structurally verified, but no qualified
+    // human has completed the editorial/religious review checklist, so every
+    // entry is capped at "technically_verified". A production build must
+    // therefore still end up with zero usable ayat — exactly what
+    // scripts/validateCorpus.ts is designed to catch and block on.
     expect(getPublishableCorpus()).toHaveLength(0);
   });
 
-  it("getRuntimeCorpus in development mode still exposes the draft entries (for building/testing the app)", () => {
+  it("getRuntimeCorpus in development mode still exposes the not-yet-publishable entries (for building/testing the app)", () => {
     // EXPO_PUBLIC_CORPUS_ENV is unset in the test environment, i.e. "development".
     expect(getRuntimeCorpus().length).toBe(getFullCorpus().length);
+  });
+});
+
+describe("shipped translations", () => {
+  const localesWithTranslations = ["en", "fr", "es", "pt", "hi", "bn", "zh-CN", "it", "ru"] as const;
+
+  it.each(localesWithTranslations)("locale '%s' has a translation for every shipped ayah", (locale) => {
+    const missing = getFullCorpus()
+      .map((entry) => entry.arabic.id)
+      .filter((id) => !getTranslation(id, locale));
+    expect(missing).toEqual([]);
+  });
+
+  it.each(localesWithTranslations)("locale '%s' reports having translations", (locale) => {
+    expect(hasAnyTranslations(locale)).toBe(true);
+  });
+
+  it("Arabic has no separate 'translation' (the Arabic source text is shown directly)", () => {
+    expect(hasAnyTranslations("ar")).toBe(false);
+  });
+
+  it.each(localesWithTranslations)("locale '%s' translation text is non-empty and not truncated", (locale) => {
+    for (const entry of getFullCorpus()) {
+      const translation = getTranslation(entry.arabic.id, locale);
+      expect(translation?.text.trim().length).toBeGreaterThan(0);
+      expect(translation?.text.trim().endsWith("...")).toBe(false);
+      expect(translation?.text.trim().endsWith("…")).toBe(false);
+    }
+  });
+
+  it.each(localesWithTranslations)("locale '%s' translation ids match their ayah ids exactly", (locale) => {
+    for (const entry of getFullCorpus()) {
+      const translation = getTranslation(entry.arabic.id, locale);
+      expect(translation?.id).toBe(entry.arabic.id);
+      expect(translation?.locale).toBe(locale);
+    }
+  });
+
+  it("every translation references a registered source with a confirmed license", () => {
+    for (const locale of localesWithTranslations) {
+      const translation = getTranslation(getFullCorpus()[0]!.arabic.id, locale);
+      const source = translationSources.find((s) => s.id === translation?.sourceId);
+      expect(source).toBeDefined();
+      expect(source?.license.trim().length).toBeGreaterThan(0);
+      expect(source?.translatorName.trim().length).toBeGreaterThan(0);
+      expect(source?.redistributionRightsConfirmed).toBe(true);
+    }
+  });
+
+  it("no translation still carries a bracketed footnote marker (stripped at import for Hindi/Bengali)", () => {
+    for (const locale of localesWithTranslations) {
+      for (const entry of getFullCorpus()) {
+        const text = getTranslation(entry.arabic.id, locale)?.text ?? "";
+        expect(text).not.toMatch(/\[[0-9०-९০-৯]+\]/);
+      }
+    }
   });
 });

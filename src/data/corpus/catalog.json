@@ -1,40 +1,167 @@
 {
-  "_readme": "Editorial whitelist. Every entry here is status='draft' and isDemoOnly=true: none are 'publishable', so scripts/validateCorpus.ts in production mode will refuse to build until a qualified reviewer completes the checklist in docs/CORPUS.md and updates the status.",
+  "_readme": "Editorial whitelist. All entries are status=\"technically_verified\" (Arabic text sourced and structurally checked against a recognized digital corpus) but NOT YET editorially or religiously validated by a qualified human — see docs/CORPUS.md's reviewer checklist. scripts/validateCorpus.ts in production mode refuses to build until that review updates status to \"publishable\".",
   "entries": [
     {
       "id": "94:5",
-      "status": "draft",
-      "themes": ["patience", "hope", "trials"],
-      "editorialNote": "Complete independent clause, extremely widely known standalone. Verify Arabic diacritics before publishing.",
-      "isDemoOnly": true
+      "status": "technically_verified",
+      "themes": [
+        "patience",
+        "hope",
+        "trials"
+      ],
+      "editorialNote": "Complete independent clause, extremely widely known standalone reminder.",
+      "isDemoOnly": false
     },
     {
       "id": "94:6",
-      "status": "draft",
-      "themes": ["patience", "hope", "trials"],
-      "editorialNote": "Near-identical wording to 94:5 (definite vs. indefinite article pattern in classical exegesis). Reviewer to decide whether both should rotate or only one should be publishable, to avoid apparent duplication in notifications.",
-      "isDemoOnly": true
+      "status": "technically_verified",
+      "themes": [
+        "patience",
+        "hope",
+        "trials"
+      ],
+      "editorialNote": "Near-identical wording to 94:5 (definite vs. indefinite article pattern in classical exegesis). Reviewer to decide whether both should rotate or only one should be publishable.",
+      "isDemoOnly": false
     },
     {
       "id": "2:152",
-      "status": "draft",
-      "themes": ["remembrance", "gratitude"],
-      "editorialNote": "Complete independent imperative sentence. Verify Arabic diacritics before publishing.",
-      "isDemoOnly": true
+      "status": "technically_verified",
+      "themes": [
+        "remembrance",
+        "gratitude"
+      ],
+      "editorialNote": "Complete independent imperative sentence.",
+      "isDemoOnly": false
+    },
+    {
+      "id": "2:153",
+      "status": "technically_verified",
+      "themes": [
+        "patience",
+        "prayer"
+      ],
+      "editorialNote": "Complete independent address to believers.",
+      "isDemoOnly": false
+    },
+    {
+      "id": "2:45",
+      "status": "technically_verified",
+      "themes": [
+        "patience",
+        "prayer"
+      ],
+      "editorialNote": "Complete independent sentence.",
+      "isDemoOnly": false
     },
     {
       "id": "3:139",
-      "status": "draft",
-      "themes": ["courage", "hope", "trust_in_god"],
-      "editorialNote": "Complete independent sentence, commonly cited standalone for encouragement. Verify Arabic diacritics before publishing.",
-      "isDemoOnly": true
+      "status": "technically_verified",
+      "themes": [
+        "courage",
+        "hope",
+        "trust_in_god"
+      ],
+      "editorialNote": "Complete independent sentence, commonly cited standalone for encouragement.",
+      "isDemoOnly": false
+    },
+    {
+      "id": "3:173",
+      "status": "technically_verified",
+      "themes": [
+        "trust_in_god"
+      ],
+      "editorialNote": "Contains a brief historical narrative frame (Uhud aftermath). Reviewer to confirm the historical/battle context does not need an accompanying note for lay readers.",
+      "isDemoOnly": false
+    },
+    {
+      "id": "3:200",
+      "status": "technically_verified",
+      "themes": [
+        "patience"
+      ],
+      "editorialNote": "Complete independent imperative address.",
+      "isDemoOnly": false
+    },
+    {
+      "id": "9:51",
+      "status": "technically_verified",
+      "themes": [
+        "trust_in_god",
+        "patience"
+      ],
+      "editorialNote": "Complete \"Say\" command, self-contained.",
+      "isDemoOnly": false
     },
     {
       "id": "13:28",
-      "status": "draft",
-      "themes": ["inner_peace", "remembrance"],
-      "editorialNote": "Reads as a complete general statement about believers' hearts, though it grammatically continues a description begun in the preceding ayah (13:27). Reviewer to confirm this does not distort meaning when shown in isolation, per the editorial checklist in docs/CORPUS.md.",
-      "isDemoOnly": true
+      "status": "technically_verified",
+      "themes": [
+        "inner_peace",
+        "remembrance"
+      ],
+      "editorialNote": "Reads as a complete general statement about believers' hearts, though it grammatically continues a description begun in the preceding ayah (13:27). Reviewer to confirm this does not distort meaning when shown in isolation.",
+      "isDemoOnly": false
+    },
+    {
+      "id": "16:97",
+      "status": "technically_verified",
+      "themes": [
+        "good_deeds",
+        "justice"
+      ],
+      "editorialNote": "Complete conditional/promissory sentence.",
+      "isDemoOnly": false
+    },
+    {
+      "id": "21:87",
+      "status": "technically_verified",
+      "themes": [
+        "trust_in_god",
+        "repentance",
+        "protection"
+      ],
+      "editorialNote": "Includes a short narrative frame naming Prophet Yunus (Dhun-Nun) before his supplication; the supplication itself is extremely well known and commonly cited standalone in dua compilations.",
+      "isDemoOnly": false
+    },
+    {
+      "id": "39:10",
+      "status": "technically_verified",
+      "themes": [
+        "patience",
+        "good_deeds"
+      ],
+      "editorialNote": "Complete \"Say\" command addressed to believers.",
+      "isDemoOnly": false
+    },
+    {
+      "id": "41:30",
+      "status": "technically_verified",
+      "themes": [
+        "hope",
+        "protection"
+      ],
+      "editorialNote": "Complete conditional statement with direct quoted angelic address.",
+      "isDemoOnly": false
+    },
+    {
+      "id": "49:13",
+      "status": "technically_verified",
+      "themes": [
+        "brotherhood",
+        "justice"
+      ],
+      "editorialNote": "Complete address to mankind; near the notification length ceiling, useful for exercising the length filter.",
+      "isDemoOnly": false
+    },
+    {
+      "id": "55:13",
+      "status": "technically_verified",
+      "themes": [
+        "gratitude",
+        "creation"
+      ],
+      "editorialNote": "Rhetorical refrain repeated 31 times throughout Surah Ar-Rahman; this instance is a complete, well-known standalone reflection prompt.",
+      "isDemoOnly": false
     }
   ]
 }

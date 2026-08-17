@@ -211,10 +211,13 @@ reschedule (app foreground, preference change, or the Diagnostics
 No account, no login, no backend, no analytics SDK, no ad SDK, no tracking
 identifier, no data leaves the device. See [docs/PRIVACY.md](docs/PRIVACY.md).
 
-## Licenses
+## Ownership & Licenses
 
-App code: see [`LICENSE`](LICENSE) (MIT — update if the project owner
-chooses differently). Third-party package licenses: see
+AyahNow is proprietary software. All application source code, architecture,
+and original brand assets are the exclusive intellectual property of
+**Nadir Echaara** — see [`LICENSE`](LICENSE) and [`NOTICE.md`](NOTICE.md).
+This is not an open-source project and no license is granted to third
+parties. Third-party package licenses: see
 [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md). Corpus/translation
 licenses: see [docs/CORPUS.md](docs/CORPUS.md) and
 [docs/TRANSLATIONS.md](docs/TRANSLATIONS.md) — **do not assume Quran text or

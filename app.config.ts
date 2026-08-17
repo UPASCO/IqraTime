@@ -1,10 +1,17 @@
+/**
+ * Copyright (c) 2026 Nadir Echaara. All Rights Reserved.
+ * AyahNow is proprietary software — see LICENSE and NOTICE.md at the
+ * repository root. No license is granted to any other party.
+ */
 import type { ExpoConfig, ConfigContext } from "expo/config";
-import { appConfig } from "./src/config/appConfig";
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- the Expo CLI loads this file in a plain Node context that cannot resolve a local TS module; see config/shared.js
+const appConfig = require("./config/shared.js");
 
 /**
  * Dynamic Expo config. Reads brand/publishing identity from
- * src/config/appConfig.ts so there is a single place to update before a
- * real store submission. See docs/RELEASE_CHECKLIST.md.
+ * config/shared.js (the same raw data src/config/appConfig.ts types and
+ * re-exports for in-app use) so there is a single place to update before
+ * a real store submission. See docs/RELEASE_CHECKLIST.md.
  */
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,

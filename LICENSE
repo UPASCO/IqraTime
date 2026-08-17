@@ -1,29 +1,28 @@
-MIT License
+Copyright (c) 2026 Nadir Echaara. All Rights Reserved.
 
-Copyright (c) 2026 AyahNow contributors
+AyahNow — application source code, design, and all associated intellectual
+property — is the exclusive, proprietary property of Nadir Echaara
+(echaara.nadir@gmail.com).
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+No license, right, or permission is granted to any other person or entity to
+use, copy, modify, merge, publish, distribute, sublicense, reproduce, create
+derivative works from, or sell this software, in whole or in part, for any
+purpose, without the prior express written consent of Nadir Echaara.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This software is provided for the sole benefit of its owner. Unauthorized
+use, reproduction, or distribution of this software, or any portion of it,
+is strictly prohibited and may result in civil and criminal penalties.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ---
 
-NOTE: This license applies to the application source code only. It does
-NOT apply to Quran text, Quran translations, or any religious content
-data (see docs/CORPUS.md and docs/TRANSLATIONS.md for their separate,
-per-source licensing), nor to any brand assets the project owner replaces
-this placeholder identity with.
+This copyright covers the application source code, architecture, and
+original brand assets only. It does not — and cannot — extend ownership
+over the Quran text or third-party Quran translations, which remain the
+property of their respective sources under their own terms (see
+docs/CORPUS.md and docs/TRANSLATIONS.md). Third-party open-source packages
+used by this project remain under their own respective licenses (see
+THIRD_PARTY_LICENSES.md).

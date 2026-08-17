@@ -4,6 +4,15 @@ import arabicData from "./arabic.json";
 import catalogData from "./catalog.json";
 import { getCorpusEnvironment, isProductionCorpusBuild } from "./demoWarning";
 import { arabicSourceInfo, translationSources } from "./sources";
+import enTranslations from "./translations/en.json";
+import frTranslations from "./translations/fr.json";
+import esTranslations from "./translations/es.json";
+import ptTranslations from "./translations/pt.json";
+import hiTranslations from "./translations/hi.json";
+import bnTranslations from "./translations/bn.json";
+import zhCNTranslations from "./translations/zh-CN.json";
+import itTranslations from "./translations/it.json";
+import ruTranslations from "./translations/ru.json";
 
 export interface CorpusEntry {
   readonly arabic: ArabicAyahText;
@@ -55,17 +64,31 @@ export function getCorpusEntry(id: AyahId): CorpusEntry | undefined {
   return allEntries.find((entry) => entry.arabic.id === id);
 }
 
+interface TranslationFileShape {
+  readonly sourceId: string;
+  readonly entries: readonly { readonly id: string; readonly text: string }[];
+}
+
+function buildTranslationMap(locale: SupportedLocale, file: TranslationFileShape): ReadonlyMap<AyahId, AyahTranslation> {
+  return new Map(file.entries.map((entry) => [entry.id, { id: entry.id, locale, text: entry.text, sourceId: file.sourceId }]));
+}
+
 /**
- * Per-locale translation lookup tables. Empty until a real, licensed
- * translation file is imported via scripts/importTranslation.ts — see
- * docs/TRANSLATIONS.md. When a translation/<locale>.json file is added,
- * import it here explicitly (Metro requires static imports) following the
- * commented example below.
+ * Per-locale translation lookup tables. See docs/TRANSLATIONS.md and
+ * scripts/importTranslation.ts for how these files are produced; Metro
+ * requires each one to be statically imported above (dynamic
+ * `require`/`import` of a locale-dependent path is not supported).
  */
 const translationsByLocale: Partial<Record<SupportedLocale, ReadonlyMap<AyahId, AyahTranslation>>> = {
-  // Example once a real file exists:
-  // import enTranslations from "./translations/en.json";
-  // en: new Map(enTranslations.entries.map((e) => [e.id, { id: e.id, locale: "en", text: e.text, sourceId: enTranslations.sourceId }])),
+  en: buildTranslationMap("en", enTranslations),
+  fr: buildTranslationMap("fr", frTranslations),
+  es: buildTranslationMap("es", esTranslations),
+  pt: buildTranslationMap("pt", ptTranslations),
+  hi: buildTranslationMap("hi", hiTranslations),
+  bn: buildTranslationMap("bn", bnTranslations),
+  "zh-CN": buildTranslationMap("zh-CN", zhCNTranslations),
+  it: buildTranslationMap("it", itTranslations),
+  ru: buildTranslationMap("ru", ruTranslations),
 };
 
 export function getTranslation(id: AyahId, locale: SupportedLocale): AyahTranslation | undefined {
