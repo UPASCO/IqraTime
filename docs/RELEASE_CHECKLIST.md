@@ -13,7 +13,7 @@ oversight.
 - [ ] `contactEmail` — a real, monitored support address (required by both stores).
 - [ ] `privacyPolicyUrl` — a real, publicly reachable HTTPS URL hosting `docs/PRIVACY.md`'s content.
 - [ ] `appName`, tagline, brand colors — confirm final wording/branding with the product owner.
-- [ ] `eas.json` submit section — real Apple Team ID, App Store Connect app id, Apple ID, and Google Play service account key path.
+- [ ] `eas.json` submit section — real App Store Connect app id (`ascAppId`) and Google Play service account key path. Do **not** add an `appleId` or `appleTeamId` field here: those identify the owner's personal Apple account and must never be committed. Configure an App Store Connect API Key instead (`eas credentials` or the EAS website) — see `docs/PUBLISH_FROM_IPHONE.md`.
 
 ## "Support AyahNow" donation feature (`docs/STRIPE_SETUP.md`)
 
