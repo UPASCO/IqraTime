@@ -9,7 +9,7 @@ oversight.
 
 - [ ] `iosBundleIdentifier` — replace the `com.example.ayahnow.provisional` placeholder with a real, owned reverse-DNS id.
 - [ ] `androidPackage` — same, for Android.
-- [ ] `easProjectId` — replace with a real id from `eas init`.
+- [x] `easProjectId` — set to the real EAS project id (`@teamupasco/ayahnow`).
 - [ ] `contactEmail` — a real, monitored support address (required by both stores).
 - [ ] `privacyPolicyUrl` — a real, publicly reachable HTTPS URL hosting `docs/PRIVACY.md`'s content.
 - [ ] `appName`, tagline, brand colors — confirm final wording/branding with the product owner.

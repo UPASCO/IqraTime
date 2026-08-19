@@ -86,9 +86,7 @@ export const appConfig = {
    */
   androidPackage: raw.androidPackage,
 
-  /**
-   * PROVISIONAL — replace with a real EAS project id from `eas init`.
-   */
+  /** Real EAS project id, from `eas init` (@teamupasco/ayahnow). */
   easProjectId: raw.easProjectId,
 
   /**

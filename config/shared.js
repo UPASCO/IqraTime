@@ -24,7 +24,7 @@ module.exports = {
   buildNumber: 1,
   iosBundleIdentifier: "com.example.ayahnow.provisional",
   androidPackage: "com.example.ayahnow.provisional",
-  easProjectId: "00000000-0000-0000-0000-000000000000",
+  easProjectId: "5aa33698-7d7f-424c-845f-1a1e548ec93e",
   contactEmail: "contact@ayahnow.example",
   privacyPolicyUrl: "https://ayahnow.example/privacy",
   deepLinkScheme: "ayahnow",
