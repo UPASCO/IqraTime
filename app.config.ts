@@ -84,7 +84,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   // never be sent as if it were a real project id (see config/shared.js),
   // otherwise EAS mistakenly reports the project as "already linked".
   ...(appConfig.easProjectId && appConfig.easProjectId !== "00000000-0000-0000-0000-000000000000"
-    ? { extra: { eas: { projectId: appConfig.easProjectId } } }
+    ? {
+        extra: { eas: { projectId: appConfig.easProjectId } },
+        updates: { url: `https://u.expo.dev/${appConfig.easProjectId}` },
+      }
     : {}),
+  runtimeVersion: { policy: "appVersion" },
   owner: undefined,
 });
