@@ -79,10 +79,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   experiments: {
     typedRoutes: true,
   },
-  extra: {
-    eas: {
-      projectId: appConfig.easProjectId,
-    },
-  },
+  // The "extra.eas.projectId" field is only included once easProjectId
+  // holds a real id from `eas init` — the PROVISIONAL placeholder must
+  // never be sent as if it were a real project id (see config/shared.js),
+  // otherwise EAS mistakenly reports the project as "already linked".
+  ...(appConfig.easProjectId && appConfig.easProjectId !== "00000000-0000-0000-0000-000000000000"
+    ? { extra: { eas: { projectId: appConfig.easProjectId } } }
+    : {}),
   owner: undefined,
 });
