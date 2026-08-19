@@ -3,7 +3,9 @@
  * (`sk_live_…`/`sk_test_…`), or Stripe webhook secret (`whsec_…`) is found
  * anywhere in the application's own files. Run via `npm run
  * security:check-secrets`; part of `npm run check` and should also gate
- * any production build/CI pipeline. See docs/STRIPE_SETUP.md.
+ * any production build/CI pipeline. General safety net — no feature in
+ * this app currently uses these credential types, but it stays in place
+ * in case one is added later.
  *
  * Scope is deliberately limited to "fichiers applicatifs" (app/, src/,
  * and top-level config files) — not scripts/ or tests/, where secret-like
@@ -79,8 +81,7 @@ function main(): void {
       console.log(`  ✗ ${finding.kind} found in ${file}: "${redact(finding.match)}"`);
     }
     console.log(
-      "\nNever commit banking details or Stripe secret keys. Bank payout details belong only in the Stripe Dashboard " +
-        "(Settings → Bank accounts and currencies). See docs/STRIPE_SETUP.md.\n",
+      "\nNever commit banking details, IBANs, or API secret keys to this repository.\n",
     );
     process.exit(1);
   }

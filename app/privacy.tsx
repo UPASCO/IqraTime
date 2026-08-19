@@ -18,7 +18,6 @@ export default function PrivacyScreen(): React.JSX.Element {
         </Text>
         <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier }}>{t("privacy.body")}</Text>
         <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier }}>{t("privacy.noAccountBody")}</Text>
-        <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier }}>{t("support.privacyNotice")}</Text>
         <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
           {appConfig.contactEmail} · {appConfig.privacyPolicyUrl}
         </Text>

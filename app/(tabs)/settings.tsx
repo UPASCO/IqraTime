@@ -9,7 +9,6 @@ import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { appConfig } from "@/config/appConfig";
 import { sendTestNotification } from "@/notifications";
-import { isSupportAvailable } from "@/services/supportPaymentService";
 
 export default function SettingsScreen(): React.JSX.Element {
   const { spacing } = useTheme();
@@ -131,13 +130,6 @@ export default function SettingsScreen(): React.JSX.Element {
         <SettingRow label={t("settings.licensesLink")} onPress={() => router.push("/licenses")} />
         <SettingRow label={t("settings.aboutLink")} onPress={() => router.push("/about")} />
         <SettingRow label={t("settings.versionLabel")} valueLabel={appConfig.version} />
-
-        {isSupportAvailable() || __DEV__ ? (
-          <>
-            <SectionHeader title={t("settings.sectionSupportAyahNow")} />
-            <SettingRow label={t("settings.supportLink")} onPress={() => router.push("/support")} />
-          </>
-        ) : null}
 
         <SectionHeader title={t("settings.sectionData")} />
         <SettingRow label={t("settings.resetLocalData")} onPress={handleResetAll} />

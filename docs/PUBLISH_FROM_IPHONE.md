@@ -104,8 +104,8 @@ tiendrai à ça dans mes futurs comptes-rendus.
   sources du corpus) que tu n'auras plus qu'à héberger.
 - Rédiger la fiche App Store Connect (description, notes de revue) en
   brouillon, que tu copies-colles.
-- Continuer à faire avancer tout ce qui ne nécessite ni identifiant Apple,
-  ni compte Stripe réel, ni appareil physique.
+- Continuer à faire avancer tout ce qui ne nécessite ni identifiant Apple
+  ni appareil physique.
 
 Ce que **toi seul** peux faire (règle de sécurité déjà en place, rappelée
 ici) : toute connexion avec ton identifiant Apple, mot de passe ou code

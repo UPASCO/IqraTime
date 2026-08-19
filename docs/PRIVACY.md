@@ -42,19 +42,6 @@ Everything below lives **only on the device**, in SQLite
 Uninstalling the app deletes all of it. "Reset all local data" in Settings
 deletes all of it without uninstalling.
 
-## Optional "Support AyahNow" payments
-
-If enabled (it ships **disabled** by default — see
-`docs/STRIPE_SETUP.md`), the Support screen opens a Stripe-hosted Payment
-Link in your device's system browser. AyahNow itself never sees, requests,
-stores, or transmits any payment data — no card number, no expiration
-date, no CVC, no Apple Pay/Google Pay/Bancontact account details, no
-payer bank details, no payment amount, no Stripe transaction history. That
-page is operated entirely by Stripe and governed by Stripe's own privacy
-policy, independent of AyahNow's. The banking account that receives
-payouts is configured by the project owner directly inside the Stripe
-Dashboard and is never referenced anywhere in this app or its source code.
-
 ## Third-party dependencies
 
 Every dependency was chosen partly on this criterion: does it collect data

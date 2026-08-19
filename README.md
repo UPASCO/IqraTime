@@ -44,10 +44,6 @@ current corpus fails on purpose.**
 - A Diagnostics screen explaining exactly what the app can and cannot
   guarantee about delivery timing on your device.
 - Light/dark/system themes, adjustable text size, WCAG AA color contrast.
-- An optional, **disabled-by-default** "Support AyahNow" donation flow
-  (Stripe Payment Link opened in the system browser — no server, no
-  in-app WebView, no card data ever touches the app). See
-  [docs/STRIPE_SETUP.md](docs/STRIPE_SETUP.md).
 
 ## Architecture
 
@@ -98,7 +94,7 @@ npm install
 | `npm run corpus:validate` | Validate the corpus (development mode — warns, doesn't block) |
 | `npm run corpus:validate:prod` | Validate the corpus in production mode — **fails the build** on demo/unverified data |
 | `npm run corpus:import` | Import a real, licensed translation file (see docs/TRANSLATIONS.md) |
-| `npm run security:check-secrets` | Fail if an IBAN or Stripe secret key is found in app files (see docs/STRIPE_SETUP.md) |
+| `npm run security:check-secrets` | Fail if an IBAN, API secret key, or other credential-shaped string is found in app files |
 | `npm run check` | typecheck + lint + test + corpus:validate + security:check-secrets, in that order |
 
 ## Running on Android
@@ -246,9 +242,3 @@ for the full list:
   `node scripts/generateIconAssets.mjs`); replace with final brand art if desired.
 - An Arabic-specific typeface (none is bundled — see
   [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md)).
-- The "Support AyahNow" donation feature: a real Stripe Payment Link URL
-  and the legal/religious/App Store/Play Store review flags — see
-  [docs/STRIPE_SETUP.md](docs/STRIPE_SETUP.md). Ships fully built but
-  **disabled**; no bank account (IBAN) is ever entered anywhere in this
-  app or its source code — that's configured directly in the Stripe
-  Dashboard by the project owner.
