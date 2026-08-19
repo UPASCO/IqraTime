@@ -265,6 +265,9 @@ export const ar: TranslationSchema = {
     noErrors: "لا توجد أخطاء مسجلة",
     platformRecommendationsTitle: "توصيات لجهازك",
     sendTestCta: "إرسال إشعار تجريبي",
+    sendDelayedTestCta: "إرسال اختبار بعد دقيقة",
+    delayedTestBody: "إشعار اختباري (مجدوَل)",
+    delayedTestHint: "اقفل هاتفك وانتظر. إذا وصل الاختبار الفوري ولم يصل هذا، فالمشكلة في التسليم المجدوَل.",
     rescheduleCta: "إعادة الجدولة الآن",
   },
   sources: {

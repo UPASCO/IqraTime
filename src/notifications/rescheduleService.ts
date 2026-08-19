@@ -2,7 +2,7 @@ import type { AppDatabase } from "@/storage/types";
 import { saveLastRescheduleInfo } from "@/storage/diagnosticsStore";
 import { getRuntimeCorpus, getTranslation, getCorpusEntry } from "@/data/corpus";
 import { DEFAULT_ANTI_REPEAT_WINDOW, MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
-import type { ThemeKey, UserPreferences } from "@/domain/types";
+import type { NotificationSlot, ThemeKey, UserPreferences } from "@/domain/types";
 import { selectAyah } from "@/services/selectionEngine";
 import { cancelOsNotifications, scheduleOsNotification } from "./notificationService";
 import { getMaxPendingNotifications, getSchedulingHorizonDays } from "./limits";
@@ -103,7 +103,7 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
     await deps.db.notificationSlots.cancelAll(plan.toCancel);
   }
 
-  let scheduledCount = 0;
+  const scheduledSlots: NotificationSlot[] = [];
   for (const slot of plan.toSchedule) {
     const entry = getCorpusEntry(slot.ayahId);
     if (!entry) {
@@ -126,14 +126,18 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
         locale: slot.locale,
         soundEnabled: deps.preferences.schedule.soundEnabled,
       });
-      scheduledCount += 1;
+      scheduledSlots.push(slot);
     } catch (error) {
       errors.push(`os_schedule_failed:${slot.id}:${String(error)}`);
     }
   }
 
+  // Persist exactly the slots the OS accepted — never a positional slice of
+  // the *attempted* list, which silently recorded failed slots (and dropped
+  // successful ones) whenever a schedule call failed mid-batch.
+  const scheduledCount = scheduledSlots.length;
   if (scheduledCount > 0) {
-    await deps.db.notificationSlots.saveAll(plan.toSchedule.slice(0, scheduledCount));
+    await deps.db.notificationSlots.saveAll(scheduledSlots);
   }
 
   const status: RescheduleResultStatus =

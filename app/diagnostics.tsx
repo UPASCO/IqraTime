@@ -12,6 +12,7 @@ import {
   sendTestNotification,
   isExactAlarmStatusDetectable,
   getOsScheduledSummary,
+  sendDelayedTestNotification,
   type PermissionSnapshot,
   type OsScheduledSummary,
 } from "@/notifications";
@@ -63,6 +64,11 @@ export default function DiagnosticsScreen(): React.JSX.Element {
 
   const handleTest = async (): Promise<void> => {
     await sendTestNotification(preferences.interfaceLocale, t("common.appName"));
+  };
+
+  const handleDelayedTest = async (): Promise<void> => {
+    await sendDelayedTestNotification(preferences.interfaceLocale, t("diagnostics.delayedTestBody"));
+    await refresh();
   };
 
   const resultLabel = (status: LastRescheduleInfo["status"]): string => {
@@ -143,6 +149,10 @@ export default function DiagnosticsScreen(): React.JSX.Element {
         ) : null}
 
         <Button label={t("diagnostics.sendTestCta")} onPress={handleTest} variant="secondary" />
+        <Button label={t("diagnostics.sendDelayedTestCta")} onPress={handleDelayedTest} variant="secondary" />
+        <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+          {t("diagnostics.delayedTestHint")}
+        </Text>
         <Button label={t("diagnostics.rescheduleCta")} onPress={handleReschedule} disabled={busy} />
       </View>
     </Screen>

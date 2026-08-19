@@ -231,6 +231,9 @@ export const es: TranslationSchema = {
     noErrors: "No hay errores registrados",
     platformRecommendationsTitle: "Recomendaciones para tu dispositivo",
     sendTestCta: "Enviar notificación de prueba",
+    sendDelayedTestCta: "Enviar una prueba en 1 minuto",
+    delayedTestBody: "Notificación de prueba (programada)",
+    delayedTestHint: "Bloquea el teléfono y espera. Si llega la prueba inmediata pero esta no, el problema es la entrega programada.",
     rescheduleCta: "Reprogramar ahora",
   },
   sources: {

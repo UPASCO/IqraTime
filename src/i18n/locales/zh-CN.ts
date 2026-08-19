@@ -231,6 +231,9 @@ export const zhCN: TranslationSchema = {
     noErrors: "未记录任何错误",
     platformRecommendationsTitle: "针对您设备的建议",
     sendTestCta: "发送测试通知",
+    sendDelayedTestCta: "1 分钟后发送测试",
+    delayedTestBody: "测试通知（已排定）",
+    delayedTestHint: "锁定手机并等待。若即时测试能收到而此条收不到，问题出在定时投递。",
     rescheduleCta: "立即重新排程",
   },
   sources: {

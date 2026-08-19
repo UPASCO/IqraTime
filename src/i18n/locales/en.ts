@@ -236,6 +236,9 @@ export const en = {
     noErrors: "No errors logged",
     platformRecommendationsTitle: "Recommendations for your device",
     sendTestCta: "Send test notification",
+    sendDelayedTestCta: "Send a test in 1 minute",
+    delayedTestBody: "Test notification (scheduled)",
+    delayedTestHint: "Lock your phone and wait. If the immediate test arrives but this one doesn't, date-scheduled delivery is the problem.",
     rescheduleCta: "Reschedule now",
   },
   sources: {

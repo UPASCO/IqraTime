@@ -98,6 +98,31 @@ export async function cancelAllOsNotifications(): Promise<void> {
   await Notifications.cancelAllScheduledNotificationsAsync();
 }
 
+/**
+ * Schedules a test notification 60 seconds out using the *same* DATE
+ * trigger the real queue uses — unlike sendTestNotification(), which fires
+ * immediately and therefore proves nothing about date-triggered delivery.
+ * This is the decisive check when the app believes notifications are
+ * scheduled but none arrive: see docs/NOTIFICATIONS.md.
+ */
+export async function sendDelayedTestNotification(locale: SupportedLocale, bodyText: string): Promise<Date> {
+  const fireAt = new Date(Date.now() + 60_000);
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: translate(locale, "common.appName"),
+      body: bodyText,
+      sound: true,
+      categoryIdentifier: NOTIFICATION_CATEGORY,
+      data: { test: true },
+    },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.DATE,
+      date: fireAt,
+    },
+  });
+  return fireAt;
+}
+
 export interface OsScheduledSummary {
   /** The ground-truth count of notifications iOS/Android actually has queued — compare against the app's own DB count to catch a "the DB thinks it's scheduled but the OS never got it" mismatch. */
   readonly count: number;

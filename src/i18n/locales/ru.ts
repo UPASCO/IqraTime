@@ -251,6 +251,9 @@ export const ru: TranslationSchema = {
     noErrors: "Ошибок не зафиксировано",
     platformRecommendationsTitle: "Рекомендации для вашего устройства",
     sendTestCta: "Отправить тестовое уведомление",
+    sendDelayedTestCta: "Отправить тест через 1 минуту",
+    delayedTestBody: "Тестовое уведомление (запланированное)",
+    delayedTestHint: "Заблокируйте телефон и подождите. Если мгновенный тест приходит, а этот нет — проблема в доставке по расписанию.",
     rescheduleCta: "Перепланировать сейчас",
   },
   sources: {

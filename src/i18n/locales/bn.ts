@@ -231,6 +231,9 @@ export const bn: TranslationSchema = {
     noErrors: "কোনো ত্রুটি লগ করা হয়নি",
     platformRecommendationsTitle: "আপনার ডিভাইসের জন্য সুপারিশ",
     sendTestCta: "পরীক্ষামূলক বিজ্ঞপ্তি পাঠান",
+    sendDelayedTestCta: "১ মিনিটে একটি পরীক্ষা পাঠান",
+    delayedTestBody: "পরীক্ষামূলক বিজ্ঞপ্তি (নির্ধারিত)",
+    delayedTestHint: "ফোন লক করে অপেক্ষা করুন। তাৎক্ষণিক পরীক্ষা এলে কিন্তু এটি না এলে, সমস্যা নির্ধারিত ডেলিভারিতে।",
     rescheduleCta: "এখনই পুনরায় নির্ধারণ করুন",
   },
   sources: {

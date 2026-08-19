@@ -231,6 +231,9 @@ export const hi: TranslationSchema = {
     noErrors: "कोई त्रुटि दर्ज नहीं",
     platformRecommendationsTitle: "आपके डिवाइस के लिए सिफारिशें",
     sendTestCta: "परीक्षण सूचना भेजें",
+    sendDelayedTestCta: "1 मिनट में परीक्षण भेजें",
+    delayedTestBody: "परीक्षण सूचना (निर्धारित)",
+    delayedTestHint: "फ़ोन लॉक करें और प्रतीक्षा करें। यदि तत्काल परीक्षण आता है पर यह नहीं, तो समस्या निर्धारित डिलीवरी में है।",
     rescheduleCta: "अभी पुनः शेड्यूल करें",
   },
   sources: {
