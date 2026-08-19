@@ -18,7 +18,7 @@ export const defaultPreferences: UserPreferences = {
   showArabicText: true,
   textOrder: "arabic_first",
   textDisplayMode: "both",
-  appThemeMode: "system",
+  appThemeMode: "light",
   textSizeScale: "medium",
   selectedThemes: [],
   selectionMode: "balanced_random",

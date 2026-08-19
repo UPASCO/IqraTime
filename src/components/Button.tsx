@@ -45,7 +45,8 @@ export function Button({ label, onPress, variant = "primary", disabled, style, a
           borderRadius: radii.md,
           paddingVertical: spacing.sm,
           paddingHorizontal: spacing.lg,
-          opacity: disabled ? 0.5 : pressed ? 0.85 : 1,
+          opacity: disabled ? 0.5 : pressed ? 0.7 : 1,
+          transform: [{ scale: pressed ? 0.97 : 1 }],
         },
         style,
       ]}

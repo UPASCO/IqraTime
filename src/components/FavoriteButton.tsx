@@ -19,7 +19,7 @@ export function FavoriteButton({ isFavorite, onToggle, size = 24 }: FavoriteButt
     <Pressable
       onPress={onToggle}
       hitSlop={8}
-      style={styles.hit}
+      style={({ pressed }) => [styles.hit, { opacity: pressed ? 0.6 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
       accessibilityRole="button"
       accessibilityLabel={isFavorite ? t("home.favoriteRemove") : t("home.favoriteAdd")}
       accessibilityState={{ selected: isFavorite }}

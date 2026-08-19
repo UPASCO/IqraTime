@@ -17,7 +17,7 @@ export function Chip({ label, selected, onPress }: ChipProps): React.JSX.Element
       accessibilityRole="button"
       accessibilityState={{ selected: !!selected }}
       accessibilityLabel={label}
-      style={[
+      style={({ pressed }) => [
         styles.chip,
         {
           backgroundColor: selected ? colors.accent : colors.surfaceElevated,
@@ -25,6 +25,8 @@ export function Chip({ label, selected, onPress }: ChipProps): React.JSX.Element
           paddingHorizontal: spacing.md,
           paddingVertical: spacing.xs,
           borderColor: selected ? colors.accent : colors.border,
+          opacity: pressed ? 0.7 : 1,
+          transform: [{ scale: pressed ? 0.96 : 1 }],
         },
       ]}
     >

@@ -94,7 +94,6 @@ function RootNavigator(): React.JSX.Element {
             <Stack.Screen name="diagnostics" />
             <Stack.Screen name="sources" />
             <Stack.Screen name="privacy" />
-            <Stack.Screen name="licenses" />
             <Stack.Screen name="about" />
           </Stack>
         </AppDatabaseProvider>

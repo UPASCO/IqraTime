@@ -43,7 +43,13 @@ export function SettingRow(props: SettingRowProps): React.JSX.Element {
 
   if (props.onPress) {
     return (
-      <Pressable onPress={props.onPress} accessibilityRole="button" accessibilityLabel={props.label} disabled={props.disabled}>
+      <Pressable
+        onPress={props.onPress}
+        accessibilityRole="button"
+        accessibilityLabel={props.label}
+        disabled={props.disabled}
+        style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+      >
         {content}
       </Pressable>
     );

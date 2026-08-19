@@ -23,6 +23,7 @@ export default function AyahDetailScreen(): React.JSX.Element {
 
   const ayahView = useAyahView(ayahId, preferences.translationLocale);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [justCopied, setJustCopied] = useState(false);
 
   useEffect(() => {
     if (!db || !ayahId) return;
@@ -94,7 +95,15 @@ export default function AyahDetailScreen(): React.JSX.Element {
         </Text>
 
         <View style={{ flexDirection: "row", gap: spacing.md }}>
-          <Button label={t("home.copyCta")} variant="secondary" onPress={() => Clipboard.setStringAsync(shareText)} />
+          <Button
+            label={justCopied ? `✓ ${t("home.copiedConfirmation")}` : t("home.copyCta")}
+            variant="secondary"
+            onPress={() => {
+              Clipboard.setStringAsync(shareText);
+              setJustCopied(true);
+              setTimeout(() => setJustCopied(false), 1500);
+            }}
+          />
           <Button label={t("home.shareCta")} variant="secondary" onPress={() => Share.share({ message: shareText })} />
         </View>
       </View>

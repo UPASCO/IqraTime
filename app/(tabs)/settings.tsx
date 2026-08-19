@@ -106,14 +106,22 @@ export default function SettingsScreen(): React.JSX.Element {
           valueLabel={String(preferences.antiRepeatWindow)}
         />
 
-        <SectionHeader title={t("settings.sectionAppearance")} />
+        <SectionHeader title={t("settings.sectionLanguage")} />
         <SettingRow label={t("settings.interfaceLanguage")} />
         <LanguageChipSelector value={preferences.interfaceLocale} onChange={(locale) => update({ interfaceLocale: locale })} />
-        <View style={{ flexDirection: "row", gap: 8, marginTop: spacing.xs }}>
-          <Chip label={t("settings.appearanceLight")} selected={preferences.appThemeMode === "light"} onPress={() => update({ appThemeMode: "light" })} />
-          <Chip label={t("settings.appearanceDark")} selected={preferences.appThemeMode === "dark"} onPress={() => update({ appThemeMode: "dark" })} />
-          <Chip label={t("settings.appearanceSystem")} selected={preferences.appThemeMode === "system"} onPress={() => update({ appThemeMode: "system" })} />
-        </View>
+
+        <SectionHeader title={t("settings.sectionAppearance")} />
+        <SettingRow
+          label={t("settings.appearanceSystem")}
+          value={preferences.appThemeMode === "system"}
+          onValueChange={(v) => update({ appThemeMode: v ? "system" : "light" })}
+        />
+        {preferences.appThemeMode !== "system" ? (
+          <View style={{ flexDirection: "row", gap: 8, marginTop: spacing.xs }}>
+            <Chip label={t("settings.appearanceLight")} selected={preferences.appThemeMode === "light"} onPress={() => update({ appThemeMode: "light" })} />
+            <Chip label={t("settings.appearanceDark")} selected={preferences.appThemeMode === "dark"} onPress={() => update({ appThemeMode: "dark" })} />
+          </View>
+        ) : null}
         <SettingRow label={t("settings.textSize")} />
         <View style={{ flexDirection: "row", gap: 8, marginTop: spacing.xs }}>
           {(["small", "medium", "large", "extra_large"] as const).map((scale) => (
@@ -123,11 +131,8 @@ export default function SettingsScreen(): React.JSX.Element {
 
         <SectionHeader title={t("settings.sectionSupport")} />
         <SettingRow label={t("settings.diagnosticsLink")} onPress={() => router.push("/diagnostics")} />
-
-        <SectionHeader title={t("settings.sectionInformation")} />
         <SettingRow label={t("settings.sourcesLink")} onPress={() => router.push("/sources")} />
         <SettingRow label={t("settings.privacyLink")} onPress={() => router.push("/privacy")} />
-        <SettingRow label={t("settings.licensesLink")} onPress={() => router.push("/licenses")} />
         <SettingRow label={t("settings.aboutLink")} onPress={() => router.push("/about")} />
         <SettingRow label={t("settings.versionLabel")} valueLabel={appConfig.version} />
 

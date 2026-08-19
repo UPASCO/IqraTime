@@ -24,6 +24,13 @@ export interface AyahCardProps {
 export function AyahCard(props: AyahCardProps): React.JSX.Element {
   const { colors, spacing, radii, typography, shadows, fontScaleMultiplier } = useTheme();
   const { t, direction } = useI18n();
+  const [justCopied, setJustCopied] = React.useState(false);
+
+  const handleCopy = (): void => {
+    props.onCopy?.();
+    setJustCopied(true);
+    setTimeout(() => setJustCopied(false), 1500);
+  };
 
   const referenceLabel = `${t("ayah.surahLabel")} ${props.surah}:${props.ayah}`;
 
@@ -124,7 +131,7 @@ export function AyahCard(props: AyahCardProps): React.JSX.Element {
               accessibilityRole="button"
               accessibilityLabel={props.isFavorite ? t("home.favoriteRemove") : t("home.favoriteAdd")}
               hitSlop={8}
-              style={styles.actionHit}
+              style={({ pressed }) => [styles.actionHit, { opacity: pressed ? 0.6 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
             >
               <Text style={{ color: props.isFavorite ? colors.gold : colors.textSecondary, fontSize: typography.sizes.body }}>
                 {props.isFavorite ? "★" : "☆"}
@@ -132,13 +139,27 @@ export function AyahCard(props: AyahCardProps): React.JSX.Element {
             </Pressable>
           ) : null}
           {props.onShare ? (
-            <Pressable onPress={props.onShare} accessibilityRole="button" accessibilityLabel={t("home.shareCta")} hitSlop={8} style={styles.actionHit}>
+            <Pressable
+              onPress={props.onShare}
+              accessibilityRole="button"
+              accessibilityLabel={t("home.shareCta")}
+              hitSlop={8}
+              style={({ pressed }) => [styles.actionHit, { opacity: pressed ? 0.6 : 1, transform: [{ scale: pressed ? 0.92 : 1 }] }]}
+            >
               <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.body }}>{t("home.shareCta")}</Text>
             </Pressable>
           ) : null}
           {props.onCopy ? (
-            <Pressable onPress={props.onCopy} accessibilityRole="button" accessibilityLabel={t("home.copyCta")} hitSlop={8} style={styles.actionHit}>
-              <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.body }}>{t("home.copyCta")}</Text>
+            <Pressable
+              onPress={handleCopy}
+              accessibilityRole="button"
+              accessibilityLabel={justCopied ? t("home.copiedConfirmation") : t("home.copyCta")}
+              hitSlop={8}
+              style={({ pressed }) => [styles.actionHit, { opacity: pressed ? 0.6 : 1, transform: [{ scale: pressed ? 0.92 : 1 }] }]}
+            >
+              <Text style={{ color: justCopied ? colors.gold : colors.textSecondary, fontSize: typography.sizes.body, fontWeight: justCopied ? typography.weights.semibold : typography.weights.regular }}>
+                {justCopied ? `✓ ${t("home.copiedConfirmation")}` : t("home.copyCta")}
+              </Text>
             </Pressable>
           ) : null}
         </View>
