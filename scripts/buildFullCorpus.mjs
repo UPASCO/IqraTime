@@ -1,0 +1,263 @@
+/**
+ * Rebuilds src/data/corpus/ from the full Qur'an editions published by
+ * fawazahmed0/quran-api. Run manually (not part of CI or the app bundle):
+ *
+ *   node scripts/buildFullCorpus.mjs /path/to/downloaded/editions
+ *
+ * The directory must contain ara-quranuthmanihaf.json, the nine translation
+ * editions listed in EDITIONS below, and surah.json from semarketir/quranjson.
+ *
+ * WHAT THIS SCRIPT DOES AND DOES NOT DO
+ * -------------------------------------
+ * It selects, by *mechanical* criteria only, the subset of āyāt that can
+ * plausibly be shown on their own in a notification, and tags each with
+ * themes by keyword-matching the English translation.
+ *
+ * It cannot judge religious or rhetorical significance, and it does not
+ * claim to. Every entry it writes therefore stays at
+ * status="technically_verified" — never "publishable" — so
+ * scripts/validateCorpus.ts keeps blocking production builds until a
+ * qualified human completes the review checklist in docs/CORPUS.md. The
+ * selection below is a *starting point for that review*, not a substitute
+ * for it.
+ */
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import path from "node:path";
+
+const srcDir = process.argv[2];
+if (!srcDir) {
+  console.error("usage: node scripts/buildFullCorpus.mjs <editions-dir>");
+  process.exit(1);
+}
+
+const ROOT = path.dirname(path.dirname(new URL(import.meta.url).pathname));
+const OUT = path.join(ROOT, "src", "data", "corpus");
+
+const ARABIC_EDITION = "ara-quranuthmanihaf";
+const EDITIONS = {
+  en: "eng-muhammadtaqiudd",
+  fr: "fra-muhammadhamidul",
+  es: "spa-muhammadisagarc",
+  pt: "por-helminasr",
+  hi: "hin-maulanaazizulha",
+  bn: "ben-abubakrzakaria",
+  "zh-CN": "zho-muhammadmakin",
+  it: "ita-hamzarobertopic",
+  ru: "rus-elmirkuliev",
+};
+const SOURCE_IDS = {
+  en: "en-hilali-khan-v1",
+  fr: "fr-hamidullah-v1",
+  es: "es-isa-garcia-v1",
+  pt: "pt-helmi-nasr-v1",
+  hi: "hi-al-umari-v1",
+  bn: "bn-abubakr-zakaria-v1",
+  "zh-CN": "zh-muhammad-makin-v1",
+  it: "it-piccardo-v1",
+  ru: "ru-elmir-kuliev-v1",
+};
+
+const load = (name) => JSON.parse(readFileSync(path.join(srcDir, `${name}.json`), "utf8"));
+const key = (v) => `${v.chapter}:${v.verse}`;
+
+const arabic = load(ARABIC_EDITION).quran;
+const surahMeta = load("surah");
+const translations = Object.fromEntries(
+  Object.entries(EDITIONS).map(([locale, edition]) => [
+    locale,
+    new Map(load(edition).quran.map((v) => [key(v), v.text])),
+  ]),
+);
+
+/** Hindi/Bengali editions carry bracketed footnote markers; strip them (a purely typographic removal, no wording is altered). */
+const cleanText = (text) => text.replace(/\[[0-9०-९০-৯]+\]/g, "").replace(/\s{2,}/g, " ").trim();
+
+// --- Mechanical standalone-suitability filter -------------------------
+// All thresholds operate on the English translation, used purely as a
+// language-neutral proxy for "is this a complete, self-contained thought".
+
+// An āyah has to read as one coherent thought and stay within roughly one
+// screen — a little scrolling is acceptable, a wall of text is not.
+//
+// The upper bound is calibrated on Āyat al-Kursī (2:255): 695 characters of
+// English over 425 of Arabic. It is explicitly the largest āyah the app
+// shows, so it sets the template rather than being excluded by it.
+//
+// The lower bound comes from 94:5 ("So verily, with the hardship, there is
+// relief" — 45 characters): short but complete. Below that, an āyah is
+// almost always a clause rather than a sentence.
+const MIN_EN = 40;
+const MAX_EN = 700;
+const MAX_ARABIC = 430;
+
+/**
+ * Openings that are unambiguously mid-sentence. Deliberately short: broad
+ * entries like "those who" or "when" wrongly rejected well-known āyāt
+ * (13:28 opens "Those who believe…", 2:186 opens "And when My servants…").
+ */
+const CONTINUATION_OPENINGS = [
+  "or ", "nor ", "except", "until ", "while ", "neither ", "rather,", "but rather",
+  "so that ", "in order that",
+];
+
+/** Latin-script editions, whose capitalisation reliably marks a sentence start. */
+const CASED_LOCALES = ["en", "fr", "es", "pt", "it"];
+
+function startsMidSentence(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return true;
+  const first = trimmed[0];
+  // Skip quotes/brackets a translator may open the sentence with.
+  const firstLetter = trimmed.replace(/^[«"'([\s]+/, "")[0] ?? first;
+  return firstLetter === firstLetter.toLowerCase() && firstLetter !== firstLetter.toUpperCase();
+}
+
+function isStandaloneCandidate(id, en, ar) {
+  if (!en || !ar) return false;
+  if (en.length < MIN_EN || en.length > MAX_EN) return false;
+  if (ar.length > MAX_ARABIC) return false;
+
+  // An āyah that opens mid-sentence in ANY Latin-script edition is a
+  // fragment for those readers even if the English happens to read whole —
+  // 13:28 is the canonical example ("Those who believe…" in English, but
+  // "ceux qui ont cru…" in French).
+  for (const locale of CASED_LOCALES) {
+    const text = translations[locale].get(id);
+    if (!text || startsMidSentence(text)) return false;
+  }
+
+  const lower = en.toLowerCase();
+  if (CONTINUATION_OPENINGS.some((p) => lower.startsWith(p))) return false;
+  // An unterminated clause continues into the next āyah. A trailing ellipsis
+  // means the same thing and shows up in editions that mark it explicitly
+  // (the Chinese edition uses "……" for verses that run on).
+  for (const locale of Object.keys(EDITIONS)) {
+    const text = (translations[locale].get(id) ?? "").trim();
+    if (/[,;:—-]$/.test(text) || /(\.\.\.|…)$/.test(text)) return false;
+  }
+  return true;
+}
+
+// --- Theme tagging -----------------------------------------------------
+// Keyword matching on the English translation. Deliberately coarse: theme
+// tags are explicitly part of what a human reviewer must verify.
+
+const THEME_KEYWORDS = {
+  patience: ["patien", "persever", "steadfast", "endure", "bear with"],
+  gratitude: ["grateful", "gratitude", "thank", "bounty", "favour", "favor", "blessing"],
+  hope: ["hope", "glad tidings", "good news", "ease", "relief", "despair not", "do not despair"],
+  mercy: ["merciful", "mercy", "compassion", "kind"],
+  trust_in_god: ["rely upon", "reliance", "trust in allah", "sufficient for us", "put their trust", "disposer of affairs"],
+  prayer: ["prayer", "salat", "prostrat", "bow down", "worship him", "establish the"],
+  wisdom: ["wisdom", "wise", "understand", "ponder", "reflect", "reason"],
+  forgiveness: ["forgiv", "pardon", "overlook", "absolve"],
+  generosity: ["spend", "charity", "zakat", "give of", "feed the", "orphan", "needy", "poor"],
+  courage: ["fear not", "do not fear", "grieve not", "be not afraid", "strive", "fight in the"],
+  humility: ["humble", "humility", "arrogan", "boast", "proud", "haughty"],
+  family: ["parents", "mother", "father", "wives", "spouse", "children", "kindred", "relatives"],
+  trials: ["test", "trial", "afflict", "hardship", "calamity", "difficulty", "suffer"],
+  inner_peace: ["tranquil", "peace", "hearts find rest", "at rest", "serenity", "content"],
+  remembrance: ["remember", "remembrance", "mention of allah", "glorify", "praise"],
+  protection: ["protect", "guard", "refuge", "shelter", "defend", "preserve"],
+  knowledge: ["knowledge", "know", "learn", "teach", "taught", "scholars", "read"],
+  good_deeds: ["righteous deed", "good deed", "do good", "does good", "best of deeds", "reward"],
+  repentance: ["repent", "turn to allah", "turn in repentance", "seek forgiveness"],
+  justice: ["justice", "just", "equit", "oppress", "wrong", "fair", "balance", "witness"],
+  brotherhood: ["brother", "believers are", "hold fast", "unity", "reconcil", "each other"],
+  creation: ["created", "creation", "heavens and the earth", "sky", "earth", "rain", "sun", "moon", "stars", "night and day"],
+  guidance: ["guid", "straight path", "right path", "misguid", "astray", "light"],
+};
+
+function themesFor(en) {
+  const lower = en.toLowerCase();
+  const hits = [];
+  for (const [theme, words] of Object.entries(THEME_KEYWORDS)) {
+    if (words.some((w) => lower.includes(w))) hits.push(theme);
+  }
+  // Cap at three so theme filtering stays meaningful rather than matching everything.
+  if (hits.length === 0) return ["guidance"];
+  return hits.slice(0, 3);
+}
+
+// --- Build -------------------------------------------------------------
+
+const surahNames = new Map(
+  surahMeta.map((s) => [Number(s.index), { ar: s.titleAr, tr: s.title }]),
+);
+
+const selected = [];
+const bySurah = new Map();
+
+const hasEveryLanguage = (id) => Object.keys(EDITIONS).every((loc) => translations[loc].get(id));
+
+for (const verse of arabic) {
+  const id = key(verse);
+  const en = translations.en.get(id);
+  if (!isStandaloneCandidate(id, en, verse.text)) continue;
+  if (!hasEveryLanguage(id)) continue;
+
+  const entry = { id, surah: verse.chapter, ayah: verse.verse, ar: verse.text, en };
+  selected.push(entry);
+  if (!bySurah.has(verse.chapter)) bySurah.set(verse.chapter, []);
+  bySurah.get(verse.chapter).push(entry);
+}
+
+selected.sort((a, b) => (a.surah - b.surah) || (a.ayah - b.ayah));
+
+// A handful of very short surahs end up with no entry at all: every one of
+// their verses is a short clause that only carries its meaning as part of
+// the whole surah (Al-'Asr is the clearest case — "By time", "Man is in
+// loss", "except those who believe…" are three fragments of one sentence).
+// Forcing them in produced exactly the mid-sentence fragments this filter
+// exists to reject, so they are deliberately left out until the data model
+// can present a short surah as a single unit.
+const missing = [];
+for (let surah = 1; surah <= 114; surah += 1) if (!bySurah.has(surah)) missing.push(surah);
+
+console.log(`total entries: ${selected.length}`);
+console.log(`surahs represented: ${bySurah.size} / 114`);
+if (missing.length > 0) console.log(`deliberately unrepresented (verses do not stand alone): ${missing.join(", ")}`);
+
+const arabicOut = {
+  _readme:
+    "Full Arabic text for every āyah in the editorial catalog, fetched verbatim from the King Fahd Complex Uthmani text (Hafs 'an 'Asim) as published in fawazahmed0/quran-api, edition ara-quranuthmanihaf. Regenerate with scripts/buildFullCorpus.mjs. Not hand-typed and never edited by hand.",
+  entries: selected.map((e) => ({
+    id: e.id,
+    surah: e.surah,
+    ayah: e.ayah,
+    text: e.ar,
+    surahNameArabic: surahNames.get(e.surah)?.ar ?? "",
+    surahNameTransliterated: surahNames.get(e.surah)?.tr ?? "",
+  })),
+};
+
+const catalogOut = {
+  _readme:
+    "Editorial catalog, generated by scripts/buildFullCorpus.mjs. Entries were selected by MECHANICAL criteria only (translation length bounds, no mid-sentence opening, no trailing continuation punctuation) and themes were assigned by keyword-matching the English translation. No religious or rhetorical judgement was applied and none is implied. Every entry is therefore status=\"technically_verified\", never \"publishable\": scripts/validateCorpus.ts keeps blocking production builds until a qualified human completes the checklist in docs/CORPUS.md.",
+  // No per-entry editorialNote: it would repeat the same sentence 3000+
+  // times and cost ~1MB in the shipped bundle. The caveat that applies to
+  // every machine-selected entry lives in _readme above instead.
+  entries: selected.map((e) => ({
+    id: e.id,
+    status: "technically_verified",
+    themes: themesFor(e.en),
+    isDemoOnly: false,
+  })),
+};
+
+// These files are generated, never hand-edited, and are parsed at app
+// startup — so they ship minified. Re-run this script to inspect changes
+// rather than reading the JSON directly.
+mkdirSync(path.join(OUT, "translations"), { recursive: true });
+writeFileSync(path.join(OUT, "arabic.json"), JSON.stringify(arabicOut) + "\n");
+writeFileSync(path.join(OUT, "catalog.json"), JSON.stringify(catalogOut) + "\n");
+
+for (const locale of Object.keys(EDITIONS)) {
+  const file = {
+    sourceId: SOURCE_IDS[locale],
+    entries: selected.map((e) => ({ id: e.id, text: cleanText(translations[locale].get(e.id)) })),
+  };
+  writeFileSync(path.join(OUT, "translations", `${locale}.json`), JSON.stringify(file) + "\n");
+}
+
+console.log(`wrote ${selected.length} entries + ${Object.keys(EDITIONS).length} translation files`);

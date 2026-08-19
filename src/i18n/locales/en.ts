@@ -140,9 +140,9 @@ export const en = {
     itemCount: pluralForm({ one: "{count} favorite", other: "{count} favorites" }),
   },
   themes: {
-    title: "Themes",
-    subtitle: "Choose one or more themes to bias which ayat you receive. Selection still happens entirely on your device.",
-    resetCta: "Reset to balanced",
+    title: "Ayah topics",
+    subtitle: "Pick one or more topics to steer which āyāt you receive. Leave all unselected to receive from every topic. Your choice stays entirely on this device.",
+    resetCta: "Random topics",
     balancedModeLabel: "Balanced (recommended)",
     names: {
       patience: "Patience",

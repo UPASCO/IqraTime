@@ -135,9 +135,9 @@ export const zhCN: TranslationSchema = {
     itemCount: pluralForm({ other: "{count} 条收藏" }),
   },
   themes: {
-    title: "主题",
-    subtitle: "选择一个或多个主题，以影响您收到的经文。选择过程完全在您的设备本地进行。",
-    resetCta: "重置为均衡模式",
+    title: "经文主题",
+    subtitle: "选择一个或多个主题来引导你收到的经文。不作选择即从所有主题中接收。你的选择仅保存在本设备。",
+    resetCta: "随机主题",
     balancedModeLabel: "均衡（推荐）",
     names: {
       patience: "忍耐",

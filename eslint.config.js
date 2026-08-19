@@ -24,7 +24,7 @@ module.exports = [
   },
   {
     // CLI tools: stdout output via console.log is the intended product, not debug noise.
-    files: ["scripts/**/*.ts"],
+    files: ["scripts/**/*.ts", "scripts/**/*.mjs"],
     rules: {
       "no-console": "off",
     },

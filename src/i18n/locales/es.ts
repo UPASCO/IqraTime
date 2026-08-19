@@ -135,9 +135,9 @@ export const es: TranslationSchema = {
     itemCount: pluralForm({ one: "{count} favorito", other: "{count} favoritos" }),
   },
   themes: {
-    title: "Temas",
-    subtitle: "Elige uno o varios temas para orientar las aleyas que recibes. La selección sigue siendo totalmente local.",
-    resetCta: "Restablecer a equilibrado",
+    title: "Temática de las ayat",
+    subtitle: "Elige uno o más temas para orientar las āyāt que recibes. Si no seleccionas ninguno, recibirás de todos los temas. Tu elección permanece en este dispositivo.",
+    resetCta: "Temas aleatorios",
     balancedModeLabel: "Equilibrado (recomendado)",
     names: {
       patience: "Paciencia",

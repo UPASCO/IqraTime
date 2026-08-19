@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useTheme } from "@/theme/ThemeProvider";
@@ -73,13 +73,23 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
 
   return (
     <View style={[styles.slide, { height: props.height, backgroundColor: appConfig.brand.night }]}>
-      <Pressable
-        onPress={props.onOpenDetail}
+      {/* The longest āyāt (Āyat al-Kursī sets the ceiling) can just exceed a
+          phone screen, so the slide scrolls internally. `bounces={false}`
+          matters: at the top/bottom edge the gesture is handed straight back
+          to the paging list instead of rubber-banding, so swiping between
+          āyāt still feels immediate. */}
+      <ScrollView
         style={styles.tapArea}
-        accessibilityRole={props.onOpenDetail ? "button" : undefined}
-        accessibilityLabel={props.onOpenDetail ? `${referenceLabel}. ${props.translationText ?? ""}` : undefined}
+        contentContainerStyle={styles.scrollContent}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
       >
-        <View style={{ gap: spacing.lg, paddingHorizontal: spacing.lg }}>
+        <Pressable
+          onPress={props.onOpenDetail}
+          accessibilityRole={props.onOpenDetail ? "button" : undefined}
+          accessibilityLabel={props.onOpenDetail ? `${referenceLabel}. ${props.translationText ?? ""}` : undefined}
+        >
+          <View style={{ gap: spacing.lg, paddingHorizontal: spacing.lg }}>
           <Text
             style={{
               color: appConfig.brand.goldLight,
@@ -109,9 +119,10 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
                 </View>
               ))}
             </View>
-          ) : null}
-        </View>
-      </Pressable>
+            ) : null}
+          </View>
+        </Pressable>
+      </ScrollView>
 
       <View style={[styles.rail, { gap: spacing.lg }]}>
         {props.onToggleFavorite ? (
@@ -168,7 +179,8 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
 
 const styles = StyleSheet.create({
   slide: { width: "100%", justifyContent: "center" },
-  tapArea: { flex: 1, justifyContent: "center" },
+  tapArea: { flex: 1 },
+  scrollContent: { flexGrow: 1, justifyContent: "center", paddingVertical: 24 },
   arabicText: { textAlign: "right", writingDirection: "rtl", fontWeight: "500" },
   themeRow: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   themePill: { backgroundColor: "rgba(247,243,232,0.14)", borderRadius: 999 },

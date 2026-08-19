@@ -4,15 +4,6 @@ import arabicData from "./arabic.json";
 import catalogData from "./catalog.json";
 import { getCorpusEnvironment, isProductionCorpusBuild } from "./demoWarning";
 import { arabicSourceInfo, translationSources } from "./sources";
-import enTranslations from "./translations/en.json";
-import frTranslations from "./translations/fr.json";
-import esTranslations from "./translations/es.json";
-import ptTranslations from "./translations/pt.json";
-import hiTranslations from "./translations/hi.json";
-import bnTranslations from "./translations/bn.json";
-import zhCNTranslations from "./translations/zh-CN.json";
-import itTranslations from "./translations/it.json";
-import ruTranslations from "./translations/ru.json";
 
 export interface CorpusEntry {
   readonly arabic: ArabicAyahText;
@@ -60,8 +51,12 @@ export function getRuntimeCorpus(): readonly CorpusEntry[] {
   return isProductionCorpusBuild() ? getPublishableCorpus() : allEntries;
 }
 
+const entriesById = new Map(allEntries.map((entry) => [entry.arabic.id, entry]));
+
 export function getCorpusEntry(id: AyahId): CorpusEntry | undefined {
-  return allEntries.find((entry) => entry.arabic.id === id);
+  // Map lookup rather than a linear scan: this is called once per notification
+  // slot and once per history row, over a corpus of several thousand āyāt.
+  return entriesById.get(id);
 }
 
 interface TranslationFileShape {
@@ -74,29 +69,46 @@ function buildTranslationMap(locale: SupportedLocale, file: TranslationFileShape
 }
 
 /**
- * Per-locale translation lookup tables. See docs/TRANSLATIONS.md and
- * scripts/importTranslation.ts for how these files are produced; Metro
- * requires each one to be statically imported above (dynamic
- * `require`/`import` of a locale-dependent path is not supported).
+ * Loads one locale's translation file. Each path is a literal so Metro can
+ * still resolve it statically, but the `require` runs on first use rather
+ * than at import time — the app only ever reads the user's chosen
+ * translation locale, and eagerly parsing all nine files (several MB of
+ * JSON across a few thousand āyāt) would be paid on every cold start.
  */
-const translationsByLocale: Partial<Record<SupportedLocale, ReadonlyMap<AyahId, AyahTranslation>>> = {
-  en: buildTranslationMap("en", enTranslations),
-  fr: buildTranslationMap("fr", frTranslations),
-  es: buildTranslationMap("es", esTranslations),
-  pt: buildTranslationMap("pt", ptTranslations),
-  hi: buildTranslationMap("hi", hiTranslations),
-  bn: buildTranslationMap("bn", bnTranslations),
-  "zh-CN": buildTranslationMap("zh-CN", zhCNTranslations),
-  it: buildTranslationMap("it", itTranslations),
-  ru: buildTranslationMap("ru", ruTranslations),
-};
+function loadTranslationFile(locale: SupportedLocale): TranslationFileShape | undefined {
+  switch (locale) {
+    case "en": return require("./translations/en.json");
+    case "fr": return require("./translations/fr.json");
+    case "es": return require("./translations/es.json");
+    case "pt": return require("./translations/pt.json");
+    case "hi": return require("./translations/hi.json");
+    case "bn": return require("./translations/bn.json");
+    case "zh-CN": return require("./translations/zh-CN.json");
+    case "it": return require("./translations/it.json");
+    case "ru": return require("./translations/ru.json");
+    // Arabic readers get the Arabic source text itself, not a translation.
+    default: return undefined;
+  }
+}
+
+const translationCache = new Map<SupportedLocale, ReadonlyMap<AyahId, AyahTranslation>>();
+
+function getTranslationTable(locale: SupportedLocale): ReadonlyMap<AyahId, AyahTranslation> | undefined {
+  const cached = translationCache.get(locale);
+  if (cached) return cached;
+  const file = loadTranslationFile(locale);
+  if (!file) return undefined;
+  const table = buildTranslationMap(locale, file);
+  translationCache.set(locale, table);
+  return table;
+}
 
 export function getTranslation(id: AyahId, locale: SupportedLocale): AyahTranslation | undefined {
-  return translationsByLocale[locale]?.get(id);
+  return getTranslationTable(locale)?.get(id);
 }
 
 export function hasAnyTranslations(locale: SupportedLocale): boolean {
-  const table = translationsByLocale[locale];
+  const table = getTranslationTable(locale);
   return !!table && table.size > 0;
 }
 

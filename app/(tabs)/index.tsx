@@ -77,6 +77,25 @@ function FeedItem({
   );
 }
 
+/**
+ * One slide in the feed. The same ayah can legitimately appear more than
+ * once as the user keeps scrolling (the corpus is finite), so the list key
+ * is a per-slide counter rather than the ayah id.
+ */
+interface FeedEntry {
+  readonly key: string;
+  readonly ayahId: string;
+}
+
+/** Any corpus entry other than `avoidAyahId` — the last-resort pick that keeps the feed scrolling once the selection engine has no fresh candidates left. */
+function pickFallbackAyahId(avoidAyahId?: string): string | undefined {
+  const corpus = getRuntimeCorpus();
+  if (corpus.length === 0) return undefined;
+  const pool = corpus.filter((e) => e.arabic.id !== avoidAyahId);
+  const from = pool.length > 0 ? pool : corpus;
+  return from[Math.floor(Math.random() * from.length)]?.arabic.id;
+}
+
 export default function HomeScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
   const { t, locale } = useI18n();
@@ -84,15 +103,16 @@ export default function HomeScreen(): React.JSX.Element {
   const db = useAppDatabase();
   const { preferences } = usePreferencesStore();
 
-  const [feedIds, setFeedIds] = useState<string[]>([]);
+  const [feedItems, setFeedItems] = useState<FeedEntry[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
   const [nextSlot, setNextSlot] = useState<NotificationSlot | undefined>(undefined);
   const [statusMessage, setStatusMessage] = useState<string | undefined>(undefined);
   const [slideHeight, setSlideHeight] = useState(0);
 
   const loadingMore = useRef(false);
+  const slideCounter = useRef(1);
 
-  const pickAnotherAyah = useCallback(async (): Promise<string | undefined> => {
+  const pickAnotherAyah = useCallback(async (avoidAyahId?: string): Promise<string | undefined> => {
     if (!db) return undefined;
     const [recentAyahIds, favorites, hidden] = await Promise.all([
       db.history.recentAyahIds(preferences.antiRepeatWindow || DEFAULT_ANTI_REPEAT_WINDOW),
@@ -114,18 +134,24 @@ export default function HomeScreen(): React.JSX.Element {
       maxLength: MAX_NOTIFICATION_AYAH_LENGTH,
       mode: preferences.selectionMode,
     });
-    if (result.status !== "selected") return undefined;
+    // The feed must never dead-end: once every ayah has been shown, the
+    // selection engine legitimately runs out of *fresh* candidates, so we
+    // fall back to any corpus entry (avoiding an immediate repeat) and keep
+    // scrolling rather than silently stopping.
+    const ayahId = result.status === "selected" ? result.ayahId : pickFallbackAyahId(avoidAyahId);
+    if (!ayahId) return undefined;
+
     await db.history.add({
       id: generateLocalId(),
-      ayahId: result.ayahId,
+      ayahId,
       locale: preferences.translationLocale,
       receivedAtUtcIso: new Date().toISOString(),
       source: "app_shuffle",
     });
-    if (favorites.some((f) => f.ayahId === result.ayahId)) {
-      setFavoriteIds((prev) => new Set(prev).add(result.ayahId));
+    if (favorites.some((f) => f.ayahId === ayahId)) {
+      setFavoriteIds((prev) => new Set(prev).add(ayahId));
     }
-    return result.ayahId;
+    return ayahId;
   }, [db, preferences]);
 
   const loadInitialState = useCallback(async () => {
@@ -134,7 +160,7 @@ export default function HomeScreen(): React.JSX.Element {
     const latest = history[0];
     const firstId = latest ? latest.ayahId : getRuntimeCorpus()[0]?.arabic.id;
     if (firstId) {
-      setFeedIds([firstId]);
+      setFeedItems([{ key: "slide-0", ayahId: firstId }]);
       if (await db.favorites.isFavorite(firstId)) {
         setFavoriteIds((prev) => new Set(prev).add(firstId));
       }
@@ -184,11 +210,18 @@ export default function HomeScreen(): React.JSX.Element {
   const handleEndReached = async (): Promise<void> => {
     if (loadingMore.current) return;
     loadingMore.current = true;
-    const nextId = await pickAnotherAyah();
-    if (nextId) {
-      setFeedIds((prev) => (prev.includes(nextId) ? prev : [...prev, nextId]));
+    try {
+      const lastAyahId = feedItems[feedItems.length - 1]?.ayahId;
+      const nextId = await pickAnotherAyah(lastAyahId);
+      if (nextId) {
+        // Always append, even when this ayah already appeared earlier in the
+        // session: the feed is endless by design, so a finite corpus simply
+        // starts coming round again instead of the scroll dead-ending.
+        setFeedItems((prev) => [...prev, { key: `slide-${slideCounter.current++}`, ayahId: nextId }]);
+      }
+    } finally {
+      loadingMore.current = false;
     }
-    loadingMore.current = false;
   };
 
   return (
@@ -218,16 +251,16 @@ export default function HomeScreen(): React.JSX.Element {
             if (slideHeight === 0) setSlideHeight(e.nativeEvent.layout.height);
           }}
         >
-          {slideHeight > 0 && feedIds.length > 0 ? (
+          {slideHeight > 0 && feedItems.length > 0 ? (
             <FlatList
-              data={feedIds}
-              keyExtractor={(id) => id}
+              data={feedItems}
+              keyExtractor={(entry) => entry.key}
               renderItem={({ item, index }) => (
                 <FeedItem
-                  ayahId={item}
+                  ayahId={item.ayahId}
                   height={slideHeight}
-                  isFavorite={favoriteIds.has(item)}
-                  showSwipeHint={index === 0 && feedIds.length === 1}
+                  isFavorite={favoriteIds.has(item.ayahId)}
+                  showSwipeHint={index === 0 && feedItems.length === 1}
                   onToggleFavorite={handleToggleFavorite}
                 />
               )}
