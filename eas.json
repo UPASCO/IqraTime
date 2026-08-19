@@ -17,7 +17,15 @@
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_CORPUS_ENV": "development"
+        "EXPO_PUBLIC_CORPUS_ENV": "development",
+        "_comment_support": "Internal test builds only. The URL below is a placeholder on Stripe's domain, not a working Payment Link, and the four review flags are forced true purely so the Support screen renders in its available state on device. The production profile deliberately sets none of this: see docs/RELEASE_CHECKLIST.md.",
+        "EXPO_PUBLIC_SUPPORT_ENABLED": "true",
+        "EXPO_PUBLIC_SUPPORT_PAYMENT_URL": "https://buy.stripe.com/test_00000000000000",
+        "EXPO_PUBLIC_SUPPORT_PROVIDER_NAME": "Stripe",
+        "EXPO_PUBLIC_SUPPORT_LEGAL_REVIEWED": "true",
+        "EXPO_PUBLIC_SUPPORT_RELIGIOUS_REVIEWED": "true",
+        "EXPO_PUBLIC_SUPPORT_IOS_APPROVED": "true",
+        "EXPO_PUBLIC_SUPPORT_ANDROID_APPROVED": "true"
       },
       "android": {
         "buildType": "apk"

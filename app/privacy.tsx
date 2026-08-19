@@ -4,7 +4,6 @@ import { View, Text } from "react-native";
 import { Screen } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
-import { appConfig } from "@/config/appConfig";
 
 export default function PrivacyScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
@@ -18,9 +17,6 @@ export default function PrivacyScreen(): React.JSX.Element {
         </Text>
         <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier }}>{t("privacy.body")}</Text>
         <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier }}>{t("privacy.noAccountBody")}</Text>
-        <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-          {appConfig.contactEmail} · {appConfig.privacyPolicyUrl}
-        </Text>
       </View>
     </Screen>
   );

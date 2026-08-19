@@ -15,11 +15,32 @@ oversight.
 - [ ] `appName`, tagline, brand colors — confirm final wording/branding with the product owner.
 - [ ] `eas.json` submit section — real App Store Connect app id (`ascAppId`) and Google Play service account key path. Do **not** add an `appleId` or `appleTeamId` field here: those identify the owner's personal Apple account and must never be committed. Configure an App Store Connect API Key instead (`eas credentials` or the EAS website) — see `docs/PUBLISH_FROM_IPHONE.md`.
 
+## "Support AyahNow" donation feature (`docs/STRIPE_SETUP.md`)
+
+Ships **disabled** by default and should stay that way until every item
+below is checked:
+
+- [ ] A real Stripe account is verified and a payout bank account is
+      configured **inside the Stripe Dashboard only** (never in this repo).
+- [ ] A Stripe Payment Link is created per `docs/STRIPE_SETUP.md`'s
+      procedure and its public URL is set as `EXPO_PUBLIC_SUPPORT_PAYMENT_URL`
+      via EAS environment configuration (not committed to source control).
+- [ ] Legal review completed → `EXPO_PUBLIC_SUPPORT_LEGAL_REVIEWED=true`.
+- [ ] Religious review completed → `EXPO_PUBLIC_SUPPORT_RELIGIOUS_REVIEWED=true`.
+- [ ] Current Apple App Store guidelines on external payment links/donations
+      reviewed and satisfied → `EXPO_PUBLIC_SUPPORT_IOS_APPROVED=true`.
+- [ ] Current Google Play Billing policy on external payment methods
+      reviewed and satisfied → `EXPO_PUBLIC_SUPPORT_ANDROID_APPROVED=true`.
+- [ ] Only once all of the above are true → `EXPO_PUBLIC_SUPPORT_ENABLED=true`.
+- [ ] `npm run security:check-secrets` passes (no IBAN, no Stripe secret
+      key, no webhook secret anywhere in the app bundle) — this also runs
+      as part of `npm run check`.
+
 ## Corpus (`docs/CORPUS.md`, `docs/TRANSLATIONS.md`)
 
-- [ ] Replace the 5-entry demo Arabic corpus with a verified, licensed,
-      complete corpus (Tanzil Uthmani text or equivalent), with every
-      character checked against the canonical source.
+- [x] Arabic text sourced verbatim from the King Fahd Complex Uthmani
+      edition (4540 āyāt across 113 surahs) via
+      `node scripts/buildFullCorpus.mjs` — not hand-typed.
 - [ ] Every shipped catalog entry has gone through the reviewer checklist
       in `docs/CORPUS.md` and reached `status: "publishable"`.
 - [ ] At least one, ideally all 10, supported languages have a real,

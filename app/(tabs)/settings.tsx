@@ -9,6 +9,7 @@ import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { appConfig } from "@/config/appConfig";
 import { sendTestNotification } from "@/notifications";
+import { isSupportAvailable } from "@/services/supportPaymentService";
 
 export default function SettingsScreen(): React.JSX.Element {
   const { spacing } = useTheme();
@@ -40,7 +41,7 @@ export default function SettingsScreen(): React.JSX.Element {
   return (
     <Screen>
       <View style={{ gap: spacing.xs }}>
-        <SectionHeader title={t("settings.sectionNotifications")} />
+        <SectionHeader title={t("settings.sectionNotifications")} first />
         <SettingRow
           label={t("settings.notificationsEnabled")}
           value={preferences.schedule.enabled}
@@ -135,6 +136,13 @@ export default function SettingsScreen(): React.JSX.Element {
         <SettingRow label={t("settings.privacyLink")} onPress={() => router.push("/privacy")} />
         <SettingRow label={t("settings.aboutLink")} onPress={() => router.push("/about")} />
         <SettingRow label={t("settings.versionLabel")} valueLabel={appConfig.version} />
+
+        {isSupportAvailable() || __DEV__ ? (
+          <>
+            <SectionHeader title={t("settings.sectionSupportAyahNow")} />
+            <SettingRow label={t("settings.supportLink")} onPress={() => router.push("/support")} />
+          </>
+        ) : null}
 
         <SectionHeader title={t("settings.sectionData")} />
         <SettingRow label={t("settings.resetLocalData")} onPress={handleResetAll} />
