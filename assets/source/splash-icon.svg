@@ -1,15 +1,38 @@
 <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <title>AyahNow splash mark — open Qur'an silhouette, sits on the app's ivory splash background</title>
-  <g stroke="#C8A45D" stroke-width="10" stroke-linecap="round" opacity="0.9">
-    <line x1="205" y1="150" x2="205" y2="90"/>
-    <line x1="160" y1="172" x2="112" y2="124"/>
-    <line x1="228" y1="196" x2="284" y2="150"/>
+  <title>AyahNow splash mark — a luminous open Qur'an, sits on the app's ivory splash background</title>
+  <defs>
+    <radialGradient id="splashHalo" cx="50%" cy="42%" r="60%">
+      <stop offset="0" stop-color="#C8A45D" stop-opacity="0.30"/>
+      <stop offset="60%" stop-color="#C8A45D" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#C8A45D" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="splashGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E4BE71"/>
+      <stop offset="1" stop-color="#B8863A"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="256" cy="260" rx="220" ry="220" fill="url(#splashHalo)"/>
+
+  <!-- open book, dark silhouette so it reads against the ivory background -->
+  <path d="M256,210 C204,210 148,240 148,306 C148,372 204,402 256,402 Z" fill="#12372A"/>
+  <path d="M256,210 C308,210 364,240 364,306 C364,372 308,402 256,402 Z" fill="#12372A"/>
+  <rect x="247" y="208" width="18" height="196" rx="8" fill="url(#splashGold)"/>
+
+  <!-- a phrase of light rising from the pages -->
+  <g stroke="url(#splashGold)" stroke-linecap="round" fill="none">
+    <g opacity="0.2">
+      <path d="M256,215 C256,175 250,135 246,95" stroke-width="14"/>
+      <path d="M232,214 C210,182 178,152 158,118" stroke-width="10"/>
+      <path d="M280,214 C302,182 334,152 354,118" stroke-width="10"/>
+    </g>
+    <path d="M256,215 C256,175 250,135 246,95" stroke-width="6"/>
+    <path d="M232,214 C210,182 178,152 158,118" stroke-width="4"/>
+    <path d="M280,214 C302,182 334,152 354,118" stroke-width="4"/>
   </g>
-  <!-- open book, as a dark-green silhouette so it reads against the ivory background -->
-  <path d="M256,210 C206,210 150,240 150,305 C150,370 206,400 256,400 Z" fill="#12372A"/>
-  <path d="M256,210 C306,210 362,240 362,305 C362,370 306,400 256,400 Z" fill="#12372A"/>
-  <rect x="248" y="209" width="16" height="192" rx="6" fill="#C8A45D"/>
-  <path d="M246,212 L262,212 L262,175 L254,185 L246,175 Z" fill="#C8A45D"/>
-  <rect x="178" y="270" width="90" height="12" rx="6" fill="#F7F3E8" opacity="0.7"/>
-  <rect x="244" y="270" width="90" height="12" rx="6" fill="#F7F3E8" opacity="0.7"/>
+  <g fill="#D9A94A">
+    <circle cx="246" cy="90" r="6"/>
+    <circle cx="158" cy="112" r="4"/>
+    <circle cx="354" cy="112" r="4"/>
+  </g>
 </svg>

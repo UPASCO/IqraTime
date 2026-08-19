@@ -6,7 +6,15 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
-import { getPermissionSnapshot, requestPermission, sendTestNotification, isExactAlarmStatusDetectable, type PermissionSnapshot } from "@/notifications";
+import {
+  getPermissionSnapshot,
+  requestPermission,
+  sendTestNotification,
+  isExactAlarmStatusDetectable,
+  getOsScheduledSummary,
+  type PermissionSnapshot,
+  type OsScheduledSummary,
+} from "@/notifications";
 import { reschedule } from "@/notifications/rescheduleService";
 import { loadLastRescheduleInfo, type LastRescheduleInfo } from "@/storage/diagnosticsStore";
 import { formatDateTime, detectTimeZone, formatTime } from "@/utils/dateUtils";
@@ -23,6 +31,7 @@ export default function DiagnosticsScreen(): React.JSX.Element {
   const [slots, setSlots] = useState<NotificationSlot[]>([]);
   const [lastRun, setLastRun] = useState<LastRescheduleInfo | null>(null);
   const [errors, setErrors] = useState<LocalLogEntry[]>([]);
+  const [osSummary, setOsSummary] = useState<OsScheduledSummary | null>(null);
   const [busy, setBusy] = useState(false);
 
   const refresh = useCallback(async () => {
@@ -32,6 +41,7 @@ export default function DiagnosticsScreen(): React.JSX.Element {
       setErrors(await db.logs.recent(10));
     }
     setLastRun(await loadLastRescheduleInfo());
+    setOsSummary(await getOsScheduledSummary());
   }, [db]);
 
   useEffect(() => {
@@ -92,6 +102,18 @@ export default function DiagnosticsScreen(): React.JSX.Element {
         {row(t("diagnostics.activeWindow"), `${formatTime(preferences.schedule.startHour, 0, locale)} – ${formatTime(preferences.schedule.endHour, 0, locale)}`)}
         {row(t("diagnostics.frequency"), t("common.frequencyEveryHour", { count: preferences.schedule.frequencyHours }))}
         {row(t("diagnostics.timeZone"), detectTimeZone())}
+
+        <SectionHeader title={t("diagnostics.osTruthTitle")} />
+        {row(t("diagnostics.osScheduledCount"), osSummary ? String(osSummary.count) : "…")}
+        {row(
+          t("diagnostics.osNextNotification"),
+          osSummary?.nextFireDateIso ? formatDateTime(osSummary.nextFireDateIso, locale) : t("home.nextNotificationNone"),
+        )}
+        {osSummary && osSummary.count !== slots.length ? (
+          <Text style={{ color: colors.danger, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+            {t("diagnostics.osMismatchWarning")}
+          </Text>
+        ) : null}
 
         <SectionHeader title={t("diagnostics.lastScheduledAt")} />
         {row(t("diagnostics.lastScheduledAt"), lastRun ? formatDateTime(lastRun.atUtcIso, locale) : "—")}

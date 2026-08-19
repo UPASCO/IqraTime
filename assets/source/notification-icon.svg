@@ -1,14 +1,13 @@
 <svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
   <title>AyahNow Android status-bar notification icon — pure white silhouette on transparent, per Android guidelines</title>
-  <g transform="translate(22,62)" fill="#FFFFFF">
-    <path d="M512,310 C380,310 222,380 222,520 C222,660 380,730 512,730 Z"/>
-    <path d="M512,310 C644,310 802,380 802,520 C802,660 644,730 512,730 Z"/>
-    <rect x="503" y="308" width="18" height="424" rx="8"/>
-    <path d="M499,312 L525,312 L525,232 L512,252 L499,232 Z"/>
-    <g stroke="#FFFFFF" stroke-width="14" stroke-linecap="round">
-      <line x1="330" y1="230" x2="330" y2="150"/>
-      <line x1="270" y1="260" x2="210" y2="200"/>
-      <line x1="360" y1="290" x2="430" y2="230"/>
-    </g>
+  <g fill="#FFFFFF">
+    <path d="M512,420 C398,420 216,472 216,588 C216,704 398,752 512,752 Z"/>
+    <path d="M512,420 C626,420 808,472 808,588 C808,704 626,752 512,752 Z"/>
+    <rect x="500" y="416" width="24" height="340" rx="10"/>
+  </g>
+  <g stroke="#FFFFFF" stroke-linecap="round" fill="none">
+    <path d="M512,428 C512,336 500,246 494,156" stroke-width="14"/>
+    <path d="M476,426 C436,358 376,298 340,228" stroke-width="11"/>
+    <path d="M548,426 C588,358 648,298 684,228" stroke-width="11"/>
   </g>
 </svg>

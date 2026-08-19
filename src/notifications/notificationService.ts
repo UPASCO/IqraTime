@@ -98,6 +98,49 @@ export async function cancelAllOsNotifications(): Promise<void> {
   await Notifications.cancelAllScheduledNotificationsAsync();
 }
 
+export interface OsScheduledSummary {
+  /** The ground-truth count of notifications iOS/Android actually has queued — compare against the app's own DB count to catch a "the DB thinks it's scheduled but the OS never got it" mismatch. */
+  readonly count: number;
+  readonly nextFireDateIso: string | null;
+}
+
+/**
+ * Reads the OS's own pending-notification list directly, bypassing the
+ * app's local SQLite bookkeeping entirely. See docs/NOTIFICATIONS.md
+ * "Diagnosing a DB/OS mismatch".
+ */
+export async function getOsScheduledSummary(): Promise<OsScheduledSummary> {
+  const requests = await Notifications.getAllScheduledNotificationsAsync();
+  const dates = requests
+    .map((r) => triggerToDate(r.trigger))
+    .filter((d): d is Date => d !== null)
+    .sort((a, b) => a.getTime() - b.getTime());
+  return { count: requests.length, nextFireDateIso: dates[0]?.toISOString() ?? null };
+}
+
+interface DateComponentsShape {
+  readonly year?: number;
+  readonly month?: number;
+  readonly day?: number;
+  readonly hour?: number;
+  readonly minute?: number;
+  readonly second?: number;
+}
+
+function triggerToDate(trigger: Notifications.NotificationTrigger): Date | null {
+  if (!trigger || typeof trigger !== "object" || !("type" in trigger)) return null;
+  if (trigger.type === "calendar" && "dateComponents" in trigger) {
+    const c = (trigger as { dateComponents: DateComponentsShape }).dateComponents;
+    if (c.year != null && c.month != null && c.day != null) {
+      return new Date(c.year, c.month - 1, c.day, c.hour ?? 0, c.minute ?? 0, c.second ?? 0);
+    }
+  }
+  if ("value" in trigger && typeof (trigger as { value?: unknown }).value === "number") {
+    return new Date((trigger as { value: number }).value);
+  }
+  return null;
+}
+
 export async function sendTestNotification(locale: SupportedLocale, bodyText: string): Promise<void> {
   await Notifications.scheduleNotificationAsync({
     content: {
