@@ -86,6 +86,7 @@ export const it: TranslationSchema = {
     noAyahYetTitle: "Nessun versetto ancora",
     noAyahYetBody: "Il tuo primo versetto apparirà qui non appena arriverà una notifica, oppure tocca qui sotto per ottenerne uno subito.",
     anotherAyahCta: "Un altro versetto",
+    swipeHint: "Scorri verso l'alto per un'altra aya",
     favoriteAdd: "Aggiungi ai preferiti",
     favoriteRemove: "Rimuovi dai preferiti",
     favoriteAdded: "Aggiunto ai preferiti",

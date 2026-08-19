@@ -86,6 +86,7 @@ export const fr: TranslationSchema = {
     noAyahYetTitle: "Aucune āyah pour le moment",
     noAyahYetBody: "Votre première āyah apparaîtra ici dès qu'une notification arrivera, ou appuyez ci-dessous pour en obtenir une maintenant.",
     anotherAyahCta: "Une autre āyah",
+    swipeHint: "Glissez vers le haut pour une autre āyah",
     favoriteAdd: "Ajouter aux favoris",
     favoriteRemove: "Retirer des favoris",
     favoriteAdded: "Ajouté aux favoris",

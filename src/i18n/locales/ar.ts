@@ -99,6 +99,7 @@ export const ar: TranslationSchema = {
     noAyahYetTitle: "لا توجد آية بعد",
     noAyahYetBody: "ستظهر آيتك الأولى هنا فور وصول إشعار، أو اضغط أدناه للحصول على واحدة الآن.",
     anotherAyahCta: "آية أخرى",
+    swipeHint: "مرر لأعلى لآية أخرى",
     favoriteAdd: "إضافة إلى المفضلة",
     favoriteRemove: "إزالة من المفضلة",
     favoriteAdded: "أُضيفت إلى المفضلة",

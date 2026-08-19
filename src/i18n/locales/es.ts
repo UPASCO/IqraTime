@@ -86,6 +86,7 @@ export const es: TranslationSchema = {
     noAyahYetTitle: "Aún no hay ninguna aleya",
     noAyahYetBody: "Tu primera aleya aparecerá aquí en cuanto llegue una notificación, o toca abajo para obtener una ahora.",
     anotherAyahCta: "Otra aleya",
+    swipeHint: "Desliza hacia arriba para otra aya",
     favoriteAdd: "Añadir a favoritos",
     favoriteRemove: "Quitar de favoritos",
     favoriteAdded: "Añadido a favoritos",

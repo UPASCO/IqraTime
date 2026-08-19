@@ -1,6 +1,7 @@
 export { Screen } from "./Screen";
 export { Button } from "./Button";
 export { AyahCard } from "./AyahCard";
+export { AyahFeedSlide } from "./AyahFeedSlide";
 export { EmptyState } from "./EmptyState";
 export { SectionHeader } from "./SectionHeader";
 export { SettingRow } from "./SettingRow";

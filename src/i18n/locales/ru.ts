@@ -91,6 +91,7 @@ export const ru: TranslationSchema = {
     noAyahYetTitle: "Аятов пока нет",
     noAyahYetBody: "Ваш первый аят появится здесь после первого уведомления, либо нажмите ниже, чтобы получить его сейчас.",
     anotherAyahCta: "Другой аят",
+    swipeHint: "Проведите вверх для следующего аята",
     favoriteAdd: "Добавить в избранное",
     favoriteRemove: "Убрать из избранного",
     favoriteAdded: "Добавлено в избранное",

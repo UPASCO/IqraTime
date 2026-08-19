@@ -91,6 +91,7 @@ export const en = {
     noAyahYetTitle: "No ayah yet",
     noAyahYetBody: "Your first ayah will appear here once a notification arrives, or tap below for one now.",
     anotherAyahCta: "Another ayah",
+    swipeHint: "Swipe up for another ayah",
     favoriteAdd: "Add to favorites",
     favoriteRemove: "Remove from favorites",
     favoriteAdded: "Added to favorites",

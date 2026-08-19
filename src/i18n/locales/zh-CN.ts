@@ -86,6 +86,7 @@ export const zhCN: TranslationSchema = {
     noAyahYetTitle: "暂无经文",
     noAyahYetBody: "收到通知后，您的第一条经文将显示在此处，您也可以点击下方按钮立即获取一条。",
     anotherAyahCta: "换一条经文",
+    swipeHint: "向上滑动查看下一节经文",
     favoriteAdd: "加入收藏",
     favoriteRemove: "取消收藏",
     favoriteAdded: "已加入收藏",

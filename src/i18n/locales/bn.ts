@@ -86,6 +86,7 @@ export const bn: TranslationSchema = {
     noAyahYetTitle: "এখনো কোনো আয়াত নেই",
     noAyahYetBody: "একটি বিজ্ঞপ্তি এলে আপনার প্রথম আয়াত এখানে প্রদর্শিত হবে, অথবা এখনই একটি পেতে নিচে ট্যাপ করুন।",
     anotherAyahCta: "আরেকটি আয়াত",
+    swipeHint: "পরবর্তী আয়াতের জন্য উপরে সোয়াইপ করুন",
     favoriteAdd: "প্রিয় তালিকায় যোগ করুন",
     favoriteRemove: "প্রিয় তালিকা থেকে সরান",
     favoriteAdded: "প্রিয় তালিকায় যোগ করা হয়েছে",

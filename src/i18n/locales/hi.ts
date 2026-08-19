@@ -86,6 +86,7 @@ export const hi: TranslationSchema = {
     noAyahYetTitle: "अभी तक कोई आयत नहीं",
     noAyahYetBody: "सूचना आने पर आपकी पहली आयत यहां दिखाई देगी, या अभी एक पाने के लिए नीचे टैप करें।",
     anotherAyahCta: "एक और आयत",
+    swipeHint: "अगली आयत के लिए ऊपर स्वाइप करें",
     favoriteAdd: "पसंदीदा में जोड़ें",
     favoriteRemove: "पसंदीदा से हटाएं",
     favoriteAdded: "पसंदीदा में जोड़ा गया",
