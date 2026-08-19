@@ -36,11 +36,13 @@ interface SharedConfigShape {
   privacyPolicyUrl: string;
   deepLinkScheme: string;
   brand: {
+    night: string;
     deepGreen: string;
     secondaryGreen: string;
     ivory: string;
     warmWhite: string;
     gold: string;
+    goldLight: string;
     darkText: string;
   };
   defaultSchedule: {

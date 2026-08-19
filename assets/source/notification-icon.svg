@@ -1,13 +1,22 @@
 <svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
   <title>AyahNow Android status-bar notification icon — pure white silhouette on transparent, per Android guidelines</title>
+  <desc>Android renders this as a flat alpha mask, so it must be a single solid-white silhouette: no gradients, no glow, and simplified geometry that stays readable at 24dp.</desc>
+  <defs>
+    <mask id="nCrescentMask">
+      <rect width="1024" height="1024" fill="#000"/>
+      <circle cx="512" cy="470" r="384" fill="#fff"/>
+      <circle cx="512" cy="404" r="336" fill="#000"/>
+    </mask>
+  </defs>
+  <circle cx="512" cy="470" r="384" fill="#FFFFFF" mask="url(#nCrescentMask)"/>
   <g fill="#FFFFFF">
-    <path d="M512,420 C398,420 216,472 216,588 C216,704 398,752 512,752 Z"/>
-    <path d="M512,420 C626,420 808,472 808,588 C808,704 626,752 512,752 Z"/>
-    <rect x="500" y="416" width="24" height="340" rx="10"/>
-  </g>
-  <g stroke="#FFFFFF" stroke-linecap="round" fill="none">
-    <path d="M512,428 C512,336 500,246 494,156" stroke-width="14"/>
-    <path d="M476,426 C436,358 376,298 340,228" stroke-width="11"/>
-    <path d="M548,426 C588,358 648,298 684,228" stroke-width="11"/>
+    <!-- light rising from the pages, as three solid tapered shafts -->
+    <path d="M496,690 L528,690 L556,300 L468,300 Z"/>
+    <path d="M452,690 L474,690 L396,352 L340,376 Z" opacity="0.9"/>
+    <path d="M550,690 L572,690 L684,376 L628,352 Z" opacity="0.9"/>
+    <!-- open book -->
+    <path d="M512,706 C428,694 336,716 296,748 L296,820 C336,794 428,776 512,788 Z"/>
+    <path d="M512,706 C596,694 688,716 728,748 L728,820 C688,794 596,776 512,788 Z"/>
+    <rect x="502" y="694" width="20" height="100" rx="8"/>
   </g>
 </svg>

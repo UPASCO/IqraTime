@@ -29,11 +29,16 @@ module.exports = {
   privacyPolicyUrl: "https://ayahnow.example/privacy",
   deepLinkScheme: "ayahnow",
   brand: {
+    // Darkest stop of the app icon's night sky — used wherever the UI should
+    // read as an extension of the icon (the immersive ayah feed, splash).
+    night: "#081C13",
     deepGreen: "#12372A",
     secondaryGreen: "#2F6B55",
     ivory: "#F7F3E8",
     warmWhite: "#FFFCF5",
     gold: "#C8A45D",
+    // The icon's warm gold, bright enough to stay legible on `night`.
+    goldLight: "#E4C170",
     darkText: "#17201C",
   },
   defaultSchedule: {

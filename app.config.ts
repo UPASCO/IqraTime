@@ -40,7 +40,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     versionCode: appConfig.buildNumber,
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
-      backgroundColor: appConfig.brand.deepGreen,
+      backgroundColor: appConfig.brand.night,
     },
     permissions: [
       "android.permission.POST_NOTIFICATIONS",

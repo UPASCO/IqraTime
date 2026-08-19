@@ -1,58 +1,78 @@
 <svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-  <title>AyahNow app icon — a luminous, open Qur'an with light rising from its pages</title>
+  <title>AyahNow app icon — an ornate open Qur'an beneath a golden crescent, light rising from its pages</title>
+  <desc>Deliberately contains no Arabic lettering: rendering decorative pseudo-Arabic on a Qur'an app icon would put meaningless glyphs where scripture is implied. The rising light and sparks carry the idea instead.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#1B4C35"/>
-      <stop offset="1" stop-color="#0C2619"/>
+    <linearGradient id="sky" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#0B2419"/>
+      <stop offset="0.55" stop-color="#08190F"/>
+      <stop offset="1" stop-color="#040D08"/>
     </linearGradient>
-    <radialGradient id="halo" cx="50%" cy="45%" r="55%">
-      <stop offset="0" stop-color="#F3D68F" stop-opacity="0.55"/>
-      <stop offset="55%" stop-color="#C8A45D" stop-opacity="0.16"/>
+    <radialGradient id="glow" cx="50%" cy="62%" r="52%">
+      <stop offset="0" stop-color="#F6E1A8" stop-opacity="0.42"/>
+      <stop offset="45%" stop-color="#C8A45D" stop-opacity="0.14"/>
       <stop offset="100%" stop-color="#C8A45D" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="page" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FFFDF7"/>
-      <stop offset="1" stop-color="#EEE2C8"/>
-    </linearGradient>
     <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#F3D68F"/>
-      <stop offset="1" stop-color="#B8863A"/>
+      <stop offset="0" stop-color="#FBEEC4"/>
+      <stop offset="0.45" stop-color="#E4C170"/>
+      <stop offset="1" stop-color="#A9782F"/>
     </linearGradient>
+    <linearGradient id="beam" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0" stop-color="#FFF4D2" stop-opacity="0.95"/>
+      <stop offset="0.35" stop-color="#F0D08A" stop-opacity="0.5"/>
+      <stop offset="0.75" stop-color="#E4C170" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#E4C170" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="page" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFDF4"/>
+      <stop offset="1" stop-color="#E8DBBC"/>
+    </linearGradient>
+    <linearGradient id="cover" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#123A2A"/>
+      <stop offset="1" stop-color="#082117"/>
+    </linearGradient>
+    <mask id="crescentMask">
+      <rect width="1024" height="1024" fill="#000"/>
+      <circle cx="512" cy="486" r="390" fill="#fff"/>
+      <circle cx="512" cy="428" r="356" fill="#000"/>
+    </mask>
   </defs>
 
-  <rect width="1024" height="1024" fill="url(#bg)"/>
-  <ellipse cx="512" cy="500" rx="430" ry="430" fill="url(#halo)"/>
+  <rect width="1024" height="1024" fill="url(#sky)"/>
+  <circle cx="512" cy="486" r="390" fill="url(#gold)" mask="url(#crescentMask)" opacity="0.92"/>
+  <ellipse cx="512" cy="640" rx="430" ry="400" fill="url(#glow)"/>
+
+  <!-- light rising from the open pages -->
+  <path d="M474,742 L554,742 L700,150 L328,150 Z" fill="url(#beam)" opacity="0.55"/>
+  <path d="M492,742 L536,742 L604,132 L424,132 Z" fill="url(#beam)" opacity="0.75"/>
+  <path d="M504,742 L524,742 L546,120 L482,120 Z" fill="url(#beam)"/>
+
+  <!-- sparks carried up by the light -->
+  <g fill="#FFF4D2">
+    <path d="M512,150 Q518,186 548,196 Q518,206 512,242 Q506,206 476,196 Q506,186 512,150 Z"/>
+    <path d="M406,268 Q410,292 428,299 Q410,306 406,330 Q402,306 384,299 Q402,292 406,268 Z" opacity="0.85"/>
+    <path d="M624,240 Q628,262 644,268 Q628,274 624,296 Q620,274 604,268 Q620,262 624,240 Z" opacity="0.8"/>
+    <circle cx="452" cy="392" r="6" opacity="0.75"/>
+    <circle cx="586" cy="356" r="7" opacity="0.8"/>
+    <circle cx="540" cy="470" r="5" opacity="0.6"/>
+    <circle cx="470" cy="520" r="4.5" opacity="0.5"/>
+    <circle cx="360" cy="196" r="5" opacity="0.55"/>
+    <circle cx="672" cy="180" r="4.5" opacity="0.5"/>
+  </g>
 
   <!-- open Qur'an -->
-  <path d="M512,420 C398,420 216,472 216,588 C216,704 398,752 512,752 Z" fill="url(#page)" stroke="url(#gold)" stroke-width="5" stroke-opacity="0.7"/>
-  <path d="M512,420 C626,420 808,472 808,588 C808,704 626,752 512,752 Z" fill="url(#page)" stroke="url(#gold)" stroke-width="5" stroke-opacity="0.7"/>
-  <g stroke="#12372A" stroke-width="3" opacity="0.12" fill="none">
-    <path d="M256,544 C298,606 400,694 502,714"/>
-    <path d="M768,544 C726,606 624,694 522,714"/>
-  </g>
-  <rect x="500" y="416" width="24" height="340" rx="10" fill="url(#gold)"/>
-
-  <!-- a phrase of light rising from the open pages (layered strokes = soft glow, filter-free) -->
-  <g stroke="url(#gold)" stroke-linecap="round" fill="none">
-    <g opacity="0.15">
-      <path d="M512,428 C512,336 500,246 494,156" stroke-width="28"/>
-      <path d="M476,426 C436,358 376,298 340,228" stroke-width="22"/>
-      <path d="M548,426 C588,358 648,298 684,228" stroke-width="22"/>
+  <g>
+    <path d="M512,754 C428,742 336,764 296,796 L296,868 C336,842 428,824 512,836 Z" fill="url(#cover)" stroke="url(#gold)" stroke-width="6"/>
+    <path d="M512,754 C596,742 688,764 728,796 L728,868 C688,842 596,824 512,836 Z" fill="url(#cover)" stroke="url(#gold)" stroke-width="6"/>
+    <path d="M512,746 C432,730 348,748 312,780 C352,758 436,748 512,762 Z" fill="url(#page)"/>
+    <path d="M512,746 C592,730 676,748 712,780 C672,758 588,748 512,762 Z" fill="url(#page)"/>
+    <path d="M512,762 C436,748 352,758 312,780 C352,766 436,760 512,774 Z" fill="#D8C79C" opacity="0.8"/>
+    <path d="M512,762 C588,748 672,758 712,780 C672,766 588,760 512,774 Z" fill="#D8C79C" opacity="0.8"/>
+    <rect x="504" y="742" width="16" height="98" rx="7" fill="url(#gold)"/>
+    <!-- ornament on each cover -->
+    <g stroke="url(#gold)" stroke-width="3.5" fill="none" opacity="0.85">
+      <path d="M404,800 l22,-14 22,14 -22,14 z"/>
+      <path d="M576,800 l22,-14 22,14 -22,14 z"/>
     </g>
-    <g opacity="0.4">
-      <path d="M512,428 C512,336 500,246 494,156" stroke-width="14"/>
-      <path d="M476,426 C436,358 376,298 340,228" stroke-width="11"/>
-      <path d="M548,426 C588,358 648,298 684,228" stroke-width="11"/>
-    </g>
-    <path d="M512,428 C512,336 500,246 494,156" stroke-width="7"/>
-    <path d="M476,426 C436,358 376,298 340,228" stroke-width="5"/>
-    <path d="M548,426 C588,358 648,298 684,228" stroke-width="5"/>
-  </g>
-  <g fill="#F6E1A8">
-    <circle cx="494" cy="146" r="11"/>
-    <circle cx="340" cy="218" r="7"/>
-    <circle cx="684" cy="218" r="7"/>
-    <circle cx="416" cy="272" r="4" opacity="0.85"/>
-    <circle cx="606" cy="272" r="4" opacity="0.85"/>
   </g>
 </svg>

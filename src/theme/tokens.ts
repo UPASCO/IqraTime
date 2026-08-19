@@ -109,22 +109,30 @@ export const lightColors: ColorTokens = {
   overlay: "rgba(18, 55, 42, 0.55)",
 };
 
+/**
+ * Dark palette, tuned to the app icon's night sky so the two read as one
+ * identity: the icon's deep green-black ground (#081C13 here mirrors its
+ * darkest gradient stop) with the same warm gold (#E4C170) it uses for
+ * the crescent and rising light. Every pair below was measured — the
+ * darkening only raises contrast, so all text stays comfortably above AA
+ * (lowest measured pair: textSecondary on surfaceElevated).
+ */
 export const darkColors: ColorTokens = {
-  background: "#0E1E17",
-  surface: "#152D22",
-  surfaceElevated: "#1B382A",
-  border: "#2C4A3B",
-  textPrimary: "#F3EFE2",
-  textSecondary: "#B9C6BC",
-  textOnAccent: "#0E1E17",
-  accent: "#79C9A1",
+  background: "#081C13",
+  surface: "#0F2B1F",
+  surfaceElevated: "#173A2B",
+  border: "#2A4C3C",
+  textPrimary: "#F4F0E3", // ~15.5:1 on background
+  textSecondary: "#BCC9BE", // ~10.3:1 on background
+  textOnAccent: "#081C13",
+  accent: "#7FD0A7", // ~9.7:1 on background
   accentMuted: "#4F8F72",
-  gold: "#D9B75B", // raw gold passes AA on this dark background (~6:1+), safe as text here
-  goldDecorative: "#D9B75B",
+  gold: "#E4C170", // icon's gold — ~10.3:1 on background, safe as text here
+  goldDecorative: "#E4C170",
   success: "#7FCF9C",
   danger: "#E28080",
   warning: "#E0C376",
-  overlay: "rgba(0, 0, 0, 0.65)",
+  overlay: "rgba(0, 0, 0, 0.68)",
 };
 
 export const shadows = {

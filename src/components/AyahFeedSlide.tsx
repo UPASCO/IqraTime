@@ -72,7 +72,7 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
     props.textOrder === "arabic_first" ? [arabicBlock, translationBlock] : [translationBlock, arabicBlock];
 
   return (
-    <View style={[styles.slide, { height: props.height, backgroundColor: appConfig.brand.deepGreen }]}>
+    <View style={[styles.slide, { height: props.height, backgroundColor: appConfig.brand.night }]}>
       <Pressable
         onPress={props.onOpenDetail}
         style={styles.tapArea}
@@ -82,7 +82,7 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
         <View style={{ gap: spacing.lg, paddingHorizontal: spacing.lg }}>
           <Text
             style={{
-              color: appConfig.brand.gold,
+              color: appConfig.brand.goldLight,
               fontWeight: typography.weights.semibold,
               fontSize: typography.sizes.body * fontScaleMultiplier,
               letterSpacing: 1,
@@ -126,7 +126,7 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
             <Ionicons
               name={props.isFavorite ? "heart" : "heart-outline"}
               size={26}
-              color={props.isFavorite ? appConfig.brand.gold : appConfig.brand.warmWhite}
+              color={props.isFavorite ? appConfig.brand.goldLight : appConfig.brand.warmWhite}
             />
           </Pressable>
         ) : null}
@@ -149,7 +149,7 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
             accessibilityRole="button"
             accessibilityLabel={justCopied ? t("home.copiedConfirmation") : t("home.copyCta")}
           >
-            <Ionicons name={justCopied ? "checkmark" : "copy-outline"} size={21} color={justCopied ? appConfig.brand.gold : appConfig.brand.warmWhite} />
+            <Ionicons name={justCopied ? "checkmark" : "copy-outline"} size={21} color={justCopied ? appConfig.brand.goldLight : appConfig.brand.warmWhite} />
           </Pressable>
         ) : null}
       </View>
