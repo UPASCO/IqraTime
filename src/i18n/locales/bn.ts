@@ -100,6 +100,15 @@ export const bn: TranslationSchema = {
     editScheduleCta: "সময়সূচী সম্পাদনা করুন",
     quickSettingsCta: "সেটিংস",
     themeLabel: "বিষয়",
+    streakLabel: pluralForm({ one: "{count} দিন ধারাবাহিক", other: "{count} দিন ধারাবাহিক" }),
+    libraryCta: "ব্রাউজ ও খুঁজুন",
+  },
+  library: {
+    title: "কুরআন ব্রাউজ করুন",
+    searchPlaceholder: "সূরার নাম বা কীওয়ার্ড দিয়ে খুঁজুন",
+    emptyTitle: "কোনো ফলাফল নেই",
+    emptyBody: "অন্য কোনো সূরার নাম বা কীওয়ার্ড চেষ্টা করুন।",
+    resultCount: pluralForm({ other: "{count}টি আয়াত" }),
   },
   ayah: {
     surahLabel: "সূরা",

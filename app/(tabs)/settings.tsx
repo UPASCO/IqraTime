@@ -10,6 +10,7 @@ import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { appConfig } from "@/config/appConfig";
 import { sendTestNotification } from "@/notifications";
 import { isSupportAvailable } from "@/services/supportPaymentService";
+import { clearStreak } from "@/storage/streakStore";
 
 export default function SettingsScreen(): React.JSX.Element {
   const { spacing } = useTheme();
@@ -33,6 +34,7 @@ export default function SettingsScreen(): React.JSX.Element {
         onPress: async () => {
           await db?.resetAll();
           await reset();
+          await clearStreak();
         },
       },
     ]);

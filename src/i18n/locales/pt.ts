@@ -100,6 +100,15 @@ export const pt: TranslationSchema = {
     editScheduleCta: "Editar horário",
     quickSettingsCta: "Configurações",
     themeLabel: "Tema",
+    streakLabel: pluralForm({ one: "{count} dia seguido", other: "{count} dias seguidos" }),
+    libraryCta: "Explorar e pesquisar",
+  },
+  library: {
+    title: "Explorar o Alcorão",
+    searchPlaceholder: "Pesquisar por nome da surata ou palavra-chave",
+    emptyTitle: "Nenhum resultado",
+    emptyBody: "Tente outro nome de surata ou palavra-chave.",
+    resultCount: pluralForm({ one: "{count} versículo", other: "{count} versículos" }),
   },
   ayah: {
     surahLabel: "Surata",

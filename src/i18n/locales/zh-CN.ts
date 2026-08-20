@@ -100,6 +100,15 @@ export const zhCN: TranslationSchema = {
     editScheduleCta: "编辑时间表",
     quickSettingsCta: "设置",
     themeLabel: "主题",
+    streakLabel: pluralForm({ other: "连续 {count} 天" }),
+    libraryCta: "浏览与搜索",
+  },
+  library: {
+    title: "浏览古兰经",
+    searchPlaceholder: "按苏拉名称或关键词搜索",
+    emptyTitle: "无匹配结果",
+    emptyBody: "请尝试其他苏拉名称或关键词。",
+    resultCount: pluralForm({ other: "{count} 节经文" }),
   },
   ayah: {
     surahLabel: "章",

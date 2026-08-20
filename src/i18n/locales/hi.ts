@@ -100,6 +100,15 @@ export const hi: TranslationSchema = {
     editScheduleCta: "समय बदलें",
     quickSettingsCta: "सेटिंग्स",
     themeLabel: "विषय",
+    streakLabel: pluralForm({ one: "{count} दिन लगातार", other: "{count} दिन लगातार" }),
+    libraryCta: "ब्राउज़ करें और खोजें",
+  },
+  library: {
+    title: "क़ुरआन ब्राउज़ करें",
+    searchPlaceholder: "सूरा नाम या कीवर्ड से खोजें",
+    emptyTitle: "कोई परिणाम नहीं",
+    emptyBody: "किसी अन्य सूरा नाम या कीवर्ड का प्रयास करें।",
+    resultCount: pluralForm({ one: "{count} आयत", other: "{count} आयतें" }),
   },
   ayah: {
     surahLabel: "सूरह",

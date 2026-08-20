@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, Text, Share, FlatList } from "react-native";
+import { View, Text, Share, FlatList, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
+import { Ionicons } from "@expo/vector-icons";
 
 import { Screen, AyahFeedSlide, NotificationStatusCard, EmptyState } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -17,6 +18,7 @@ import type { NotificationSlot } from "@/domain/types";
 import { formatShareText } from "@/utils/shareText";
 import { formatDateTime } from "@/utils/dateUtils";
 import { generateLocalId } from "@/utils/id";
+import { recordAppOpen, type StreakInfo } from "@/storage/streakStore";
 
 /** One slide in the swipeable feed, resolved to its display data via useAyahView inside the render. */
 function FeedItem({
@@ -108,6 +110,7 @@ export default function HomeScreen(): React.JSX.Element {
   const [nextSlot, setNextSlot] = useState<NotificationSlot | undefined>(undefined);
   const [statusMessage, setStatusMessage] = useState<string | undefined>(undefined);
   const [slideHeight, setSlideHeight] = useState(0);
+  const [streak, setStreak] = useState<StreakInfo | undefined>(undefined);
 
   const loadingMore = useRef(false);
   const slideCounter = useRef(1);
@@ -168,6 +171,8 @@ export default function HomeScreen(): React.JSX.Element {
 
     const upcoming = await db.notificationSlots.listUpcoming(new Date().toISOString());
     setNextSlot(upcoming[0]);
+
+    recordAppOpen().then(setStreak);
 
     const permission = await getPermissionSnapshot();
     if (permission.state === "denied") {
@@ -232,6 +237,24 @@ export default function HomeScreen(): React.JSX.Element {
             <Text style={{ color: colors.accent, fontSize: typography.sizes.title * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
               {t("home.title")}
             </Text>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.sm }}>
+              {streak && streak.currentStreak > 1 ? (
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                  <Ionicons name="flame" size={16} color={colors.gold} />
+                  <Text style={{ color: colors.gold, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.semibold }}>
+                    {t("home.streakLabel", { count: streak.currentStreak })}
+                  </Text>
+                </View>
+              ) : null}
+              <Pressable
+                onPress={() => router.push("/library")}
+                accessibilityRole="button"
+                accessibilityLabel={t("home.libraryCta")}
+                hitSlop={8}
+              >
+                <Ionicons name="search-outline" size={22} color={colors.textPrimary} />
+              </Pressable>
+            </View>
           </View>
           {statusMessage ? (
             <NotificationStatusCard

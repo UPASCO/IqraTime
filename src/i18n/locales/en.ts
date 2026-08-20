@@ -105,6 +105,15 @@ export const en = {
     editScheduleCta: "Edit schedule",
     quickSettingsCta: "Settings",
     themeLabel: "Theme",
+    streakLabel: pluralForm({ one: "{count} day in a row", other: "{count} days in a row" }),
+    libraryCta: "Browse & search",
+  },
+  library: {
+    title: "Browse the Qur'an",
+    searchPlaceholder: "Search by surah name or keyword",
+    emptyTitle: "No matches",
+    emptyBody: "Try a different surah name or keyword.",
+    resultCount: pluralForm({ one: "{count} ayah", other: "{count} ayat" }),
   },
   ayah: {
     surahLabel: "Surah",

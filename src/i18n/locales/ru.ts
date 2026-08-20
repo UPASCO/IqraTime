@@ -105,6 +105,25 @@ export const ru: TranslationSchema = {
     editScheduleCta: "Изменить расписание",
     quickSettingsCta: "Настройки",
     themeLabel: "Тема",
+    streakLabel: pluralForm({
+      one: "{count} день подряд",
+      few: "{count} дня подряд",
+      many: "{count} дней подряд",
+      other: "{count} дня подряд",
+    }),
+    libraryCta: "Обзор и поиск",
+  },
+  library: {
+    title: "Обзор Корана",
+    searchPlaceholder: "Поиск по названию суры или ключевому слову",
+    emptyTitle: "Ничего не найдено",
+    emptyBody: "Попробуйте другое название суры или ключевое слово.",
+    resultCount: pluralForm({
+      one: "{count} аят",
+      few: "{count} аята",
+      many: "{count} аятов",
+      other: "{count} аята",
+    }),
   },
   ayah: {
     surahLabel: "Сура",
