@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import { View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import ViewShot, { type ViewShotRef } from "react-native-view-shot";
+import * as Sharing from "expo-sharing";
 
 import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -29,11 +31,32 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
   const { spacing, typography, fontScaleMultiplier } = useTheme();
   const { t, direction } = useI18n();
   const [justCopied, setJustCopied] = React.useState(false);
+  const shotRef = useRef<ViewShotRef>(null);
 
   const handleCopy = (): void => {
     props.onCopy?.();
     setJustCopied(true);
     setTimeout(() => setJustCopied(false), 1500);
+  };
+
+  /**
+   * Shares a rendered image of the card itself (exactly what's on screen,
+   * minus the floating action rail) rather than plain text — a proper
+   * quote card instead of a wall of unstyled text in the recipient's chat.
+   * Falls back to the plain-text share the parent screen supplies if the
+   * capture or the native share sheet is unavailable for any reason.
+   */
+  const handleShare = async (): Promise<void> => {
+    try {
+      const uri = await shotRef.current?.capture?.();
+      if (uri && (await Sharing.isAvailableAsync())) {
+        await Sharing.shareAsync(uri, { mimeType: "image/png", dialogTitle: t("home.shareCta") });
+        return;
+      }
+    } catch {
+      // Fall through to the plain-text share below.
+    }
+    props.onShare?.();
   };
 
   const referenceLabel = `${t("ayah.surahLabel")} ${props.surah}:${props.ayah}`;
@@ -78,6 +101,7 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
           matters: at the top/bottom edge the gesture is handed straight back
           to the paging list instead of rubber-banding, so swiping between
           āyāt still feels immediate. */}
+      <ViewShot ref={shotRef} style={[styles.tapArea, { backgroundColor: appConfig.brand.night }]} options={{ format: "png", quality: 0.95 }}>
       <ScrollView
         style={styles.tapArea}
         contentContainerStyle={styles.scrollContent}
@@ -123,6 +147,7 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
           </View>
         </Pressable>
       </ScrollView>
+      </ViewShot>
 
       <View style={[styles.rail, { gap: spacing.lg }]}>
         {props.onToggleFavorite ? (
@@ -143,7 +168,7 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
         ) : null}
         {props.onShare ? (
           <Pressable
-            onPress={props.onShare}
+            onPress={handleShare}
             hitSlop={8}
             style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
             accessibilityRole="button"
