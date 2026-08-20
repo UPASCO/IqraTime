@@ -1,8 +1,10 @@
 # AyahNow — site web (une page)
 
 Site statique (HTML/CSS, sans build) présentant AyahNow : fonctionnalités,
-confidentialité, section "projets similaires" et contact
-(`support@ayahnow.com` via lien `mailto:`).
+confidentialité, section "projets similaires" (mise en avant du prochain
+projet — une application éducative pour apprendre l'islam en s'amusant),
+un bouton de don Stripe, et contact (`support@ayahnow.com` via lien
+`mailto:`).
 
 ## Aperçu en local
 
@@ -76,6 +78,28 @@ domaine (pas besoin d'une boîte mail payante pour un simple alias support) :
 
 **Coût total : uniquement le prix du domaine chez OVH** (hébergement Vercel
 et redirection email inclus gratuitement dans les offres ci-dessus).
+
+### 5. Don — lien Stripe à créer (placeholder pour l'instant)
+
+Le site a deux boutons "Faire un don" / "Soutenir ce projet" (section
+`#don` et carte "Prochain projet" dans `#projets-similaires`), tous deux
+pointant vers `https://buy.stripe.com/REPLACE_ME_AVANT_PUBLICATION` — un
+lien **factice, non fonctionnel**, marqué par un commentaire `TODO` dans
+`website/index.html`.
+
+Je n'ai ni compte Stripe ni accès à un compte bancaire, donc je ne peux pas
+créer ce lien à ta place — c'est une vérification d'identité + un compte
+bancaire réels. La procédure complète existe déjà dans ce repo, à
+`docs/STRIPE_SETUP.md` (créée pour la fonctionnalité de don de l'app
+mobile, réutilisable telle quelle pour le site) :
+
+1. Créer/utiliser un compte Stripe vérifié.
+2. **Payment Links → Create Payment Link**, montant libre ("le client
+   choisit le montant"), nom "Soutenir AyahNow".
+3. Copier l'URL générée (`https://buy.stripe.com/xxxxxxxxxxxx`).
+4. Me la donner (ou remplacer directement les deux occurrences de
+   `REPLACE_ME_AVANT_PUBLICATION` dans `website/index.html`) — c'est une
+   URL publique, pas un secret, donc rien de sensible à gérer ici.
 
 ---
 

@@ -27,6 +27,7 @@
         <li><a href="#fonctionnalites">Fonctionnalités</a></li>
         <li><a href="#confidentialite">Confidentialité</a></li>
         <li><a href="#projets-similaires">Projets similaires</a></li>
+        <li><a href="#don">Faire un don</a></li>
         <li><a href="#support">Contact</a></li>
       </ul>
     </nav>
@@ -113,24 +114,33 @@
     </div>
   </section>
 
+  <!--
+    TODO avant publication réelle : remplacer le lien Stripe placeholder
+    (ci-dessous et dans la section #don) par le vrai Payment Link Stripe,
+    créé manuellement dans le Dashboard Stripe — voir docs/STRIPE_SETUP.md
+    à la racine du repo. Ce n'est PAS un lien fonctionnel pour l'instant.
+  -->
   <section id="projets-similaires" class="similar">
     <div class="wrap">
       <h2 class="section-title">Projets similaires</h2>
       <p class="section-sub">
-        AyahNow fait partie d'une famille d'applications de rappel spirituel
-        pensées par la même équipe, avec les mêmes principes&nbsp;: hors-ligne,
-        sans compte, sans publicité.
+        AyahNow fait partie d'une famille d'applications pensées par la même
+        équipe, avec les mêmes principes&nbsp;: hors-ligne, sans compte, sans
+        publicité.
       </p>
       <div class="similar-grid">
-        <div class="similar-card">
-          <span class="status">En préparation</span>
-          <h3>D'autres rappels, d'autres traditions</h3>
+        <div class="similar-card featured">
+          <span class="status">Prochain projet</span>
+          <h3>Application éducative — apprendre l'islam en s'amusant</h3>
           <p>
-            L'architecture d'AyahNow (moteur de sélection, planification des
-            notifications, confidentialité par conception) est pensée pour être
-            réutilisée pour d'autres applications de rappel similaires. De
-            nouveaux projets sont en préparation.
+            Une application ludique et hors-ligne pour découvrir et apprendre
+            les bases de l'islam en s'amusant, avec les mêmes principes
+            qu'AyahNow&nbsp;: aucun compte, aucune publicité, aucune donnée
+            collectée.
           </p>
+          <a class="btn btn-outline" href="https://buy.stripe.com/REPLACE_ME_AVANT_PUBLICATION" target="_blank" rel="noopener">
+            Soutenir ce projet
+          </a>
         </div>
         <div class="similar-card">
           <span class="status">Vous avez une idée ?</span>
@@ -142,6 +152,22 @@
           </p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="don" class="donate">
+    <div class="wrap">
+      <h2>Soutenir nos projets</h2>
+      <p>
+        AyahNow est gratuit, hors-ligne et sans publicité — et le restera.
+        Vos dons aident à financer son développement continu ainsi que nos
+        prochains projets, comme l'application éducative pour apprendre
+        l'islam en s'amusant.
+      </p>
+      <a class="btn" href="https://buy.stripe.com/REPLACE_ME_AVANT_PUBLICATION" target="_blank" rel="noopener">
+        Faire un don
+      </a>
+      <p class="fine-print">Paiement sécurisé par Stripe. Don volontaire, sans contrepartie.</p>
     </div>
   </section>
 
