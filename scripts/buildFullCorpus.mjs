@@ -100,6 +100,26 @@ const CONTINUATION_OPENINGS = [
   "so that ", "in order that",
 ];
 
+/**
+ * Openings that are grammatically complete sentences but semantically
+ * depend on an antecedent the āyah itself never states — "he/she/they
+ * said" without saying who, or a demonstrative ("that is", "such is")
+ * pointing back at a list from the previous āyah. These read fine in
+ * isolation but the reader can't tell who or what is meant, which is
+ * exactly the "manque de sens individuellement" failure mode text-shape
+ * filters (length, capitalisation, punctuation) cannot catch on their own.
+ *
+ * Deliberately narrow: broader candidates like "then " were tried and
+ * rejected because they wrongly caught genuinely standalone āyāt (e.g. the
+ * Ar-Rahman refrain, "Then which of the favours of your Lord will you
+ * deny?", repeated 31 times and unambiguous on its own).
+ */
+const REFERENTIAL_OPENINGS = [
+  "he said", "she said", "they said", "we said", "it was said", "and it was said",
+  "and when", "so when", "thereupon", "thus do", "thus does",
+  "that is because", "such is the", "such is his", "and thus", "and that is",
+];
+
 /** Latin-script editions, whose capitalisation reliably marks a sentence start. */
 const CASED_LOCALES = ["en", "fr", "es", "pt", "it"];
 
@@ -128,6 +148,7 @@ function isStandaloneCandidate(id, en, ar) {
 
   const lower = en.toLowerCase();
   if (CONTINUATION_OPENINGS.some((p) => lower.startsWith(p))) return false;
+  if (REFERENTIAL_OPENINGS.some((p) => lower.startsWith(p))) return false;
   // An unterminated clause continues into the next āyah. A trailing ellipsis
   // means the same thing and shows up in editions that mark it explicitly
   // (the Chinese edition uses "……" for verses that run on).

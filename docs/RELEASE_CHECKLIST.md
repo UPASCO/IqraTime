@@ -39,7 +39,7 @@ below is checked:
 ## Corpus (`docs/CORPUS.md`, `docs/TRANSLATIONS.md`)
 
 - [x] Arabic text sourced verbatim from the King Fahd Complex Uthmani
-      edition (4540 āyāt across 113 surahs) via
+      edition (4252 āyāt across 113 surahs) via
       `node scripts/buildFullCorpus.mjs` — not hand-typed.
 - [ ] Every shipped catalog entry has gone through the reviewer checklist
       in `docs/CORPUS.md` and reached `status: "publishable"`.
