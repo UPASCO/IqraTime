@@ -39,8 +39,9 @@ below is checked:
 ## Corpus (`docs/CORPUS.md`, `docs/TRANSLATIONS.md`)
 
 - [x] Arabic text sourced verbatim from the King Fahd Complex Uthmani
-      edition (4252 āyāt across 113 surahs) via
-      `node scripts/buildFullCorpus.mjs` — not hand-typed.
+      edition (1500 āyāt across 113 surahs, curated down from a larger
+      mechanically-valid pool) via `node scripts/buildFullCorpus.mjs` —
+      not hand-typed.
 - [ ] Every shipped catalog entry has gone through the reviewer checklist
       in `docs/CORPUS.md` and reached `status: "publishable"`.
 - [ ] At least one, ideally all 10, supported languages have a real,

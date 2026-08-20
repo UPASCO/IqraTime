@@ -109,14 +109,17 @@ const CONTINUATION_OPENINGS = [
  * exactly the "manque de sens individuellement" failure mode text-shape
  * filters (length, capitalisation, punctuation) cannot catch on their own.
  *
- * Deliberately narrow: broader candidates like "then " were tried and
- * rejected because they wrongly caught genuinely standalone āyāt (e.g. the
- * Ar-Rahman refrain, "Then which of the favours of your Lord will you
- * deny?", repeated 31 times and unambiguous on its own).
+ * Deliberately narrow: broader candidates were tried and rejected because
+ * they wrongly caught genuinely standalone āyāt — "then " would have
+ * dropped the Ar-Rahman refrain ("Then which of the favours of your Lord
+ * will you deny?", repeated 31 times and unambiguous alone), and "and
+ * when"/"so when" would have dropped 2:186 ("And when My servants ask you
+ * concerning Me - indeed I am near...", one of the most cited āyāt in the
+ * whole Qur'an and fully self-contained despite the opening "when").
  */
 const REFERENTIAL_OPENINGS = [
   "he said", "she said", "they said", "we said", "it was said", "and it was said",
-  "and when", "so when", "thereupon", "thus do", "thus does",
+  "thereupon", "thus do", "thus does",
   "that is because", "such is the", "such is his", "and thus", "and that is",
 ];
 
@@ -224,6 +227,156 @@ for (const verse of arabic) {
 }
 
 selected.sort((a, b) => (a.surah - b.surah) || (a.ayah - b.ayah));
+console.log(`mechanically valid pool before curation: ${selected.length}`);
+const candidatePool = selected.slice();
+
+// --- Curated downselection ----------------------------------------------
+// The mechanical pool above is deliberately permissive (anything that reads
+// as one complete thought). Shipping all of it dilutes the feed with
+// correct-but-forgettable āyāt. This step narrows it to a fixed target,
+// prioritising: (1) āyāt widely recognised/cited on their own — dua,
+// khutbahs, calligraphy — guaranteed a slot if the mechanical filter kept
+// them; (2) surah coverage — round-robin across every surah that still has
+// candidates so no single long surah (e.g. Al-Baqarah) crowds out shorter
+// ones; (3) within each round, the candidate whose length is closest to a
+// "quotable" sweet spot, on the theory that a very short fragment-adjacent
+// or very long near-the-cap āyah is less memorable than a mid-length one.
+// This is still a heuristic, not a religious judgement — see the module
+// docstring.
+const TARGET_COUNT = 1500;
+
+/**
+ * Frequently cited on their own — dua, khutbahs, calligraphy, widely known
+ * outside specialist study. Not exhaustive and not authoritative: entries
+ * here only get a priority boost if the mechanical filter above already
+ * judged them individually coherent. Getting one wrong just costs it the
+ * boost, nothing more, so this list favours recall over precision.
+ */
+const ICONIC_REFS = new Set([
+  "2:152", "2:153", "2:155", "2:156", "2:186", "2:216", "2:255", "2:256", "2:257", "2:268", "2:269", "2:284", "2:285", "2:286",
+  "3:26", "3:31", "3:103", "3:104", "3:110", "3:133", "3:134", "3:135", "3:139", "3:159", "3:169", "3:173", "3:185", "3:190", "3:191", "3:192",
+  "4:1", "4:36", "4:59", "4:86", "4:110", "4:135", "4:147",
+  "5:2", "5:8", "5:32",
+  "6:59", "6:82", "6:162", "6:163",
+  "7:23", "7:56", "7:96", "7:199",
+  "8:2", "8:53",
+  "9:36", "9:40", "9:51", "9:105", "9:129",
+  "10:57", "10:58", "10:62", "10:65",
+  "11:6", "11:56", "11:114",
+  "12:87",
+  "13:11", "13:28",
+  "14:7", "14:34",
+  "15:9",
+  "16:18", "16:53", "16:90", "16:97", "16:127",
+  "17:23", "17:24", "17:32", "17:70", "17:81", "17:110",
+  "18:10", "18:29", "18:39", "18:46",
+  "19:96",
+  "20:14", "20:25", "20:26", "20:114",
+  "21:35", "21:83", "21:87", "21:107",
+  "22:46",
+  "23:1", "23:115",
+  "24:35", "24:55",
+  "25:63", "25:70", "25:74",
+  "27:19", "27:40",
+  "28:56", "28:77",
+  "29:2", "29:45", "29:64", "29:69",
+  "30:21", "30:30",
+  "31:13", "31:14", "31:17", "31:18", "31:19",
+  "32:16",
+  "33:21", "33:35", "33:41", "33:56", "33:70",
+  "34:39",
+  "35:2", "35:15",
+  "36:65", "36:82",
+  "39:9", "39:10", "39:23", "39:36", "39:53", "39:56",
+  "40:60",
+  "41:34", "41:37", "41:46",
+  "42:19", "42:23", "42:38", "42:40",
+  "43:71",
+  "47:7", "47:19",
+  "48:29",
+  "49:10", "49:11", "49:12", "49:13",
+  "50:16",
+  "51:56",
+  "55:13", "55:60",
+  "57:4", "57:20", "57:22", "57:23",
+  "58:11",
+  "59:18", "59:21", "59:22", "59:23", "59:24",
+  "60:8",
+  "61:2",
+  "62:10",
+  "64:11",
+  "65:2", "65:3", "65:7",
+  "66:6",
+  "67:2",
+  "68:4",
+  "69:44",
+  "70:19",
+  "72:18",
+  "73:20",
+  "76:8", "76:9",
+  "79:40", "79:41",
+  "87:14", "87:16", "87:17",
+  "89:27", "89:28", "89:29", "89:30",
+  "90:4",
+  "93:5", "93:6", "93:7", "93:8",
+  "94:1", "94:5", "94:6",
+  "95:4",
+  "96:1", "96:5",
+  "97:3",
+  "99:7", "99:8",
+]);
+
+/** Distance from a mid-length, "quotable" āyah — used only to order candidates within a surah, never to exclude one. */
+const IDEAL_QUOTABLE_LEN = 150;
+const quotabilityScore = (entry) => -Math.abs(entry.en.length - IDEAL_QUOTABLE_LEN);
+
+function downselect(candidates, targetCount) {
+  if (candidates.length <= targetCount) return candidates;
+
+  const iconic = candidates.filter((e) => ICONIC_REFS.has(e.id));
+  const pickedIds = new Set(iconic.map((e) => e.id));
+  const rest = candidates.filter((e) => !pickedIds.has(e.id));
+
+  const bySurahRest = new Map();
+  for (const entry of rest) {
+    if (!bySurahRest.has(entry.surah)) bySurahRest.set(entry.surah, []);
+    bySurahRest.get(entry.surah).push(entry);
+  }
+  for (const list of bySurahRest.values()) {
+    list.sort((a, b) => quotabilityScore(b) - quotabilityScore(a));
+  }
+
+  const picks = [...iconic];
+  let remaining = targetCount - picks.length;
+  const surahOrder = [...bySurahRest.keys()].sort((a, b) => a - b);
+
+  // Round-robin: each pass takes the single best remaining candidate from
+  // every surah that still has one, so coverage spreads across the whole
+  // Qur'an before any surah gets a second pick.
+  let tookOneThisPass = true;
+  while (remaining > 0 && tookOneThisPass) {
+    tookOneThisPass = false;
+    for (const surah of surahOrder) {
+      if (remaining <= 0) break;
+      const list = bySurahRest.get(surah);
+      const next = list.shift();
+      if (!next) continue;
+      picks.push(next);
+      remaining -= 1;
+      tookOneThisPass = true;
+    }
+  }
+
+  return picks;
+}
+
+selected.length = 0;
+selected.push(...downselect(candidatePool, TARGET_COUNT).sort((a, b) => (a.surah - b.surah) || (a.ayah - b.ayah)));
+bySurah.clear();
+for (const entry of selected) {
+  if (!bySurah.has(entry.surah)) bySurah.set(entry.surah, []);
+  bySurah.get(entry.surah).push(entry);
+}
 
 // A handful of very short surahs end up with no entry at all: every one of
 // their verses is a short clause that only carries its meaning as part of
