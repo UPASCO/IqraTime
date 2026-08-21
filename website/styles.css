@@ -122,6 +122,14 @@ nav a:hover {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 
+.kicker {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
 .hero h1 {
   font-size: clamp(2rem, 4vw, 2.9rem);
   line-height: 1.15;

@@ -1,9 +1,9 @@
-# AyahNow — site web (une page)
+# Iqratime — site web (une page)
 
-Site statique (HTML/CSS, sans build) présentant AyahNow : fonctionnalités,
+Site statique (HTML/CSS, sans build) présentant Iqratime : fonctionnalités,
 confidentialité, section "projets similaires" (mise en avant du prochain
 projet — une application éducative pour apprendre l'islam en s'amusant),
-un bouton de don Stripe, et contact (`support@ayahnow.com` via lien
+un bouton de don Stripe, et contact (`support@iqratime.com` via lien
 `mailto:`).
 
 ## Aperçu en local
@@ -33,45 +33,49 @@ avec OVH pour le domaine et Vercel pour l'hébergement, comme demandé.
 ### 1. Domaine — OVH
 
 1. Aller sur [ovhcloud.com](https://www.ovhcloud.com/fr/domains/) →
-   chercher `ayahnow.com` → l'acheter (compte OVH à créer si besoin).
-2. Une fois acheté, dans l'espace client OVH → **Domaines → ayahnow.com →
+   chercher `iqratime.com` → l'acheter (compte OVH à créer si besoin).
+2. Une fois acheté, dans l'espace client OVH → **Domaines → iqratime.com →
    Zone DNS** : c'est ici qu'on ajoutera les enregistrements pointant vers
    Vercel (étape 3).
 
 ### 2. Hébergement — Vercel
 
 1. Aller sur [vercel.com](https://vercel.com) → **Sign up** → connexion
-   avec le compte GitHub qui a accès à `upasco/ayahnow`.
-2. **Add New → Project** → importer le repo `upasco/ayahnow`.
+   avec le compte GitHub qui a accès à `upasco/ayahnow` (le nom du dépôt
+   GitHub reste `ayahnow` en interne — seule la marque/le domaine publics
+   changent pour Iqratime, pas besoin de renommer le repo).
+2. **Add New → Project** → importer le repo `upasco/ayahnow`. Dans l'écran
+   de configuration, renommer le **Project Name** en `iqratime` pour avoir
+   une URL par défaut propre.
 3. Comme `vercel.json` définit déjà `outputDirectory: "website"`, laisser
    le framework preset sur **Other** et cliquer **Deploy** — aucun autre
    réglage n'est nécessaire.
 4. Vercel donne une URL gratuite immédiate du type
-   `ayahnow.vercel.app` — le site est en ligne dès cette étape, avant même
+   `iqratime.vercel.app` — le site est en ligne dès cette étape, avant même
    d'avoir un domaine.
 
 ### 3. Relier le domaine OVH à Vercel
 
-1. Dans le projet Vercel → **Settings → Domains** → ajouter `ayahnow.com`
-   (et `www.ayahnow.com` si voulu).
+1. Dans le projet Vercel → **Settings → Domains** → ajouter `iqratime.com`
+   (et `www.iqratime.com` si voulu).
 2. Vercel affiche les enregistrements DNS à créer. Concrètement, dans la
    zone DNS OVH (étape 1) :
-   - Un enregistrement **A** pour `ayahnow.com` (`@`) → `76.76.21.21`
+   - Un enregistrement **A** pour `iqratime.com` (`@`) → `76.76.21.21`
    - Un enregistrement **CNAME** pour `www` → `cname.vercel-dns.com.`
    - *(Vercel affiche la valeur exacte au moment de l'ajout — s'y fier en priorité si elle diffère légèrement.)*
 3. Attendre la propagation DNS (quelques minutes à quelques heures) —
-   Vercel confirme automatiquement quand `https://ayahnow.com` est actif
+   Vercel confirme automatiquement quand `https://iqratime.com` est actif
    (certificat HTTPS généré automatiquement, gratuit).
 
-### 4. Email — support@ayahnow.com (gratuit, inclus chez OVH)
+### 4. Email — support@iqratime.com (gratuit, inclus chez OVH)
 
 OVH inclut une **redirection email illimitée et gratuite** avec chaque
 domaine (pas besoin d'une boîte mail payante pour un simple alias support) :
 
-1. Espace client OVH → **Domaines → ayahnow.com → Emails → Redirections**.
-2. Créer une redirection : `support@ayahnow.com` → ta vraie boîte mail
+1. Espace client OVH → **Domaines → iqratime.com → Emails → Redirections**.
+2. Créer une redirection : `support@iqratime.com` → ta vraie boîte mail
    (Gmail, etc.).
-3. *(Optionnel)* Pour pouvoir **envoyer** depuis `support@ayahnow.com` (pas
+3. *(Optionnel)* Pour pouvoir **envoyer** depuis `support@iqratime.com` (pas
    seulement recevoir), configurer un alias d'envoi dans Gmail
    ("Send mail as"), ou souscrire à l'offre email payante d'OVH si une
    vraie boîte complète est nécessaire plus tard.
@@ -95,7 +99,7 @@ mobile, réutilisable telle quelle pour le site) :
 
 1. Créer/utiliser un compte Stripe vérifié.
 2. **Payment Links → Create Payment Link**, montant libre ("le client
-   choisit le montant"), nom "Soutenir AyahNow".
+   choisit le montant"), nom "Soutenir Iqratime".
 3. Copier l'URL générée (`https://buy.stripe.com/xxxxxxxxxxxx`).
 4. Me la donner (ou remplacer directement les deux occurrences de
    `REPLACE_ME_AVANT_PUBLICATION` dans `website/index.html`) — c'est une
