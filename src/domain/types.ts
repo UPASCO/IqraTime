@@ -64,6 +64,35 @@ export interface AyahTafsir {
   readonly sourceId: string;
 }
 
+export type HadithCollection = "bukhari" | "muslim";
+
+/** Stable internal id, e.g. "bukhari:1" (collection:hadithNumber). Never reused across entries. */
+export type HadithId = string;
+
+export interface ArabicHadithText {
+  readonly id: HadithId;
+  readonly collection: HadithCollection;
+  readonly collectionDisplayName: string;
+  readonly hadithNumber: number;
+  /** Full Arabic text exactly as published, isnad (chain of narration) included — never trimmed or altered. */
+  readonly text: string;
+}
+
+/** One translator/institution's rendering of one hadith into one language. */
+export interface HadithTranslation {
+  readonly id: HadithId;
+  readonly locale: SupportedLocale;
+  readonly text: string;
+  /** Foreign key into HadithTranslationSource registry (src/data/corpus/sources.ts). */
+  readonly sourceId: string;
+}
+
+export interface HadithCatalogEntry {
+  readonly id: HadithId;
+  readonly status: EditorialStatus;
+  readonly isDemoOnly: boolean;
+}
+
 /**
  * Editorial lifecycle of a catalog entry. Only "publishable" entries may be
  * shipped in a production build (enforced by scripts/validateCorpus.ts).
@@ -191,6 +220,14 @@ export interface NotificationSchedule {
   readonly vibrationEnabled: boolean;
 }
 
+/**
+ * What kind of content the feed and notifications draw from.
+ * "ayah_only" is the default — hadith is opt-in, never silently mixed in.
+ * "mixed" alternates strictly one hadith, one ayah, one hadith, ... rather
+ * than picking randomly between the two.
+ */
+export type ContentMode = "ayah_only" | "hadith_only" | "mixed";
+
 /** Full user preference set, persisted locally (see src/storage/preferencesStore.ts). */
 export interface UserPreferences {
   readonly onboardingCompleted: boolean;
@@ -205,6 +242,7 @@ export interface UserPreferences {
   readonly selectionMode: SelectionMode;
   readonly antiRepeatWindow: number; // number of most recent notifications to avoid repeating
   readonly schedule: NotificationSchedule;
+  readonly contentMode: ContentMode;
 }
 
 export type NotificationSlotStatus = "scheduled" | "delivered" | "cancelled" | "failed";

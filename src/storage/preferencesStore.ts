@@ -23,6 +23,7 @@ export const defaultPreferences: UserPreferences = {
   selectedThemes: [],
   selectionMode: "balanced_random",
   antiRepeatWindow: 30,
+  contentMode: "ayah_only",
   schedule: {
     enabled: false,
     startHour: appConfig.defaultSchedule.startHour,

@@ -90,6 +90,7 @@ function RootNavigator(): React.JSX.Element {
             <Stack.Screen name="onboarding/index" />
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="ayah/[id]" options={{ presentation: "card" }} />
+            <Stack.Screen name="hadith/[id]" options={{ presentation: "card" }} />
             <Stack.Screen name="themes" options={{ presentation: "modal" }} />
             <Stack.Screen name="library" options={{ presentation: "modal" }} />
             <Stack.Screen name="progress" options={{ presentation: "modal" }} />

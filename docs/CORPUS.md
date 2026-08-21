@@ -152,6 +152,50 @@ a well-established source) and explicitly **not** yet reviewed by a
 qualified human for accuracy — the same reviewer checklist above applies
 before any of it can be represented as fully vetted.
 
+## Hadith
+
+`src/data/corpus/hadith/` holds a separate corpus of hadith (Prophetic
+tradition) text, opt-in via Settings → "What to show" (ayat only by
+default, hadith only, or mixed — strictly one hadith then one ayah when
+mixed, never a random blend). Shown in its own swipeable feed slide and
+`/hadith/[id]` detail screen; favorited hadith live in AsyncStorage
+(`src/storage/hadithFavoritesStore.ts`), separate from the SQLite
+favorites table ayat use — deliberately, to avoid touching the schema
+and pipeline the notification system depends on while this feature is
+still new. **Hadith is not yet wired into scheduled notifications** —
+only ayat are, for now.
+
+Only **Sahih al-Bukhari** and **Sahih Muslim** are used — by scholarly
+consensus (the "Sahihayn") the two most rigorously authenticated hadith
+collections in existence, which is the basis for calling this "the most
+reliable" hadith. Text is fetched verbatim via `scripts/buildHadithCorpus.mjs`
+from `fawazahmed0/hadith-api` (github.com/fawazahmed0/hadith-api — the
+same author/API style as the Quran data already used here). Selection is
+MECHANICAL only (length bounds, non-empty across required languages, no
+cross-reference stub, deduplicated) — 500 entries, split evenly between
+the two collections. No hadith text is ever generated, paraphrased, or
+altered by an AI model, for the same reason the Quran text and its tafsir
+never are.
+
+**Only 5 of the app's 10 languages have any hadith coverage in the
+source dataset**: Arabic, English, French, Bengali, and (noticeably less
+complete — roughly two-thirds) Russian. Spanish, Portuguese, Hindi,
+Italian, and Chinese have none at all — a real, current limitation, not
+an oversight. The feed and Settings degrade gracefully for those
+languages: hadith modes silently fall back to ayah-only with an explicit
+on-screen notice, never a broken or empty card.
+
+**No hadith explanation/commentary (sharh) is shown yet.** The "Show
+explanation" button on the hadith detail screen exists as UI scaffolding
+for future real data, but currently always reports "no verified source
+available" — no attempt was made to generate, guess, or approximate a
+scholarly explanation, the same discipline `docs/CORPUS.md`'s tafsir
+section applies to ayat.
+
+Like every other corpus asset, hadith entries are `technically_verified`
+only, pending the same qualified-human reviewer checklist above before
+any of it can be considered `publishable`.
+
 ## Adding real corpus data
 
 1. Obtain the Arabic text from a source whose license explicitly permits

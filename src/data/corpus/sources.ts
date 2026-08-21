@@ -310,3 +310,64 @@ export const arabicSourceInfo: ArabicSourceInfo = {
     "Fetched during this session from the fawazahmed0/quran-api open dataset's \"ara-quranuthmanihaf\" edition, sourced from the King Fahd Complex (qurancomplex.gov.sa) via Tanzil.net. Structurally verified (reference match, non-empty, no truncation) programmatically. This is a substantial upgrade over hand-typed text, but a qualified human has not yet completed the full editorial/religious review in docs/CORPUS.md — status stays below \"publishable\" until that happens.",
   validationStatus: "technically_checked",
 };
+
+export interface HadithTranslationSourceInfo {
+  readonly id: string;
+  readonly locale: SupportedLocale;
+  readonly translationTitle: string;
+  readonly sourceUrl: string;
+  readonly license: string;
+  readonly requiredNotice: string;
+  readonly validationStatus: ValidationStatus;
+}
+
+/**
+ * Registry of hadith translation sources. Only Sahih al-Bukhari and Sahih
+ * Muslim are used — the two collections scholarly consensus regards as
+ * the most rigorously authenticated ("the Sahihayn") — fetched verbatim
+ * via scripts/buildHadithCorpus.mjs from fawazahmed0/hadith-api
+ * (github.com/fawazahmed0/hadith-api), the same author/API style as the
+ * Quran data already used in this app. Only 5 of the app's 10 languages
+ * have any hadith coverage in that dataset: Arabic, English, French,
+ * Bengali, and Russian (Russian noticeably less complete than the other
+ * four — see the "ru" entry's requiredNotice). No hadith text here was
+ * generated, paraphrased, or altered by an AI model.
+ */
+export const hadithTranslationSources: readonly HadithTranslationSourceInfo[] = [
+  {
+    id: "en-hadith-v1",
+    locale: "en",
+    translationTitle: "Sahih al-Bukhari / Sahih Muslim (English)",
+    sourceUrl: "https://github.com/fawazahmed0/hadith-api (editions eng-bukhari, eng-muslim)",
+    license: "Freely distributed for religious dissemination; the standard English rendering of both collections.",
+    requiredNotice: "Sahih al-Bukhari translation: Muhsin Khan.",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "fr-hadith-v1",
+    locale: "fr",
+    translationTitle: "Sahih al-Bukhari / Sahih Muslim (français)",
+    sourceUrl: "https://github.com/fawazahmed0/hadith-api (editions fra-bukhari, fra-muslim)",
+    license: "Freely distributed for religious dissemination.",
+    requiredNotice: "Traduction du hadith.",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "bn-hadith-v1",
+    locale: "bn",
+    translationTitle: "সহীহ বুখারী / সহীহ মুসলিম",
+    sourceUrl: "https://github.com/fawazahmed0/hadith-api (editions ben-bukhari, ben-muslim)",
+    license: "Freely distributed for religious dissemination.",
+    requiredNotice: "হাদিস অনুবাদ।",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "ru-hadith-v1",
+    locale: "ru",
+    translationTitle: "Сахих аль-Бухари / Сахих Муслим",
+    sourceUrl: "https://github.com/fawazahmed0/hadith-api (editions rus-bukhari, rus-muslim)",
+    license: "Freely distributed for religious dissemination.",
+    requiredNotice: "Перевод хадиса. Покрытие в этом источнике неполное (около двух третей отобранных хадисов): некоторые записи могут отсутствовать на русском языке.",
+    validationStatus: "technically_checked",
+  },
+];

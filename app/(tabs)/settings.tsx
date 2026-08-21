@@ -109,6 +109,12 @@ export default function SettingsScreen(): React.JSX.Element {
           label={t("settings.antiRepeat")}
           valueLabel={String(preferences.antiRepeatWindow)}
         />
+        <SettingRow label={t("settings.contentModeLabel")} />
+        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+          <Chip label={t("settings.contentModeAyahOnly")} selected={preferences.contentMode === "ayah_only"} onPress={() => update({ contentMode: "ayah_only" })} />
+          <Chip label={t("settings.contentModeHadithOnly")} selected={preferences.contentMode === "hadith_only"} onPress={() => update({ contentMode: "hadith_only" })} />
+          <Chip label={t("settings.contentModeMixed")} selected={preferences.contentMode === "mixed"} onPress={() => update({ contentMode: "mixed" })} />
+        </View>
 
         <SectionHeader title={t("settings.sectionLanguage")} />
         <SettingRow label={t("settings.interfaceLanguage")} />

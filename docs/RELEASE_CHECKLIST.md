@@ -51,10 +51,14 @@ below is checked:
 - [x] Tafsir (Al-Mukhtasar) fetched verbatim for 9 of 10 languages (all
       except Portuguese, which has no edition in the source dataset) via
       `node scripts/fetchTafsir.mjs` — see `docs/CORPUS.md` "Tafsir".
+- [x] Hadith corpus (Sahih al-Bukhari + Sahih Muslim only, 500 entries)
+      fetched verbatim via `node scripts/buildHadithCorpus.mjs` — covers
+      5 of 10 languages (ar/en/fr/bn/ru); opt-in, off by default; not yet
+      wired into scheduled notifications — see `docs/CORPUS.md` "Hadith".
 - [ ] `npm run corpus:validate:prod` passes with zero errors.
-- [ ] A qualified religious reviewer has signed off on the final ayah
-      selection, translations, tafsir text, and theme tags — this is a
-      human judgment call this codebase cannot make for you.
+- [ ] A qualified religious reviewer has signed off on the final ayah and
+      hadith selection, translations, tafsir text, and theme tags — this
+      is a human judgment call this codebase cannot make for you.
 
 ## App icon & branding assets
 
