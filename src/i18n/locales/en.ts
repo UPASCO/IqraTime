@@ -9,8 +9,8 @@ import { pluralForm } from "../pluralForm";
 export const en = {
   common: {
     appName: "IqraTime",
-    tagline: "What if the Quran came to you! A different ayah notification every hour.",
-    taglineAlt: "The Quran on your screen, without unlocking.",
+    tagline: "What if every notification truly counted! A meaningful ayah or hadith, a little hassanat, inshaAllah.",
+    taglineAlt: "The Quran and hadith on your screen, without unlocking — a source of hassanat, inshaAllah.",
     ok: "OK",
     cancel: "Cancel",
     save: "Save",
@@ -38,7 +38,7 @@ export const en = {
   onboarding: {
     step1: {
       title: "IqraTime",
-      subtitle: "Receive a short, meaningful ayah of the Quran on your lock screen — no app to open.",
+      subtitle: "Notifications that are truly worth it: a meaningful ayah or an authentic hadith on your lock screen — a source of hassanat, inshaAllah.",
       offlineNote: "Works fully offline. No account, ever.",
       cta: "Get started",
     },

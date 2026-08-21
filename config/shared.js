@@ -24,8 +24,8 @@
 module.exports = {
   appName: "IqraTime",
   tagline: {
-    fr: "Et si le Coran et les hadiths authentiques venaient à vous ! Une notification différente par heure.",
-    alt_fr: "Le Coran et les hadiths sur votre écran, sans déverrouiller.",
+    fr: "Et si chaque notification comptait vraiment ! Une āyah ou un hadith authentique, un peu de hassanat, inchAllah.",
+    alt_fr: "Le Coran et les hadiths sur votre écran, sans déverrouiller — une source de hassanat, inchAllah.",
   },
   version: "1.5.0",
   buildNumber: 4,

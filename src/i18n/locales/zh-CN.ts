@@ -4,8 +4,8 @@ import type { TranslationSchema } from "../schema";
 export const zhCN: TranslationSchema = {
   common: {
     appName: "IqraTime",
-    tagline: "如果古兰经主动来到你身边呢！每小时一条不同的经文通知。",
-    taglineAlt: "无需解锁，古兰经就在你的屏幕上。",
+    tagline: "如果每一条通知都真正有意义呢！一节经文或一段可靠的圣训，一点哈萨纳特（善功），因沙安拉。",
+    taglineAlt: "古兰经与圣训就在你的屏幕上，无需解锁——哈萨纳特（善功）的来源，因沙安拉。",
     ok: "确定",
     cancel: "取消",
     save: "保存",
@@ -33,7 +33,7 @@ export const zhCN: TranslationSchema = {
   onboarding: {
     step1: {
       title: "IqraTime",
-      subtitle: "无需打开应用，即可在锁屏上收到一段简短而有意义的古兰经经文。",
+      subtitle: "真正值得收到的通知：锁屏上的一节经文或一段可靠的圣训——哈萨纳特（善功）的来源，因沙安拉。",
       offlineNote: "完全离线运行。绝不需要账户。",
       cta: "开始使用",
     },

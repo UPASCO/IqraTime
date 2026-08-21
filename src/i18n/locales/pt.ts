@@ -4,8 +4,8 @@ import type { TranslationSchema } from "../schema";
 export const pt: TranslationSchema = {
   common: {
     appName: "IqraTime",
-    tagline: "E se o Alcorão viesse até você! Uma notificação de Ayah diferente a cada hora.",
-    taglineAlt: "O Alcorão na sua tela, sem desbloquear.",
+    tagline: "E se cada notificação realmente valesse a pena! Um versículo ou um hadith autêntico, um pouco de hassanat, inshaAllah.",
+    taglineAlt: "O Alcorão e o hadith na sua tela, sem desbloquear — uma fonte de hassanat, inshaAllah.",
     ok: "OK",
     cancel: "Cancelar",
     save: "Salvar",
@@ -33,7 +33,7 @@ export const pt: TranslationSchema = {
   onboarding: {
     step1: {
       title: "IqraTime",
-      subtitle: "Receba um versículo breve e relevante do Alcorão na sua tela de bloqueio, sem precisar abrir o aplicativo.",
+      subtitle: "Notificações que realmente valem a pena: um versículo ou um hadith autêntico na sua tela bloqueada — uma fonte de hassanat, inshaAllah.",
       offlineNote: "Funciona totalmente offline. Sem conta, nunca.",
       cta: "Começar",
     },
