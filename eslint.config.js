@@ -1,4 +1,4 @@
-// ESLint flat config for IqraTime (Expo + TypeScript).
+// ESLint flat config for IQRAnow (Expo + TypeScript).
 // See https://docs.expo.dev/guides/using-eslint/
 const expoConfig = require("eslint-config-expo/flat");
 

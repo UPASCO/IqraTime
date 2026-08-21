@@ -1,6 +1,6 @@
 # Ownership Notice
 
-IqraTime — including its application source code, architecture, configuration,
+IQRAnow — including its application source code, architecture, configuration,
 and original brand assets in this repository — is the proprietary
 intellectual property of **Nadir Echaara** (echaara.nadir@gmail.com).
 

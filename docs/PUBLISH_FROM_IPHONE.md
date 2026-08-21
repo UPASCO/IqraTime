@@ -1,4 +1,4 @@
-# Tester et publier IqraTime depuis un iPhone (sans Mac)
+# Tester et publier IQRAnow depuis un iPhone (sans Mac)
 
 Tu n'as pas besoin d'un Mac ni de Xcode. Expo Application Services (EAS)
 compile l'app iOS dans le cloud d'Expo — la compilation elle-même ne
@@ -15,7 +15,7 @@ préparer le code, la config, les fichiers texte, etc.
 ## 1. Compte Expo (gratuit)
 
 1. Dans Safari : [expo.dev](https://expo.dev) → créer un compte.
-2. Le code est déjà poussé sur GitHub (`UPASCO/IqraTime`, branche
+2. Le code est déjà poussé sur GitHub (`UPASCO/IQRAnow`, branche
    `claude/ayahnow-mobile-app-r3ykkx`). Sur le dashboard Expo, choisis
    "Créer un projet" → "Importer depuis GitHub" et connecte ce dépôt.
 

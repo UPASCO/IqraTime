@@ -1,14 +1,14 @@
-# IqraTime
+# IQRAnow
 
 > **Et si le Coran venait à vous !** Une notification d'āyah différente par heure.
 > *The Quran on your screen, without unlocking.*
 
-IqraTime is an offline-first React Native / Expo app that delivers a short,
+IQRAnow is an offline-first React Native / Expo app that delivers a short,
 editorially-reviewed āyah of the Quran to your lock screen at times you
 choose — no account, no server, no internet connection required to use the
 app day to day.
 
-**"IqraTime" is a working name.** Every brand-specific value (app name,
+**"IQRAnow" is a working name.** Every brand-specific value (app name,
 bundle identifiers, EAS project id, contact address, privacy policy URL,
 brand colors) lives in one file, [`src/config/appConfig.ts`](src/config/appConfig.ts),
 so it can be replaced before publication without hunting through the codebase.
@@ -180,16 +180,16 @@ must confirm the license before it ships), then re-run
 Short version — **read [docs/NOTIFICATIONS.md](docs/NOTIFICATIONS.md) for
 the full explanation**:
 
-- IqraTime has no server. Every notification is scheduled locally, ahead of
+- IQRAnow has no server. Every notification is scheduled locally, ahead of
   time, as a sliding queue.
 - iOS enforces an unpublished, informally-observed ceiling (~64) on
-  pending local notifications per app; IqraTime stays well under it and
+  pending local notifications per app; IQRAnow stays well under it and
   relies on you opening the app occasionally to keep the queue full.
 - Android has no comparable hard ceiling, but battery optimization and
   manufacturer-specific restrictions can delay delivery; exact-alarm
   permission status cannot be read programmatically from Expo APIs.
 - Lock-screen previews depend entirely on your OS notification settings;
-  IqraTime cannot detect or override that.
+  IQRAnow cannot detect or override that.
 - **We never promise second-precise delivery, and we never truncate an āyah
   to fit a shorter time slot — a shorter āyah is selected instead.**
 
@@ -209,7 +209,7 @@ identifier, no data leaves the device. See [docs/PRIVACY.md](docs/PRIVACY.md).
 
 ## Ownership & Licenses
 
-IqraTime is proprietary software. All application source code, architecture,
+IQRAnow is proprietary software. All application source code, architecture,
 and original brand assets are the exclusive intellectual property of
 **Nadir Echaara** — see [`LICENSE`](LICENSE) and [`NOTICE.md`](NOTICE.md).
 This is not an open-source project and no license is granted to third

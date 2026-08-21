@@ -1,7 +1,7 @@
 /**
- * "Support IqraTime" (donation) feature configuration.
+ * "Support IQRAnow" (donation) feature configuration.
  *
- * IqraTime has no server of its own. Support payments go entirely through a
+ * IQRAnow has no server of its own. Support payments go entirely through a
  * Stripe-hosted Payment Link opened in the system browser — see
  * docs/STRIPE_SETUP.md for the manual Stripe setup procedure and
  * docs/KNOWN_LIMITATIONS.md for why this feature ships disabled.

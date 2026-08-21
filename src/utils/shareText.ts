@@ -13,7 +13,7 @@ export interface ShareTextInput {
  * Composes the plain-text share format from spec section 24:
  * "<translation>"
  * Surah X, verset Y
- * Shared with IqraTime
+ * Shared with IQRAnow
  * No tracking link, no generated image in this version.
  */
 export function formatShareText(input: ShareTextInput): string {

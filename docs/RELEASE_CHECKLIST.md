@@ -7,7 +7,7 @@ oversight.
 
 ## Identity & branding (`src/config/appConfig.ts`)
 
-- [ ] `iosBundleIdentifier` — replace the `com.example.iqratime.provisional` placeholder with a real, owned reverse-DNS id.
+- [ ] `iosBundleIdentifier` — replace the `com.example.iqranow.provisional` placeholder with a real, owned reverse-DNS id.
 - [ ] `androidPackage` — same, for Android.
 - [x] `easProjectId` — set to the real EAS project id (`@teamupasco/ayahnow` — the EAS/Expo project itself keeps its original slug; only the app's own name/identifiers changed, see `config/shared.js`).
 - [ ] `contactEmail` — a real, monitored support address (required by both stores).
@@ -15,7 +15,7 @@ oversight.
 - [ ] `appName`, tagline, brand colors — confirm final wording/branding with the product owner.
 - [ ] `eas.json` submit section — real App Store Connect app id (`ascAppId`) and Google Play service account key path. Do **not** add an `appleId` or `appleTeamId` field here: those identify the owner's personal Apple account and must never be committed. Configure an App Store Connect API Key instead (`eas credentials` or the EAS website) — see `docs/PUBLISH_FROM_IPHONE.md`.
 
-## "Support IqraTime" donation feature (`docs/STRIPE_SETUP.md`)
+## "Support IQRAnow" donation feature (`docs/STRIPE_SETUP.md`)
 
 Ships **disabled** by default and should stay that way until every item
 below is checked:

@@ -1,6 +1,6 @@
 # Third-Party Licenses
 
-This file lists the runtime dependencies of IqraTime and their licenses, as
+This file lists the runtime dependencies of IQRAnow and their licenses, as
 declared in `package.json` at the time of writing. All are permissive
 (MIT or Apache-2.0) and none are known to collect data by default — see
 `docs/PRIVACY.md` for the project's data-collection stance.
