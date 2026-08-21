@@ -294,6 +294,10 @@ export const ar: TranslationSchema = {
     delayedTestBody: "إشعار اختباري (مجدوَل)",
     delayedTestHint: "اقفل هاتفك وانتظر. إذا وصل الاختبار الفوري ولم يصل هذا، فالمشكلة في التسليم المجدوَل.",
     rescheduleCta: "إعادة الجدولة الآن",
+    forceFullRescheduleCta: "فرض تجديد كامل",
+    forceFullRescheduleConfirmTitle: "تجديد جميع الإشعارات؟",
+    forceFullRescheduleConfirmBody: "سيؤدي هذا إلى إلغاء جميع الإشعارات المعلّقة وإعادة جدولتها بالكامل باستخدام الإصدار والمحتوى الحاليين للتطبيق. استخدم هذا إذا وصل إشعار بمحتوى أو توقيت غير متوقع بعد تحديث ما.",
+    forceFullRescheduleHint: "يُنصح به بعد تثبيت تحديث، أو إذا بدا محتوى أو توقيت أحد الإشعارات غير صحيح.",
   },
   sources: {
     title: "المصادر والترجمات",

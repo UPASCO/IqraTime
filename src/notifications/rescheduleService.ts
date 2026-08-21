@@ -4,7 +4,7 @@ import { getRuntimeCorpus, getTranslation, getCorpusEntry } from "@/data/corpus"
 import { DEFAULT_ANTI_REPEAT_WINDOW, MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
 import type { NotificationSlot, ThemeKey, UserPreferences } from "@/domain/types";
 import { selectAyah } from "@/services/selectionEngine";
-import { cancelOsNotifications, scheduleOsNotification } from "./notificationService";
+import { cancelAllOsNotifications, cancelOsNotifications, scheduleOsNotification } from "./notificationService";
 import { getMaxPendingNotifications, getSchedulingHorizonDays } from "./limits";
 import { planNotifications } from "./scheduler";
 
@@ -157,6 +157,27 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
     timeZoneChanged: plan.timeZoneChanged,
     errors,
   };
+}
+
+/**
+ * Cancels every OS-level and DB-tracked notification, then reschedules from
+ * scratch against the *current* code, corpus, and preferences.
+ *
+ * Normal reschedule() only touches obsolete (past or timezone-changed)
+ * slots — every still-future slot is deliberately left untouched, OS
+ * content and all, so the sliding queue doesn't rewrite work it already
+ * did. That's the right call day-to-day, but it means a slot scheduled
+ * under an older app build, an older corpus, or since-changed schedule
+ * settings keeps firing with whatever content and timing it was given
+ * back then — indistinguishable from a live bug until it fires. Use this
+ * after an app update, a corpus change, or when Diagnostics reports
+ * notifications arriving with unexpected content or timing, to guarantee
+ * every pending notification reflects what's installed right now.
+ */
+export async function forceFullReschedule(deps: RescheduleDependencies): Promise<RescheduleResult> {
+  await cancelAllOsNotifications().catch(() => {});
+  await deps.db.notificationSlots.clearAll();
+  return reschedule(deps);
 }
 
 async function safeCancelOs(ids: readonly string[], errors: string[]): Promise<void> {

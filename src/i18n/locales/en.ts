@@ -251,6 +251,10 @@ export const en = {
     delayedTestBody: "Test notification (scheduled)",
     delayedTestHint: "Lock your phone and wait. If the immediate test arrives but this one doesn't, date-scheduled delivery is the problem.",
     rescheduleCta: "Reschedule now",
+    forceFullRescheduleCta: "Force a full renewal",
+    forceFullRescheduleConfirmTitle: "Renew all notifications?",
+    forceFullRescheduleConfirmBody: "This cancels every pending notification and reschedules all of them from scratch using the current app version and content. Use this if a notification arrived with unexpected content or at an unexpected time after an update.",
+    forceFullRescheduleHint: "Recommended after installing an update, or if a notification's content or timing looked wrong.",
   },
   sources: {
     title: "Sources & translations",

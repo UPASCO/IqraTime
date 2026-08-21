@@ -246,6 +246,10 @@ export const fr: TranslationSchema = {
     delayedTestBody: "Notification de test (programmée)",
     delayedTestHint: "Verrouillez votre téléphone et patientez. Si le test immédiat arrive mais pas celui-ci, le problème vient de la livraison programmée.",
     rescheduleCta: "Reprogrammer maintenant",
+    forceFullRescheduleCta: "Forcer un renouvellement complet",
+    forceFullRescheduleConfirmTitle: "Renouveler toutes les notifications ?",
+    forceFullRescheduleConfirmBody: "Ceci annule toutes les notifications en attente et les reprogramme entièrement avec la version et le contenu actuels de l'app. À utiliser si une notification est arrivée avec un contenu ou un horaire inattendu après une mise à jour.",
+    forceFullRescheduleHint: "Recommandé après l'installation d'une mise à jour, ou si le contenu ou l'horaire d'une notification vous a semblé incorrect.",
   },
   sources: {
     title: "Sources et traductions",

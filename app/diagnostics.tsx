@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, Alert } from "react-native";
 
 import { Screen, SectionHeader, Button } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -16,7 +16,7 @@ import {
   type PermissionSnapshot,
   type OsScheduledSummary,
 } from "@/notifications";
-import { reschedule } from "@/notifications/rescheduleService";
+import { reschedule, forceFullReschedule } from "@/notifications/rescheduleService";
 import { loadLastRescheduleInfo, type LastRescheduleInfo } from "@/storage/diagnosticsStore";
 import { formatDateTime, detectTimeZone, formatTime } from "@/utils/dateUtils";
 import { generateLocalId } from "@/utils/id";
@@ -56,6 +56,23 @@ export default function DiagnosticsScreen(): React.JSX.Element {
     await reschedule({ db, preferences, now: new Date(), timeZone: detectTimeZone(), generateId: generateLocalId });
     await refresh();
     setBusy(false);
+  };
+
+  const handleForceFullReschedule = (): void => {
+    if (!db) return;
+    Alert.alert(t("diagnostics.forceFullRescheduleConfirmTitle"), t("diagnostics.forceFullRescheduleConfirmBody"), [
+      { text: t("common.cancel"), style: "cancel" },
+      {
+        text: t("common.confirm"),
+        style: "destructive",
+        onPress: async () => {
+          setBusy(true);
+          await forceFullReschedule({ db, preferences, now: new Date(), timeZone: detectTimeZone(), generateId: generateLocalId });
+          await refresh();
+          setBusy(false);
+        },
+      },
+    ]);
   };
 
   const handleRequestPermission = async (): Promise<void> => {
@@ -154,6 +171,10 @@ export default function DiagnosticsScreen(): React.JSX.Element {
           {t("diagnostics.delayedTestHint")}
         </Text>
         <Button label={t("diagnostics.rescheduleCta")} onPress={handleReschedule} disabled={busy} />
+        <Button label={t("diagnostics.forceFullRescheduleCta")} onPress={handleForceFullReschedule} variant="danger" disabled={busy} />
+        <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+          {t("diagnostics.forceFullRescheduleHint")}
+        </Text>
       </View>
     </Screen>
   );

@@ -246,6 +246,10 @@ export const zhCN: TranslationSchema = {
     delayedTestBody: "测试通知（已排定）",
     delayedTestHint: "锁定手机并等待。若即时测试能收到而此条收不到，问题出在定时投递。",
     rescheduleCta: "立即重新排程",
+    forceFullRescheduleCta: "强制完全更新",
+    forceFullRescheduleConfirmTitle: "更新所有通知？",
+    forceFullRescheduleConfirmBody: "此操作将取消所有待发送的通知，并使用当前应用版本和内容重新完整排程。如果更新后收到内容或时间异常的通知，请使用此操作。",
+    forceFullRescheduleHint: "建议在安装更新后使用，或在通知的内容或时间看起来不正确时使用。",
   },
   sources: {
     title: "来源与译文",
