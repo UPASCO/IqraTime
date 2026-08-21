@@ -1,4 +1,4 @@
-/** Jest configuration for IQRAnow. Uses jest-expo preset for RN/Expo compatibility. */
+/** Jest configuration for IqraTime. Uses jest-expo preset for RN/Expo compatibility. */
 module.exports = {
   preset: "jest-expo",
   transformIgnorePatterns: [

@@ -1,5 +1,5 @@
 /**
- * Core domain types for IQRAnow.
+ * Core domain types for IqraTime.
  *
  * These types are intentionally framework-agnostic (no React Native, no
  * Expo imports) so the domain and selection engine stay pure and unit

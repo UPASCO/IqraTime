@@ -1,6 +1,6 @@
-# Stripe Setup — "Support IQRAnow"
+# Stripe Setup — "Support IqraTime"
 
-IQRAnow's optional donation feature has no server component. It opens a
+IqraTime's optional donation feature has no server component. It opens a
 Stripe-hosted **Payment Link** in the system browser; Stripe handles
 everything about collecting the payment and paying it out to the project
 owner's bank account. This document is the manual procedure the project
@@ -12,17 +12,17 @@ Dashboard, by a human, outside of this repository.
 ## Why this architecture
 
 ```
-IQRAnow  →  system browser (Safari / Chrome / secure custom tab)  →  Stripe Payment Link  →  Stripe  →  the bank account configured in Stripe
+IqraTime  →  system browser (Safari / Chrome / secure custom tab)  →  Stripe Payment Link  →  Stripe  →  the bank account configured in Stripe
 ```
 
 - **No Stripe secret key, PaymentSheet, or Payment Intents API is used in
   the app.** Those require a server component to create Payment Intents
-  securely — IQRAnow has no server, and a secret key must never ship
+  securely — IqraTime has no server, and a secret key must never ship
   inside a mobile app bundle (it would be trivially extractable).
 - **No in-app WebView.** The payment page opens in the OS's own secure
   browser context, which is what both Apple's and Stripe's guidance
   recommend for exactly this reason (isolation from the app's own code).
-- **No local server, no proxy, no webhook receiver.** IQRAnow cannot and
+- **No local server, no proxy, no webhook receiver.** IqraTime cannot and
   does not verify that a payment succeeded — see "What the app cannot do"
   below.
 
@@ -38,8 +38,8 @@ IQRAnow  →  system browser (Safari / Chrome / secure custom tab)  →  Stripe 
 5. Go to **Payment Links → Create Payment Link**.
 6. Choose a one-time payment ("Le client choisit le montant" / "Customer
    chooses the amount") rather than a fixed price.
-7. Name the product/contribution **"Soutenir IQRAnow"** (or "Support
-   IQRAnow" for an English-facing link — Stripe Payment Links support one
+7. Name the product/contribution **"Soutenir IqraTime"** (or "Support
+   IqraTime" for an English-facing link — Stripe Payment Links support one
    name per link; consider creating one per major language if desired,
    each behind its own `EXPO_PUBLIC_SUPPORT_PAYMENT_URL` build config).
 8. In the description, clearly state that **no content or benefit is
@@ -105,7 +105,7 @@ responsibly. **Do not set `EXPO_PUBLIC_SUPPORT_IOS_APPROVED` or
 
 - It cannot verify a payment succeeded — there is no server, no webhook.
   The Support screen shows, at most, a generic "Thank you for considering
-  supporting IQRAnow" message after the browser opens; it never claims
+  supporting IqraTime" message after the browser opens; it never claims
   the payment is confirmed.
 - It cannot unlock content, remove anything, or grant any benefit based
   on payment — there is nothing to unlock, and building such a mechanism

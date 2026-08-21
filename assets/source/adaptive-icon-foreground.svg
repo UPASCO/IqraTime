@@ -1,5 +1,5 @@
 <svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-  <title>IQRAnow Android adaptive icon foreground (transparent background, glyph within safe zone)</title>
+  <title>IqraTime Android adaptive icon foreground (transparent background, glyph within safe zone)</title>
   <desc>Same scene as icon.svg minus the sky, scaled into Android's adaptive-icon safe zone; the deep-green background is supplied by adaptiveIcon.backgroundColor in app.config.ts.</desc>
   <defs>
     <radialGradient id="aGlow" cx="50%" cy="62%" r="52%">

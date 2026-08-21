@@ -148,7 +148,7 @@ function main(): void {
   const errors = findings.filter((f) => f.level === "error");
   const warnings = findings.filter((f) => f.level === "warning");
 
-  console.log(`\nIQRAnow corpus validation (${isProduction ? "PRODUCTION" : "development"} mode)`);
+  console.log(`\nIqraTime corpus validation (${isProduction ? "PRODUCTION" : "development"} mode)`);
   console.log(`Entries checked: ${entries.length}`);
   console.log(`Translation sources registered: ${translationSources.length}`);
 

@@ -17,8 +17,8 @@ describe("scanTextForSecrets", () => {
   it("finds nothing in ordinary application code", () => {
     const code = `
       export const appConfig = {
-        appName: "IQRAnow",
-        contactEmail: "contact@iqranow.example",
+        appName: "IqraTime",
+        contactEmail: "contact@iqratime.example",
       };
     `;
     expect(scanTextForSecrets(code)).toEqual([]);

@@ -1,4 +1,4 @@
-// Global Jest setup for IQRAnow. jest-expo's preset already wires up the
+// Global Jest setup for IqraTime. jest-expo's preset already wires up the
 // React Native / Expo module mocks; this file adds project-specific ones.
 
 // AsyncStorage's official Jest mock (in-memory, resets between tests via jest's module registry).

@@ -148,7 +148,7 @@ export default function SettingsScreen(): React.JSX.Element {
 
         {isSupportAvailable() || __DEV__ ? (
           <>
-            <SectionHeader title={t("settings.sectionSupportIQRAnow")} />
+            <SectionHeader title={t("settings.sectionSupportIqraTime")} />
             <SettingRow label={t("settings.supportLink")} onPress={() => router.push("/support")} />
           </>
         ) : null}

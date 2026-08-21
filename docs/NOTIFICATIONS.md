@@ -1,6 +1,6 @@
 # Notifications
 
-IQRAnow has **no server**. Every notification is a **local notification**,
+IqraTime has **no server**. Every notification is a **local notification**,
 scheduled ahead of time on the device itself, using `expo-notifications`.
 This document explains exactly what that means, what it can and cannot
 guarantee, and how the code is structured around those limits.
@@ -10,7 +10,7 @@ guarantee, and how the code is structured around those limits.
 Instead of scheduling "repeat every hour forever" (which would force the
 same content on every firing, or require the OS to call back into JS —
 neither of which is reliable for delivering a *different* āyah each time),
-IQRAnow maintains a **sliding queue of individually-scheduled, one-shot
+IqraTime maintains a **sliding queue of individually-scheduled, one-shot
 notifications**, each with its own pre-selected āyah:
 
 1. `generateSlotTimes()` (`src/notifications/scheduler.ts`) computes the
@@ -38,14 +38,14 @@ notifications**, each with its own pre-selected āyah:
 
 iOS does not publish an exact, guaranteed maximum number of pending local
 notifications per app — but in practice apps have observed an effective
-ceiling in the neighborhood of 64. IQRAnow does **not** rely on hitting
+ceiling in the neighborhood of 64. IqraTime does **not** rely on hitting
 that exact number: `src/notifications/limits.ts` subtracts a safety margin
 (`appConfig.notificationLimits.iosSafetyMargin`, default 6) and schedules
 at most that many at once (`getMaxPendingNotifications()`).
 
 Consequences, explained to the user in onboarding and Diagnostics:
 
-- **IQRAnow does not promise an unlimited rotation of new āyāt on iOS
+- **IqraTime does not promise an unlimited rotation of new āyāt on iOS
   without you reopening the app.** Once the queue is exhausted, no new
   notifications fire until the app runs again (foreground) and refills it.
 - We do **not** paper over this by scheduling one notification that
@@ -73,7 +73,7 @@ Consequences, explained to the user in onboarding and Diagnostics:
   flow (`requestPermission()` in `permissions.ts`).
 - Some manufacturers (notably those with aggressive custom battery
   managers) may delay or drop background work regardless of standard
-  Android APIs. IQRAnow cannot detect or work around vendor-specific
+  Android APIs. IqraTime cannot detect or work around vendor-specific
   battery optimization; the Diagnostics screen's "Recommendations for
   your device" section on Android points the user at the relevant system
   setting instead of promising delivery it cannot guarantee.
@@ -85,7 +85,7 @@ Consequences, explained to the user in onboarding and Diagnostics:
 - **Guaranteed delivery if the OS suspends or kills the app.** A scheduled
   local notification itself is OS-owned and fires independently of the
   app process, but the *queue refill* only happens when the app runs.
-- **Visible lock-screen previews if the user has disabled them.** IQRAnow
+- **Visible lock-screen previews if the user has disabled them.** IqraTime
   cannot detect (with certainty) or override the OS notification-preview
   setting; onboarding step 4 explains this and links to system settings.
   `permissions.ts`'s `alertStyleEnabled` reflects the OS's own "will show
@@ -151,7 +151,7 @@ pinning `process.env.TZ`.
 ## Notification content format
 
 ```
-Title: IQRAnow • Surah 94:5
+Title: IqraTime • Surah 94:5
 Body:  « With hardship comes ease. »
 ```
 

@@ -156,12 +156,12 @@ export default function DiagnosticsScreen(): React.JSX.Element {
         <SectionHeader title={t("diagnostics.platformRecommendationsTitle")} />
         <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
           {Platform.OS === "ios"
-            ? "iOS limits how many notifications an app can keep pending at once. Opening IQRAnow occasionally keeps the queue full — see docs/NOTIFICATIONS.md."
-            : "On some Android manufacturers (e.g. aggressive battery optimization), disable battery optimization for IQRAnow and check that exact alarms are allowed in system settings if delivery feels late."}
+            ? "iOS limits how many notifications an app can keep pending at once. Opening IqraTime occasionally keeps the queue full — see docs/NOTIFICATIONS.md."
+            : "On some Android manufacturers (e.g. aggressive battery optimization), disable battery optimization for IqraTime and check that exact alarms are allowed in system settings if delivery feels late."}
         </Text>
         {Platform.OS === "android" && !isExactAlarmStatusDetectable() ? (
           <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontStyle: "italic" }}>
-            Exact-alarm permission status cannot be read programmatically on this platform version; check Settings → Apps → IQRAnow → Alarms & reminders if notifications feel imprecise.
+            Exact-alarm permission status cannot be read programmatically on this platform version; check Settings → Apps → IqraTime → Alarms & reminders if notifications feel imprecise.
           </Text>
         ) : null}
 
