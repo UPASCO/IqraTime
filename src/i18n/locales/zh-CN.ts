@@ -128,6 +128,11 @@ export const zhCN: TranslationSchema = {
     notFoundTitle: "此经文已不可用",
     notFoundBody: "自该通知发送以来，经文库可能已发生变化。这里为您提供另一条经文。",
     disclaimer: "译文传达的是古兰经含义的一种解读，不能替代阿拉伯文原文。",
+    tafsirShowCta: "显示塔夫西尔（注释：含义与背景）",
+    tafsirHideCta: "隐藏塔夫西尔",
+    tafsirSourceLabel: "塔夫西尔来源",
+    tafsirDisclaimer: "塔夫西尔传达的是对经文含义与背景的一种学术解读——与译文一样，它不能替代阿拉伯文原文，也不能替代合格学者的指导。",
+    tafsirUnavailable: "该语言暂无塔夫西尔。",
   },
   history: {
     title: "历史记录",

@@ -133,6 +133,11 @@ export const en = {
     notFoundTitle: "This ayah is no longer available",
     notFoundBody: "The catalog may have changed since this notification was sent. Here is another ayah instead.",
     disclaimer: "A translation conveys a meaning of the Quran and does not replace the original Arabic text.",
+    tafsirShowCta: "Show tafsir (context & meaning)",
+    tafsirHideCta: "Hide tafsir",
+    tafsirSourceLabel: "Tafsir source",
+    tafsirDisclaimer: "Tafsir conveys one scholarly explanation of the ayah's meaning and context — like a translation, it does not replace the original Arabic text or a qualified scholar's guidance.",
+    tafsirUnavailable: "No tafsir is available in this language yet.",
   },
   history: {
     title: "History",

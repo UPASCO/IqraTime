@@ -128,6 +128,11 @@ export const it: TranslationSchema = {
     notFoundTitle: "Questo versetto non è più disponibile",
     notFoundBody: "Il catalogo potrebbe essere cambiato da quando è stata inviata questa notifica. Ecco un altro versetto al suo posto.",
     disclaimer: "Una traduzione trasmette un significato del Corano e non sostituisce il testo arabo originale.",
+    tafsirShowCta: "Mostra il tafsir (significato e contesto)",
+    tafsirHideCta: "Nascondi il tafsir",
+    tafsirSourceLabel: "Fonte del tafsir",
+    tafsirDisclaimer: "Il tafsir trasmette una spiegazione erudita del significato e del contesto del versetto — come una traduzione, non sostituisce il testo arabo originale né la guida di uno studioso qualificato.",
+    tafsirUnavailable: "Nessun tafsir è ancora disponibile in questa lingua.",
   },
   history: {
     title: "Cronologia",

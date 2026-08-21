@@ -48,10 +48,13 @@ below is checked:
       licensed Quran translation imported via `scripts/importTranslation.ts`
       with `redistributionRightsConfirmed: true` set only after personal
       verification.
+- [x] Tafsir (Al-Mukhtasar) fetched verbatim for 9 of 10 languages (all
+      except Portuguese, which has no edition in the source dataset) via
+      `node scripts/fetchTafsir.mjs` — see `docs/CORPUS.md` "Tafsir".
 - [ ] `npm run corpus:validate:prod` passes with zero errors.
 - [ ] A qualified religious reviewer has signed off on the final ayah
-      selection, translations, and theme tags — this is a human judgment
-      call this codebase cannot make for you.
+      selection, translations, tafsir text, and theme tags — this is a
+      human judgment call this codebase cannot make for you.
 
 ## App icon & branding assets
 

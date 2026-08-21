@@ -128,6 +128,11 @@ export const es: TranslationSchema = {
     notFoundTitle: "Esta aleya ya no está disponible",
     notFoundBody: "El catálogo puede haber cambiado desde que se envió esta notificación. Aquí tienes otra aleya en su lugar.",
     disclaimer: "Una traducción transmite un sentido del Corán y no reemplaza el texto árabe original.",
+    tafsirShowCta: "Mostrar el tafsir (sentido y contexto)",
+    tafsirHideCta: "Ocultar el tafsir",
+    tafsirSourceLabel: "Fuente del tafsir",
+    tafsirDisclaimer: "El tafsir transmite una explicación erudita del sentido y el contexto de la aleya — como una traducción, no reemplaza el texto árabe original ni la guía de un erudito calificado.",
+    tafsirUnavailable: "Aún no hay tafsir disponible en este idioma.",
   },
   history: {
     title: "Historial",

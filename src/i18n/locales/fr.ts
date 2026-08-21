@@ -128,6 +128,11 @@ export const fr: TranslationSchema = {
     notFoundTitle: "Cette āyah n'est plus disponible",
     notFoundBody: "Le catalogue a peut-être changé depuis l'envoi de cette notification. Voici une autre āyah à la place.",
     disclaimer: "Une traduction transmet un sens du Coran et ne remplace pas le texte arabe original.",
+    tafsirShowCta: "Afficher le tafsir (sens et contexte)",
+    tafsirHideCta: "Masquer le tafsir",
+    tafsirSourceLabel: "Source du tafsir",
+    tafsirDisclaimer: "Le tafsir transmet une explication savante du sens et du contexte de l'āyah — comme une traduction, il ne remplace ni le texte arabe original ni l'avis d'un savant qualifié.",
+    tafsirUnavailable: "Aucun tafsir n'est encore disponible dans cette langue.",
   },
   history: {
     title: "Historique",

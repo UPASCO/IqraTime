@@ -56,6 +56,14 @@ export interface AyahTranslation {
   readonly sourceId: string;
 }
 
+export interface AyahTafsir {
+  readonly id: AyahId;
+  readonly locale: SupportedLocale;
+  readonly text: string;
+  /** Foreign key into TafsirSource registry (src/data/corpus/sources.ts). */
+  readonly sourceId: string;
+}
+
 /**
  * Editorial lifecycle of a catalog entry. Only "publishable" entries may be
  * shipped in a production build (enforced by scripts/validateCorpus.ts).

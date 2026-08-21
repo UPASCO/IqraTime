@@ -115,6 +115,43 @@ In production mode (`CORPUS_ENV=production`, set automatically by the
 shipped entry is `isDemoOnly`, any shipped entry is not `"publishable"`,
 or there are zero publishable non-demo entries.
 
+## Tafsir (scholarly explanation/context)
+
+`src/data/corpus/tafsir/{locale}.json` holds, for every āyah in the
+current corpus, a short tafsir (exegesis) entry — shown in the app behind
+a "Show tafsir" tap on the āyah detail screen, never inline in the feed.
+
+All entries are **Al-Mukhtasar fi Tafsir al-Qur'an al-Karim**, produced
+and reviewed by the Tafsir Center for Quranic Studies (Madinah), fetched
+verbatim via `scripts/fetchTafsir.mjs` from `spa5k/tafsir_api`
+(github.com/spa5k/tafsir_api), which mirrors the tafsir texts served by
+quran.com. Chosen specifically because: (a) it is the one tafsir
+available in nearly every language this app supports — see
+`tafsirSources` in `src/data/corpus/sources.ts` for the exact edition per
+locale — and (b) it is deliberately concise, unlike classical multi-volume
+works (Ibn Kathir, al-Tabari, al-Qurtubi — also present in the same API
+for Arabic/English, and a reasonable future addition as an optional
+"read more" behind a second tap) whose entries run to several paragraphs
+and don't fit a mobile context panel.
+
+**No tafsir text is ever generated, paraphrased, or altered by this
+codebase or by an AI model** — the same rule this document already
+applies to Arabic text and translations, extended to exegesis for the
+same reason: misattributing invented words to real scholars would be a
+serious integrity failure, not a cosmetic one.
+
+Portuguese has no entry (`getTafsir()` returns `undefined`, the UI shows
+an explicit "not available in this language" message) — no tafsir
+edition exists for Portuguese in the source dataset, and this app never
+silently substitutes another language's text under the user's own
+language label.
+
+Like every other corpus asset, this is `technically_checked`
+(programmatically fetched, cross-matched against the shipped āyāt, from
+a well-established source) and explicitly **not** yet reviewed by a
+qualified human for accuracy — the same reviewer checklist above applies
+before any of it can be represented as fully vetted.
+
 ## Adding real corpus data
 
 1. Obtain the Arabic text from a source whose license explicitly permits

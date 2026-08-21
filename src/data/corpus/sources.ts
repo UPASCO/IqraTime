@@ -156,6 +156,132 @@ export const translationSources: readonly TranslationSourceInfo[] = [
   },
 ];
 
+export interface TafsirSourceInfo {
+  readonly id: string;
+  readonly locale: SupportedLocale;
+  readonly tafsirTitle: string;
+  readonly authorName: string;
+  readonly sourceUrl: string;
+  readonly license: string;
+  readonly requiredNotice: string;
+  readonly validationStatus: ValidationStatus;
+}
+
+/**
+ * Registry of tafsir (scholarly exegesis/context) sources imported into
+ * this build. All entries are "Al-Mukhtasar fi Tafsir al-Qur'an al-Karim"
+ * (المختصر في تفسير القرآن الكريم — lit. "The Concise Commentary on the
+ * Noble Quran"), a modern explanatory work produced and reviewed by the
+ * Tafsir Center for Quranic Studies (Madinah), chosen because it is the
+ * one tafsir available in nearly every language this app supports, and
+ * because it is deliberately concise — suited to a mobile "context" panel
+ * in a way a classical multi-volume tafsir like Ibn Kathir or al-Tabari
+ * is not. Fetched verbatim during this session via scripts/fetchTafsir.mjs
+ * from spa5k/tafsir_api (github.com/spa5k/tafsir_api), which mirrors the
+ * tafsir texts served by quran.com. No tafsir text here was generated,
+ * paraphrased, or altered by an AI model.
+ *
+ * `validationStatus: "technically_checked"` reflects the same standard as
+ * translationSources above: ids cross-matched against the shipped corpus,
+ * fetched programmatically, from an individually well-established source —
+ * not yet reviewed by a qualified human for accuracy or appropriateness.
+ * Portuguese has no entry: no tafsir edition exists for it in the source
+ * dataset, and this app never silently substitutes another language's
+ * text and mislabels it as the user's own.
+ */
+export const tafsirSources: readonly TafsirSourceInfo[] = [
+  {
+    id: "ar-mukhtasar-v1",
+    locale: "ar",
+    tafsirTitle: "المختصر في تفسير القرآن الكريم",
+    authorName: "مركز تفسير للدراسات القرآنية",
+    sourceUrl: "https://github.com/spa5k/tafsir_api (edition ar-tafsir-al-mukhtasar, via quran.com)",
+    license: "Published by the Tafsir Center for Quranic Studies (Madinah) for free religious dissemination.",
+    requiredNotice: "تفسير: مركز تفسير للدراسات القرآنية.",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "en-mukhtasar-v1",
+    locale: "en",
+    tafsirTitle: "Al-Mukhtasar fi Tafsir al-Qur'an al-Karim",
+    authorName: "Tafsir Center for Quranic Studies",
+    sourceUrl: "https://github.com/spa5k/tafsir_api (edition en-tafsir-al-mukhtasar, via quran.com)",
+    license: "Published by the Tafsir Center for Quranic Studies (Madinah) for free religious dissemination.",
+    requiredNotice: "Tafsir: Tafsir Center for Quranic Studies.",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "fr-mukhtasar-v1",
+    locale: "fr",
+    tafsirTitle: "Al-Mukhtasar (Résumé dans l'exégèse du Noble Coran)",
+    authorName: "Tafsir Center for Quranic Studies",
+    sourceUrl: "https://github.com/spa5k/tafsir_api (edition french-mokhtasar, via quran.com)",
+    license: "Published by the Tafsir Center for Quranic Studies (Madinah) for free religious dissemination.",
+    requiredNotice: "Tafsir : Tafsir Center for Quranic Studies.",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "es-mukhtasar-v1",
+    locale: "es",
+    tafsirTitle: "Al-Mukhtasar (Compendio de exégesis del Sagrado Corán)",
+    authorName: "Tafsir Center for Quranic Studies",
+    sourceUrl: "https://github.com/spa5k/tafsir_api (edition spanish-mokhtasar, via quran.com)",
+    license: "Published by the Tafsir Center for Quranic Studies (Madinah) for free religious dissemination.",
+    requiredNotice: "Tafsir: Tafsir Center for Quranic Studies.",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "hi-mukhtasar-v1",
+    locale: "hi",
+    tafsirTitle: "अल-मुख़्तसर फ़ी तफ़्सीर अल-क़ुरआन अल-करीम",
+    authorName: "Tafsir Center for Quranic Studies",
+    sourceUrl: "https://github.com/spa5k/tafsir_api (edition hindi-mokhtasar, via quran.com)",
+    license: "Published by the Tafsir Center for Quranic Studies (Madinah) for free religious dissemination.",
+    requiredNotice: "Tafsir: Tafsir Center for Quranic Studies.",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "bn-mukhtasar-v1",
+    locale: "bn",
+    tafsirTitle: "আল-মুখতাসার ফি তাফসীরিল কুরআনিল কারীম",
+    authorName: "Tafsir Center for Quranic Studies",
+    sourceUrl: "https://github.com/spa5k/tafsir_api (edition bengali-mokhtasar, via quran.com)",
+    license: "Published by the Tafsir Center for Quranic Studies (Madinah) for free religious dissemination.",
+    requiredNotice: "Tafsir: Tafsir Center for Quranic Studies.",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "zh-mukhtasar-v1",
+    locale: "zh-CN",
+    tafsirTitle: "古兰经简明注释",
+    authorName: "古兰经研究注释中心",
+    sourceUrl: "https://github.com/spa5k/tafsir_api (edition chinese-mokhtasar, via quran.com)",
+    license: "Published by the Tafsir Center for Quranic Studies (Madinah) for free religious dissemination.",
+    requiredNotice: "Tafsir: Tafsir Center for Quranic Studies.",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "it-mukhtasar-v1",
+    locale: "it",
+    tafsirTitle: "Al-Mukhtasar (Compendio nell'interpretazione del Nobile Corano)",
+    authorName: "Tafsir Center for Quranic Studies",
+    sourceUrl: "https://github.com/spa5k/tafsir_api (edition italian-mokhtasar, via quran.com)",
+    license: "Published by the Tafsir Center for Quranic Studies (Madinah) for free religious dissemination.",
+    requiredNotice: "Tafsir: Tafsir Center for Quranic Studies.",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "ru-mukhtasar-v1",
+    locale: "ru",
+    tafsirTitle: "Аль-Мухтасар в толковании Благородного Корана",
+    authorName: "Tafsir Center for Quranic Studies",
+    sourceUrl: "https://github.com/spa5k/tafsir_api (edition russian-mokhtasar, via quran.com)",
+    license: "Published by the Tafsir Center for Quranic Studies (Madinah) for free religious dissemination.",
+    requiredNotice: "Tafsir: Tafsir Center for Quranic Studies.",
+    validationStatus: "technically_checked",
+  },
+];
+
 export interface ArabicSourceInfo {
   readonly recommendedSource: string;
   readonly recommendedSourceUrl: string;

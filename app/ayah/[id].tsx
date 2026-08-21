@@ -9,6 +9,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { useAyahView } from "@/hooks/useAyahView";
+import { getTafsir, tafsirSources } from "@/data/corpus";
 import { routeParamToAyahId } from "@/utils/routeParams";
 import { formatShareText } from "@/utils/shareText";
 
@@ -24,6 +25,10 @@ export default function AyahDetailScreen(): React.JSX.Element {
   const ayahView = useAyahView(ayahId, preferences.translationLocale);
   const [isFavorite, setIsFavorite] = useState(false);
   const [justCopied, setJustCopied] = useState(false);
+  const [showTafsir, setShowTafsir] = useState(false);
+
+  const tafsir = ayahId ? getTafsir(ayahId, preferences.translationLocale) : undefined;
+  const tafsirSource = tafsir ? tafsirSources.find((s) => s.id === tafsir.sourceId) : undefined;
 
   useEffect(() => {
     if (!db || !ayahId) return;
@@ -89,6 +94,33 @@ export default function AyahDetailScreen(): React.JSX.Element {
             ))}
           </View>
         ) : null}
+
+        <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: spacing.md, gap: spacing.sm }}>
+          <Button
+            label={showTafsir ? t("ayah.tafsirHideCta") : t("ayah.tafsirShowCta")}
+            variant="secondary"
+            onPress={() => setShowTafsir((v) => !v)}
+          />
+          {showTafsir ? (
+            tafsir ? (
+              <View style={{ gap: spacing.xs }}>
+                <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier, lineHeight: typography.lineHeights.body * fontScaleMultiplier }}>
+                  {tafsir.text}
+                </Text>
+                {tafsirSource ? (
+                  <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+                    {t("ayah.tafsirSourceLabel")}: {tafsirSource.tafsirTitle} — {tafsirSource.authorName}
+                  </Text>
+                ) : null}
+                <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontStyle: "italic" }}>
+                  {t("ayah.tafsirDisclaimer")}
+                </Text>
+              </View>
+            ) : (
+              <Text style={{ color: colors.textSecondary, fontStyle: "italic" }}>{t("ayah.tafsirUnavailable")}</Text>
+            )
+          ) : null}
+        </View>
 
         <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontStyle: "italic" }}>
           {t("ayah.disclaimer")}

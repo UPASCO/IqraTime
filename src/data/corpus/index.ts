@@ -1,9 +1,9 @@
 import type { SupportedLocale } from "@/config/appConfig";
-import type { ArabicAyahText, AyahId, AyahTranslation, CatalogEntry } from "@/domain/types";
+import type { ArabicAyahText, AyahId, AyahTafsir, AyahTranslation, CatalogEntry } from "@/domain/types";
 import arabicData from "./arabic.json";
 import catalogData from "./catalog.json";
 import { getCorpusEnvironment, isProductionCorpusBuild } from "./demoWarning";
-import { arabicSourceInfo, translationSources } from "./sources";
+import { arabicSourceInfo, translationSources, tafsirSources } from "./sources";
 
 export interface CorpusEntry {
   readonly arabic: ArabicAyahText;
@@ -112,5 +112,52 @@ export function hasAnyTranslations(locale: SupportedLocale): boolean {
   return !!table && table.size > 0;
 }
 
-export { arabicSourceInfo, translationSources, getCorpusEnvironment, isProductionCorpusBuild };
+interface TafsirFileShape {
+  readonly sourceId: string;
+  readonly entries: readonly { readonly id: string; readonly text: string }[];
+}
+
+function buildTafsirMap(locale: SupportedLocale, file: TafsirFileShape): ReadonlyMap<AyahId, AyahTafsir> {
+  return new Map(file.entries.map((entry) => [entry.id, { id: entry.id, locale, text: entry.text, sourceId: file.sourceId }]));
+}
+
+/**
+ * Same lazy-load-on-first-use strategy as loadTranslationFile above. No
+ * Portuguese case: no tafsir edition exists for it in the source dataset
+ * (see scripts/fetchTafsir.mjs) — getTafsir() returns undefined for "pt"
+ * and the UI shows an explicit "not available in this language" state
+ * rather than silently substituting another language.
+ */
+function loadTafsirFile(locale: SupportedLocale): TafsirFileShape | undefined {
+  switch (locale) {
+    case "ar": return require("./tafsir/ar.json");
+    case "en": return require("./tafsir/en.json");
+    case "fr": return require("./tafsir/fr.json");
+    case "es": return require("./tafsir/es.json");
+    case "hi": return require("./tafsir/hi.json");
+    case "bn": return require("./tafsir/bn.json");
+    case "zh-CN": return require("./tafsir/zh-CN.json");
+    case "it": return require("./tafsir/it.json");
+    case "ru": return require("./tafsir/ru.json");
+    default: return undefined;
+  }
+}
+
+const tafsirCache = new Map<SupportedLocale, ReadonlyMap<AyahId, AyahTafsir>>();
+
+function getTafsirTable(locale: SupportedLocale): ReadonlyMap<AyahId, AyahTafsir> | undefined {
+  const cached = tafsirCache.get(locale);
+  if (cached) return cached;
+  const file = loadTafsirFile(locale);
+  if (!file) return undefined;
+  const table = buildTafsirMap(locale, file);
+  tafsirCache.set(locale, table);
+  return table;
+}
+
+export function getTafsir(id: AyahId, locale: SupportedLocale): AyahTafsir | undefined {
+  return getTafsirTable(locale)?.get(id);
+}
+
+export { arabicSourceInfo, translationSources, tafsirSources, getCorpusEnvironment, isProductionCorpusBuild };
 export type { CorpusEnvironment } from "./demoWarning";
