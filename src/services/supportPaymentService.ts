@@ -4,7 +4,7 @@ import { getSupportConfig, getExtraAllowedPaymentHost, type SupportConfig } from
 import { DEFAULT_ALLOWED_PAYMENT_HOSTS, validateSupportPaymentUrl } from "@/utils/validateSupportPaymentUrl";
 
 /**
- * Independent service for the optional "Support AyahNow" donation feature.
+ * Independent service for the optional "Support IqraTime" donation feature.
  * Opens a Stripe-hosted Payment Link in the system browser — no in-app
  * WebView, no PaymentSheet, no secret key, no server of any kind. See
  * docs/STRIPE_SETUP.md.

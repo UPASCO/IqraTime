@@ -1,5 +1,5 @@
 <svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-  <title>AyahNow Android status-bar notification icon — pure white silhouette on transparent, per Android guidelines</title>
+  <title>IqraTime Android status-bar notification icon — pure white silhouette on transparent, per Android guidelines</title>
   <desc>Android renders this as a flat alpha mask, so it must be a single solid-white silhouette: no gradients, no glow, and simplified geometry that stays readable at 24dp.</desc>
   <defs>
     <mask id="nCrescentMask">

@@ -1,7 +1,7 @@
 /**
- * "Support AyahNow" (donation) feature configuration.
+ * "Support IqraTime" (donation) feature configuration.
  *
- * AyahNow has no server of its own. Support payments go entirely through a
+ * IqraTime has no server of its own. Support payments go entirely through a
  * Stripe-hosted Payment Link opened in the system browser — see
  * docs/STRIPE_SETUP.md for the manual Stripe setup procedure and
  * docs/KNOWN_LIMITATIONS.md for why this feature ships disabled.

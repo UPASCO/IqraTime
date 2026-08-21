@@ -73,7 +73,7 @@ function main(): void {
     }
   }
 
-  console.log(`\nAyahNow secret scan — checked ${files.length} application file(s).`);
+  console.log(`\nIqraTime secret scan — checked ${files.length} application file(s).`);
 
   if (allFindings.length > 0) {
     console.log(`\n${allFindings.length} problem(s) found:\n`);

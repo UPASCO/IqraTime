@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2026 Nadir Echaara. All Rights Reserved.
- * AyahNow is proprietary software — see LICENSE and NOTICE.md at the
+ * IqraTime is proprietary software — see LICENSE and NOTICE.md at the
  * repository root. No license is granted to any other party.
  */
 import type { ExpoConfig, ConfigContext } from "expo/config";
@@ -31,7 +31,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     infoPlist: {
       UIBackgroundModes: ["fetch", "remote-notification"],
       NSUserNotificationsUsageDescription:
-        "AyahNow uses local notifications to deliver a Quran verse to your lock screen at the times you choose. No data leaves your device.",
+        "IqraTime uses local notifications to deliver a Quran verse to your lock screen at the times you choose. No data leaves your device.",
       ITSAppUsesNonExemptEncryption: false,
     },
   },

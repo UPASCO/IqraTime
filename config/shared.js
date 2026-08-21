@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2026 Nadir Echaara. All Rights Reserved.
- * AyahNow is proprietary software — see LICENSE and NOTICE.md at the
+ * IqraTime is proprietary software — see LICENSE and NOTICE.md at the
  * repository root. No license is granted to any other party.
  *
  * Plain CommonJS data shared between app.config.ts (loaded by the Expo CLI
@@ -13,21 +13,28 @@
  * This is the single source of truth for brand/publishing identity;
  * src/config/appConfig.ts re-exports it with full TypeScript types added
  * for use inside the app.
+ *
+ * Renamed from "AyahNow" to "IqraTime" once the app grew beyond
+ * Quran-only content to include hadith — "Iqra" ("Read", the first word
+ * revealed to the Prophet ﷺ) plus "Time" (the notification-timing core
+ * of the app). Only the name and identifiers below changed; the icon's
+ * open-book/light/crescent artwork was never AyahNow-specific and needed
+ * no redesign.
  */
 module.exports = {
-  appName: "AyahNow",
+  appName: "IqraTime",
   tagline: {
-    fr: "Et si le Coran venait à vous ! Une notification d'Ayah différente par heure.",
-    alt_fr: "Le Coran sur votre écran, sans déverrouiller.",
+    fr: "Et si le Coran et les hadiths authentiques venaient à vous ! Une notification différente par heure.",
+    alt_fr: "Le Coran et les hadiths sur votre écran, sans déverrouiller.",
   },
   version: "1.5.0",
   buildNumber: 4,
-  iosBundleIdentifier: "com.example.ayahnow.provisional",
-  androidPackage: "com.example.ayahnow.provisional",
+  iosBundleIdentifier: "com.example.iqratime.provisional",
+  androidPackage: "com.example.iqratime.provisional",
   easProjectId: "5aa33698-7d7f-424c-845f-1a1e548ec93e",
-  contactEmail: "contact@ayahnow.example",
-  privacyPolicyUrl: "https://ayahnow.example/privacy",
-  deepLinkScheme: "ayahnow",
+  contactEmail: "contact@iqratime.example",
+  privacyPolicyUrl: "https://iqratime.example/privacy",
+  deepLinkScheme: "iqratime",
   brand: {
     // Darkest stop of the app icon's night sky — used wherever the UI should
     // read as an extension of the icon (the immersive ayah feed, splash).
