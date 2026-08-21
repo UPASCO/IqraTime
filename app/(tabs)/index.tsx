@@ -247,6 +247,14 @@ export default function HomeScreen(): React.JSX.Element {
                 </View>
               ) : null}
               <Pressable
+                onPress={() => router.push("/progress")}
+                accessibilityRole="button"
+                accessibilityLabel={t("progress.title")}
+                hitSlop={8}
+              >
+                <Ionicons name="ribbon-outline" size={22} color={colors.textPrimary} />
+              </Pressable>
+              <Pressable
                 onPress={() => router.push("/library")}
                 accessibilityRole="button"
                 accessibilityLabel={t("home.libraryCta")}

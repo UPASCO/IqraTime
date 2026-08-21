@@ -32,6 +32,9 @@ export function createInMemoryDatabase(): AppDatabase {
       async recentAyahIds(limit) {
         return history.slice(0, limit).map((h) => h.ayahId);
       },
+      async countDistinctAyahIds() {
+        return new Set(history.map((h) => h.ayahId)).size;
+      },
     },
     favorites: {
       async add(entry) {

@@ -110,6 +110,14 @@ export const hi: TranslationSchema = {
     emptyBody: "किसी अन्य सूरा नाम या कीवर्ड का प्रयास करें।",
     resultCount: pluralForm({ one: "{count} आयत", other: "{count} आयतें" }),
   },
+  progress: {
+    title: "आपकी प्रगति",
+    subtitle: "क़ुरआन की कितनी आयतें अब तक आपने AyahNow में देखी हैं — कोई समय-सीमा नहीं, बस अब तक दिखाई गई आयतों का रिकॉर्ड।",
+    cardLabel: "खोजी गई आयतें",
+    outOf: "कुल {total} में से",
+    percentLabel: "कॉर्पस का {percent}%",
+    milestoneLabel: "{percent}% खोजा गया",
+  },
   ayah: {
     surahLabel: "सूरह",
     ayahLabel: "आयत",
@@ -201,6 +209,7 @@ export const hi: TranslationSchema = {
     textSize: "पाठ का आकार",
     sectionContent: "सामग्री",
     themesLink: "विषय",
+    progressLink: "आपकी प्रगति",
     antiRepeat: "पुनरावृत्ति कम करें",
     sectionSupport: "सहायता",
     diagnosticsLink: "डायग्नोस्टिक्स",

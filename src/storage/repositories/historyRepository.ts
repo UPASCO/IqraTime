@@ -53,5 +53,9 @@ export function createHistoryRepository(db: SQLite.SQLiteDatabase): HistoryRepos
       );
       return rows.map((row) => row.ayah_id);
     },
+    async countDistinctAyahIds() {
+      const row = await db.getFirstAsync<{ count: number }>("SELECT COUNT(DISTINCT ayah_id) as count FROM history");
+      return row?.count ?? 0;
+    },
   };
 }

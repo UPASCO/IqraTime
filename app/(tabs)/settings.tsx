@@ -104,6 +104,7 @@ export default function SettingsScreen(): React.JSX.Element {
           onPress={() => update({ textOrder: preferences.textOrder === "arabic_first" ? "translation_first" : "arabic_first" })}
         />
         <SettingRow label={t("settings.themesLink")} onPress={() => router.push("/themes")} />
+        <SettingRow label={t("settings.progressLink")} onPress={() => router.push("/progress")} />
         <SettingRow
           label={t("settings.antiRepeat")}
           valueLabel={String(preferences.antiRepeatWindow)}

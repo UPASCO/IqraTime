@@ -110,6 +110,14 @@ export const zhCN: TranslationSchema = {
     emptyBody: "请尝试其他苏拉名称或关键词。",
     resultCount: pluralForm({ other: "{count} 节经文" }),
   },
+  progress: {
+    title: "你的进度",
+    subtitle: "你在 AyahNow 中已经遇到过的古兰经经文比例——没有截止日期，只是记录你已经看过的内容。",
+    cardLabel: "已发现的经文",
+    outOf: "共 {total} 节",
+    percentLabel: "已完成语料库的 {percent}%",
+    milestoneLabel: "已发现 {percent}%",
+  },
   ayah: {
     surahLabel: "章",
     ayahLabel: "节",
@@ -201,6 +209,7 @@ export const zhCN: TranslationSchema = {
     textSize: "文字大小",
     sectionContent: "内容",
     themesLink: "主题",
+    progressLink: "你的进度",
     antiRepeat: "减少重复",
     sectionSupport: "支持",
     diagnosticsLink: "诊断",

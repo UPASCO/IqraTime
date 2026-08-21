@@ -125,6 +125,14 @@ export const ru: TranslationSchema = {
       other: "{count} аята",
     }),
   },
+  progress: {
+    title: "Ваш прогресс",
+    subtitle: "Какую часть аятов Корана вы уже встретили в AyahNow — без сроков, просто запись того, что вам уже показали.",
+    cardLabel: "Открыто аятов",
+    outOf: "из {total}",
+    percentLabel: "{percent}% корпуса",
+    milestoneLabel: "Открыто {percent}%",
+  },
   ayah: {
     surahLabel: "Сура",
     ayahLabel: "Аят",
@@ -226,6 +234,7 @@ export const ru: TranslationSchema = {
     textSize: "Размер текста",
     sectionContent: "Содержимое",
     themesLink: "Темы",
+    progressLink: "Ваш прогресс",
     antiRepeat: "Уменьшить повторы",
     sectionSupport: "Поддержка",
     diagnosticsLink: "Диагностика",

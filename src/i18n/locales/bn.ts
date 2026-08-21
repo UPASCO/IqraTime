@@ -110,6 +110,14 @@ export const bn: TranslationSchema = {
     emptyBody: "অন্য কোনো সূরার নাম বা কীওয়ার্ড চেষ্টা করুন।",
     resultCount: pluralForm({ other: "{count}টি আয়াত" }),
   },
+  progress: {
+    title: "আপনার অগ্রগতি",
+    subtitle: "কুরআনের কতটি আয়াত এখন পর্যন্ত আপনি AyahNow-এ দেখেছেন — কোনো সময়সীমা নেই, শুধু এখন পর্যন্ত দেখানো আয়াতের একটি রেকর্ড।",
+    cardLabel: "আবিষ্কৃত আয়াত",
+    outOf: "মোট {total}টির মধ্যে",
+    percentLabel: "কর্পাসের {percent}%",
+    milestoneLabel: "{percent}% আবিষ্কৃত",
+  },
   ayah: {
     surahLabel: "সূরা",
     ayahLabel: "আয়াত",
@@ -201,6 +209,7 @@ export const bn: TranslationSchema = {
     textSize: "পাঠ্যের আকার",
     sectionContent: "বিষয়বস্তু",
     themesLink: "বিষয়",
+    progressLink: "আপনার অগ্রগতি",
     antiRepeat: "পুনরাবৃত্তি হ্রাস করুন",
     sectionSupport: "সহায়তা",
     diagnosticsLink: "ডায়াগনস্টিকস",

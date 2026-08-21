@@ -20,6 +20,8 @@ export interface HistoryRepository {
   search(query: string): Promise<HistoryEntry[]>;
   clear(): Promise<void>;
   recentAyahIds(limit: number): Promise<string[]>;
+  /** Count of distinct ayah ids ever received/viewed — the "discovery progress" denominator, regardless of how many times each was repeated. */
+  countDistinctAyahIds(): Promise<number>;
 }
 
 export interface FavoritesRepository {

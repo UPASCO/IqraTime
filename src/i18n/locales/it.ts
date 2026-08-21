@@ -110,6 +110,14 @@ export const it: TranslationSchema = {
     emptyBody: "Prova un altro nome di sura o parola chiave.",
     resultCount: pluralForm({ one: "{count} versetto", other: "{count} versetti" }),
   },
+  progress: {
+    title: "I tuoi progressi",
+    subtitle: "La parte dei versetti del Corano che hai già incontrato in AyahNow — niente da completare entro una scadenza, solo una traccia di ciò che ti è stato mostrato.",
+    cardLabel: "Versetti scoperti",
+    outOf: "su {total}",
+    percentLabel: "{percent}% del corpus",
+    milestoneLabel: "{percent}% scoperto",
+  },
   ayah: {
     surahLabel: "Sura",
     ayahLabel: "Versetto",
@@ -201,6 +209,7 @@ export const it: TranslationSchema = {
     textSize: "Dimensione del testo",
     sectionContent: "Contenuto",
     themesLink: "Temi",
+    progressLink: "I tuoi progressi",
     antiRepeat: "Riduci ripetizioni",
     sectionSupport: "Assistenza",
     diagnosticsLink: "Diagnostica",

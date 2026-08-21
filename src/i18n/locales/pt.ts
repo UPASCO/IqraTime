@@ -110,6 +110,14 @@ export const pt: TranslationSchema = {
     emptyBody: "Tente outro nome de surata ou palavra-chave.",
     resultCount: pluralForm({ one: "{count} versículo", other: "{count} versículos" }),
   },
+  progress: {
+    title: "Seu progresso",
+    subtitle: "A parte dos versículos do Alcorão que você já encontrou no AyahNow — nada a concluir com prazo, apenas um registro do que já lhe foi mostrado.",
+    cardLabel: "Versículos descobertos",
+    outOf: "de {total}",
+    percentLabel: "{percent}% do corpus",
+    milestoneLabel: "{percent}% descoberto",
+  },
   ayah: {
     surahLabel: "Surata",
     ayahLabel: "Versículo",
@@ -201,6 +209,7 @@ export const pt: TranslationSchema = {
     textSize: "Tamanho do texto",
     sectionContent: "Conteúdo",
     themesLink: "Temas",
+    progressLink: "Seu progresso",
     antiRepeat: "Reduzir repetições",
     sectionSupport: "Suporte",
     diagnosticsLink: "Diagnóstico",

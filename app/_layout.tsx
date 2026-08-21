@@ -92,6 +92,7 @@ function RootNavigator(): React.JSX.Element {
             <Stack.Screen name="ayah/[id]" options={{ presentation: "card" }} />
             <Stack.Screen name="themes" options={{ presentation: "modal" }} />
             <Stack.Screen name="library" options={{ presentation: "modal" }} />
+            <Stack.Screen name="progress" options={{ presentation: "modal" }} />
             <Stack.Screen name="diagnostics" />
             <Stack.Screen name="sources" />
             <Stack.Screen name="privacy" />

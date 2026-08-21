@@ -137,6 +137,14 @@ export const ar: TranslationSchema = {
       other: "{count} آية",
     }),
   },
+  progress: {
+    title: "تقدّمك",
+    subtitle: "مقدار ما صادفته من آيات القرآن حتى الآن في AyahNow — لا مهلة نهائية، فقط سجلّ لما عُرض عليك.",
+    cardLabel: "الآيات المكتشَفة",
+    outOf: "من أصل {total}",
+    percentLabel: "{percent}% من المجموعة",
+    milestoneLabel: "تم اكتشاف {percent}%",
+  },
   ayah: {
     surahLabel: "سورة",
     ayahLabel: "آية",
@@ -242,6 +250,7 @@ export const ar: TranslationSchema = {
     textSize: "حجم النص",
     sectionContent: "المحتوى",
     themesLink: "المواضيع",
+    progressLink: "تقدّمك",
     antiRepeat: "تقليل التكرار",
     sectionSupport: "الدعم",
     diagnosticsLink: "التشخيص",

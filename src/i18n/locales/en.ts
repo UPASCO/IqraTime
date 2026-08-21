@@ -115,6 +115,14 @@ export const en = {
     emptyBody: "Try a different surah name or keyword.",
     resultCount: pluralForm({ one: "{count} ayah", other: "{count} ayat" }),
   },
+  progress: {
+    title: "Your progress",
+    subtitle: "How much of the Qur'an's āyāt you've encountered so far in AyahNow — nothing to complete on a deadline, just a record of what you've been shown.",
+    cardLabel: "Ayat discovered",
+    outOf: "out of {total}",
+    percentLabel: "{percent}% of the corpus",
+    milestoneLabel: "{percent}% discovered",
+  },
   ayah: {
     surahLabel: "Surah",
     ayahLabel: "Ayah",
@@ -206,6 +214,7 @@ export const en = {
     textSize: "Text size",
     sectionContent: "Content",
     themesLink: "Themes",
+    progressLink: "Your progress",
     antiRepeat: "Reduce repetition",
     sectionSupport: "Help",
     diagnosticsLink: "Diagnostics",

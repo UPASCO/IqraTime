@@ -110,6 +110,14 @@ export const es: TranslationSchema = {
     emptyBody: "Prueba con otro nombre de sura o palabra clave.",
     resultCount: pluralForm({ one: "{count} aleya", other: "{count} aleyas" }),
   },
+  progress: {
+    title: "Tu progreso",
+    subtitle: "La parte de las aleyas del Corán que ya has encontrado en AyahNow — nada que completar con fecha límite, solo un registro de lo que se te ha mostrado.",
+    cardLabel: "Aleyas descubiertas",
+    outOf: "de {total}",
+    percentLabel: "{percent}% del corpus",
+    milestoneLabel: "{percent}% descubierto",
+  },
   ayah: {
     surahLabel: "Sura",
     ayahLabel: "Aleya",
@@ -201,6 +209,7 @@ export const es: TranslationSchema = {
     textSize: "Tamaño del texto",
     sectionContent: "Contenido",
     themesLink: "Temas",
+    progressLink: "Tu progreso",
     antiRepeat: "Reducir repeticiones",
     sectionSupport: "Asistencia",
     diagnosticsLink: "Diagnóstico",

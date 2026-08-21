@@ -110,6 +110,14 @@ export const fr: TranslationSchema = {
     emptyBody: "Essayez un autre nom de sourate ou mot-clé.",
     resultCount: pluralForm({ one: "{count} āyah", other: "{count} āyāt" }),
   },
+  progress: {
+    title: "Votre progression",
+    subtitle: "La part des āyāt du Coran que vous avez déjà rencontrées dans AyahNow — rien à terminer dans un délai, juste une trace de ce qui vous a été montré.",
+    cardLabel: "Āyāt découvertes",
+    outOf: "sur {total}",
+    percentLabel: "{percent}% du corpus",
+    milestoneLabel: "{percent}% découverts",
+  },
   ayah: {
     surahLabel: "Sourate",
     ayahLabel: "Verset",
@@ -201,6 +209,7 @@ export const fr: TranslationSchema = {
     textSize: "Taille du texte",
     sectionContent: "Contenu",
     themesLink: "Thèmes",
+    progressLink: "Votre progression",
     antiRepeat: "Réduire les répétitions",
     sectionSupport: "Assistance",
     diagnosticsLink: "Diagnostic",
