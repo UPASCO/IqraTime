@@ -33,9 +33,9 @@ current corpus fails on purpose.**
 - Local, scheduled notifications carrying a Quran āyah — Arabic text,
   translation, or both, in your chosen order.
 - Fully offline: no account, no backend, no analytics, no ads.
-- 10 interface languages: Arabic, English, French, Spanish, Portuguese,
-  Hindi, Bengali, Simplified Chinese, Italian, Russian — with full RTL
-  support for Arabic.
+- 12 interface languages: Arabic, English, French, Spanish, Portuguese,
+  Hindi, Bengali, Simplified Chinese, Italian, Russian, Dutch, German —
+  with full RTL support for Arabic.
 - Configurable schedule: active hours, days, frequency (1/2/3/4/6/12h),
   fixed times, quiet night hours, optional random jitter.
 - Themes (patience, gratitude, hope, mercy, …) to bias which āyāt you
@@ -57,7 +57,7 @@ src/data/corpus/      Static corpus (Arabic text, catalog, translations, sources
 src/storage/          SQLite (history/favorites/notifications/logs) + AsyncStorage (preferences)
 src/services/selectionEngine/  Pure, seedable āyah-selection algorithm
 src/notifications/    Scheduling logic (pure) + expo-notifications integration
-src/i18n/              10-language catalogs, typed, with a schema every locale must satisfy
+src/i18n/              12-language catalogs, typed, with a schema every locale must satisfy
 src/theme/             Design tokens, light/dark, ThemeProvider
 src/components/        Reusable UI components
 src/hooks/             React state glue (preferences store, DB provider, ayah view)
@@ -145,7 +145,7 @@ theme-rotation balance), the scheduler (normal/midnight-crossing windows,
 DST spring-forward/fall-back, timezone-change detection, no duplicates,
 never-in-the-past, fixed times, disabled schedule), the reschedule
 integration flow, preferences storage (corruption recovery, migration),
-i18n (schema completeness across all 10 locales, plural category
+i18n (schema completeness across all 12 locales, plural category
 correctness for Russian/Arabic/Chinese, script-presence checks for
 Arabic/Cyrillic/Devanagari/Bengali/Han, unused/unknown key detection),
 notification-tap parsing, RTL direction resolution, the seedable RNG, and

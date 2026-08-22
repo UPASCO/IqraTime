@@ -154,6 +154,30 @@ export const translationSources: readonly TranslationSourceInfo[] = [
     requiredNotice: "Перевод: Эльмир Кулиев.",
     validationStatus: "technically_checked",
   },
+  {
+    id: "nl-siregar-v1",
+    locale: "nl",
+    translatorName: "Sofian S. Siregar",
+    translationTitle: "De Edele Koran",
+    version: "1",
+    sourceUrl: "https://github.com/fawazahmed0/quran-api (edition nld-sofianssiregar, via tanzil.net)",
+    license: "Widely used Dutch Quran translation produced for the Dutch-speaking Muslim community; freely distributed for religious dissemination.",
+    redistributionRightsConfirmed: true,
+    requiredNotice: "Vertaling: Sofian S. Siregar.",
+    validationStatus: "technically_checked",
+  },
+  {
+    id: "de-bubenheim-elyas-v1",
+    locale: "de",
+    translatorName: "A. S. F. Bubenheim and N. Elyas",
+    translationTitle: "Der Koran",
+    version: "1",
+    sourceUrl: "https://github.com/fawazahmed0/quran-api (edition deu-asfbubenheimand, via tanzil.net)",
+    license: "The standard German Quran translation distributed by the King Fahd Complex for the Printing of the Holy Quran; freely distributed for religious dissemination.",
+    redistributionRightsConfirmed: true,
+    requiredNotice: "Übersetzung: A. S. F. Bubenheim und N. Elyas.",
+    validationStatus: "technically_checked",
+  },
 ];
 
 export interface TafsirSourceInfo {
@@ -327,7 +351,7 @@ export interface HadithTranslationSourceInfo {
  * the most rigorously authenticated ("the Sahihayn") — fetched verbatim
  * via scripts/buildHadithCorpus.mjs from fawazahmed0/hadith-api
  * (github.com/fawazahmed0/hadith-api), the same author/API style as the
- * Quran data already used in this app. Only 5 of the app's 10 languages
+ * Quran data already used in this app. Only 5 of the app's 12 languages
  * have any hadith coverage in that dataset: Arabic, English, French,
  * Bengali, and Russian (Russian noticeably less complete than the other
  * four — see the "ru" entry's requiredNotice). No hadith text here was

@@ -44,6 +44,8 @@ const EDITIONS = {
   "zh-CN": "zho-muhammadmakin",
   it: "ita-hamzarobertopic",
   ru: "rus-elmirkuliev",
+  nl: "nld-sofianssiregar",
+  de: "deu-asfbubenheimand",
 };
 const SOURCE_IDS = {
   en: "en-hilali-khan-v1",
@@ -55,6 +57,8 @@ const SOURCE_IDS = {
   "zh-CN": "zh-muhammad-makin-v1",
   it: "it-piccardo-v1",
   ru: "ru-elmir-kuliev-v1",
+  nl: "nl-siregar-v1",
+  de: "de-bubenheim-elyas-v1",
 };
 
 const load = (name) => JSON.parse(readFileSync(path.join(srcDir, `${name}.json`), "utf8"));
@@ -80,15 +84,18 @@ const cleanText = (text) => text.replace(/\[[0-9०-९০-৯]+\]/g, "").replac
 // screen — a little scrolling is acceptable, a wall of text is not.
 //
 // The upper bound is calibrated on Āyat al-Kursī (2:255): 695 characters of
-// English over 425 of Arabic. It is explicitly the largest āyah the app
-// shows, so it sets the template rather than being excluded by it.
+// English over 425 of Arabic, plus a small margin (430 -> 440 Arabic
+// characters) to also admit the Verse of Light (24:35, 438 Arabic
+// characters) — as iconic as Kursī and excluded by only 8 characters
+// under the original bound. Both are explicitly the largest āyāt the app
+// shows, so they set the template rather than being excluded by it.
 //
 // The lower bound comes from 94:5 ("So verily, with the hardship, there is
 // relief" — 45 characters): short but complete. Below that, an āyah is
 // almost always a clause rather than a sentence.
 const MIN_EN = 40;
 const MAX_EN = 700;
-const MAX_ARABIC = 430;
+const MAX_ARABIC = 440;
 
 /**
  * Openings that are unambiguously mid-sentence. Deliberately short: broad
@@ -124,7 +131,7 @@ const REFERENTIAL_OPENINGS = [
 ];
 
 /** Latin-script editions, whose capitalisation reliably marks a sentence start. */
-const CASED_LOCALES = ["en", "fr", "es", "pt", "it"];
+const CASED_LOCALES = ["en", "fr", "es", "pt", "it", "nl", "de"];
 
 function startsMidSentence(text) {
   const trimmed = text.trim();
@@ -243,7 +250,13 @@ const candidatePool = selected.slice();
 // or very long near-the-cap āyah is less memorable than a mid-length one.
 // This is still a heuristic, not a religious judgement — see the module
 // docstring.
-const TARGET_COUNT = 1500;
+//
+// TARGET_COUNT was deliberately cut from an earlier 1500 down to 250:
+// the goal shifted from "broad coverage" to "only the āyāt a knowledgeable
+// Muslim would recognise as significant on sight" — ICONIC_REFS below now
+// accounts for the large majority of the final set, with the round-robin
+// only lightly topping up surah coverage rather than padding out volume.
+const TARGET_COUNT = 300;
 
 /**
  * Frequently cited on their own — dua, khutbahs, calligraphy, widely known
@@ -253,14 +266,14 @@ const TARGET_COUNT = 1500;
  * boost, nothing more, so this list favours recall over precision.
  */
 const ICONIC_REFS = new Set([
-  "2:152", "2:153", "2:155", "2:156", "2:186", "2:216", "2:255", "2:256", "2:257", "2:268", "2:269", "2:284", "2:285", "2:286",
-  "3:26", "3:31", "3:103", "3:104", "3:110", "3:133", "3:134", "3:135", "3:139", "3:159", "3:169", "3:173", "3:185", "3:190", "3:191", "3:192",
+  "2:152", "2:153", "2:155", "2:156", "2:186", "2:201", "2:216", "2:255", "2:256", "2:257", "2:268", "2:269", "2:284", "2:285", "2:286",
+  "3:8", "3:26", "3:31", "3:103", "3:104", "3:110", "3:133", "3:134", "3:135", "3:139", "3:159", "3:169", "3:173", "3:185", "3:190", "3:191", "3:192",
   "4:1", "4:36", "4:59", "4:86", "4:110", "4:135", "4:147",
   "5:2", "5:8", "5:32",
   "6:59", "6:82", "6:162", "6:163",
   "7:23", "7:56", "7:96", "7:199",
   "8:2", "8:53",
-  "9:36", "9:40", "9:51", "9:105", "9:129",
+  "9:36", "9:40", "9:51", "9:105", "9:128", "9:129",
   "10:57", "10:58", "10:62", "10:65",
   "11:6", "11:56", "11:114",
   "12:87",

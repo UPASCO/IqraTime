@@ -27,8 +27,8 @@ module.exports = {
     fr: "Et si chaque notification comptait vraiment ! Une āyah ou un hadith authentique, un peu de hassanat, inchAllah.",
     alt_fr: "Le Coran et les hadiths sur votre écran, sans déverrouiller — une source de hassanat, inchAllah.",
   },
-  version: "1.5.0",
-  buildNumber: 4,
+  version: "1.6.0",
+  buildNumber: 5,
   iosBundleIdentifier: "com.example.iqratime.provisional",
   androidPackage: "com.example.iqratime.provisional",
   easProjectId: "5aa33698-7d7f-424c-845f-1a1e548ec93e",
@@ -60,6 +60,6 @@ module.exports = {
     iosSafetyMargin: 6,
     androidSoftLimit: 200,
   },
-  supportedLocales: ["ar", "en", "fr", "es", "pt", "hi", "bn", "zh-CN", "it", "ru"],
+  supportedLocales: ["ar", "en", "fr", "es", "pt", "hi", "bn", "zh-CN", "it", "ru", "nl", "de"],
   fallbackLocale: "en",
 };

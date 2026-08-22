@@ -133,6 +133,8 @@ export const appConfig = {
     "zh-CN",
     "it",
     "ru",
+    "nl",
+    "de",
   ],
 
   fallbackLocale: raw.fallbackLocale as "en",

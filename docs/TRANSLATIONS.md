@@ -4,14 +4,15 @@ Two entirely different things are called "translations" in this codebase —
 keep them separate:
 
 1. **UI string translations** (`src/i18n/locales/*.ts`) — the app's own
-   interface text (buttons, labels, onboarding copy) in 10 languages.
+   interface text (buttons, labels, onboarding copy) in 12 languages.
    **These ship complete** in this build; see "UI translations" below.
 2. **Quran translations** (`src/data/corpus/translations/*.json`) — a
    translator/institution's rendering of the Quran's meaning into a
-   target language. **None ship in this build.** See "Quran translations"
-   below for why and how to add real ones.
+   target language. **11 of 12 languages ship a real, licensed
+   translation** (all but Arabic, which uses the Arabic text itself) —
+   see "Quran translations" below for sourcing and how to add more.
 
-## UI translations (complete, all 10 languages)
+## UI translations (complete, all 12 languages)
 
 `src/i18n/locales/en.ts` is the source of truth. `src/i18n/schema.ts`
 derives `TranslationSchema = typeof en`, and every other locale file is
@@ -45,37 +46,43 @@ key differently than English does. This is checked again at runtime by
 5. Run `npm test` — the completeness suite covers the new locale
    automatically via `appConfig.supportedLocales`.
 
-## Quran translations (none ship — read this before assuming it's a bug)
+## Quran translations (11 of 12 languages ship real text)
 
 The product spec contains an explicit, absolute rule: **never translate an
 ayah with a language model, automated service, or improvised wording.**
-Combined with this development session having no network access to fetch
-and verify a real licensed translation file, the only correct choice was
-to ship **zero** Quran translation text rather than either (a) violate
-that rule or (b) guess at a real translator's exact wording from memory
-and risk misattributing incorrect text to a real person or institution.
+`scripts/buildFullCorpus.mjs` honors this by fetching every translation
+verbatim, per locale, from `fawazahmed0/quran-api` (a licensed, open
+Quran dataset) — never generated, paraphrased, or guessed from memory.
+Arabic is the one language with no separate "translation" file, since it
+uses the Arabic text itself. Portuguese has translation text but, like
+every entry, is still pending the human reviewer sign-off below before
+it can be marked `publishable`.
 
-What *is* built and ready:
+What's built and in use:
 
-- `src/data/corpus/translations/schema.ts` — the exact JSON shape expected.
+- `src/data/corpus/translations/schema.ts` — the exact JSON shape used.
 - `src/data/corpus/sources.ts` — the `TranslationSourceInfo` registry
   (translator, title, version, date, source URL, license, redistribution
-  confirmation, required notice, validation status, checksum). Currently
-  empty (`translationSources = []`).
-- `scripts/importTranslation.ts` — a documented CLI tool that validates a
-  translation file's ids/text against the shipped Arabic corpus,
-  computes a checksum, writes the per-locale JSON file, and prints the
-  exact remaining manual steps (deliberately manual: a human must
-  personally confirm the license before it ships).
-- The Sources & Translations screen (`app/sources.tsx`) already renders
-  whatever is registered, including a translator name, version, license,
-  and validation status per active language — it will start showing real
-  data the moment a source is imported and registered.
+  confirmation, required notice, validation status, checksum) — 11 entries,
+  one per non-Arabic supported language.
+- `scripts/importTranslation.ts` — a documented CLI tool for importing one
+  additional locale by hand: validates a translation file's ids/text
+  against the shipped Arabic corpus, computes a checksum, writes the
+  per-locale JSON file, and prints the exact remaining manual steps
+  (deliberately manual: a human must personally confirm the license
+  before it ships). `buildFullCorpus.mjs` is what populated the 11
+  languages currently shipped; use `importTranslation.ts` for a one-off
+  addition instead of re-running the bulk fetch.
+- The Sources & Translations screen (`app/sources.tsx`) renders the
+  registered source for each active language — translator name, version,
+  license, and validation status.
 - `getTranslation()` / `hasAnyTranslations()` in `src/data/corpus/index.ts`
-  gracefully return "not available" rather than crashing when a language
-  has no imported translation — exercised by the `arabic_only` fallback
-  path in the selection engine and the "Translation missing" UI state on
-  the ayah detail screen.
+  gracefully return "not available" for any language with no imported
+  translation — exercised by the `arabic_only` fallback path in the
+  selection engine and the "Translation missing" UI state on the ayah
+  detail screen. This path is now only reachable in practice by choosing
+  Arabic (by design) or by a future locale added before its translation
+  is imported.
 
 ### How to add a real, licensed translation
 
@@ -121,10 +128,10 @@ What *is* built and ready:
 7. Run `npm run corpus:validate:prod` — it will now report that language
    as covered instead of missing.
 
-### Repeat for all 10 languages before a real production release
+### Repeat for all 12 languages before a real production release
 
 `scripts/validateCorpus.ts` reports (warning in dev, **error in
-production**) any of the 10 supported languages with zero imported
-translations. A commercial release should have all 10 covered, or the
+production**) any of the 12 supported languages with zero imported
+translations. A commercial release should have all 12 covered, or the
 unsupported ones should be removed from `appConfig.supportedLocales` and
 the onboarding/settings language pickers until they are.

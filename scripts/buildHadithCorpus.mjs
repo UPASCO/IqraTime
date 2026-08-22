@@ -20,12 +20,12 @@
  * status="technically_verified", the same standard the ayah corpus uses,
  * pending a qualified human reviewer (see docs/CORPUS.md).
  *
- * Only 5 of the app's 10 languages have ANY hadith coverage in the source
+ * Only 5 of the app's 12 languages have ANY hadith coverage in the source
  * dataset: Arabic, English, French, Bengali, and (best-effort — noticeably
- * less complete) Russian. Spanish, Portuguese, Hindi, Italian, and
- * Chinese have none at all. This is a real, current limitation, not an
- * oversight — the app's hadith feature is unavailable in those languages
- * until a translated edition exists somewhere to fetch from.
+ * less complete) Russian. Spanish, Portuguese, Hindi, Italian, Chinese,
+ * Dutch, and German have none at all. This is a real, current limitation,
+ * not an oversight — the app's hadith feature is unavailable in those
+ * languages until a translated edition exists somewhere to fetch from.
  */
 import { writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";

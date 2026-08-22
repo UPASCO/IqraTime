@@ -39,21 +39,21 @@ below is checked:
 ## Corpus (`docs/CORPUS.md`, `docs/TRANSLATIONS.md`)
 
 - [x] Arabic text sourced verbatim from the King Fahd Complex Uthmani
-      edition (1500 āyāt across 113 surahs, curated down from a larger
-      mechanically-valid pool) via `node scripts/buildFullCorpus.mjs` —
-      not hand-typed.
+      edition (300 āyāt across 113 surahs, curated down to the āyāt a
+      knowledgeable Muslim would recognise as significant on sight) via
+      `node scripts/buildFullCorpus.mjs` — not hand-typed.
 - [ ] Every shipped catalog entry has gone through the reviewer checklist
       in `docs/CORPUS.md` and reached `status: "publishable"`.
-- [ ] At least one, ideally all 10, supported languages have a real,
-      licensed Quran translation imported via `scripts/importTranslation.ts`
-      with `redistributionRightsConfirmed: true` set only after personal
-      verification.
-- [x] Tafsir (Al-Mukhtasar) fetched verbatim for 9 of 10 languages (all
-      except Portuguese, which has no edition in the source dataset) via
-      `node scripts/fetchTafsir.mjs` — see `docs/CORPUS.md` "Tafsir".
+- [x] 11 of 12 supported languages have a real, licensed Quran translation
+      (all but Arabic, which uses the Arabic text itself) fetched via
+      `node scripts/buildFullCorpus.mjs` — see `docs/CORPUS.md`.
+- [x] Tafsir (Al-Mukhtasar) fetched verbatim for 9 of 12 languages (all
+      except Portuguese, Dutch, and German, which have no edition in the
+      source dataset) via `node scripts/fetchTafsir.mjs` — see
+      `docs/CORPUS.md` "Tafsir".
 - [x] Hadith corpus (Sahih al-Bukhari + Sahih Muslim only, 500 entries)
       fetched verbatim via `node scripts/buildHadithCorpus.mjs` — covers
-      5 of 10 languages (ar/en/fr/bn/ru); opt-in, off by default; not yet
+      5 of 12 languages (ar/en/fr/bn/ru); opt-in, off by default; not yet
       wired into scheduled notifications — see `docs/CORPUS.md` "Hadith".
 - [ ] `npm run corpus:validate:prod` passes with zero errors.
 - [ ] A qualified religious reviewer has signed off on the final ayah and
@@ -83,7 +83,7 @@ below is checked:
 - [ ] App survives a real device restart with notifications still pending
       on iOS; on Android, confirm the current known limitation (no boot
       receiver — see `docs/KNOWN_LIMITATIONS.md`) is acceptable or fixed.
-- [ ] All 10 languages spot-checked on a real device (font rendering,
+- [ ] All 12 languages spot-checked on a real device (font rendering,
       RTL, text wrapping) — see `docs/ACCESSIBILITY.md`'s manual checklist.
 - [ ] `eas build --profile production` succeeds for both platforms.
 

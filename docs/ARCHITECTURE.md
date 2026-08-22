@@ -105,11 +105,11 @@ Diagnostics screen's "Reschedule now" button.
 ## Why no i18next / react-i18next
 
 The translation surface here is bounded and fully known ahead of time (a
-fixed set of UI strings across 10 languages), and the one thing that needed
+fixed set of UI strings across 12 languages), and the one thing that needed
 real i18n-library sophistication — CLDR plural category selection — is
 covered by the built-in `Intl.PluralRules`. A hand-rolled ~150-line
 resolver (`src/i18n/index.ts` + `plural.ts`) gets us: (a) compile-time key
-completeness checking across all 10 locales (not available from
+completeness checking across all 12 locales (not available from
 i18next's runtime-resolved resources without extra tooling), (b) zero
 extra runtime dependency, and (c) an explicit, auditable fallback chain
 (exact locale → same base language → English, with a dev-mode console

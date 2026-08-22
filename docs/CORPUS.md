@@ -1,12 +1,17 @@
 # Corpus
 
-## Current status: development sample, not for production
+## Current status: real content, not yet human-reviewed
 
-`src/data/corpus/arabic.json` ships **5 ayat** (94:5, 94:6, 2:152, 3:139,
-13:28), Arabic text only, every entry marked `status: "draft"` and
-`isDemoOnly: true`. **Zero translations** ship for any of the 10 supported
-languages. `npm run corpus:validate:prod` fails the build because of this,
-on purpose — see "Why the corpus is incomplete" below.
+`src/data/corpus/arabic.json` ships **300 āyāt**, fetched verbatim from
+the King Fahd Complex Uthmani edition and curated down to a set a
+knowledgeable Muslim would recognise as significant on sight (see
+"Curated downselection" in `scripts/buildFullCorpus.mjs`) — not
+hand-typed, not a placeholder sample. 11 of the app's 12 supported
+languages have a real, licensed Quran translation for every one of those
+āyāt (Arabic readers use the Arabic text itself, no translation needed).
+Every entry is still marked `status: "technically_verified"`, never
+`"publishable"`: `npm run corpus:validate:prod` fails the build until a
+qualified human completes the reviewer checklist below, on purpose.
 
 ## Convention
 
@@ -23,28 +28,22 @@ riwaya into the same build.
 
 ## Why the corpus is incomplete (read this before assuming it's a bug)
 
-This development session ran in a network-sandboxed environment with no
-access to Tanzil, corpus.quran.com, or any other canonical Quran text
-host, and the product spec explicitly and absolutely prohibits generating
-or translating āyāt with an AI model ("ne jamais traduire les āyāt avec un
-modèle de langage"). Given both constraints:
+Every āyah, Arabic and translated, is fetched verbatim from a canonical
+open dataset (King Fahd Complex Uthmani text and licensed translations
+via `fawazahmed0/quran-api`, see `scripts/buildFullCorpus.mjs`) — never
+typed from memory, never generated or translated by an AI model, per this
+project's absolute rule ("ne jamais traduire les āyāt avec un modèle de
+langage"). So the text itself is not the missing piece.
 
-- The **Arabic text** for the 5 sample ayat was entered from the
-  assistant's training-time knowledge of extremely well-known, short,
-  fixed verses — **not downloaded from, or diffed against, any canonical
-  source in this session.** Every entry needs character-by-character
-  verification (including every diacritic) against a source like Tanzil
-  before it can be marked anything beyond `"draft"`.
-- **No translation text ships at all**, in any language, because writing
-  one would violate the "never AI-translate" rule, and no licensed
-  translation file could be fetched and verified in this session. The
-  full import pipeline (`scripts/importTranslation.ts`,
-  `src/data/corpus/translations/schema.ts`) is built and ready to receive
-  a real file — see `docs/TRANSLATIONS.md`.
-
-This is the exact fallback the spec itself describes for this situation:
-build the full architecture, ship only clearly-marked demo data, block a
-silent production build, document precisely what's missing.
+What's still missing is **human judgement**: `scripts/buildFullCorpus.mjs`
+selects and curates by MECHANICAL criteria only (length bounds, sentence
+completeness, a hand-picked list of widely-recognised āyāt) — it cannot
+assess religious or rhetorical significance, and it does not claim to.
+Every entry therefore stays `status: "technically_verified"`, never
+`"publishable"`, until a qualified person completes the reviewer
+checklist below. This is the intended gate, not a bug: build the full
+architecture and real content, block a silent production build, require
+a human sign-off before anything ships as final.
 
 ## Editorial whitelist — why not just "pick short verses"
 
@@ -89,10 +88,11 @@ through this checklist before being marked `publishable`:
    `"publishable"` entries are eligible for a production build
    (`getPublishableCorpus()`).
 
-The current 5 sample entries already carry per-entry `editorialNote`
-fields flagging the specific concern a reviewer should check (e.g. 13:28's
-grammatical continuation from 13:27, or 94:5/94:6's near-duplicate
-wording) — see `src/data/corpus/catalog.json`.
+Current entries do not carry a per-entry `editorialNote` (see
+`catalog.json`'s `_readme` for why: repeating the same "machine-selected,
+awaiting review" caveat on 300 entries individually would just bloat the
+shipped bundle without adding information) — a reviewer works from the
+checklist above directly, not from a pre-flagged concern per āyah.
 
 ## Consistency checks
 
@@ -106,7 +106,7 @@ every time, in both development and production mode:
 - every assigned theme is a recognized `ThemeKey`
 - every registered translation source has a license, translator name,
   source URL, and confirmed redistribution rights
-- every one of the 10 supported languages has a UI catalog (always true —
+- every one of the 12 supported languages has a UI catalog (always true —
   compile-time enforced, see `docs/TRANSLATIONS.md`) and reports (warns in
   dev, **errors in production**) if it has zero imported Quran translations
 
@@ -140,11 +140,11 @@ applies to Arabic text and translations, extended to exegesis for the
 same reason: misattributing invented words to real scholars would be a
 serious integrity failure, not a cosmetic one.
 
-Portuguese has no entry (`getTafsir()` returns `undefined`, the UI shows
-an explicit "not available in this language" message) — no tafsir
-edition exists for Portuguese in the source dataset, and this app never
-silently substitutes another language's text under the user's own
-language label.
+Portuguese, Dutch, and German have no entry (`getTafsir()` returns
+`undefined`, the UI shows an explicit "not available in this language"
+message) — no tafsir edition exists for those languages in the source
+dataset, and this app never silently substitutes another language's
+text under the user's own language label.
 
 Like every other corpus asset, this is `technically_checked`
 (programmatically fetched, cross-matched against the shipped āyāt, from
@@ -177,13 +177,13 @@ the two collections. No hadith text is ever generated, paraphrased, or
 altered by an AI model, for the same reason the Quran text and its tafsir
 never are.
 
-**Only 5 of the app's 10 languages have any hadith coverage in the
+**Only 5 of the app's 12 languages have any hadith coverage in the
 source dataset**: Arabic, English, French, Bengali, and (noticeably less
 complete — roughly two-thirds) Russian. Spanish, Portuguese, Hindi,
-Italian, and Chinese have none at all — a real, current limitation, not
-an oversight. The feed and Settings degrade gracefully for those
-languages: hadith modes silently fall back to ayah-only with an explicit
-on-screen notice, never a broken or empty card.
+Italian, Chinese, Dutch, and German have none at all — a real, current
+limitation, not an oversight. The feed and Settings degrade gracefully
+for those languages: hadith modes silently fall back to ayah-only with
+an explicit on-screen notice, never a broken or empty card.
 
 **No hadith explanation/commentary (sharh) is shown yet.** The "Show
 explanation" button on the hadith detail screen exists as UI scaffolding

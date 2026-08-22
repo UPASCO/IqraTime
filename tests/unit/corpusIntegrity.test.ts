@@ -92,7 +92,7 @@ describe("production-build corpus gate", () => {
 });
 
 describe("shipped translations", () => {
-  const localesWithTranslations = ["en", "fr", "es", "pt", "hi", "bn", "zh-CN", "it", "ru"] as const;
+  const localesWithTranslations = ["en", "fr", "es", "pt", "hi", "bn", "zh-CN", "it", "ru", "nl", "de"] as const;
 
   it.each(localesWithTranslations)("locale '%s' has a translation for every shipped ayah", (locale) => {
     const missing = getFullCorpus()

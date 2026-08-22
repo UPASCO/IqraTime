@@ -86,6 +86,8 @@ function loadTranslationFile(locale: SupportedLocale): TranslationFileShape | un
     case "zh-CN": return require("./translations/zh-CN.json");
     case "it": return require("./translations/it.json");
     case "ru": return require("./translations/ru.json");
+    case "nl": return require("./translations/nl.json");
+    case "de": return require("./translations/de.json");
     // Arabic readers get the Arabic source text itself, not a translation.
     default: return undefined;
   }

@@ -12,4 +12,6 @@ export const LOCALE_NATIVE_NAMES: Readonly<Record<SupportedLocale, string>> = {
   "zh-CN": "简体中文",
   it: "Italiano",
   ru: "Русский",
+  nl: "Nederlands",
+  de: "Deutsch",
 };

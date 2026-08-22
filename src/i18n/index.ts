@@ -9,6 +9,8 @@ import { bn } from "./locales/bn";
 import { zhCN } from "./locales/zh-CN";
 import { it } from "./locales/it";
 import { ru } from "./locales/ru";
+import { nl } from "./locales/nl";
+import { de } from "./locales/de";
 import type { PluralForm } from "./pluralForm";
 import { formatPlural } from "./plural";
 import type { TranslationSchema } from "./schema";
@@ -24,6 +26,8 @@ const catalogs: Record<SupportedLocale, TranslationSchema> = {
   "zh-CN": zhCN,
   it,
   ru,
+  nl,
+  de,
 };
 
 /**

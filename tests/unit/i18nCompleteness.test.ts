@@ -25,7 +25,7 @@ function collectLeaves(node: Json, prefix = ""): { plain: string[]; plural: stri
   return { plain, plural };
 }
 
-describe("i18n catalog completeness (all 10 languages)", () => {
+describe("i18n catalog completeness (all 12 languages)", () => {
   const english = collectLeaves(catalogs.en as unknown as Json);
 
   it("English source catalog is non-trivial", () => {

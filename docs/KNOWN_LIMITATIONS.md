@@ -7,17 +7,20 @@ hasn't actually been tested in this development session.
 
 ## Corpus & translations
 
-- The shipped corpus is a **5-entry development sample**, Arabic-only, all
-  entries `status: "draft"`. See `docs/CORPUS.md`.
-- **Zero Quran translations ship**, in any of the 10 languages. See
-  `docs/TRANSLATIONS.md`.
-- The Arabic text in the sample was not verified against a canonical
-  digital source in this session (no network access to Tanzil/corpus.quran.com
-  from this sandbox) — see `src/data/corpus/arabic.json`'s header comment.
+- The shipped corpus is **300 curated āyāt** (real, verbatim Arabic text
+  and 11-language translations — see `docs/CORPUS.md`), not yet reviewed
+  by a qualified human for religious/editorial accuracy — every entry
+  stays `status: "technically_verified"` until that happens.
+- Hadith (500 entries, Sahih al-Bukhari + Sahih Muslim only) covers only
+  5 of the app's 12 languages (ar/en/fr/bn/ru); tafsir covers 11 of 12
+  (all but Portuguese). Neither exists yet for Dutch or German — no
+  edition was found in the open datasets this project sources from. See
+  `docs/CORPUS.md` "Hadith" and "Tafsir".
 - No basmala-handling convention has been decided (no surah-opening ayah
-  is in the sample set yet).
-- Surah name/metadata table only covers the 4 surahs referenced by the
-  sample corpus (94, 2, 3, 13), not all 114.
+  is in the current set).
+- Surah name/metadata table covers the 113 surahs actually referenced by
+  the current corpus (all but 103, Al-'Asr — see `docs/CORPUS.md` "Why
+  the corpus is incomplete").
 
 ## Notifications
 
@@ -79,7 +82,7 @@ hasn't actually been tested in this development session.
 
 ## Localization
 
-- UI strings are complete and type-checked for all 10 languages, but have
+- UI strings are complete and type-checked for all 12 languages, but have
   not been proofread by a native speaker of each language beyond the
   translations produced during this session.
 - Text-size setting labels ("small"/"medium"/"large"/"extra_large" chips
