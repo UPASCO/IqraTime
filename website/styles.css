@@ -80,6 +80,12 @@ header .wrap {
   border-radius: 8px;
 }
 
+header nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 nav ul {
   list-style: none;
   display: flex;
@@ -94,6 +100,21 @@ nav a {
   font-size: 0.95rem;
   opacity: 0.85;
   transition: opacity 0.15s ease;
+}
+
+.lang-switch {
+  background: rgba(247, 243, 232, 0.08);
+  border: 1px solid rgba(247, 243, 232, 0.25);
+  color: var(--ivory);
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.lang-switch option {
+  color: var(--dark-text);
+  background: var(--warm-white);
 }
 
 nav a:hover {
@@ -491,6 +512,11 @@ footer a:hover {
     gap: 10px;
     padding-top: 12px;
     padding-bottom: 12px;
+  }
+
+  header nav {
+    flex-direction: column;
+    gap: 10px;
   }
 
   nav ul {

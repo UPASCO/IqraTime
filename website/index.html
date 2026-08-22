@@ -26,12 +26,21 @@
     </a>
     <nav>
       <ul>
-        <li><a href="#fonctionnalites">Fonctionnalités</a></li>
-        <li><a href="#confidentialite">Confidentialité</a></li>
-        <li><a href="#projets-similaires">Projets similaires</a></li>
-        <li><a href="#don">Faire un don</a></li>
-        <li><a href="#support">Contact</a></li>
+        <li><a href="#fonctionnalites" data-i18n="nav.features">Fonctionnalités</a></li>
+        <li><a href="#confidentialite" data-i18n="nav.privacy">Confidentialité</a></li>
+        <li><a href="#projets-similaires" data-i18n="nav.similar">Projets similaires</a></li>
+        <li><a href="#don" data-i18n="nav.donate">Faire un don</a></li>
+        <li><a href="#support" data-i18n="nav.contact">Contact</a></li>
       </ul>
+      <select id="lang-switch" class="lang-switch" aria-label="Language / Langue">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+        <option value="de">Deutsch</option>
+        <option value="es">Español</option>
+        <option value="it">Italiano</option>
+        <option value="nl">Nederlands</option>
+      </select>
     </nav>
   </div>
 </header>
@@ -42,23 +51,23 @@
     <div class="wrap">
       <div class="hero-copy">
         <img class="hero-icon" src="assets/icon.png" alt="" />
-        <p class="kicker">اقرأ · Iqra — « Lis ! », premier mot révélé du Coran</p>
-        <h1>Et si le Coran venait à vous&nbsp;?</h1>
-        <p class="lead">
+        <p class="kicker" data-i18n="hero.kicker">اقرأ · Iqra — « Lis ! », premier mot révélé du Coran</p>
+        <h1 data-i18n="hero.title">Et si le Coran venait à vous&nbsp;?</h1>
+        <p class="lead" data-i18n="hero.lead">
           Une notification d'āyah différente par heure, directement sur votre
           écran verrouillé — sans compte, sans serveur, sans connexion
           Internet nécessaire au quotidien.
         </p>
         <div class="badges">
-          <span class="badge soon">📱 Bientôt sur l'App Store</span>
-          <span class="badge soon">🤖 Bientôt sur Google Play</span>
+          <span class="badge soon" data-i18n="hero.badgeIos">📱 Bientôt sur l'App Store</span>
+          <span class="badge soon" data-i18n="hero.badgeAndroid">🤖 Bientôt sur Google Play</span>
         </div>
       </div>
       <div class="hero-visual">
         <div class="phone-mock">
           <div class="ayah-ar">وَبَشِّرِ الصَّابِرِينَ</div>
-          <div class="ayah-tr">« Et fais bonne annonce aux endurants. »</div>
-          <div class="ayah-ref">Sourate Al-Baqarah, 2:155</div>
+          <div class="ayah-tr" data-i18n="phone.translation">« Et fais bonne annonce aux endurants. »</div>
+          <div class="ayah-ref" data-i18n="phone.reference">Sourate Al-Baqarah, 2:155</div>
         </div>
       </div>
     </div>
@@ -66,41 +75,41 @@
 
   <section id="fonctionnalites" class="features">
     <div class="wrap">
-      <h2 class="section-title">Une āyah, à votre rythme</h2>
-      <p class="section-sub">
+      <h2 class="section-title" data-i18n="features.title">Une āyah, à votre rythme</h2>
+      <p class="section-sub" data-i18n="features.subtitle">
         Iqratime s'adapte à vos habitudes plutôt que l'inverse — vous choisissez
         quand, à quelle fréquence, et dans quelle langue.
       </p>
       <div class="feature-grid">
         <div class="feature-card">
           <div class="icon">🔔</div>
-          <h3>Notifications programmées</h3>
-          <p>Texte arabe, traduction, ou les deux — selon l'ordre que vous préférez, sur les plages horaires que vous définissez.</p>
+          <h3 data-i18n="features.f1.title">Notifications programmées</h3>
+          <p data-i18n="features.f1.desc">Texte arabe, traduction, ou les deux — selon l'ordre que vous préférez, sur les plages horaires que vous définissez.</p>
         </div>
         <div class="feature-card">
           <div class="icon">📴</div>
-          <h3>100% hors-ligne</h3>
-          <p>Aucun compte, aucun serveur, aucune publicité, aucun traqueur. Tout fonctionne sur votre appareil.</p>
+          <h3 data-i18n="features.f2.title">100% hors-ligne</h3>
+          <p data-i18n="features.f2.desc">Aucun compte, aucun serveur, aucune publicité, aucun traqueur. Tout fonctionne sur votre appareil.</p>
         </div>
         <div class="feature-card">
           <div class="icon">🌍</div>
-          <h3>10 langues</h3>
-          <p>Arabe, français, anglais, espagnol, portugais, hindi, bengali, chinois simplifié, italien, russe — avec support RTL complet pour l'arabe.</p>
+          <h3 data-i18n="features.f3.title">10 langues</h3>
+          <p data-i18n="features.f3.desc">Arabe, français, anglais, espagnol, portugais, hindi, bengali, chinois simplifié, italien, russe — avec support RTL complet pour l'arabe.</p>
         </div>
         <div class="feature-card">
           <div class="icon">🕰️</div>
-          <h3>Horaires sur mesure</h3>
-          <p>Plage active, jours, fréquence (1h à 12h), heures fixes, silence nocturne, et une variation aléatoire optionnelle.</p>
+          <h3 data-i18n="features.f4.title">Horaires sur mesure</h3>
+          <p data-i18n="features.f4.desc">Plage active, jours, fréquence (1h à 12h), heures fixes, silence nocturne, et une variation aléatoire optionnelle.</p>
         </div>
         <div class="feature-card">
           <div class="icon">🌙</div>
-          <h3>Thèmes spirituels</h3>
-          <p>Patience, gratitude, espoir, miséricorde… orientez les āyāt que vous recevez, entièrement sur l'appareil.</p>
+          <h3 data-i18n="features.f5.title">Thèmes spirituels</h3>
+          <p data-i18n="features.f5.desc">Patience, gratitude, espoir, miséricorde… orientez les āyāt que vous recevez, entièrement sur l'appareil.</p>
         </div>
         <div class="feature-card">
           <div class="icon">⭐</div>
-          <h3>Historique &amp; favoris</h3>
-          <p>Retrouvez, partagez et copiez les āyāt reçues. Demandez-en une autre à tout moment.</p>
+          <h3 data-i18n="features.f6.title">Historique &amp; favoris</h3>
+          <p data-i18n="features.f6.desc">Retrouvez, partagez et copiez les āyāt reçues. Demandez-en une autre à tout moment.</p>
         </div>
       </div>
     </div>
@@ -108,8 +117,8 @@
 
   <section id="confidentialite" class="privacy">
     <div class="wrap">
-      <h2>Votre vie privée, respectée par conception</h2>
-      <p>
+      <h2 data-i18n="privacy.title">Votre vie privée, respectée par conception</h2>
+      <p data-i18n="privacy.text">
         Aucun compte, aucune connexion requise, aucun backend, aucune analytique,
         aucune publicité, aucun identifiant de suivi. Aucune donnée ne quitte
         votre appareil.
@@ -125,30 +134,30 @@
   -->
   <section id="projets-similaires" class="similar">
     <div class="wrap">
-      <h2 class="section-title">Projets similaires</h2>
-      <p class="section-sub">
+      <h2 class="section-title" data-i18n="similar.title">Projets similaires</h2>
+      <p class="section-sub" data-i18n="similar.subtitle">
         Iqratime fait partie d'une famille d'applications pensées par la même
         équipe, avec les mêmes principes&nbsp;: hors-ligne, sans compte, sans
         publicité.
       </p>
       <div class="similar-grid">
         <div class="similar-card featured">
-          <span class="status">Prochain projet</span>
-          <h3>Application éducative — apprendre l'islam en s'amusant</h3>
-          <p>
+          <span class="status" data-i18n="similar.featuredStatus">Prochain projet</span>
+          <h3 data-i18n="similar.featuredTitle">Application éducative — apprendre l'islam en s'amusant</h3>
+          <p data-i18n="similar.featuredDesc">
             Une application ludique et hors-ligne pour découvrir et apprendre
             les bases de l'islam en s'amusant, avec les mêmes principes
             qu'Iqratime&nbsp;: aucun compte, aucune publicité, aucune donnée
             collectée.
           </p>
-          <a class="btn btn-outline" href="https://buy.stripe.com/REPLACE_ME_AVANT_PUBLICATION" target="_blank" rel="noopener">
+          <a class="btn btn-outline" href="https://buy.stripe.com/REPLACE_ME_AVANT_PUBLICATION" target="_blank" rel="noopener" data-i18n="similar.featuredCta">
             Soutenir ce projet
           </a>
         </div>
         <div class="similar-card">
-          <span class="status">Vous avez une idée ?</span>
-          <h3>Proposez un projet similaire</h3>
-          <p>
+          <span class="status" data-i18n="similar.ideaStatus">Vous avez une idée ?</span>
+          <h3 data-i18n="similar.ideaTitle">Proposez un projet similaire</h3>
+          <p data-i18n="similar.ideaDesc">
             Une idée d'application de rappel, dans le même esprit qu'Iqratime ?
             Écrivez-nous — nous sommes toujours curieux d'échanger sur de
             nouveaux projets.
@@ -160,24 +169,24 @@
 
   <section id="don" class="donate">
     <div class="wrap">
-      <h2>Soutenir nos projets</h2>
-      <p>
+      <h2 data-i18n="donate.title">Soutenir nos projets</h2>
+      <p data-i18n="donate.text">
         Iqratime est gratuit, hors-ligne et sans publicité — et le restera.
         Vos dons aident à financer son développement continu ainsi que nos
         prochains projets, comme l'application éducative pour apprendre
         l'islam en s'amusant.
       </p>
-      <a class="btn" href="https://buy.stripe.com/REPLACE_ME_AVANT_PUBLICATION" target="_blank" rel="noopener">
+      <a class="btn" href="https://buy.stripe.com/REPLACE_ME_AVANT_PUBLICATION" target="_blank" rel="noopener" data-i18n="donate.cta">
         Faire un don
       </a>
-      <p class="fine-print">Paiement sécurisé par Stripe. Don volontaire, sans contrepartie.</p>
+      <p class="fine-print" data-i18n="donate.fineprint">Paiement sécurisé par Stripe. Don volontaire, sans contrepartie.</p>
     </div>
   </section>
 
   <section id="support" class="support">
     <div class="wrap">
-      <h2>Une question, un problème ?</h2>
-      <p>Notre équipe support est joignable directement par email.</p>
+      <h2 data-i18n="support.title">Une question, un problème ?</h2>
+      <p data-i18n="support.text">Notre équipe support est joignable directement par email.</p>
       <a class="btn" href="mailto:support@iqratime.com">support@iqratime.com</a>
     </div>
   </section>
@@ -186,14 +195,15 @@
 
 <footer>
   <div class="wrap">
-    <span>© 2026 Iqratime. Tous droits réservés.</span>
+    <span data-i18n="footer.copyright">© 2026 Iqratime. Tous droits réservés.</span>
     <nav>
       <ul style="display:flex; list-style:none; margin:0; padding:0;">
-        <li><a href="mailto:support@iqratime.com">Contact</a></li>
+        <li><a href="mailto:support@iqratime.com" data-i18n="nav.contact">Contact</a></li>
       </ul>
     </nav>
   </div>
 </footer>
 
+<script src="i18n.js" defer></script>
 </body>
 </html>
