@@ -40,6 +40,9 @@ current corpus fails on purpose.**
   fixed times, quiet night hours, optional random jitter.
 - Themes (patience, gratitude, hope, mercy, …) to bias which āyāt you
   receive — entirely on-device, no profiling.
+- "A moment for you": pick how you're feeling right now (anxious, grateful,
+  seeking guidance, …) and get an āyah chosen for that feeling on demand —
+  not just on a schedule.
 - History, favorites, "another āyah", share, copy.
 - A Diagnostics screen explaining exactly what the app can and cannot
   guarantee about delivery timing on your device.

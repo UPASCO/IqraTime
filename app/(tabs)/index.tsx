@@ -386,6 +386,32 @@ export default function HomeScreen(): React.JSX.Element {
               </Pressable>
             </View>
           </View>
+          <Pressable
+            onPress={() => router.push("/moment")}
+            accessibilityRole="button"
+            accessibilityLabel={t("home.momentCta")}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              backgroundColor: colors.surfaceElevated,
+              borderRadius: 12,
+              paddingVertical: spacing.sm,
+              paddingHorizontal: spacing.md,
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.sm, flexShrink: 1 }}>
+              <Ionicons name="sparkles-outline" size={18} color={colors.accent} />
+              <Text
+                style={{ color: colors.textPrimary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.medium }}
+                numberOfLines={1}
+              >
+                {t("home.momentCta")}
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={16} color={colors.textSecondary} />
+          </Pressable>
+
           {statusMessage ? (
             <NotificationStatusCard
               message={statusMessage}

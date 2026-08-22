@@ -258,7 +258,7 @@ export interface NotificationSlot {
   readonly timeZone: string; // IANA name captured at scheduling time
 }
 
-export type HistorySource = "notification" | "app_shuffle" | "manual_view";
+export type HistorySource = "notification" | "app_shuffle" | "manual_view" | "mood_pick";
 
 export interface HistoryEntry {
   readonly id: string;
