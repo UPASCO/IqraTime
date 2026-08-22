@@ -15,59 +15,52 @@ dossier :
 npx serve website
 ```
 
-## Ce que j'ai préparé (autonome)
+## Publication — GitHub Pages (gratuit, piloté par moi)
 
-- Le site lui-même : `website/index.html` + `website/styles.css`.
-- `vercel.json` (racine du repo) : configure `outputDirectory: "website"`
-  pour que Vercel serve le site sans réglage manuel côté dashboard.
-- `.github/workflows/deploy-website.yml` : déploiement gratuit alternatif
-  sur GitHub Pages (au cas où), indépendant de Vercel.
+Le domaine `iqratime.com` est acheté chez OVH. Pour l'hébergement, on part
+sur **GitHub Pages** plutôt que Vercel : c'est gratuit, ça n'a besoin
+d'aucun nouveau compte (juste le GitHub que ce repo utilise déjà), et je
+peux piloter tout le déploiement moi-même à chaque changement — il ne reste
+que deux actions, décrites ci-dessous, que seul le propriétaire du compte
+GitHub et du compte OVH peut faire (je n'ai accès à aucun des deux).
 
-## Ce que je ne peux pas faire à ta place
+Déjà en place dans ce repo :
 
-Je n'ai ni moyen de paiement, ni accès à un compte OVH ou Vercel : l'achat
-du domaine et la connexion/déploiement doivent être faits par toi (ou en me
-donnant les accès d'un compte que tu contrôles). Voici le chemin exact,
-avec OVH pour le domaine et Vercel pour l'hébergement, comme demandé.
+- `.github/workflows/deploy-website.yml` : republie automatiquement
+  `website/` sur GitHub Pages à chaque push sur cette branche (et sur
+  `main`, si elle existe un jour).
+- `website/CNAME` : contient `iqratime.com`, pour que GitHub Pages serve le
+  domaine personnalisé (et génère un certificat HTTPS gratuit
+  automatiquement, une fois le domaine vérifié).
 
-### 1. Domaine — OVH
+### 1. Une seule case à cocher (toi uniquement — je n'ai pas cet accès)
 
-1. Aller sur [ovhcloud.com](https://www.ovhcloud.com/fr/domains/) →
-   chercher `iqratime.com` → l'acheter (compte OVH à créer si besoin).
-2. Une fois acheté, dans l'espace client OVH → **Domaines → iqratime.com →
-   Zone DNS** : c'est ici qu'on ajoutera les enregistrements pointant vers
-   Vercel (étape 3).
+Dans le repo GitHub → **Settings → Pages** → *Build and deployment* →
+**Source : GitHub Actions**. C'est tout — aucune API ne me permet de
+changer ce réglage à ta place, c'est une action volontairement réservée à
+l'administrateur du repo.
 
-### 2. Hébergement — Vercel
+Une fois ce réglage fait, dis-le-moi : je déclenche le déploiement (ou il
+se lance automatiquement au prochain push) et je vérifie que le site est
+bien en ligne.
 
-1. Aller sur [vercel.com](https://vercel.com) → **Sign up** → connexion
-   avec le compte GitHub qui a accès à `upasco/ayahnow` (le nom du dépôt
-   GitHub reste `ayahnow` en interne — seule la marque/le domaine publics
-   changent pour Iqratime, pas besoin de renommer le repo).
-2. **Add New → Project** → importer le repo `upasco/ayahnow`. Dans l'écran
-   de configuration, renommer le **Project Name** en `iqratime` pour avoir
-   une URL par défaut propre.
-3. Comme `vercel.json` définit déjà `outputDirectory: "website"`, laisser
-   le framework preset sur **Other** et cliquer **Deploy** — aucun autre
-   réglage n'est nécessaire.
-4. Vercel donne une URL gratuite immédiate du type
-   `iqratime.vercel.app` — le site est en ligne dès cette étape, avant même
-   d'avoir un domaine.
+### 2. DNS chez OVH (toi uniquement — je n'ai pas accès à ton compte OVH)
 
-### 3. Relier le domaine OVH à Vercel
+Espace client OVH → **Domaines → iqratime.com → Zone DNS** → ajouter :
 
-1. Dans le projet Vercel → **Settings → Domains** → ajouter `iqratime.com`
-   (et `www.iqratime.com` si voulu).
-2. Vercel affiche les enregistrements DNS à créer. Concrètement, dans la
-   zone DNS OVH (étape 1) :
-   - Un enregistrement **A** pour `iqratime.com` (`@`) → `76.76.21.21`
-   - Un enregistrement **CNAME** pour `www` → `cname.vercel-dns.com.`
-   - *(Vercel affiche la valeur exacte au moment de l'ajout — s'y fier en priorité si elle diffère légèrement.)*
-3. Attendre la propagation DNS (quelques minutes à quelques heures) —
-   Vercel confirme automatiquement quand `https://iqratime.com` est actif
-   (certificat HTTPS généré automatiquement, gratuit).
+| Type | Nom | Cible |
+|---|---|---|
+| A | `@` (ou vide) | `185.199.108.153` |
+| A | `@` (ou vide) | `185.199.109.153` |
+| A | `@` (ou vide) | `185.199.110.153` |
+| A | `@` (ou vide) | `185.199.111.153` |
+| CNAME | `www` | `upasco.github.io.` |
 
-### 4. Email — support@iqratime.com (gratuit, inclus chez OVH)
+Ce sont les adresses officielles de GitHub Pages (elles ne changent pas
+d'un projet à l'autre). Propagation généralement en quelques minutes à
+quelques heures.
+
+### Email — support@iqratime.com (gratuit, inclus chez OVH)
 
 OVH inclut une **redirection email illimitée et gratuite** avec chaque
 domaine (pas besoin d'une boîte mail payante pour un simple alias support) :
@@ -80,10 +73,17 @@ domaine (pas besoin d'une boîte mail payante pour un simple alias support) :
    ("Send mail as"), ou souscrire à l'offre email payante d'OVH si une
    vraie boîte complète est nécessaire plus tard.
 
-**Coût total : uniquement le prix du domaine chez OVH** (hébergement Vercel
-et redirection email inclus gratuitement dans les offres ci-dessus).
+**Coût total : 0 € au-delà du domaine déjà acheté** — hébergement GitHub
+Pages et redirection email OVH sont gratuits.
 
-### 5. Don — lien Stripe à créer (placeholder pour l'instant)
+### Alternative envisagée : Vercel
+
+`vercel.json` reste dans le repo si tu préfères Vercel plus tard (interface
+plus riche, aperçus de déploiement par PR, etc.) — mais ça demande de créer
+un compte Vercel et de t'y connecter, ce que je ne peux pas faire à ta
+place. GitHub Pages évite complètement cette étape.
+
+## Don — lien Stripe à créer (placeholder pour l'instant)
 
 Le site a deux boutons "Faire un don" / "Soutenir ce projet" (section
 `#don` et carte "Prochain projet" dans `#projets-similaires`), tous deux
@@ -107,7 +107,6 @@ mobile, réutilisable telle quelle pour le site) :
 
 ---
 
-Dis-moi une fois le domaine acheté et le projet Vercel créé — je peux
-directement vérifier la config DNS, ajuster `vercel.json` si besoin, et
-mettre à jour le contenu du site (textes, visuels, liens Store) dès que
-l'app a une fiche Store.
+Dis-moi dès que la case **Settings → Pages → Source: GitHub Actions** est
+cochée et que les DNS OVH sont posés — je vérifie que tout fonctionne
+(déploiement, HTTPS, propagation) et je vous relance si besoin.
