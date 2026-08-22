@@ -42,6 +42,7 @@ export const zhCN: TranslationSchema = {
       interfaceLanguageLabel: "界面语言",
       translationLanguageLabel: "古兰经译文语言",
       showArabicLabel: "显示原文阿拉伯文",
+      contentModeLabel: "你想接收什么内容？",
       previewLabel: "预览",
       cta: "继续",
     },

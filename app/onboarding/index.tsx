@@ -94,6 +94,12 @@ export default function OnboardingScreen(): React.JSX.Element {
               <Text style={{ color: colors.textPrimary, flex: 1 }}>{t("onboarding.step2.showArabicLabel")}</Text>
               <Switch value={preferences.showArabicText} onValueChange={(v) => update({ showArabicText: v })} />
             </View>
+            <Text style={{ color: colors.textSecondary }}>{t("onboarding.step2.contentModeLabel")}</Text>
+            <View style={styles.chipsRow}>
+              <Chip label={t("settings.contentModeAyahOnly")} selected={preferences.contentMode === "ayah_only"} onPress={() => update({ contentMode: "ayah_only" })} />
+              <Chip label={t("settings.contentModeHadithOnly")} selected={preferences.contentMode === "hadith_only"} onPress={() => update({ contentMode: "hadith_only" })} />
+              <Chip label={t("settings.contentModeMixed")} selected={preferences.contentMode === "mixed"} onPress={() => update({ contentMode: "mixed" })} />
+            </View>
             {previewEntry ? (
               <View style={{ gap: spacing.xs }}>
                 <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption }}>{t("onboarding.step2.previewLabel")}</Text>

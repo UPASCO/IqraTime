@@ -99,7 +99,11 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
           accessibilityRole={props.onOpenDetail ? "button" : undefined}
           accessibilityLabel={props.onOpenDetail ? `${referenceLabel}. ${props.translationText ?? ""}` : undefined}
         >
-          <View style={{ gap: spacing.lg, paddingHorizontal: spacing.lg }}>
+          {/* Right padding is wider than left: the favorite/share/copy rail is
+              pinned to the physical right edge for the whole card height, so
+              text needs a permanent clearance there — otherwise a long
+              hadith's last lines render underneath the buttons. */}
+          <View style={{ gap: spacing.lg, paddingLeft: spacing.lg, paddingRight: spacing.lg + 56 }}>
             <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xs }}>
               <View style={[styles.hadithPill, { paddingHorizontal: spacing.sm, paddingVertical: spacing.xxs }]}>
                 <Text style={{ color: appConfig.brand.night, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.bold }}>

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 Nadir Echaara. All Rights Reserved.
+ * Copyright (c) 2026 IqraTime. All Rights Reserved.
  * IqraTime is proprietary software — see LICENSE and NOTICE.md at the
  * repository root. No license is granted to any other party.
  */

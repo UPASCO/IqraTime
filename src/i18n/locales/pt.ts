@@ -42,6 +42,7 @@ export const pt: TranslationSchema = {
       interfaceLanguageLabel: "Idioma da interface",
       translationLanguageLabel: "Idioma de tradução do Alcorão",
       showArabicLabel: "Mostrar o texto árabe original",
+      contentModeLabel: "O que você gostaria de receber?",
       previewLabel: "Pré-visualização",
       cta: "Continuar",
     },

@@ -2,10 +2,10 @@
 
 IqraTime — including its application source code, architecture, configuration,
 and original brand assets in this repository — is the proprietary
-intellectual property of **Nadir Echaara** (echaara.nadir@gmail.com).
+intellectual property of **IqraTime**.
 
 This project is **not** open source and is **not** released under a
-permissive license. No party other than Nadir Echaara holds any ownership
+permissive license. No party other than IqraTime holds any ownership
 claim, license, or usage right to this codebase. See [`LICENSE`](LICENSE)
 for the full terms.
 

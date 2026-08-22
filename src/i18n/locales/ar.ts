@@ -55,6 +55,7 @@ export const ar: TranslationSchema = {
       interfaceLanguageLabel: "لغة الواجهة",
       translationLanguageLabel: "لغة ترجمة القرآن",
       showArabicLabel: "إظهار النص العربي الأصلي",
+      contentModeLabel: "ماذا تودّ أن تتلقى؟",
       previewLabel: "معاينة",
       cta: "متابعة",
     },

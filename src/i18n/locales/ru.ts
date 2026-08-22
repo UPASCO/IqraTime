@@ -47,6 +47,7 @@ export const ru: TranslationSchema = {
       interfaceLanguageLabel: "Язык интерфейса",
       translationLanguageLabel: "Язык перевода Корана",
       showArabicLabel: "Показывать оригинальный арабский текст",
+      contentModeLabel: "Что вы хотели бы получать?",
       previewLabel: "Предпросмотр",
       cta: "Продолжить",
     },

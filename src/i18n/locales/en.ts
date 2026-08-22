@@ -47,6 +47,7 @@ export const en = {
       interfaceLanguageLabel: "Interface language",
       translationLanguageLabel: "Quran translation language",
       showArabicLabel: "Show original Arabic text",
+      contentModeLabel: "What would you like to receive?",
       previewLabel: "Preview",
       cta: "Continue",
     },

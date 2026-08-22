@@ -113,7 +113,13 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
           accessibilityRole={props.onOpenDetail ? "button" : undefined}
           accessibilityLabel={props.onOpenDetail ? `${referenceLabel}. ${props.translationText ?? ""}` : undefined}
         >
-          <View style={{ gap: spacing.lg, paddingHorizontal: spacing.lg }}>
+          {/* Right padding is wider than left: the favorite/share/copy rail is
+              pinned to the physical right edge for the whole card height, so
+              text needs a permanent clearance there — otherwise a long ayah's
+              last lines render underneath the buttons, unreadable where the
+              two overlap (spec: keep the action rail legible against text at
+              every content length). */}
+          <View style={{ gap: spacing.lg, paddingLeft: spacing.lg, paddingRight: spacing.lg + 56 }}>
           <Text
             style={{
               color: appConfig.brand.goldLight,

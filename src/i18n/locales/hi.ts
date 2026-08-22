@@ -42,6 +42,7 @@ export const hi: TranslationSchema = {
       interfaceLanguageLabel: "इंटरफ़ेस की भाषा",
       translationLanguageLabel: "क़ुरआन अनुवाद की भाषा",
       showArabicLabel: "मूल अरबी पाठ दिखाएं",
+      contentModeLabel: "आप क्या प्राप्त करना चाहेंगे?",
       previewLabel: "पूर्वावलोकन",
       cta: "जारी रखें",
     },

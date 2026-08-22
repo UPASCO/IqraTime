@@ -211,7 +211,7 @@ identifier, no data leaves the device. See [docs/PRIVACY.md](docs/PRIVACY.md).
 
 IqraTime is proprietary software. All application source code, architecture,
 and original brand assets are the exclusive intellectual property of
-**Nadir Echaara** — see [`LICENSE`](LICENSE) and [`NOTICE.md`](NOTICE.md).
+**IqraTime** — see [`LICENSE`](LICENSE) and [`NOTICE.md`](NOTICE.md).
 This is not an open-source project and no license is granted to third
 parties. Third-party package licenses: see
 [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md). Corpus/translation

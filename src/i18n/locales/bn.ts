@@ -42,6 +42,7 @@ export const bn: TranslationSchema = {
       interfaceLanguageLabel: "ইন্টারফেসের ভাষা",
       translationLanguageLabel: "কুরআন অনুবাদের ভাষা",
       showArabicLabel: "মূল আরবি পাঠ্য দেখান",
+      contentModeLabel: "আপনি কী পেতে চান?",
       previewLabel: "পূর্বরূপ",
       cta: "চালিয়ে যান",
     },
