@@ -14,7 +14,8 @@ import { getRuntimeCorpus, getTranslation, getCorpusEntry } from "@/data/corpus"
 import { selectAyah } from "@/services/selectionEngine";
 import { DEFAULT_ANTI_REPEAT_WINDOW, MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
 import { ALL_MOOD_KEYS, MOOD_THEME_MAP, MOOD_ICONS, type MoodKey } from "@/domain/moods";
-import { formatShareText } from "@/utils/shareText";
+import { formatShareText, buildGetTheAppLine } from "@/utils/shareText";
+import { incrementShareCount } from "@/storage/shareCounterStore";
 import { generateLocalId } from "@/utils/id";
 import { appConfig } from "@/config/appConfig";
 
@@ -109,6 +110,7 @@ export default function MomentScreen(): React.JSX.Element {
       includeTranslation: preferences.textDisplayMode !== "arabic_only",
       referenceLabel: t("ayah.surahLabel"),
       appName: t("common.appName"),
+      getTheAppLine: buildGetTheAppLine(t("common.getTheAppShareLine")),
     });
 
   if (mood && (ayahId || loading)) {
@@ -178,7 +180,14 @@ export default function MomentScreen(): React.JSX.Element {
                     setTimeout(() => setJustCopied(false), 1500);
                   }}
                 />
-                <Button label={t("home.shareCta")} variant="secondary" onPress={() => Share.share({ message: shareText() })} />
+                <Button
+                  label={t("home.shareCta")}
+                  variant="secondary"
+                  onPress={() => {
+                    incrementShareCount();
+                    Share.share({ message: shareText() });
+                  }}
+                />
               </View>
               <Button
                 label={t("moment.viewFullCta")}

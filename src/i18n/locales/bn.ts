@@ -29,6 +29,8 @@ export const bn: TranslationSchema = {
     confirm: "নিশ্চিত করুন",
     openSettings: "সিস্টেম সেটিংস খুলুন",
     frequencyEveryHour: pluralForm({ one: "প্রতি {count} ঘণ্টায়", other: "প্রতি {count} ঘণ্টায়" }),
+    getTheAppShareLine: "📲 IqraTime ডাউনলোড করুন — iOS: {iosUrl} · Android: {androidUrl}",
+    imageBrandFooter: "IqraTime — কুরআন ও হাদিস, একটি আয়াত একবারে",
   },
   onboarding: {
     step1: {
@@ -139,6 +141,11 @@ export const bn: TranslationSchema = {
     outOf: "মোট {total}টির মধ্যে",
     percentLabel: "কর্পাসের {percent}%",
     milestoneLabel: "{percent}% আবিষ্কৃত",
+    shareCardLabel: "শেয়ার করা আয়াত ও হাদিস",
+    shareCardCaption: "উপকারী জ্ঞান শেয়ার করা ইসলামে নিজেই একটি সৎকাজ হিসেবে বিবেচিত",
+    shareMilestoneLabel: "{count}+ শেয়ার করা হয়েছে",
+    shareSectionTitle: "কেন শেয়ার করা গুরুত্বপূর্ণ",
+    shareSectionBody: "ইসলামে, অন্যদের সাথে জ্ঞান ও পথনির্দেশ শেয়ার করা একটি সৎকাজ হিসেবে বিবেচিত হয় যার প্রতিদান সময়ের সাথে বাড়তে থাকতে পারে। আপনি যে প্রতিটি আয়াত বা হাদিস শেয়ার করেন তা এমন একটি বীজ হতে পারে যার জন্য আপনি প্রতিদান পাবেন, ইনশাআল্লাহ।",
   },
   ayah: {
     surahLabel: "সূরা",

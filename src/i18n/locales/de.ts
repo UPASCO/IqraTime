@@ -29,6 +29,8 @@ export const de: TranslationSchema = {
     confirm: "Bestätigen",
     openSettings: "Systemeinstellungen öffnen",
     frequencyEveryHour: pluralForm({ one: "Alle {count} Stunde", other: "Alle {count} Stunden" }),
+    getTheAppShareLine: "📲 IqraTime herunterladen — iOS: {iosUrl} · Android: {androidUrl}",
+    imageBrandFooter: "IqraTime — Der Koran und Hadithe, ein Vers nach dem anderen",
   },
   onboarding: {
     step1: {
@@ -139,6 +141,11 @@ export const de: TranslationSchema = {
     outOf: "von {total}",
     percentLabel: "{percent}% der Sammlung",
     milestoneLabel: "{percent}% entdeckt",
+    shareCardLabel: "Geteilte Verse & Hadithe",
+    shareCardCaption: "Nützliches Wissen zu teilen gilt im Islam selbst als gute Tat",
+    shareMilestoneLabel: "{count}+ Mal geteilt",
+    shareSectionTitle: "Warum Teilen zählt",
+    shareSectionBody: "Im Islam gilt das Teilen von Wissen und Rechtleitung mit anderen als eine gute Tat, deren Lohn weiterwachsen kann. Jeder Vers oder Hadith, den du teilst, kann etwas säen, wofür du belohnt wirst, inshaAllah.",
   },
   ayah: {
     surahLabel: "Sure",

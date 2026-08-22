@@ -17,10 +17,11 @@ import { selectAyah } from "@/services/selectionEngine";
 import { DEFAULT_ANTI_REPEAT_WINDOW, MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
 import { getPermissionSnapshot } from "@/notifications";
 import type { ContentMode, NotificationSlot } from "@/domain/types";
-import { formatShareText, formatHadithShareText } from "@/utils/shareText";
+import { formatShareText, formatHadithShareText, buildGetTheAppLine } from "@/utils/shareText";
 import { formatDateTime } from "@/utils/dateUtils";
 import { generateLocalId } from "@/utils/id";
 import { recordAppOpen, type StreakInfo } from "@/storage/streakStore";
+import { incrementShareCount } from "@/storage/shareCounterStore";
 import { isHadithFavorite, addHadithFavorite, removeHadithFavorite } from "@/storage/hadithFavoritesStore";
 import { hadithIdToRouteParam } from "@/utils/routeParams";
 import { nextFeedKind } from "@/services/feedContentMode";
@@ -62,6 +63,7 @@ function FeedItem({
       includeTranslation: preferences.textDisplayMode !== "arabic_only",
       referenceLabel: t("ayah.surahLabel"),
       appName: t("common.appName"),
+      getTheAppLine: buildGetTheAppLine(t("common.getTheAppShareLine")),
     });
 
   return (
@@ -78,6 +80,7 @@ function FeedItem({
       showSwipeHint={showSwipeHint}
       onToggleFavorite={() => onToggleFavorite(ayahId)}
       onShare={() => Share.share({ message: shareText() })}
+      onShareAttempted={() => incrementShareCount()}
       onCopy={() => Clipboard.setStringAsync(shareText())}
       onOpenDetail={() => router.push(`/ayah/${ayahView.surah}-${ayahView.ayah}`)}
     />
@@ -120,6 +123,7 @@ function HadithFeedItem({
       includeArabic: preferences.showArabicText,
       includeTranslation: preferences.textDisplayMode !== "arabic_only",
       appName: t("common.appName"),
+      getTheAppLine: buildGetTheAppLine(t("common.getTheAppShareLine")),
     });
 
   return (
@@ -135,6 +139,7 @@ function HadithFeedItem({
       showSwipeHint={showSwipeHint}
       onToggleFavorite={() => onToggleFavorite(hadithId)}
       onShare={() => Share.share({ message: shareText() })}
+      onShareAttempted={() => incrementShareCount()}
       onCopy={() => Clipboard.setStringAsync(shareText())}
       onOpenDetail={() => router.push(`/hadith/${hadithIdToRouteParam(hadithId)}`)}
     />

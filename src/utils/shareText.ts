@@ -1,3 +1,18 @@
+import { appConfig } from "@/config/appConfig";
+
+/**
+ * The "get the app" line appended to every shared ayah/hadith — this is the
+ * app's only growth mechanism (no ads, no referral backend, no account
+ * system): every share is itself an invitation, carrying both store links
+ * so the line works regardless of the recipient's platform. `getTheAppLine`
+ * is provided by the caller (an i18n string with `{iosUrl}`/`{androidUrl}`
+ * placeholders already filled in) so this module stays free of UI/i18n concerns.
+ */
+function appendGetTheAppLine(lines: string[], getTheAppLine?: string): string[] {
+  if (getTheAppLine) lines.push(getTheAppLine);
+  return lines;
+}
+
 export interface ShareTextInput {
   readonly translationText?: string;
   readonly arabicText?: string;
@@ -7,6 +22,8 @@ export interface ShareTextInput {
   readonly includeTranslation: boolean;
   readonly referenceLabel: string; // e.g. "Surah"
   readonly appName: string;
+  /** Pre-rendered "Get the app" line (translated, with store links already filled in) — omit to leave it out. */
+  readonly getTheAppLine?: string;
 }
 
 /**
@@ -14,7 +31,7 @@ export interface ShareTextInput {
  * "<translation>"
  * Surah X, verset Y
  * Shared with IqraTime
- * No tracking link, no generated image in this version.
+ * 📲 Get the app: <iOS link> · <Android link>
  */
 export function formatShareText(input: ShareTextInput): string {
   const lines: string[] = [];
@@ -22,7 +39,7 @@ export function formatShareText(input: ShareTextInput): string {
   if (input.includeTranslation && input.translationText) lines.push(`“${input.translationText}”`);
   lines.push(`${input.referenceLabel} ${input.surah}:${input.ayah}`);
   lines.push(input.appName);
-  return lines.join("\n");
+  return appendGetTheAppLine(lines, input.getTheAppLine).join("\n");
 }
 
 export interface HadithShareTextInput {
@@ -33,6 +50,7 @@ export interface HadithShareTextInput {
   readonly includeArabic: boolean;
   readonly includeTranslation: boolean;
   readonly appName: string;
+  readonly getTheAppLine?: string;
 }
 
 export function formatHadithShareText(input: HadithShareTextInput): string {
@@ -41,5 +59,10 @@ export function formatHadithShareText(input: HadithShareTextInput): string {
   if (input.includeTranslation && input.translationText) lines.push(`“${input.translationText}”`);
   lines.push(`${input.collectionDisplayName} #${input.hadithNumber}`);
   lines.push(input.appName);
-  return lines.join("\n");
+  return appendGetTheAppLine(lines, input.getTheAppLine).join("\n");
+}
+
+/** Fills the store links into the translated "get the app" template — shared by every screen that shares/copies an ayah or hadith. */
+export function buildGetTheAppLine(template: string): string {
+  return template.replace("{iosUrl}", appConfig.iosAppStoreUrl).replace("{androidUrl}", appConfig.androidPlayStoreUrl);
 }

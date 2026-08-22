@@ -29,6 +29,8 @@ export const zhCN: TranslationSchema = {
     confirm: "确认",
     openSettings: "打开系统设置",
     frequencyEveryHour: pluralForm({ other: "每 {count} 小时" }),
+    getTheAppShareLine: "📲 下载 IqraTime — iOS: {iosUrl} · Android: {androidUrl}",
+    imageBrandFooter: "IqraTime——古兰经与圣训,一节一节地阅读",
   },
   onboarding: {
     step1: {
@@ -139,6 +141,11 @@ export const zhCN: TranslationSchema = {
     outOf: "共 {total} 节",
     percentLabel: "已完成语料库的 {percent}%",
     milestoneLabel: "已发现 {percent}%",
+    shareCardLabel: "已分享的经文与圣训",
+    shareCardCaption: "在伊斯兰教中,分享有益的知识本身就被视为一种善行",
+    shareMilestoneLabel: "已分享 {count}+ 次",
+    shareSectionTitle: "为什么分享很重要",
+    shareSectionBody: "在伊斯兰教中,与他人分享知识和引导被视为一种善行,其回报可能会随着时间不断增长。你分享的每一节经文或圣训,或许都会种下一颗你将因此获得回报的种子,inshaAllah。",
   },
   ayah: {
     surahLabel: "章",

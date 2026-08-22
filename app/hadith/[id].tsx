@@ -10,7 +10,8 @@ import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useHadithView } from "@/hooks/useHadithView";
 import { isHadithFavorite, addHadithFavorite, removeHadithFavorite } from "@/storage/hadithFavoritesStore";
 import { routeParamToHadithId } from "@/utils/routeParams";
-import { formatHadithShareText } from "@/utils/shareText";
+import { formatHadithShareText, buildGetTheAppLine } from "@/utils/shareText";
+import { incrementShareCount } from "@/storage/shareCounterStore";
 
 export default function HadithDetailScreen(): React.JSX.Element {
   const params = useLocalSearchParams<{ id: string }>();
@@ -60,6 +61,7 @@ export default function HadithDetailScreen(): React.JSX.Element {
     includeArabic: preferences.showArabicText,
     includeTranslation: preferences.textDisplayMode !== "arabic_only",
     appName: t("common.appName"),
+    getTheAppLine: buildGetTheAppLine(t("common.getTheAppShareLine")),
   });
 
   return (
@@ -115,7 +117,14 @@ export default function HadithDetailScreen(): React.JSX.Element {
               setTimeout(() => setJustCopied(false), 1500);
             }}
           />
-          <Button label={t("home.shareCta")} variant="secondary" onPress={() => Share.share({ message: shareText })} />
+          <Button
+            label={t("home.shareCta")}
+            variant="secondary"
+            onPress={() => {
+              incrementShareCount();
+              Share.share({ message: shareText });
+            }}
+          />
         </View>
       </View>
     </Screen>

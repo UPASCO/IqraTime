@@ -35,6 +35,7 @@ interface SharedConfigShape {
   contactEmail: string;
   privacyPolicyUrl: string;
   deepLinkScheme: string;
+  iosAppStoreUrl: string;
   brand: {
     night: string;
     deepGreen: string;
@@ -106,6 +107,21 @@ export const appConfig = {
 
   /** Deep link scheme used for notification taps and universal links. */
   deepLinkScheme: raw.deepLinkScheme,
+
+  /**
+   * PROVISIONAL — replace with the real App Store listing URL (available
+   * only after the app's first App Store Connect submission) before
+   * publishing. Used in the "get the app" line appended to shared ayat/hadith.
+   */
+  iosAppStoreUrl: raw.iosAppStoreUrl,
+
+  /**
+   * The Play Store URL needs no opaque id from Google — it's always
+   * `.../details?id=<package name>` — so, unlike the iOS URL above, this is
+   * already correct and will keep working once `androidPackage` is set to
+   * the real, owned package id before publishing.
+   */
+  androidPlayStoreUrl: `https://play.google.com/store/apps/details?id=${raw.androidPackage}`,
 
   /** Brand colors — also mirrored in src/theme/tokens.ts; keep in sync. */
   brand: raw.brand,

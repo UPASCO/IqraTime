@@ -22,6 +22,8 @@ export interface AyahFeedSlideProps {
   showSwipeHint?: boolean;
   onToggleFavorite?: () => void;
   onShare?: () => void;
+  /** Fires the moment the share button is tapped, regardless of whether the image capture or the plain-text fallback ends up being used — the single point for counting a share attempt. */
+  onShareAttempted?: () => void;
   onCopy?: () => void;
   onOpenDetail?: () => void;
 }
@@ -47,6 +49,7 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
    * capture or the native share sheet is unavailable for any reason.
    */
   const handleShare = async (): Promise<void> => {
+    props.onShareAttempted?.();
     try {
       const uri = await shotRef.current?.capture?.();
       if (uri && (await Sharing.isAvailableAsync())) {
@@ -150,6 +153,19 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
               ))}
             </View>
             ) : null}
+
+          {/* Baked into the captured image itself, not just the share caption:
+              once shared, a screenshot or a forwarded image carries no text
+              alongside it on most chat apps, so the card needs its own brand
+              recall for a curious viewer to find the app afterwards. */}
+          <View style={[styles.brandFooter, { borderTopColor: "rgba(247,243,232,0.16)", paddingTop: spacing.sm }]}>
+            <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+              {appConfig.appName}
+            </Text>
+            <Text style={{ color: appConfig.brand.ivory, opacity: 0.6, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+              {t("common.imageBrandFooter")}
+            </Text>
+          </View>
           </View>
         </Pressable>
       </ScrollView>
@@ -214,6 +230,7 @@ const styles = StyleSheet.create({
   scrollContent: { flexGrow: 1, justifyContent: "center", paddingVertical: 24 },
   arabicText: { textAlign: "right", writingDirection: "rtl", fontWeight: "500" },
   themeRow: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
+  brandFooter: { borderTopWidth: StyleSheet.hairlineWidth, gap: 2 },
   themePill: { backgroundColor: "rgba(247,243,232,0.14)", borderRadius: 999 },
   rail: { position: "absolute", right: 16, bottom: 96, alignItems: "center" },
   railButton: {

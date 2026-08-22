@@ -42,6 +42,8 @@ export const ar: TranslationSchema = {
       many: "كل {count} ساعة",
       other: "كل {count} ساعة",
     }),
+    getTheAppShareLine: "📲 حمّل تطبيق IqraTime — آيفون: {iosUrl} · أندرويد: {androidUrl}",
+    imageBrandFooter: "IqraTime — القرآن والحديث، آية تلو آية",
   },
   onboarding: {
     step1: {
@@ -166,6 +168,11 @@ export const ar: TranslationSchema = {
     outOf: "من أصل {total}",
     percentLabel: "{percent}% من المجموعة",
     milestoneLabel: "تم اكتشاف {percent}%",
+    shareCardLabel: "آيات وأحاديث تمت مشاركتها",
+    shareCardCaption: "مشاركة العلم النافع تُعتبر في حد ذاتها عملاً صالحًا في الإسلام",
+    shareMilestoneLabel: "أكثر من {count} مشاركة",
+    shareSectionTitle: "لماذا تهم المشاركة",
+    shareSectionBody: "في الإسلام، تُعتبر مشاركة العلم والهداية مع الآخرين عملاً صالحًا قد يستمر أجره مع الوقت. كل آية أو حديث تشاركه قد يكون بذرة تُثاب عليها بإذن الله.",
   },
   ayah: {
     surahLabel: "سورة",

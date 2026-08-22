@@ -43,7 +43,11 @@ current corpus fails on purpose.**
 - "A moment for you": pick how you're feeling right now (anxious, grateful,
   seeking guidance, …) and get an āyah chosen for that feeling on demand —
   not just on a schedule.
-- History, favorites, "another āyah", share, copy.
+- History, favorites, "another āyah", share, copy. Every share carries the
+  app's store links and a branded card footer — the app's only growth
+  channel, no ads or accounts involved — and a local "shares" tally on the
+  Progress screen reflects the Islamic principle that sharing knowledge is
+  itself a good deed.
 - A Diagnostics screen explaining exactly what the app can and cannot
   guarantee about delivery timing on your device.
 - Light/dark/system themes, adjustable text size, WCAG AA color contrast.

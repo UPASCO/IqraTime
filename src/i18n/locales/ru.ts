@@ -34,6 +34,8 @@ export const ru: TranslationSchema = {
       many: "Каждые {count} часов",
       other: "Каждые {count} часа",
     }),
+    getTheAppShareLine: "📲 Скачать IqraTime — iOS: {iosUrl} · Android: {androidUrl}",
+    imageBrandFooter: "IqraTime — Коран и хадисы, аят за аятом",
   },
   onboarding: {
     step1: {
@@ -154,6 +156,11 @@ export const ru: TranslationSchema = {
     outOf: "из {total}",
     percentLabel: "{percent}% корпуса",
     milestoneLabel: "Открыто {percent}%",
+    shareCardLabel: "Поделились аятами и хадисами",
+    shareCardCaption: "Делиться полезным знанием само по себе считается благим делом в Исламе",
+    shareMilestoneLabel: "{count}+ раз поделились",
+    shareSectionTitle: "Почему важно делиться",
+    shareSectionBody: "В Исламе делиться знанием и наставлением с другими считается благим делом, награда за которое может продолжать расти. Каждый аят или хадис, которым вы делитесь, может посеять то, за что вы будете вознаграждены, иншаАллах.",
   },
   ayah: {
     surahLabel: "Сура",

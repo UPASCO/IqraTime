@@ -34,6 +34,8 @@ export const en = {
     confirm: "Confirm",
     openSettings: "Open system settings",
     frequencyEveryHour: pluralForm({ one: "Every {count} hour", other: "Every {count} hours" }),
+    getTheAppShareLine: "📲 Get IqraTime — iOS: {iosUrl} · Android: {androidUrl}",
+    imageBrandFooter: "IqraTime — Quran & Hadith, one verse at a time",
   },
   onboarding: {
     step1: {
@@ -144,6 +146,11 @@ export const en = {
     outOf: "out of {total}",
     percentLabel: "{percent}% of the corpus",
     milestoneLabel: "{percent}% discovered",
+    shareCardLabel: "Ayat & hadith shared",
+    shareCardCaption: "Sharing beneficial knowledge is itself considered a good deed in Islam",
+    shareMilestoneLabel: "{count}+ shared",
+    shareSectionTitle: "Why sharing matters",
+    shareSectionBody: "In Islam, sharing knowledge and guidance with others is considered an act of good whose reward can keep growing over time. Every ayah or hadith you share may plant something you'll be rewarded for, inshaAllah.",
   },
   ayah: {
     surahLabel: "Surah",

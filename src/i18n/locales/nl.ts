@@ -29,6 +29,8 @@ export const nl: TranslationSchema = {
     confirm: "Bevestigen",
     openSettings: "Systeeminstellingen openen",
     frequencyEveryHour: pluralForm({ one: "Elk {count} uur", other: "Elke {count} uur" }),
+    getTheAppShareLine: "📲 Download IqraTime — iOS: {iosUrl} · Android: {androidUrl}",
+    imageBrandFooter: "IqraTime — De Koran en hadith, één ayah tegelijk",
   },
   onboarding: {
     step1: {
@@ -139,6 +141,11 @@ export const nl: TranslationSchema = {
     outOf: "van de {total}",
     percentLabel: "{percent}% van de verzameling",
     milestoneLabel: "{percent}% ontdekt",
+    shareCardLabel: "Gedeelde ayat en hadith",
+    shareCardCaption: "Het delen van nuttige kennis wordt in de islam op zich al als een goede daad beschouwd",
+    shareMilestoneLabel: "{count}+ keer gedeeld",
+    shareSectionTitle: "Waarom delen ertoe doet",
+    shareSectionBody: "In de islam wordt het delen van kennis en leiding met anderen beschouwd als een goede daad waarvan de beloning kan blijven groeien. Elke ayah of hadith die je deelt, kan iets planten waarvoor je beloond zult worden, inshaAllah.",
   },
   ayah: {
     surahLabel: "Soera",

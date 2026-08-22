@@ -29,6 +29,8 @@ export const fr: TranslationSchema = {
     confirm: "Confirmer",
     openSettings: "Ouvrir les réglages système",
     frequencyEveryHour: pluralForm({ one: "Toutes les {count} heure", other: "Toutes les {count} heures" }),
+    getTheAppShareLine: "📲 Télécharger IqraTime — iOS : {iosUrl} · Android : {androidUrl}",
+    imageBrandFooter: "IqraTime — Le Coran et les hadiths, une āyah à la fois",
   },
   onboarding: {
     step1: {
@@ -139,6 +141,11 @@ export const fr: TranslationSchema = {
     outOf: "sur {total}",
     percentLabel: "{percent}% du corpus",
     milestoneLabel: "{percent}% découverts",
+    shareCardLabel: "Āyāt et hadiths partagés",
+    shareCardCaption: "Partager un savoir bénéfique est en soi considéré comme une bonne action en Islam",
+    shareMilestoneLabel: "{count}+ partages",
+    shareSectionTitle: "Pourquoi partager compte",
+    shareSectionBody: "En Islam, partager un savoir et une guidance avec autrui est considéré comme une bonne action dont la récompense peut continuer à croître. Chaque āyah ou hadith que vous partagez peut planter une graine pour laquelle vous serez récompensé, inchaAllah.",
   },
   ayah: {
     surahLabel: "Sourate",

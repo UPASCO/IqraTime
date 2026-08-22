@@ -29,6 +29,8 @@ export const hi: TranslationSchema = {
     confirm: "पुष्टि करें",
     openSettings: "सिस्टम सेटिंग्स खोलें",
     frequencyEveryHour: pluralForm({ one: "प्रत्येक {count} घंटे में", other: "प्रत्येक {count} घंटों में" }),
+    getTheAppShareLine: "📲 IqraTime डाउनलोड करें — iOS: {iosUrl} · Android: {androidUrl}",
+    imageBrandFooter: "IqraTime — कुरान और हदीस, एक आयत एक समय में",
   },
   onboarding: {
     step1: {
@@ -139,6 +141,11 @@ export const hi: TranslationSchema = {
     outOf: "कुल {total} में से",
     percentLabel: "कॉर्पस का {percent}%",
     milestoneLabel: "{percent}% खोजा गया",
+    shareCardLabel: "साझा की गई आयतें और हदीसें",
+    shareCardCaption: "लाभदायक ज्ञान साझा करना इस्लाम में स्वयं एक नेक कार्य माना जाता है",
+    shareMilestoneLabel: "{count}+ साझा किए गए",
+    shareSectionTitle: "साझा करना क्यों मायने रखता है",
+    shareSectionBody: "इस्लाम में, दूसरों के साथ ज्ञान और मार्गदर्शन साझा करना एक नेक कार्य माना जाता है जिसका प्रतिफल समय के साथ बढ़ता रह सकता है। आपके द्वारा साझा की गई हर आयत या हदीस एक ऐसा बीज हो सकती है जिसका प्रतिफल आपको मिलेगा, इंशाअल्लाह।",
   },
   ayah: {
     surahLabel: "सूरह",

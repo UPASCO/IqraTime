@@ -11,7 +11,8 @@ import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { useAyahView } from "@/hooks/useAyahView";
 import { getTafsir, tafsirSources } from "@/data/corpus";
 import { routeParamToAyahId } from "@/utils/routeParams";
-import { formatShareText } from "@/utils/shareText";
+import { formatShareText, buildGetTheAppLine } from "@/utils/shareText";
+import { incrementShareCount } from "@/storage/shareCounterStore";
 
 export default function AyahDetailScreen(): React.JSX.Element {
   const params = useLocalSearchParams<{ id: string }>();
@@ -66,6 +67,7 @@ export default function AyahDetailScreen(): React.JSX.Element {
     includeTranslation: preferences.textDisplayMode !== "arabic_only",
     referenceLabel: t("ayah.surahLabel"),
     appName: t("common.appName"),
+    getTheAppLine: buildGetTheAppLine(t("common.getTheAppShareLine")),
   });
 
   return (
@@ -136,7 +138,14 @@ export default function AyahDetailScreen(): React.JSX.Element {
               setTimeout(() => setJustCopied(false), 1500);
             }}
           />
-          <Button label={t("home.shareCta")} variant="secondary" onPress={() => Share.share({ message: shareText })} />
+          <Button
+            label={t("home.shareCta")}
+            variant="secondary"
+            onPress={() => {
+              incrementShareCount();
+              Share.share({ message: shareText });
+            }}
+          />
         </View>
       </View>
     </Screen>

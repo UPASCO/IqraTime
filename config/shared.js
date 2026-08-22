@@ -27,14 +27,19 @@ module.exports = {
     fr: "Et si chaque notification comptait vraiment ! Une āyah ou un hadith authentique, un peu de hassanat, inchAllah.",
     alt_fr: "Le Coran et les hadiths sur votre écran, sans déverrouiller — une source de hassanat, inchAllah.",
   },
-  version: "1.6.0",
-  buildNumber: 5,
+  version: "1.7.0",
+  buildNumber: 6,
   iosBundleIdentifier: "com.example.iqratime.provisional",
   androidPackage: "com.example.iqratime.provisional",
   easProjectId: "5aa33698-7d7f-424c-845f-1a1e548ec93e",
   contactEmail: "contact@iqratime.example",
   privacyPolicyUrl: "https://iqratime.example/privacy",
   deepLinkScheme: "iqratime",
+  // PROVISIONAL — Apple only assigns this numeric app id once the app has
+  // been created in App Store Connect, so (unlike the Play Store URL below)
+  // it cannot be derived from anything already known; replace before
+  // sharing ever needs to work on a real device. See docs/RELEASE_CHECKLIST.md.
+  iosAppStoreUrl: "https://apps.apple.com/app/idPROVISIONAL",
   brand: {
     // Darkest stop of the app icon's night sky — used wherever the UI should
     // read as an extension of the icon (the immersive ayah feed, splash).

@@ -20,6 +20,8 @@ export interface HadithFeedSlideProps {
   showSwipeHint?: boolean;
   onToggleFavorite?: () => void;
   onShare?: () => void;
+  /** Fires the moment the share button is tapped, regardless of whether the image capture or the plain-text fallback ends up being used — the single point for counting a share attempt. */
+  onShareAttempted?: () => void;
   onCopy?: () => void;
   onOpenDetail?: () => void;
 }
@@ -43,6 +45,7 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
   };
 
   const handleShare = async (): Promise<void> => {
+    props.onShareAttempted?.();
     try {
       const uri = await shotRef.current?.capture?.();
       if (uri && (await Sharing.isAvailableAsync())) {
@@ -131,6 +134,16 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
                 {props.translatorLabel}
               </Text>
             ) : null}
+
+            {/* Baked into the captured image itself — see AyahFeedSlide's identical footer for why. */}
+            <View style={[styles.brandFooter, { borderTopColor: "rgba(247,243,232,0.16)", paddingTop: spacing.sm }]}>
+              <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+                {appConfig.appName}
+              </Text>
+              <Text style={{ color: appConfig.brand.ivory, opacity: 0.6, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+                {t("common.imageBrandFooter")}
+              </Text>
+            </View>
           </View>
         </Pressable>
       </ScrollView>
@@ -189,6 +202,7 @@ const styles = StyleSheet.create({
   scrollContent: { flexGrow: 1, justifyContent: "center", paddingVertical: 24 },
   arabicText: { textAlign: "right", writingDirection: "rtl", fontWeight: "500" },
   hadithPill: { backgroundColor: "rgba(228,193,112,0.9)", borderRadius: 999 },
+  brandFooter: { borderTopWidth: StyleSheet.hairlineWidth, gap: 2 },
   rail: { position: "absolute", right: 16, bottom: 96, alignItems: "center" },
   railButton: { width: 48, height: 48, borderRadius: 24, backgroundColor: "rgba(0,0,0,0.18)", alignItems: "center", justifyContent: "center" },
   swipeHint: { position: "absolute", bottom: 28, alignSelf: "center", alignItems: "center", gap: 2 },
