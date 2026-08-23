@@ -35,6 +35,7 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
   const { spacing, typography, fontScaleMultiplier } = useTheme();
   const { t, direction } = useI18n();
   const [justCopied, setJustCopied] = React.useState(false);
+  const [isPreparingShareImage, setIsPreparingShareImage] = React.useState(false);
   const shotRef = useRef<ViewShotRef>(null);
 
   const handleCopy = (): void => {
@@ -43,15 +44,20 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
     setTimeout(() => setJustCopied(false), 1500);
   };
 
+  /** The brand/download footer only exists for the captured image — see AyahFeedSlide's identical handleShare for why it's mounted/unmounted around the capture instead of always shown. */
   const handleShare = async (): Promise<void> => {
     props.onShareAttempted?.();
     try {
+      setIsPreparingShareImage(true);
+      await new Promise((resolve) => setTimeout(resolve, 50));
       const uri = await shotRef.current?.capture?.();
+      setIsPreparingShareImage(false);
       if (uri && (await Sharing.isAvailableAsync())) {
         await Sharing.shareAsync(uri, { mimeType: "image/png", dialogTitle: t("home.shareCta") });
         return;
       }
     } catch {
+      setIsPreparingShareImage(false);
       // Fall through to the plain-text share below.
     }
     props.onShare?.();
@@ -128,15 +134,17 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
               {orderedBlocks.map((block, index) => (block ? <React.Fragment key={index}>{block}</React.Fragment> : null))}
             </View>
 
-            {/* Baked into the captured image itself — see AyahFeedSlide's identical footer for why. */}
-            <View style={[styles.brandFooter, { borderTopColor: "rgba(247,243,232,0.16)", paddingTop: spacing.sm }]}>
-              <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-                {appConfig.appName}
-              </Text>
-              <Text style={{ color: appConfig.brand.ivory, opacity: 0.6, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-                {t("common.imageBrandFooter")}
-              </Text>
-            </View>
+            {/* Baked into the captured image only — not shown while swiping through the feed. See AyahFeedSlide's identical footer for why. */}
+            {isPreparingShareImage ? (
+              <View style={[styles.brandFooter, { borderTopColor: "rgba(247,243,232,0.16)", paddingTop: spacing.sm }]}>
+                <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+                  {appConfig.appName}
+                </Text>
+                <Text style={{ color: appConfig.brand.ivory, opacity: 0.6, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+                  {t("common.imageBrandFooter")}
+                </Text>
+              </View>
+            ) : null}
           </View>
         </Pressable>
       </ScrollView>

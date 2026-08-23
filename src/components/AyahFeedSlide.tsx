@@ -32,6 +32,7 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
   const { spacing, typography, fontScaleMultiplier } = useTheme();
   const { t, direction } = useI18n();
   const [justCopied, setJustCopied] = React.useState(false);
+  const [isPreparingShareImage, setIsPreparingShareImage] = React.useState(false);
   const shotRef = useRef<ViewShotRef>(null);
 
   const handleCopy = (): void => {
@@ -46,16 +47,24 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
    * quote card instead of a wall of unstyled text in the recipient's chat.
    * Falls back to the plain-text share the parent screen supplies if the
    * capture or the native share sheet is unavailable for any reason.
+   *
+   * The brand/download footer only exists for the captured image, not for
+   * someone just swiping through the feed — so it's mounted right before
+   * capture and unmounted right after, rather than always being on screen.
    */
   const handleShare = async (): Promise<void> => {
     props.onShareAttempted?.();
     try {
+      setIsPreparingShareImage(true);
+      await new Promise((resolve) => setTimeout(resolve, 50));
       const uri = await shotRef.current?.capture?.();
+      setIsPreparingShareImage(false);
       if (uri && (await Sharing.isAvailableAsync())) {
         await Sharing.shareAsync(uri, { mimeType: "image/png", dialogTitle: t("home.shareCta") });
         return;
       }
     } catch {
+      setIsPreparingShareImage(false);
       // Fall through to the plain-text share below.
     }
     props.onShare?.();
@@ -147,18 +156,22 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
             </View>
             ) : null}
 
-          {/* Baked into the captured image itself, not just the share caption:
-              once shared, a screenshot or a forwarded image carries no text
-              alongside it on most chat apps, so the card needs its own brand
-              recall for a curious viewer to find the app afterwards. */}
-          <View style={[styles.brandFooter, { borderTopColor: "rgba(247,243,232,0.16)", paddingTop: spacing.sm }]}>
-            <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-              {appConfig.appName}
-            </Text>
-            <Text style={{ color: appConfig.brand.ivory, opacity: 0.6, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-              {t("common.imageBrandFooter")}
-            </Text>
-          </View>
+          {/* Baked into the captured image only (mounted only while
+              isPreparingShareImage is true — see handleShare) — not shown
+              while swiping through the feed. Once shared, a screenshot or a
+              forwarded image carries no text alongside it on most chat apps,
+              so the card needs its own brand recall for a curious viewer to
+              find the app afterwards. */}
+          {isPreparingShareImage ? (
+            <View style={[styles.brandFooter, { borderTopColor: "rgba(247,243,232,0.16)", paddingTop: spacing.sm }]}>
+              <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+                {appConfig.appName}
+              </Text>
+              <Text style={{ color: appConfig.brand.ivory, opacity: 0.6, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+                {t("common.imageBrandFooter")}
+              </Text>
+            </View>
+          ) : null}
           </View>
         </Pressable>
       </ScrollView>
