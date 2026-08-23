@@ -83,27 +83,18 @@ plus riche, aperçus de déploiement par PR, etc.) — mais ça demande de crée
 un compte Vercel et de t'y connecter, ce que je ne peux pas faire à ta
 place. GitHub Pages évite complètement cette étape.
 
-## Don — lien Stripe à créer (placeholder pour l'instant)
+## Don — lien Stripe
 
 Le site a deux boutons "Faire un don" / "Soutenir ce projet" (section
 `#don` et carte "Prochain projet" dans `#projets-similaires`), tous deux
-pointant vers `https://buy.stripe.com/REPLACE_ME_AVANT_PUBLICATION` — un
-lien **factice, non fonctionnel**, marqué par un commentaire `TODO` dans
+pointant vers le vrai Payment Link Stripe fourni par le propriétaire du
+compte : `https://buy.stripe.com/fZu8wH6nOaxP7J44Oudwc00`.
+
+Pour changer le montant proposé, les moyens de paiement, ou le libellé,
+tout se gère directement dans le **Dashboard Stripe** (Payment Links) — pas
+besoin de toucher au code. Si un jour le lien change (nouveau Payment Link,
+rotation), remplacer les deux occurrences de l'URL dans
 `website/index.html`.
-
-Je n'ai ni compte Stripe ni accès à un compte bancaire, donc je ne peux pas
-créer ce lien à ta place — c'est une vérification d'identité + un compte
-bancaire réels. La procédure complète existe déjà dans ce repo, à
-`docs/STRIPE_SETUP.md` (créée pour la fonctionnalité de don de l'app
-mobile, réutilisable telle quelle pour le site) :
-
-1. Créer/utiliser un compte Stripe vérifié.
-2. **Payment Links → Create Payment Link**, montant libre ("le client
-   choisit le montant"), nom "Soutenir Iqratime".
-3. Copier l'URL générée (`https://buy.stripe.com/xxxxxxxxxxxx`).
-4. Me la donner (ou remplacer directement les deux occurrences de
-   `REPLACE_ME_AVANT_PUBLICATION` dans `website/index.html`) — c'est une
-   URL publique, pas un secret, donc rien de sensible à gérer ici.
 
 ---
 
