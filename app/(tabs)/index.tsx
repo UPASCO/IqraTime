@@ -73,7 +73,6 @@ function FeedItem({
       ayah={ayahView.ayah}
       arabicText={preferences.showArabicText ? ayahView.arabicText : undefined}
       translationText={ayahView.translationText}
-      translatorLabel={ayahView.translatorLabel}
       themeLabels={ayahView.themeLabels}
       textOrder={preferences.textOrder}
       isFavorite={isFavorite}
@@ -133,7 +132,6 @@ function HadithFeedItem({
       hadithNumber={hadithView.hadithNumber}
       arabicText={preferences.showArabicText ? hadithView.arabicText : undefined}
       translationText={hadithView.translationText}
-      translatorLabel={hadithView.translatorLabel}
       textOrder={preferences.textOrder}
       isFavorite={isFavorite}
       showSwipeHint={showSwipeHint}

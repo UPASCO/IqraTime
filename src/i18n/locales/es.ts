@@ -30,7 +30,7 @@ export const es: TranslationSchema = {
     openSettings: "Abrir los ajustes del sistema",
     frequencyEveryHour: pluralForm({ one: "Cada {count} hora", other: "Cada {count} horas" }),
     getTheAppShareLine: "📲 Descarga IqraTime — iOS: {iosUrl} · Android: {androidUrl}",
-    imageBrandFooter: "IqraTime — El Corán y los hadices, una āyah a la vez",
+    imageBrandFooter: "Busca «IqraTime» en App Store y Google Play",
   },
   onboarding: {
     step1: {
@@ -228,7 +228,6 @@ export const es: TranslationSchema = {
     sound: "Sonido",
     vibration: "Vibración",
     jitter: "Ligero desfase aleatorio",
-    testNotificationCta: "Enviar notificación de prueba",
     sectionLanguage: "Idioma",
     interfaceLanguage: "Idioma de la interfaz",
     translationLanguage: "Idioma de traducción",

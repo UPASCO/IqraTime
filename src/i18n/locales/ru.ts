@@ -35,7 +35,7 @@ export const ru: TranslationSchema = {
       other: "Каждые {count} часа",
     }),
     getTheAppShareLine: "📲 Скачать IqraTime — iOS: {iosUrl} · Android: {androidUrl}",
-    imageBrandFooter: "IqraTime — Коран и хадисы, аят за аятом",
+    imageBrandFooter: "Найдите «IqraTime» в App Store и Google Play",
   },
   onboarding: {
     step1: {
@@ -253,7 +253,6 @@ export const ru: TranslationSchema = {
     sound: "Звук",
     vibration: "Вибрация",
     jitter: "Небольшое случайное смещение",
-    testNotificationCta: "Отправить тестовое уведомление",
     sectionLanguage: "Язык",
     interfaceLanguage: "Язык интерфейса",
     translationLanguage: "Язык перевода",

@@ -8,7 +8,6 @@ import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { appConfig } from "@/config/appConfig";
-import { sendTestNotification } from "@/notifications";
 import { isSupportAvailable } from "@/services/supportPaymentService";
 import { clearStreak } from "@/storage/streakStore";
 
@@ -18,12 +17,6 @@ export default function SettingsScreen(): React.JSX.Element {
   const router = useRouter();
   const { preferences, update, reset } = usePreferencesStore();
   const db = useAppDatabase();
-
-  const handleTestNotification = (): void => {
-    sendTestNotification(preferences.interfaceLocale, t("common.appName")).catch(() => {
-      Alert.alert(t("errors.generic"));
-    });
-  };
 
   const handleResetAll = (): void => {
     Alert.alert(t("settings.resetConfirmTitle"), t("settings.resetConfirmBody"), [
@@ -88,8 +81,6 @@ export default function SettingsScreen(): React.JSX.Element {
           value={preferences.schedule.vibrationEnabled}
           onValueChange={(v) => update({ schedule: { ...preferences.schedule, vibrationEnabled: v } })}
         />
-        <SettingRow label={t("settings.testNotificationCta")} onPress={handleTestNotification} />
-
         <SectionHeader title={t("settings.sectionContent")} />
         <SettingRow label={t("settings.translationLanguage")} />
         <LanguageChipSelector value={preferences.translationLocale} onChange={(locale) => update({ translationLocale: locale })} />

@@ -35,7 +35,7 @@ export const en = {
     openSettings: "Open system settings",
     frequencyEveryHour: pluralForm({ one: "Every {count} hour", other: "Every {count} hours" }),
     getTheAppShareLine: "📲 Get IqraTime — iOS: {iosUrl} · Android: {androidUrl}",
-    imageBrandFooter: "IqraTime — Quran & Hadith, one verse at a time",
+    imageBrandFooter: "Search “IqraTime” on the App Store & Google Play",
   },
   onboarding: {
     step1: {
@@ -233,7 +233,6 @@ export const en = {
     sound: "Sound",
     vibration: "Vibration",
     jitter: "Slight random offset",
-    testNotificationCta: "Send test notification",
     sectionLanguage: "Language",
     interfaceLanguage: "Interface language",
     translationLanguage: "Translation language",

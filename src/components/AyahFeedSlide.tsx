@@ -15,7 +15,6 @@ export interface AyahFeedSlideProps {
   ayah: number;
   arabicText?: string;
   translationText?: string;
-  translatorLabel?: string;
   themeLabels?: readonly string[];
   textOrder: TextOrder;
   isFavorite?: boolean;
@@ -137,12 +136,6 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
           <View style={{ gap: spacing.md }}>
             {orderedBlocks.map((block, index) => (block ? <React.Fragment key={index}>{block}</React.Fragment> : null))}
           </View>
-
-          {props.translatorLabel ? (
-            <Text style={{ color: appConfig.brand.ivory, opacity: 0.55, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-              {props.translatorLabel}
-            </Text>
-          ) : null}
 
           {props.themeLabels && props.themeLabels.length > 0 ? (
             <View style={styles.themeRow}>

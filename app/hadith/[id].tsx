@@ -86,12 +86,6 @@ export default function HadithDetailScreen(): React.JSX.Element {
           <Text style={{ color: colors.textSecondary, fontStyle: "italic" }}>{t("hadith.translationUnavailable")}</Text>
         )}
 
-        {hadithView.translatorLabel ? (
-          <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-            {t("ayah.translatorLabel")}: {hadithView.translatorLabel}
-          </Text>
-        ) : null}
-
         <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontStyle: "italic" }}>
           {t("hadith.disclaimer")}
         </Text>

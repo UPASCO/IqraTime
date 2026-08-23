@@ -14,7 +14,6 @@ export interface HadithFeedSlideProps {
   hadithNumber: number;
   arabicText?: string;
   translationText?: string;
-  translatorLabel?: string;
   textOrder: "arabic_first" | "translation_first";
   isFavorite?: boolean;
   showSwipeHint?: boolean;
@@ -128,12 +127,6 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
             <View style={{ gap: spacing.md }}>
               {orderedBlocks.map((block, index) => (block ? <React.Fragment key={index}>{block}</React.Fragment> : null))}
             </View>
-
-            {props.translatorLabel ? (
-              <Text style={{ color: appConfig.brand.ivory, opacity: 0.55, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-                {props.translatorLabel}
-              </Text>
-            ) : null}
 
             {/* Baked into the captured image itself — see AyahFeedSlide's identical footer for why. */}
             <View style={[styles.brandFooter, { borderTopColor: "rgba(247,243,232,0.16)", paddingTop: spacing.sm }]}>

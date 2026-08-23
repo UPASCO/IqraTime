@@ -83,12 +83,6 @@ export default function AyahDetailScreen(): React.JSX.Element {
           <Text style={{ color: colors.textSecondary, fontStyle: "italic" }}>{t("errors.translationMissing")}</Text>
         )}
 
-        {ayahView.translatorLabel ? (
-          <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-            {t("ayah.translatorLabel")}: {ayahView.translatorLabel}
-          </Text>
-        ) : null}
-
         {ayahView.themeLabels.length > 0 ? (
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
             {ayahView.themeLabels.map((label) => (

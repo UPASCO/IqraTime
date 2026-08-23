@@ -43,7 +43,7 @@ export const ar: TranslationSchema = {
       other: "كل {count} ساعة",
     }),
     getTheAppShareLine: "📲 حمّل تطبيق IqraTime — آيفون: {iosUrl} · أندرويد: {androidUrl}",
-    imageBrandFooter: "IqraTime — القرآن والحديث، آية تلو آية",
+    imageBrandFooter: "ابحث عن «IqraTime» في App Store وGoogle Play",
   },
   onboarding: {
     step1: {
@@ -269,7 +269,6 @@ export const ar: TranslationSchema = {
     sound: "الصوت",
     vibration: "الاهتزاز",
     jitter: "انحراف عشوائي طفيف",
-    testNotificationCta: "إرسال إشعار تجريبي",
     sectionLanguage: "اللغة",
     interfaceLanguage: "لغة الواجهة",
     translationLanguage: "لغة الترجمة",
