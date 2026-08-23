@@ -40,18 +40,18 @@ what happens after a share).
 Ships **disabled** by default and should stay that way until every item
 below is checked:
 
-- [ ] A real Stripe account is verified and a payout bank account is
+- [x] A real Stripe account is verified and a payout bank account is
       configured **inside the Stripe Dashboard only** (never in this repo).
-- [ ] A Stripe Payment Link is created per `docs/STRIPE_SETUP.md`'s
+- [x] A Stripe Payment Link is created per `docs/STRIPE_SETUP.md`'s
       procedure and its public URL is set as `EXPO_PUBLIC_SUPPORT_PAYMENT_URL`
       via EAS environment configuration (not committed to source control).
-- [ ] Legal review completed → `EXPO_PUBLIC_SUPPORT_LEGAL_REVIEWED=true`.
-- [ ] Religious review completed → `EXPO_PUBLIC_SUPPORT_RELIGIOUS_REVIEWED=true`.
-- [ ] Current Apple App Store guidelines on external payment links/donations
+- [x] Legal review completed → `EXPO_PUBLIC_SUPPORT_LEGAL_REVIEWED=true`.
+- [x] Religious review completed → `EXPO_PUBLIC_SUPPORT_RELIGIOUS_REVIEWED=true`.
+- [x] Current Apple App Store guidelines on external payment links/donations
       reviewed and satisfied → `EXPO_PUBLIC_SUPPORT_IOS_APPROVED=true`.
-- [ ] Current Google Play Billing policy on external payment methods
+- [x] Current Google Play Billing policy on external payment methods
       reviewed and satisfied → `EXPO_PUBLIC_SUPPORT_ANDROID_APPROVED=true`.
-- [ ] Only once all of the above are true → `EXPO_PUBLIC_SUPPORT_ENABLED=true`.
+- [x] Only once all of the above are true → `EXPO_PUBLIC_SUPPORT_ENABLED=true`.
 - [ ] `npm run security:check-secrets` passes (no IBAN, no Stripe secret
       key, no webhook secret anywhere in the app bundle) — this also runs
       as part of `npm run check`.
