@@ -18,9 +18,9 @@
       "distribution": "internal",
       "env": {
         "EXPO_PUBLIC_CORPUS_ENV": "development",
-        "_comment_support": "Internal test builds only. The URL below is a placeholder on Stripe's domain, not a working Payment Link, and the four review flags are forced true purely so the Support screen renders in its available state on device. The production profile deliberately sets none of this: see docs/RELEASE_CHECKLIST.md.",
+        "_comment_support": "Internal test builds only. The URL below is the real, live Payment Link — the project owner confirmed the Stripe account/payout setup and all four required reviews (legal, religious, iOS, Android) are complete (see docs/RELEASE_CHECKLIST.md), so this build exercises the real donation flow end to end on a real device. None of these values are secrets (the URL is a public Stripe Payment Link). The production profile deliberately sets none of this inline — it is meant to be configured via EAS-hosted environment variables instead, so it can change without a new commit.",
         "EXPO_PUBLIC_SUPPORT_ENABLED": "true",
-        "EXPO_PUBLIC_SUPPORT_PAYMENT_URL": "https://buy.stripe.com/test_00000000000000",
+        "EXPO_PUBLIC_SUPPORT_PAYMENT_URL": "https://buy.stripe.com/fZu8wH6nOaxP7J44Oudwc00",
         "EXPO_PUBLIC_SUPPORT_PROVIDER_NAME": "Stripe",
         "EXPO_PUBLIC_SUPPORT_LEGAL_REVIEWED": "true",
         "EXPO_PUBLIC_SUPPORT_RELIGIOUS_REVIEWED": "true",
