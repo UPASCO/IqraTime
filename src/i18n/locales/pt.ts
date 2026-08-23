@@ -321,6 +321,9 @@ export const pt: TranslationSchema = {
     explanationHideCta: "Ocultar explicação",
     explanationUnavailable: "Ainda não há uma fonte de explicação verificada para os hadiths — apenas o texto é exibido, para evitar supor um comentário erudito.",
     unavailableInLanguageNotice: "O hadith ainda não está disponível neste idioma — mostrando apenas versículos.",
+    menuTitle: "Hadith",
+    menuSubtitle: "Apenas de Sahih al-Bukhari e Sahih Muslim — as duas coletâneas que o consenso dos estudiosos considera as mais rigorosamente autenticadas. Navegue por tema abaixo.",
+    searchPlaceholder: "Pesquisar por coletânea ou número",
   },
   sources: {
     title: "Fontes e traduções",

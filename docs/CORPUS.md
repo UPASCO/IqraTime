@@ -157,7 +157,9 @@ before any of it can be represented as fully vetted.
 `src/data/corpus/hadith/` holds a separate corpus of hadith (Prophetic
 tradition) text, opt-in via Settings → "What to show" (ayat only by
 default, hadith only, or mixed — strictly one hadith then one ayah when
-mixed, never a random blend). Shown in its own swipeable feed slide and
+mixed, never a random blend). Shown in its own swipeable feed slide, a
+dedicated **"Hadith" menu** (`app/hadith/index.tsx`) that lists all 500
+entries filterable by theme and searchable by collection/number, and the
 `/hadith/[id]` detail screen; favorited hadith live in AsyncStorage
 (`src/storage/hadithFavoritesStore.ts`), separate from the SQLite
 favorites table ayat use — deliberately, to avoid touching the schema
@@ -176,6 +178,17 @@ cross-reference stub, deduplicated) — 500 entries, split evenly between
 the two collections. No hadith text is ever generated, paraphrased, or
 altered by an AI model, for the same reason the Quran text and its tafsir
 never are.
+
+**Theme tags** (powering the "Hadith" menu's theme filter) are assigned by
+the same MECHANICAL keyword-matching approach `scripts/buildFullCorpus.mjs`
+uses for ayat, reusing the identical `ThemeKey` taxonomy so hadith and
+ayat share one set of topics throughout the app. This is explicitly a
+topic hint, not a religious classification — about half of the 500
+entries don't match any specific keyword list and fall back to the
+"guidance" category (a real, intentional catch-all for hadith about
+everyday rulings and practice, not a bug). Like every other mechanically
+assigned theme in this app, these are a starting point for the human
+reviewer checklist below, not a finished classification.
 
 **Only 5 of the app's 12 languages have any hadith coverage in the
 source dataset**: Arabic, English, French, Bengali, and (noticeably less

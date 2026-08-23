@@ -90,6 +90,7 @@ export interface HadithTranslation {
 export interface HadithCatalogEntry {
   readonly id: HadithId;
   readonly status: EditorialStatus;
+  readonly themes: readonly ThemeKey[];
   readonly isDemoOnly: boolean;
 }
 

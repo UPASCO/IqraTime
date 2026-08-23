@@ -321,6 +321,9 @@ export const de: TranslationSchema = {
     explanationHideCta: "Erklärung ausblenden",
     explanationUnavailable: "Für Hadithe ist noch keine verifizierte Erklärungsquelle verfügbar — es wird nur der Text selbst angezeigt, um Mutmaßungen über einen gelehrten Kommentar zu vermeiden.",
     unavailableInLanguageNotice: "Hadith ist in dieser Sprache noch nicht verfügbar — es werden nur Verse angezeigt.",
+    menuTitle: "Hadithe",
+    menuSubtitle: "Nur aus Sahih al-Bukhari und Sahih Muslim — den beiden Sammlungen, die nach wissenschaftlichem Konsens als am strengsten authentifiziert gelten. Unten nach Thema durchsuchen.",
+    searchPlaceholder: "Nach Sammlung oder Nummer suchen",
   },
   sources: {
     title: "Quellen & Übersetzungen",

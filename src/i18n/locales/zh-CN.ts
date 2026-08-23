@@ -321,6 +321,9 @@ export const zhCN: TranslationSchema = {
     explanationHideCta: "隐藏注释",
     explanationUnavailable: "目前尚无经过核实的圣训注释来源——仅显示原文，以避免臆测学术注释。",
     unavailableInLanguageNotice: "该语言暂不支持圣训——仅显示经文。",
+    menuTitle: "圣训",
+    menuSubtitle: "仅收录《布哈里圣训实录》与《穆斯林圣训实录》——学者公认最严格可信的两部圣训集。请在下方按主题浏览。",
+    searchPlaceholder: "按圣训集或编号搜索",
   },
   sources: {
     title: "来源与译文",

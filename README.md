@@ -46,6 +46,9 @@ current corpus fails on purpose.**
 - A full Qur'an reader: all 114 surahs, all 6236 āyāt, searchable by name
   or number, with a "jump to āyah" control — and a one-tap link from any
   āyah shown anywhere in the app straight to its place in the reader.
+- A Hadith menu: all 500 entries (Sahih al-Bukhari and Sahih Muslim only —
+  the two collections scholarly consensus regards as most rigorously
+  authenticated), browsable by theme or searchable by collection/number.
 - History, favorites, "another āyah", share, copy. Every share carries the
   app's store links and a branded card footer — the app's only growth
   channel, no ads or accounts involved — and a local "shares" tally on the

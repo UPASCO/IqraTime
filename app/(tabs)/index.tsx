@@ -395,6 +395,14 @@ export default function HomeScreen(): React.JSX.Element {
               >
                 <Ionicons name="search-outline" size={22} color={colors.textPrimary} />
               </Pressable>
+              <Pressable
+                onPress={() => router.push("/hadith")}
+                accessibilityRole="button"
+                accessibilityLabel={t("hadith.menuTitle")}
+                hitSlop={8}
+              >
+                <Ionicons name="layers-outline" size={22} color={colors.textPrimary} />
+              </Pressable>
             </View>
           </View>
           <Pressable

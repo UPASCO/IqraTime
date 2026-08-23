@@ -321,6 +321,9 @@ export const fr: TranslationSchema = {
     explanationHideCta: "Masquer l'explication",
     explanationUnavailable: "Aucune source d'explication vérifiée n'est disponible pour les hadiths pour le moment — seul le texte est affiché, pour éviter de deviner un commentaire savant.",
     unavailableInLanguageNotice: "Le hadith n'est pas encore disponible dans cette langue — affichage des āyāt uniquement.",
+    menuTitle: "Hadith",
+    menuSubtitle: "Uniquement issus de Sahih al-Bukhari et Sahih Muslim — les deux recueils dont l'authenticité fait consensus chez les savants. Parcourez par thème ci-dessous.",
+    searchPlaceholder: "Rechercher par recueil ou numéro",
   },
   sources: {
     title: "Sources et traductions",

@@ -376,6 +376,9 @@ export const ar: TranslationSchema = {
     explanationHideCta: "إخفاء الشرح",
     explanationUnavailable: "لا يتوفر مصدر شرح موثّق للأحاديث بعد — يُعرض النص فقط، تجنبًا لتخمين شرح علمي.",
     unavailableInLanguageNotice: "الحديث غير متوفر بهذه اللغة بعد — يتم عرض الآيات فقط.",
+    menuTitle: "الحديث",
+    menuSubtitle: "فقط من صحيح البخاري وصحيح مسلم — الكتابان اللذان يُجمع العلماء على أنهما الأكثر توثيقًا. تصفّح حسب الموضوع أدناه.",
+    searchPlaceholder: "ابحث بالمجموعة أو الرقم",
   },
   sources: {
     title: "المصادر والترجمات",

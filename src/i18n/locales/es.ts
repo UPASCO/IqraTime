@@ -321,6 +321,9 @@ export const es: TranslationSchema = {
     explanationHideCta: "Ocultar explicación",
     explanationUnavailable: "Aún no hay una fuente de explicación verificada para los hadices — solo se muestra el texto, para evitar suponer un comentario erudito.",
     unavailableInLanguageNotice: "El hadiz aún no está disponible en este idioma — mostrando solo aleyas.",
+    menuTitle: "Hadices",
+    menuSubtitle: "Solo de Sahih al-Bujari y Sahih Muslim — las dos colecciones que el consenso académico considera las más rigurosamente autenticadas. Explora por tema a continuación.",
+    searchPlaceholder: "Buscar por colección o número",
   },
   sources: {
     title: "Fuentes y traducciones",

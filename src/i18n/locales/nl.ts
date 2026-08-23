@@ -321,6 +321,9 @@ export const nl: TranslationSchema = {
     explanationHideCta: "Uitleg verbergen",
     explanationUnavailable: "Er is nog geen geverifieerde uitlegbron beschikbaar voor hadith — alleen de tekst zelf wordt getoond, om te vermijden dat er naar geleerd commentaar wordt gegokt.",
     unavailableInLanguageNotice: "Hadith is nog niet beschikbaar in deze taal — alleen ayat worden getoond.",
+    menuTitle: "Hadith",
+    menuSubtitle: "Alleen uit Sahih al-Bukhari en Sahih Muslim — de twee verzamelingen die volgens wetenschappelijke consensus het meest strikt geverifieerd zijn. Blader hieronder op thema.",
+    searchPlaceholder: "Zoek op verzameling of nummer",
   },
   sources: {
     title: "Bronnen & vertalingen",

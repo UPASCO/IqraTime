@@ -326,6 +326,9 @@ export const en = {
     explanationHideCta: "Hide explanation",
     explanationUnavailable: "No verified explanation source is available for hadith yet — only the text itself is shown, to avoid guessing at scholarly commentary.",
     unavailableInLanguageNotice: "Hadith is not available in this language yet — showing ayat only.",
+    menuTitle: "Hadith",
+    menuSubtitle: "Only from Sahih al-Bukhari and Sahih Muslim — the two collections scholarly consensus regards as the most rigorously authenticated. Browse by theme below.",
+    searchPlaceholder: "Search by collection or number",
   },
   sources: {
     title: "Sources & translations",
