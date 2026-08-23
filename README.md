@@ -43,6 +43,9 @@ current corpus fails on purpose.**
 - "A moment for you": pick how you're feeling right now (anxious, grateful,
   seeking guidance, …) and get an āyah chosen for that feeling on demand —
   not just on a schedule.
+- A full Qur'an reader: all 114 surahs, all 6236 āyāt, searchable by name
+  or number, with a "jump to āyah" control — and a one-tap link from any
+  āyah shown anywhere in the app straight to its place in the reader.
 - History, favorites, "another āyah", share, copy. Every share carries the
   app's store links and a branded card footer — the app's only growth
   channel, no ads or accounts involved — and a local "shares" tally on the

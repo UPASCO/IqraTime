@@ -12,15 +12,19 @@ hasn't actually been tested in this development session.
   by a qualified human for religious/editorial accuracy — every entry
   stays `status: "technically_verified"` until that happens.
 - Hadith (500 entries, Sahih al-Bukhari + Sahih Muslim only) covers only
-  5 of the app's 12 languages (ar/en/fr/bn/ru); tafsir covers 11 of 12
-  (all but Portuguese). Neither exists yet for Dutch or German — no
-  edition was found in the open datasets this project sources from. See
+  5 of the app's 12 languages (ar/en/fr/bn/ru); tafsir covers 9 of 12
+  (all but Portuguese, Dutch, and German). No edition exists yet in the
+  open datasets this project sources from for the missing languages. See
   `docs/CORPUS.md` "Hadith" and "Tafsir".
-- No basmala-handling convention has been decided (no surah-opening ayah
-  is in the current set).
-- Surah name/metadata table covers the 113 surahs actually referenced by
-  the current corpus (all but 103, Al-'Asr — see `docs/CORPUS.md` "Why
-  the corpus is incomplete").
+- Surah name/metadata table for the curated notification corpus covers
+  the 113 surahs actually referenced by that corpus (all but 103,
+  Al-'Asr — see `docs/CORPUS.md` "Why the corpus is incomplete"). The
+  separate full Qur'an reader (`src/data/quran/`) covers all 114.
+- The full Qur'an reader ships the complete Arabic text and 11 full
+  translations (~16MB of JSON) — a real, accepted size cost for a
+  genuine "read the whole Qur'an" feature, not an oversight. Like the
+  curated corpus, this text hasn't been reviewed character-by-character
+  by a qualified human yet — see `docs/CORPUS.md` "Full Qur'an reader".
 
 ## Notifications
 

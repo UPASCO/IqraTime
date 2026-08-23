@@ -20,7 +20,7 @@ qualified human completes the reviewer checklist below, on purpose.
 | Riwaya (reading) | Hafs 'an 'Asim |
 | Script | Uthmani (rasm) |
 | Numbering | Standard Kufi/Madani ayah numbering (Tanzil / King Fahd Complex convention) |
-| Basmala handling | **Not yet decided** — the sample corpus contains no surah-opening ayah, so no attachment convention has been chosen. Must be documented here before importing any surah's first ayah. |
+| Basmala handling | Decided when the full Qur'an reader was built (see "Full Qur'an reader" below): rendered as a decorative header above a surah's āyāt — never a numbered āyah of its own — for every surah except At-Tawbah (9). Al-Fatiha (1) is the one exception to *that* exception: its āyah 1 already *is* the basmala in this numbering, so no separate header is added for it. The header text is 1:1's own verbatim text, not retyped. The curated notification corpus still contains no surah-opening āyah, so this convention has never applied there. |
 | Recommended source | [Tanzil Project](https://tanzil.net/download/) — Uthmani Quran text |
 
 Do not mix ayat from sources using an incompatible numbering convention or
@@ -195,6 +195,49 @@ section applies to ayat.
 Like every other corpus asset, hadith entries are `technically_verified`
 only, pending the same qualified-human reviewer checklist above before
 any of it can be considered `publishable`.
+
+## Full Qur'an reader
+
+`src/data/quran/` holds the **complete** Qur'an — all 114 surahs, all 6236
+āyāt — powering the "Read the Qur'an" screen (`app/quran/index.tsx`, a
+searchable surah list, and `app/quran/[surah].tsx`, the continuous reading
+view for one surah). This is a **separate dataset from `src/data/corpus/`**,
+the curated 300-āyah set used for notifications — nothing in `src/data/quran/`
+feeds the notification/selection engine, and nothing in the curated corpus
+is duplicated here. Built by `scripts/buildQuranReaderData.mjs` from the
+exact same sources as `scripts/buildFullCorpus.mjs` (King Fahd Complex
+Uthmani text and the same eleven translation editions, via
+`fawazahmed0/quran-api`) — same translators, same license terms, same
+`TranslationSourceInfo` registry in `src/data/corpus/sources.ts` — just
+without the mechanical standalone-suitability filter or the curation
+downselection, because a reader that skips most of the Qur'an isn't a
+reader. Arabic readers use the Arabic text itself, same as everywhere else
+in this app.
+
+Any āyah, whether or not it's in the curated 300, resolves through
+`useAyahView()` (it falls back to this full dataset when the curated
+corpus doesn't have an entry) — so favoriting, sharing, copying, and
+viewing history all work uniformly for every āyah in the Qur'an, not just
+the curated set. Tapping an āyah's number in the reader opens the same
+`/ayah/[id]` detail screen used everywhere else; tafsir there gracefully
+shows "not available" for the 5,900+ āyāt outside the curated set, exactly
+like it already does for any language gap — never a crash, never a
+misleading fallback.
+
+**Pointing from any āyah back into the reader**: the āyah detail screen has
+an "Open in the full Qur'an" action that opens `/quran/[surah]?ayah=[n]`,
+which scrolls to and highlights that exact āyah — the round trip the
+feature exists for (find an āyah in a notification, a favorite, or "a
+moment for you", then locate it in its full surah context).
+
+Like every other corpus asset, this text is `technically_verified` (fetched
+verbatim, structurally validated — `scripts/buildQuranReaderData.mjs`
+refuses to write anything short of the full 6236 āyāt per language) but not
+yet reviewed character-by-character by a qualified human — the same
+reviewer checklist above applies before it can be considered fully vetted,
+even though "curation" in the editorial-whitelist sense doesn't apply here:
+this is the complete text in its own surah context, not an extracted
+standalone excerpt.
 
 ## Adding real corpus data
 

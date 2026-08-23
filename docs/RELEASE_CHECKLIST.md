@@ -75,6 +75,12 @@ below is checked:
       fetched verbatim via `node scripts/buildHadithCorpus.mjs` — covers
       5 of 12 languages (ar/en/fr/bn/ru); opt-in, off by default; not yet
       wired into scheduled notifications — see `docs/CORPUS.md` "Hadith".
+- [x] Full Qur'an reader (all 114 surahs, 6236 āyāt, 11 of 12 languages —
+      same gap as above, Arabic uses its own text) fetched verbatim via
+      `node scripts/buildQuranReaderData.mjs` — see `docs/CORPUS.md`
+      "Full Qur'an reader". Separate dataset from the curated notification
+      corpus above; not gated by `corpus:validate` since it isn't an
+      editorial whitelist of standalone excerpts.
 - [ ] `npm run corpus:validate:prod` passes with zero errors.
 - [ ] A qualified religious reviewer has signed off on the final ayah and
       hadith selection, translations, tafsir text, and theme tags — this

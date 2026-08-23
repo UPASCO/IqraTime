@@ -141,6 +141,12 @@ export default function AyahDetailScreen(): React.JSX.Element {
             }}
           />
         </View>
+
+        <Button
+          label={t("quran.openInReaderCta")}
+          variant="ghost"
+          onPress={() => router.push(`/quran/${ayahView.surah}?ayah=${ayahView.ayah}`)}
+        />
       </View>
     </Screen>
   );
