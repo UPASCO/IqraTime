@@ -144,10 +144,6 @@ export const hi: TranslationSchema = {
     emptyTitle: "कोई मेल खाती सूरत नहीं",
     emptyBody: "कोई अलग नाम या संख्या आज़माएँ।",
     openInReaderCta: "पूर्ण क़ुरआन में खोलें",
-    jumpToAyahLabel: "किसी आयत पर जाएँ",
-    jumpToAyahPlaceholder: "आयत नंबर",
-    jumpToAyahCta: "जाएँ",
-    jumpToAyahInvalid: "इस सूरत में इतनी आयतें नहीं हैं।",
     allSurahsCta: "सभी सूरतें",
   },
   progress: {

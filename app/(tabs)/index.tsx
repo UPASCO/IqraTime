@@ -362,49 +362,54 @@ export default function HomeScreen(): React.JSX.Element {
             <Text style={{ color: colors.accent, fontSize: typography.sizes.title * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
               {t("home.title")}
             </Text>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.sm }}>
-              {streak && streak.currentStreak > 1 ? (
-                <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
-                  <Ionicons name="flame" size={16} color={colors.gold} />
-                  <Text style={{ color: colors.gold, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.semibold }}>
-                    {t("home.streakLabel", { count: streak.currentStreak })}
-                  </Text>
-                </View>
-              ) : null}
-              <Pressable
-                onPress={() => router.push("/quran")}
-                accessibilityRole="button"
-                accessibilityLabel={t("quran.title")}
-                hitSlop={8}
-              >
-                <Ionicons name="book-outline" size={22} color={colors.textPrimary} />
-              </Pressable>
-              <Pressable
-                onPress={() => router.push("/progress")}
-                accessibilityRole="button"
-                accessibilityLabel={t("progress.title")}
-                hitSlop={8}
-              >
-                <Ionicons name="ribbon-outline" size={22} color={colors.textPrimary} />
-              </Pressable>
-              <Pressable
-                onPress={() => router.push("/library")}
-                accessibilityRole="button"
-                accessibilityLabel={t("home.libraryCta")}
-                hitSlop={8}
-              >
-                <Ionicons name="search-outline" size={22} color={colors.textPrimary} />
-              </Pressable>
-              <Pressable
-                onPress={() => router.push("/hadith")}
-                accessibilityRole="button"
-                accessibilityLabel={t("hadith.menuTitle")}
-                hitSlop={8}
-              >
-                <Ionicons name="layers-outline" size={22} color={colors.textPrimary} />
-              </Pressable>
-            </View>
+            {streak && streak.currentStreak > 1 ? (
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                <Ionicons name="flame" size={16} color={colors.gold} />
+                <Text style={{ color: colors.gold, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.semibold }}>
+                  {t("home.streakLabel", { count: streak.currentStreak })}
+                </Text>
+              </View>
+            ) : null}
           </View>
+
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: spacing.xs }}>
+            {[
+              { icon: "book-outline" as const, label: t("quran.title"), route: "/quran" as const, emphasized: true },
+              { icon: "layers-outline" as const, label: t("hadith.menuTitle"), route: "/hadith" as const, emphasized: true },
+              { icon: "ribbon-outline" as const, label: t("progress.title"), route: "/progress" as const, emphasized: false },
+              { icon: "search-outline" as const, label: t("home.libraryCta"), route: "/library" as const, emphasized: false },
+            ].map((item) => (
+              <Pressable
+                key={item.route}
+                onPress={() => router.push(item.route)}
+                accessibilityRole="button"
+                accessibilityLabel={item.label}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 6,
+                  backgroundColor: item.emphasized ? colors.surfaceElevated : colors.surface,
+                  borderWidth: 1,
+                  borderColor: item.emphasized ? colors.gold : colors.border,
+                  borderRadius: 999,
+                  paddingVertical: spacing.xs,
+                  paddingHorizontal: spacing.sm,
+                }}
+              >
+                <Ionicons name={item.icon} size={16} color={item.emphasized ? colors.gold : colors.textSecondary} />
+                <Text
+                  style={{
+                    color: item.emphasized ? colors.textPrimary : colors.textSecondary,
+                    fontSize: typography.sizes.caption * fontScaleMultiplier,
+                    fontWeight: item.emphasized ? typography.weights.semibold : typography.weights.medium,
+                  }}
+                >
+                  {item.label}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+
           <Pressable
             onPress={() => router.push("/moment")}
             accessibilityRole="button"

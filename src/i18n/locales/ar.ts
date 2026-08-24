@@ -178,10 +178,6 @@ export const ar: TranslationSchema = {
     emptyTitle: "لا توجد سورة مطابقة",
     emptyBody: "جرّب اسمًا أو رقمًا آخر.",
     openInReaderCta: "افتح في المصحف الكامل",
-    jumpToAyahLabel: "الانتقال إلى آية",
-    jumpToAyahPlaceholder: "رقم الآية",
-    jumpToAyahCta: "انتقال",
-    jumpToAyahInvalid: "هذه السورة لا تحتوي على هذا العدد من الآيات.",
     allSurahsCta: "كل السور",
   },
   progress: {

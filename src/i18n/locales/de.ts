@@ -144,10 +144,6 @@ export const de: TranslationSchema = {
     emptyTitle: "Keine passende Sure",
     emptyBody: "Versuche einen anderen Namen oder eine andere Nummer.",
     openInReaderCta: "Im vollständigen Koran öffnen",
-    jumpToAyahLabel: "Zu einem Vers springen",
-    jumpToAyahPlaceholder: "Vers-Nr.",
-    jumpToAyahCta: "Los",
-    jumpToAyahInvalid: "Diese Sure hat nicht so viele Verse.",
     allSurahsCta: "Alle Suren",
   },
   progress: {

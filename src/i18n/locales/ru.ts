@@ -164,10 +164,6 @@ export const ru: TranslationSchema = {
     emptyTitle: "Сура не найдена",
     emptyBody: "Попробуйте другое название или номер.",
     openInReaderCta: "Открыть в полном Коране",
-    jumpToAyahLabel: "Перейти к аяту",
-    jumpToAyahPlaceholder: "№ аята",
-    jumpToAyahCta: "Перейти",
-    jumpToAyahInvalid: "В этой суре нет столько аятов.",
     allSurahsCta: "Все суры",
   },
   progress: {

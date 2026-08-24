@@ -144,10 +144,6 @@ export const zhCN: TranslationSchema = {
     emptyTitle: "未找到匹配的章节",
     emptyBody: "请尝试其他名称或编号。",
     openInReaderCta: "在完整古兰经中打开",
-    jumpToAyahLabel: "跳转到经文",
-    jumpToAyahPlaceholder: "经文编号",
-    jumpToAyahCta: "前往",
-    jumpToAyahInvalid: "本章没有这么多节经文。",
     allSurahsCta: "所有章节",
   },
   progress: {

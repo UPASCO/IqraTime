@@ -144,10 +144,6 @@ export const bn: TranslationSchema = {
     emptyTitle: "কোনো মিল পাওয়া যায়নি",
     emptyBody: "ভিন্ন নাম বা নম্বর চেষ্টা করুন।",
     openInReaderCta: "সম্পূর্ণ কুরআনে খুলুন",
-    jumpToAyahLabel: "আয়াতে যান",
-    jumpToAyahPlaceholder: "আয়াত নম্বর",
-    jumpToAyahCta: "যান",
-    jumpToAyahInvalid: "এই সূরায় এত আয়াত নেই।",
     allSurahsCta: "সব সূরা",
   },
   progress: {

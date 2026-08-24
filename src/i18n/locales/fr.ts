@@ -144,10 +144,6 @@ export const fr: TranslationSchema = {
     emptyTitle: "Aucune sourate correspondante",
     emptyBody: "Essayez un autre nom ou numéro.",
     openInReaderCta: "Ouvrir dans le Coran complet",
-    jumpToAyahLabel: "Aller à une āyah",
-    jumpToAyahPlaceholder: "N° de l'āyah",
-    jumpToAyahCta: "Aller",
-    jumpToAyahInvalid: "Cette sourate ne contient pas autant d'āyāt.",
     allSurahsCta: "Toutes les sourates",
   },
   progress: {

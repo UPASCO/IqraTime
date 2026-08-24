@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { View, Text, TextInput, FlatList, Pressable, type FlatListProps } from "react-native";
+import { View, Text, FlatList, Pressable, type FlatListProps } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -62,7 +62,7 @@ function AyahRow({ ayah, translationText, showArabic, showTranslation, arabicFir
         gap: spacing.sm,
         padding: spacing.sm,
         borderRadius: radii.md,
-        backgroundColor: highlighted ? colors.accentMuted : "transparent",
+        backgroundColor: highlighted ? colors.surfaceElevated : "transparent",
         borderWidth: highlighted ? 1 : 0,
         borderColor: highlighted ? colors.gold : "transparent",
       }}
@@ -101,11 +101,7 @@ export default function QuranSurahReaderScreen(): React.JSX.Element {
   const meta = getSurahMeta(surahNumber);
   const ayat = useMemo(() => getSurahAyat(surahNumber), [surahNumber]);
 
-  const [highlightedAyah, setHighlightedAyah] = useState<number | undefined>(
-    params.ayah ? Number(params.ayah) : undefined,
-  );
-  const [jumpInput, setJumpInput] = useState("");
-  const [jumpError, setJumpError] = useState(false);
+  const [highlightedAyah] = useState<number | undefined>(params.ayah ? Number(params.ayah) : undefined);
   const listRef = useRef<FlatList<QuranAyahText>>(null);
 
   const scrollToAyah = (ayahNumber: number): void => {
@@ -145,17 +141,6 @@ export default function QuranSurahReaderScreen(): React.JSX.Element {
   const showTranslation = preferences.textDisplayMode !== "arabic_only";
   const arabicFirst = preferences.textOrder === "arabic_first";
 
-  const handleJump = (): void => {
-    const n = Number.parseInt(jumpInput, 10);
-    if (!Number.isInteger(n) || n < 1 || n > meta.ayahCount) {
-      setJumpError(true);
-      return;
-    }
-    setJumpError(false);
-    setHighlightedAyah(n);
-    scrollToAyah(n);
-  };
-
   const onScrollToIndexFailed: NonNullable<FlatListProps<QuranAyahText>["onScrollToIndexFailed"]> = (info) => {
     setTimeout(() => {
       listRef.current?.scrollToOffset({ offset: info.averageItemLength * info.index, animated: false });
@@ -177,7 +162,12 @@ export default function QuranSurahReaderScreen(): React.JSX.Element {
             borderBottomRightRadius: radii.lg,
           }}
         >
-          <Pressable onPress={() => router.back()} accessibilityRole="button" style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+          {/* Always the surah list, never router.back() — this screen can be
+              reached via a deep link from an ayah's "open in the full
+              Qur'an" action, where the previous stack entry isn't /quran
+              at all; the label promises "all surahs" so it must always
+              lead there regardless of how this screen was reached. */}
+          <Pressable onPress={() => router.replace("/quran")} accessibilityRole="button" style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
             <Ionicons name="chevron-back" size={18} color={appConfig.brand.ivory} />
             <Text style={{ color: appConfig.brand.ivory, opacity: 0.8, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
               {t("quran.allSurahsCta")}
@@ -197,50 +187,6 @@ export default function QuranSurahReaderScreen(): React.JSX.Element {
               {meta.nameArabic}
             </Text>
           </View>
-
-          <View style={{ flexDirection: "row", gap: spacing.xs, alignItems: "center" }}>
-            <TextInput
-              value={jumpInput}
-              onChangeText={(v) => {
-                setJumpInput(v.replace(/[^0-9]/g, ""));
-                setJumpError(false);
-              }}
-              onSubmitEditing={handleJump}
-              keyboardType="number-pad"
-              placeholder={t("quran.jumpToAyahPlaceholder")}
-              placeholderTextColor="rgba(247,243,232,0.5)"
-              accessibilityLabel={t("quran.jumpToAyahLabel")}
-              style={{
-                flex: 1,
-                backgroundColor: "rgba(247,243,232,0.1)",
-                borderColor: jumpError ? colors.danger : appConfig.brand.goldLight,
-                borderWidth: 1,
-                borderRadius: radii.sm,
-                paddingHorizontal: spacing.sm,
-                paddingVertical: spacing.xs,
-                color: appConfig.brand.warmWhite,
-                minHeight: 40,
-              }}
-            />
-            <Pressable
-              onPress={handleJump}
-              accessibilityRole="button"
-              accessibilityLabel={t("quran.jumpToAyahCta")}
-              style={{
-                paddingHorizontal: spacing.md,
-                paddingVertical: spacing.xs,
-                borderRadius: radii.sm,
-                backgroundColor: appConfig.brand.goldLight,
-                minHeight: 40,
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ color: appConfig.brand.night, fontWeight: typography.weights.semibold }}>{t("quran.jumpToAyahCta")}</Text>
-            </Pressable>
-          </View>
-          {jumpError ? (
-            <Text style={{ color: colors.danger, fontSize: typography.sizes.caption * fontScaleMultiplier }}>{t("quran.jumpToAyahInvalid")}</Text>
-          ) : null}
         </View>
 
         <FlatList

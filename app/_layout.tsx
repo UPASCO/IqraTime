@@ -89,15 +89,21 @@ function RootNavigator(): React.JSX.Element {
             <Stack.Screen name="index" />
             <Stack.Screen name="onboarding/index" />
             <Stack.Screen name="(tabs)" />
+            {/* Every screen below pushes as a plain "card" — one uniform
+                stack for the whole app. Mixing "modal" (for a list/menu)
+                with a further "card" push on top of it (its own detail
+                screen) produced a compounding shrink/zoom artifact on iOS
+                and made "back" behave inconsistently; a single push model
+                fixes both. */}
             <Stack.Screen name="ayah/[id]" options={{ presentation: "card" }} />
             <Stack.Screen name="hadith/[id]" options={{ presentation: "card" }} />
-            <Stack.Screen name="themes" options={{ presentation: "modal" }} />
-            <Stack.Screen name="library" options={{ presentation: "modal" }} />
-            <Stack.Screen name="progress" options={{ presentation: "modal" }} />
-            <Stack.Screen name="moment/index" options={{ presentation: "modal" }} />
-            <Stack.Screen name="quran/index" options={{ presentation: "modal" }} />
+            <Stack.Screen name="themes" options={{ presentation: "card" }} />
+            <Stack.Screen name="library" options={{ presentation: "card" }} />
+            <Stack.Screen name="progress" options={{ presentation: "card" }} />
+            <Stack.Screen name="moment/index" options={{ presentation: "card" }} />
+            <Stack.Screen name="quran/index" options={{ presentation: "card" }} />
             <Stack.Screen name="quran/[surah]" options={{ presentation: "card" }} />
-            <Stack.Screen name="hadith/index" options={{ presentation: "modal" }} />
+            <Stack.Screen name="hadith/index" options={{ presentation: "card" }} />
             <Stack.Screen name="diagnostics" />
             <Stack.Screen name="sources" />
             <Stack.Screen name="privacy" />

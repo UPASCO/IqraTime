@@ -44,8 +44,8 @@ current corpus fails on purpose.**
   seeking guidance, …) and get an āyah chosen for that feeling on demand —
   not just on a schedule.
 - A full Qur'an reader: all 114 surahs, all 6236 āyāt, searchable by name
-  or number, with a "jump to āyah" control — and a one-tap link from any
-  āyah shown anywhere in the app straight to its place in the reader.
+  or number — and a one-tap link from any āyah shown anywhere in the app
+  straight to its place in the reader, scrolled to and highlighted.
 - A Hadith menu: all 500 entries (Sahih al-Bukhari and Sahih Muslim only —
   the two collections scholarly consensus regards as most rigorously
   authenticated), browsable by theme or searchable by collection/number.

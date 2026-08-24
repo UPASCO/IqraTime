@@ -149,10 +149,6 @@ export const en = {
     emptyTitle: "No matching surah",
     emptyBody: "Try a different name or number.",
     openInReaderCta: "Open in the full Qur'an",
-    jumpToAyahLabel: "Jump to ayah",
-    jumpToAyahPlaceholder: "Ayah n°",
-    jumpToAyahCta: "Go",
-    jumpToAyahInvalid: "This surah doesn't have that many ayat.",
     allSurahsCta: "All surahs",
   },
   progress: {

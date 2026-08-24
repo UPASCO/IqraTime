@@ -144,10 +144,6 @@ export const nl: TranslationSchema = {
     emptyTitle: "Geen overeenkomende soera",
     emptyBody: "Probeer een andere naam of nummer.",
     openInReaderCta: "Openen in de volledige Koran",
-    jumpToAyahLabel: "Ga naar een ayah",
-    jumpToAyahPlaceholder: "Ayah-nummer",
-    jumpToAyahCta: "Ga",
-    jumpToAyahInvalid: "Deze soera heeft niet zoveel ayat.",
     allSurahsCta: "Alle soera's",
   },
   progress: {

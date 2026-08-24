@@ -144,10 +144,6 @@ export const pt: TranslationSchema = {
     emptyTitle: "Nenhuma surata encontrada",
     emptyBody: "Tente outro nome ou número.",
     openInReaderCta: "Abrir no Alcorão completo",
-    jumpToAyahLabel: "Ir para um versículo",
-    jumpToAyahPlaceholder: "N.º do versículo",
-    jumpToAyahCta: "Ir",
-    jumpToAyahInvalid: "Esta surata não tem tantos versículos.",
     allSurahsCta: "Todas as suratas",
   },
   progress: {
