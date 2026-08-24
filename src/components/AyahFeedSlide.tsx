@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
+import { View, Text, Pressable, ScrollView, StyleSheet, Share, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ViewShot, { type ViewShotRef } from "react-native-view-shot";
 import * as Sharing from "expo-sharing";
@@ -23,6 +23,8 @@ export interface AyahFeedSlideProps {
   onShare?: () => void;
   /** Fires the moment the share button is tapped, regardless of whether the image capture or the plain-text fallback ends up being used — the single point for counting a share attempt. */
   onShareAttempted?: () => void;
+  /** The same plain-text share content `onShare` would send alone — attached alongside the captured image on iOS, where the native share sheet supports both together (unlike Android, where combining a local file with text reliably needs a content:// URI expo-sharing already handles; there the image ships alone, same as before). */
+  shareText?: string;
   onCopy?: () => void;
   onOpenDetail?: () => void;
 }
@@ -59,6 +61,14 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
       await new Promise((resolve) => setTimeout(resolve, 50));
       const uri = await shotRef.current?.capture?.();
       setIsPreparingShareImage(false);
+      if (uri && Platform.OS === "ios") {
+        // iOS's native share sheet supports a local file url and a message
+        // together — the only way to actually deliver "the āyah + the
+        // download link" alongside the image, since expo-sharing's
+        // image-only API (used below for Android) has no way to attach text.
+        await Share.share({ url: uri, message: props.shareText ?? "" });
+        return;
+      }
       if (uri && (await Sharing.isAvailableAsync())) {
         await Sharing.shareAsync(uri, { mimeType: "image/png", dialogTitle: t("home.shareCta") });
         return;

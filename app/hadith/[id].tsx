@@ -61,7 +61,7 @@ export default function HadithDetailScreen(): React.JSX.Element {
     includeArabic: preferences.showArabicText,
     includeTranslation: preferences.textDisplayMode !== "arabic_only",
     appName: t("common.appName"),
-    getTheAppLine: buildGetTheAppLine(t("common.getTheAppShareLine")),
+    getTheAppLine: buildGetTheAppLine(t),
   });
 
   return (

@@ -12,7 +12,7 @@ oversight.
 - [x] `easProjectId` — set to the real EAS project id (`@teamupasco/ayahnow` — the EAS/Expo project itself keeps its original slug; only the app's own name/identifiers changed, see `config/shared.js`).
 - [ ] `contactEmail` — a real, monitored support address (required by both stores).
 - [ ] `privacyPolicyUrl` — a real, publicly reachable HTTPS URL hosting `docs/PRIVACY.md`'s content.
-- [ ] `iosAppStoreUrl` — replace the `idPROVISIONAL` placeholder with the real numeric App Store id, assigned after the app's first App Store Connect submission. This link is appended to every shared ayah/hadith (see "Share growth loop" below) — a shared message keeps a dead link until this is set. `androidPlayStoreUrl` needs no such fix: it's derived directly from `androidPackage` and is already correct once that's finalized.
+- [ ] `iosAppStoreUrl` — replace the `idPROVISIONAL` placeholder with the real numeric App Store id, assigned after the app's first App Store Connect submission. Until this is set, `buildGetTheAppLine()` (see "Share growth loop" below) automatically omits the iOS link from every share rather than distributing a dead one — flip this back on for iOS by simply setting the real value; no code change needed. `androidPlayStoreUrl` needs no such fix: it's derived directly from `androidPackage` and is already correct once that's finalized.
 - [ ] `appName`, tagline, brand colors — confirm final wording/branding with the product owner.
 - [ ] `eas.json` submit section — real App Store Connect app id (`ascAppId`) and Google Play service account key path. Do **not** add an `appleId` or `appleTeamId` field here: those identify the owner's personal Apple account and must never be committed. Configure an App Store Connect API Key instead (`eas credentials` or the EAS website) — see `docs/PUBLISH_FROM_IPHONE.md`.
 
@@ -20,8 +20,8 @@ oversight.
 
 With no ads, no account system, and no backend, sharing is the app's only
 growth mechanism: every ayah/hadith share (plain-text, copy, or the
-branded image card) appends a "get the app" line carrying both store
-links (`src/utils/shareText.ts`'s `buildGetTheAppLine`), and the
+branded image card) appends a "get the app" line carrying the store
+link(s) (`src/utils/shareText.ts`'s `buildGetTheAppLine`), and the
 shareable image card itself (`AyahFeedSlide`/`HadithFeedSlide`) bakes in
 an "IqraTime" wordmark footer so brand recall survives even when a
 forwarded image loses its caption. A purely local, self-reported share
@@ -31,9 +31,22 @@ beneficial knowledge is itself a good deed — not a vanity metric, and
 never attributed to any actual install (this app tracks nothing about
 what happens after a share).
 
+`buildGetTheAppLine()` never ships a link known in advance to be broken:
+while `iosAppStoreUrl` is still the `idPROVISIONAL` placeholder, shares
+carry the Android link only (`common.getTheAppShareLineAndroidOnly`);
+once a real App Store id is set, both links appear automatically
+(`common.getTheAppShareLine`) — no further code change needed.
+
+On iOS, the branded image share now also attaches the plain-text "get the
+app" message alongside the image itself (`Share.share({ url, message })`),
+since the earlier `expo-sharing`-only path could only ever send the image
+with no accompanying text or link. Android keeps using `expo-sharing`
+directly, which reliably handles a local file's content:// URI there but
+has no way to attach a message — Android shares the image alone, with its
+in-image branding footer as the only recall mechanism, same as before.
+
 - [ ] `iosAppStoreUrl` above is set to the real App Store URL before
-      relying on this loop for real growth — until then, the iOS half of
-      every shared link is a placeholder.
+      relying on this loop for real iOS growth.
 
 ## "Support IqraTime" donation feature (`docs/STRIPE_SETUP.md`)
 

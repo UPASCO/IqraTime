@@ -63,7 +63,7 @@ function FeedItem({
       includeTranslation: preferences.textDisplayMode !== "arabic_only",
       referenceLabel: t("ayah.surahLabel"),
       appName: t("common.appName"),
-      getTheAppLine: buildGetTheAppLine(t("common.getTheAppShareLine")),
+      getTheAppLine: buildGetTheAppLine(t),
     });
 
   return (
@@ -79,6 +79,7 @@ function FeedItem({
       showSwipeHint={showSwipeHint}
       onToggleFavorite={() => onToggleFavorite(ayahId)}
       onShare={() => Share.share({ message: shareText() })}
+      shareText={shareText()}
       onShareAttempted={() => incrementShareCount()}
       onCopy={() => Clipboard.setStringAsync(shareText())}
       onOpenDetail={() => router.push(`/ayah/${ayahView.surah}-${ayahView.ayah}`)}
@@ -122,7 +123,7 @@ function HadithFeedItem({
       includeArabic: preferences.showArabicText,
       includeTranslation: preferences.textDisplayMode !== "arabic_only",
       appName: t("common.appName"),
-      getTheAppLine: buildGetTheAppLine(t("common.getTheAppShareLine")),
+      getTheAppLine: buildGetTheAppLine(t),
     });
 
   return (
@@ -137,6 +138,7 @@ function HadithFeedItem({
       showSwipeHint={showSwipeHint}
       onToggleFavorite={() => onToggleFavorite(hadithId)}
       onShare={() => Share.share({ message: shareText() })}
+      shareText={shareText()}
       onShareAttempted={() => incrementShareCount()}
       onCopy={() => Clipboard.setStringAsync(shareText())}
       onOpenDetail={() => router.push(`/hadith/${hadithIdToRouteParam(hadithId)}`)}

@@ -30,6 +30,7 @@ export const zhCN: TranslationSchema = {
     openSettings: "打开系统设置",
     frequencyEveryHour: pluralForm({ other: "每 {count} 小时" }),
     getTheAppShareLine: "📲 下载 IqraTime — iOS: {iosUrl} · Android: {androidUrl}",
+    getTheAppShareLineAndroidOnly: "📲 在 Android 上下载 IqraTime:{androidUrl}",
     imageBrandFooter: "在 App Store 与 Google Play 搜索「IqraTime」",
   },
   onboarding: {

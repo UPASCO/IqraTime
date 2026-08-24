@@ -67,7 +67,7 @@ export default function AyahDetailScreen(): React.JSX.Element {
     includeTranslation: preferences.textDisplayMode !== "arabic_only",
     referenceLabel: t("ayah.surahLabel"),
     appName: t("common.appName"),
-    getTheAppLine: buildGetTheAppLine(t("common.getTheAppShareLine")),
+    getTheAppLine: buildGetTheAppLine(t),
   });
 
   return (
@@ -144,8 +144,14 @@ export default function AyahDetailScreen(): React.JSX.Element {
 
         <Button
           label={t("quran.openInReaderCta")}
+          // replace, not push: this screen might itself have just replaced
+          // the surah reader (see AyahRow.onOpenDetail in
+          // app/quran/[surah].tsx), so pushing here would grow the stack on
+          // every bounce between the two. Replacing means "back" from the
+          // reader always returns in one hop to wherever the āyah was
+          // actually opened from (feed, favorites, history, …).
           variant="ghost"
-          onPress={() => router.push(`/quran/${ayahView.surah}?ayah=${ayahView.ayah}`)}
+          onPress={() => router.replace(`/quran/${ayahView.surah}?ayah=${ayahView.ayah}`)}
         />
       </View>
     </Screen>

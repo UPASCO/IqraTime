@@ -43,6 +43,7 @@ export const ar: TranslationSchema = {
       other: "كل {count} ساعة",
     }),
     getTheAppShareLine: "📲 حمّل تطبيق IqraTime — آيفون: {iosUrl} · أندرويد: {androidUrl}",
+    getTheAppShareLineAndroidOnly: "📲 حمّل تطبيق IqraTime على أندرويد: {androidUrl}",
     imageBrandFooter: "ابحث عن «IqraTime» في App Store وGoogle Play",
   },
   onboarding: {

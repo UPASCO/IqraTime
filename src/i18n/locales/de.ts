@@ -30,6 +30,7 @@ export const de: TranslationSchema = {
     openSettings: "Systemeinstellungen öffnen",
     frequencyEveryHour: pluralForm({ one: "Alle {count} Stunde", other: "Alle {count} Stunden" }),
     getTheAppShareLine: "📲 IqraTime herunterladen — iOS: {iosUrl} · Android: {androidUrl}",
+    getTheAppShareLineAndroidOnly: "📲 IqraTime für Android herunterladen: {androidUrl}",
     imageBrandFooter: "Suche «IqraTime» im App Store und bei Google Play",
   },
   onboarding: {

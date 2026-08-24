@@ -30,6 +30,7 @@ export const hi: TranslationSchema = {
     openSettings: "सिस्टम सेटिंग्स खोलें",
     frequencyEveryHour: pluralForm({ one: "प्रत्येक {count} घंटे में", other: "प्रत्येक {count} घंटों में" }),
     getTheAppShareLine: "📲 IqraTime डाउनलोड करें — iOS: {iosUrl} · Android: {androidUrl}",
+    getTheAppShareLineAndroidOnly: "📲 Android पर IqraTime डाउनलोड करें: {androidUrl}",
     imageBrandFooter: "ऐप स्टोर और गूगल प्ले पर «IqraTime» खोजें",
   },
   onboarding: {

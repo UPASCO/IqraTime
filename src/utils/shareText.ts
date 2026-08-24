@@ -1,4 +1,7 @@
 import { appConfig } from "@/config/appConfig";
+import type { TranslationKey } from "@/i18n/schema";
+
+type TFunction = (key: TranslationKey, params?: Record<string, string | number>) => string;
 
 /**
  * The "get the app" line appended to every shared ayah/hadith — this is the
@@ -62,7 +65,20 @@ export function formatHadithShareText(input: HadithShareTextInput): string {
   return appendGetTheAppLine(lines, input.getTheAppLine).join("\n");
 }
 
-/** Fills the store links into the translated "get the app" template — shared by every screen that shares/copies an ayah or hadith. */
-export function buildGetTheAppLine(template: string): string {
-  return template.replace("{iosUrl}", appConfig.iosAppStoreUrl).replace("{androidUrl}", appConfig.androidPlayStoreUrl);
+/**
+ * Builds the translated "get the app" line, with both store links filled
+ * in — shared by every screen that shares/copies an ayah or hadith.
+ *
+ * The iOS App Store URL only becomes real once the app has been submitted
+ * to App Store Connect at least once (see docs/RELEASE_CHECKLIST.md); until
+ * then `appConfig.iosAppStoreUrl` is a placeholder that leads to a dead
+ * "Connexion impossible" page in the App Store app. Shipping a guaranteed-
+ * broken link in every share defeats the entire point of this growth
+ * mechanism, so this detects that case and shares the real, working
+ * Android link only — never a link known in advance not to work.
+ */
+export function buildGetTheAppLine(t: TFunction): string {
+  const iosReady = !appConfig.iosAppStoreUrl.includes("PROVISIONAL");
+  const key: TranslationKey = iosReady ? "common.getTheAppShareLine" : "common.getTheAppShareLineAndroidOnly";
+  return t(key, { iosUrl: appConfig.iosAppStoreUrl, androidUrl: appConfig.androidPlayStoreUrl });
 }

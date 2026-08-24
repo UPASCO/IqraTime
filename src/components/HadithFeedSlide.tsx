@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
+import { View, Text, Pressable, ScrollView, StyleSheet, Share, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ViewShot, { type ViewShotRef } from "react-native-view-shot";
 import * as Sharing from "expo-sharing";
@@ -21,6 +21,8 @@ export interface HadithFeedSlideProps {
   onShare?: () => void;
   /** Fires the moment the share button is tapped, regardless of whether the image capture or the plain-text fallback ends up being used — the single point for counting a share attempt. */
   onShareAttempted?: () => void;
+  /** Same plain-text content as `onShare` — attached alongside the captured image on iOS; see AyahFeedSlide's identical prop for why. */
+  shareText?: string;
   onCopy?: () => void;
   onOpenDetail?: () => void;
 }
@@ -52,6 +54,10 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
       await new Promise((resolve) => setTimeout(resolve, 50));
       const uri = await shotRef.current?.capture?.();
       setIsPreparingShareImage(false);
+      if (uri && Platform.OS === "ios") {
+        await Share.share({ url: uri, message: props.shareText ?? "" });
+        return;
+      }
       if (uri && (await Sharing.isAvailableAsync())) {
         await Sharing.shareAsync(uri, { mimeType: "image/png", dialogTitle: t("home.shareCta") });
         return;

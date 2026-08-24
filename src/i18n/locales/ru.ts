@@ -35,6 +35,7 @@ export const ru: TranslationSchema = {
       other: "Каждые {count} часа",
     }),
     getTheAppShareLine: "📲 Скачать IqraTime — iOS: {iosUrl} · Android: {androidUrl}",
+    getTheAppShareLineAndroidOnly: "📲 Скачать IqraTime на Android: {androidUrl}",
     imageBrandFooter: "Найдите «IqraTime» в App Store и Google Play",
   },
   onboarding: {

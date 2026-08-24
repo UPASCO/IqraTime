@@ -162,12 +162,26 @@ export default function QuranSurahReaderScreen(): React.JSX.Element {
             borderBottomRightRadius: radii.lg,
           }}
         >
-          {/* Always the surah list, never router.back() — this screen can be
-              reached via a deep link from an ayah's "open in the full
-              Qur'an" action, where the previous stack entry isn't /quran
-              at all; the label promises "all surahs" so it must always
-              lead there regardless of how this screen was reached. */}
-          <Pressable onPress={() => router.replace("/quran")} accessibilityRole="button" style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+          {/* Always the surah list, and always in one hop — never
+              router.back() (the previous stack entry isn't /quran when this
+              screen was reached via an ayah's "open in the full Qur'an"
+              link) and never a plain push (bouncing between a surah and an
+              ayah's detail screen repeatedly must not keep growing the
+              stack, or leaving requires swiping back through every hop).
+              dismissTo collapses back to an existing /quran entry directly;
+              if there isn't one in this stack (deep-linked straight into a
+              surah), replace at least avoids adding a new level. */}
+          <Pressable
+            onPress={() => {
+              try {
+                router.dismissTo("/quran");
+              } catch {
+                router.replace("/quran");
+              }
+            }}
+            accessibilityRole="button"
+            style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
+          >
             <Ionicons name="chevron-back" size={18} color={appConfig.brand.ivory} />
             <Text style={{ color: appConfig.brand.ivory, opacity: 0.8, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
               {t("quran.allSurahsCta")}
@@ -218,7 +232,10 @@ export default function QuranSurahReaderScreen(): React.JSX.Element {
               showTranslation={showTranslation}
               arabicFirst={arabicFirst}
               highlighted={highlightedAyah === item.ayah}
-              onOpenDetail={() => router.push(`/ayah/${item.surah}-${item.ayah}`)}
+              // replace, not push: bouncing into an āyah's detail screen and
+              // back out (via "open in the full Qur'an") must not keep
+              // growing the stack — see the "All surahs" comment above.
+              onOpenDetail={() => router.replace(`/ayah/${item.surah}-${item.ayah}`)}
             />
           )}
         />

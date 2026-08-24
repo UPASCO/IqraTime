@@ -1,10 +1,34 @@
 import { formatShareText, formatHadithShareText, buildGetTheAppLine } from "@/utils/shareText";
 import { appConfig } from "@/config/appConfig";
 
+/** Mimics the real i18n interpolate() closely enough for this module's needs. */
+const fakeT = (key: string, params?: Record<string, string | number>): string => {
+  const templates: Record<string, string> = {
+    "common.getTheAppShareLine": "iOS: {iosUrl} · Android: {androidUrl}",
+    "common.getTheAppShareLineAndroidOnly": "Android: {androidUrl}",
+  };
+  let out = templates[key] ?? key;
+  for (const [k, v] of Object.entries(params ?? {})) out = out.replaceAll(`{${k}}`, String(v));
+  return out;
+};
+
 describe("shareText", () => {
-  it("fills both store links into the get-the-app template", () => {
-    const line = buildGetTheAppLine("iOS: {iosUrl} · Android: {androidUrl}");
-    expect(line).toBe(`iOS: ${appConfig.iosAppStoreUrl} · Android: ${appConfig.androidPlayStoreUrl}`);
+  it("never shares the iOS link while it's still the unpublished PROVISIONAL placeholder", () => {
+    // Documents today's real, known state (see docs/RELEASE_CHECKLIST.md) —
+    // update this once the app has a real App Store id.
+    expect(appConfig.iosAppStoreUrl).toContain("PROVISIONAL");
+    const line = buildGetTheAppLine(fakeT as never);
+    expect(line).toBe(`Android: ${appConfig.androidPlayStoreUrl}`);
+    expect(line).not.toContain(appConfig.iosAppStoreUrl);
+  });
+
+  it("builds the get-the-app line from whichever template matches the iOS URL's readiness", () => {
+    const line = buildGetTheAppLine(fakeT as never);
+    const iosReady = !appConfig.iosAppStoreUrl.includes("PROVISIONAL");
+    const expected = iosReady
+      ? `iOS: ${appConfig.iosAppStoreUrl} · Android: ${appConfig.androidPlayStoreUrl}`
+      : `Android: ${appConfig.androidPlayStoreUrl}`;
+    expect(line).toBe(expected);
   });
 
   it("appends the get-the-app line to an ayah share when provided", () => {

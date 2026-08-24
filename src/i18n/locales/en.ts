@@ -35,6 +35,7 @@ export const en = {
     openSettings: "Open system settings",
     frequencyEveryHour: pluralForm({ one: "Every {count} hour", other: "Every {count} hours" }),
     getTheAppShareLine: "📲 Get IqraTime — iOS: {iosUrl} · Android: {androidUrl}",
+    getTheAppShareLineAndroidOnly: "📲 Get IqraTime on Android: {androidUrl}",
     imageBrandFooter: "Search “IqraTime” on the App Store & Google Play",
   },
   onboarding: {

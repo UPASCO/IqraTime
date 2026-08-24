@@ -110,7 +110,7 @@ export default function MomentScreen(): React.JSX.Element {
       includeTranslation: preferences.textDisplayMode !== "arabic_only",
       referenceLabel: t("ayah.surahLabel"),
       appName: t("common.appName"),
-      getTheAppLine: buildGetTheAppLine(t("common.getTheAppShareLine")),
+      getTheAppLine: buildGetTheAppLine(t),
     });
 
   if (mood && (ayahId || loading)) {
