@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 import { Ionicons } from "@expo/vector-icons";
 
-import { Screen, ArabicText, TranslationText, QuranicReference, FavoriteButton, ThemeBadge, Button } from "@/components";
+import { Screen, Button } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
@@ -145,14 +145,59 @@ export default function MomentScreen(): React.JSX.Element {
                 gap: spacing.md,
               }}
             >
+              {/* This card uses the same fixed dark palette as AyahFeedSlide
+                  (never the ambient light/dark theme colors) — reusing
+                  theme-following components like ArabicText/TranslationText
+                  here would render near-black text on a near-black
+                  background, illegible in light mode. */}
               <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                <QuranicReference surah={ayahView.surah} ayah={ayahView.ayah} />
-                <FavoriteButton isFavorite={isFavorite} onToggle={toggleFavorite} />
+                <Text
+                  style={{
+                    color: appConfig.brand.goldLight,
+                    fontWeight: typography.weights.semibold,
+                    fontSize: typography.sizes.caption * fontScaleMultiplier,
+                    letterSpacing: 1,
+                  }}
+                >
+                  {t("ayah.surahLabel")} {ayahView.surah}:{ayahView.ayah}
+                </Text>
+                <Pressable
+                  onPress={toggleFavorite}
+                  hitSlop={8}
+                  accessibilityRole="button"
+                  accessibilityLabel={isFavorite ? t("home.favoriteRemove") : t("home.favoriteAdd")}
+                  accessibilityState={{ selected: isFavorite }}
+                >
+                  <Ionicons name={isFavorite ? "heart" : "heart-outline"} size={24} color={appConfig.brand.goldLight} />
+                </Pressable>
               </View>
 
-              {preferences.showArabicText && ayahView.arabicText ? <ArabicText text={ayahView.arabicText} /> : null}
+              {preferences.showArabicText && ayahView.arabicText ? (
+                <Text
+                  accessibilityLanguage="ar"
+                  style={{
+                    color: appConfig.brand.warmWhite,
+                    textAlign: "right",
+                    writingDirection: "rtl",
+                    fontWeight: "500",
+                    fontSize: typography.sizes.arabicBody * fontScaleMultiplier,
+                    lineHeight: typography.lineHeights.arabicBody * fontScaleMultiplier,
+                  }}
+                >
+                  {ayahView.arabicText}
+                </Text>
+              ) : null}
               {ayahView.translationText ? (
-                <TranslationText text={ayahView.translationText} />
+                <Text
+                  style={{
+                    color: appConfig.brand.ivory,
+                    opacity: 0.92,
+                    fontSize: typography.sizes.subtitle * fontScaleMultiplier,
+                    lineHeight: typography.sizes.subtitle * 1.5 * fontScaleMultiplier,
+                  }}
+                >
+                  {ayahView.translationText}
+                </Text>
               ) : (
                 <Text style={{ color: appConfig.brand.ivory, opacity: 0.7, fontStyle: "italic" }}>{t("errors.translationMissing")}</Text>
               )}
@@ -160,7 +205,9 @@ export default function MomentScreen(): React.JSX.Element {
               {ayahView.themeLabels.length > 0 ? (
                 <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
                   {ayahView.themeLabels.map((label) => (
-                    <ThemeBadge key={label} label={label} />
+                    <View key={label} style={{ backgroundColor: "rgba(247,243,232,0.14)", borderRadius: 999, paddingHorizontal: spacing.sm, paddingVertical: spacing.xxs }}>
+                      <Text style={{ color: appConfig.brand.ivory, fontSize: typography.sizes.caption * fontScaleMultiplier }}>{label}</Text>
+                    </View>
                   ))}
                 </View>
               ) : null}
