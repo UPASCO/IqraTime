@@ -7,14 +7,14 @@ oversight.
 
 ## Identity & branding (`src/config/appConfig.ts`)
 
-- [ ] `iosBundleIdentifier` — replace the `com.example.iqratime.provisional` placeholder with a real, owned reverse-DNS id.
-- [ ] `androidPackage` — same, for Android.
+- [x] `iosBundleIdentifier` — real, owned reverse-DNS id: `com.IqraTime.com` (registered in Apple's Certificates, Identifiers & Profiles, matching the app's App Store Connect record, Apple ID `6804868769`).
+- [ ] `androidPackage` — still the `com.example.iqratime.provisional` placeholder; no Google Play equivalent has been registered yet. Note: Google Play requires an all-lowercase package name, so this can't just mirror the iOS bundle id verbatim.
 - [x] `easProjectId` — set to the real EAS project id (`@teamupasco/ayahnow` — the EAS/Expo project itself keeps its original slug; only the app's own name/identifiers changed, see `config/shared.js`).
 - [ ] `contactEmail` — a real, monitored support address (required by both stores).
 - [ ] `privacyPolicyUrl` — a real, publicly reachable HTTPS URL hosting `docs/PRIVACY.md`'s content.
-- [ ] `iosAppStoreUrl` — replace the `idPROVISIONAL` placeholder with the real numeric App Store id, assigned after the app's first App Store Connect submission. Until this is set, `buildGetTheAppLine()` (see "Share growth loop" below) automatically omits the iOS link from every share rather than distributing a dead one — flip this back on for iOS by simply setting the real value; no code change needed. `androidPlayStoreUrl` needs no such fix: it's derived directly from `androidPackage` and is already correct once that's finalized.
+- [x] `iosAppStoreUrl` — real: `https://apps.apple.com/app/id6804868769`. `buildGetTheAppLine()` now includes the iOS link in shares again (it was auto-omitting it while this was still a placeholder — see "Share growth loop" below). `androidPlayStoreUrl` still needs `androidPackage` above set for real before it's correct.
 - [ ] `appName`, tagline, brand colors — confirm final wording/branding with the product owner.
-- [ ] `eas.json` submit section — real App Store Connect app id (`ascAppId`) and Google Play service account key path. Do **not** add an `appleId` or `appleTeamId` field here: those identify the owner's personal Apple account and must never be committed. Configure an App Store Connect API Key instead (`eas credentials` or the EAS website) — see `docs/PUBLISH_FROM_IPHONE.md`.
+- [x] `eas.json` submit section — `ascAppId` set to `6804868769`. Google Play service account key path still outstanding (no Android/Google Play setup yet). Do **not** add an `appleId` or `appleTeamId` field here: those identify the owner's personal Apple account and must never be committed. Configure an App Store Connect API Key instead (`eas credentials` or the EAS website) — see `docs/PUBLISH_FROM_IPHONE.md`.
 
 ## Share growth loop
 

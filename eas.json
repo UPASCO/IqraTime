@@ -46,7 +46,7 @@
   "submit": {
     "production": {
       "ios": {
-        "ascAppId": "REPLACE_WITH_REAL_APP_STORE_CONNECT_ID"
+        "ascAppId": "6804868769"
       },
       "android": {
         "serviceAccountKeyPath": "REPLACE_WITH_PATH_TO_SERVICE_ACCOUNT_JSON",

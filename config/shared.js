@@ -27,19 +27,22 @@ module.exports = {
     fr: "Et si chaque notification comptait vraiment ! Une āyah ou un hadith authentique, un peu de hassanat, inchAllah.",
     alt_fr: "Le Coran et les hadiths sur votre écran, sans déverrouiller — une source de hassanat, inchAllah.",
   },
-  version: "1.9.3",
-  buildNumber: 13,
-  iosBundleIdentifier: "com.example.iqratime.provisional",
+  version: "1.9.4",
+  buildNumber: 14,
+  iosBundleIdentifier: "com.IqraTime.com",
+  // PROVISIONAL — no Android/Google Play equivalent has been registered yet
+  // (only the iOS App ID above is real so far). Google Play requires an
+  // all-lowercase package name, so this can't simply mirror the iOS one
+  // verbatim once it's set for real.
   androidPackage: "com.example.iqratime.provisional",
   easProjectId: "5aa33698-7d7f-424c-845f-1a1e548ec93e",
   contactEmail: "contact@iqratime.example",
   privacyPolicyUrl: "https://iqratime.example/privacy",
   deepLinkScheme: "iqratime",
-  // PROVISIONAL — Apple only assigns this numeric app id once the app has
-  // been created in App Store Connect, so (unlike the Play Store URL below)
-  // it cannot be derived from anything already known; replace before
-  // sharing ever needs to work on a real device. See docs/RELEASE_CHECKLIST.md.
-  iosAppStoreUrl: "https://apps.apple.com/app/idPROVISIONAL",
+  // Real as of the app's creation in App Store Connect (Apple ID
+  // 6804868769) — see docs/RELEASE_CHECKLIST.md. Shares now include the
+  // real iOS link again, via buildGetTheAppLine()'s PROVISIONAL check.
+  iosAppStoreUrl: "https://apps.apple.com/app/id6804868769",
   brand: {
     // Darkest stop of the app icon's night sky — used wherever the UI should
     // read as an extension of the icon (the immersive ayah feed, splash).
