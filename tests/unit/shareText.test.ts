@@ -13,13 +13,12 @@ const fakeT = (key: string, params?: Record<string, string | number>): string =>
 };
 
 describe("shareText", () => {
-  it("never shares the iOS link while it's still the unpublished PROVISIONAL placeholder", () => {
+  it("includes the real iOS link now that iosAppStoreUrl is no longer a PROVISIONAL placeholder", () => {
     // Documents today's real, known state (see docs/RELEASE_CHECKLIST.md) —
-    // update this once the app has a real App Store id.
-    expect(appConfig.iosAppStoreUrl).toContain("PROVISIONAL");
+    // update this back if iosAppStoreUrl ever reverts to a placeholder.
+    expect(appConfig.iosAppStoreUrl).not.toContain("PROVISIONAL");
     const line = buildGetTheAppLine(fakeT as never);
-    expect(line).toBe(`Android: ${appConfig.androidPlayStoreUrl}`);
-    expect(line).not.toContain(appConfig.iosAppStoreUrl);
+    expect(line).toBe(`iOS: ${appConfig.iosAppStoreUrl} · Android: ${appConfig.androidPlayStoreUrl}`);
   });
 
   it("builds the get-the-app line from whichever template matches the iOS URL's readiness", () => {

@@ -179,6 +179,24 @@ function pickHadithId(avoidHadithId?: string): string | undefined {
   return from[Math.floor(Math.random() * from.length)]?.arabic.id;
 }
 
+/**
+ * A synchronous first guess for the feed's opening slide, used only as the
+ * useState() initial value so the very first render already has content to
+ * show instead of a blank flash while loadInitialState()'s async DB reads
+ * (history, favorites) are still in flight. loadInitialState() still runs
+ * right after mount and replaces this with the real "resume where you left
+ * off" pick (most recent history entry) once that's available — this is
+ * purely about never rendering nothing in between.
+ */
+function pickInitialFeedEntry(effectiveContentMode: ContentMode): FeedEntry | undefined {
+  if (nextFeedKind(effectiveContentMode, undefined) === "hadith") {
+    const id = pickHadithId();
+    return id ? { key: "slide-0", kind: "hadith", id } : undefined;
+  }
+  const id = getRuntimeCorpus()[0]?.arabic.id;
+  return id ? { key: "slide-0", kind: "ayah", id } : undefined;
+}
+
 
 export default function HomeScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
@@ -186,17 +204,6 @@ export default function HomeScreen(): React.JSX.Element {
   const router = useRouter();
   const db = useAppDatabase();
   const { preferences } = usePreferencesStore();
-
-  const [feedItems, setFeedItems] = useState<FeedEntry[]>([]);
-  const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
-  const [hadithFavoriteIds, setHadithFavoriteIds] = useState<Set<string>>(new Set());
-  const [nextSlot, setNextSlot] = useState<NotificationSlot | undefined>(undefined);
-  const [statusMessage, setStatusMessage] = useState<string | undefined>(undefined);
-  const [slideHeight, setSlideHeight] = useState(0);
-  const [streak, setStreak] = useState<StreakInfo | undefined>(undefined);
-
-  const loadingMore = useRef(false);
-  const slideCounter = useRef(1);
 
   // Hadith availability depends on the translation locale, not just the
   // preference: hadith_only/mixed silently degrade to ayah-only for a
@@ -206,6 +213,20 @@ export default function HomeScreen(): React.JSX.Element {
   const hadithAvailable = hasAnyHadithContent(preferences.translationLocale);
   const effectiveContentMode: ContentMode = preferences.contentMode === "ayah_only" || hadithAvailable ? preferences.contentMode : "ayah_only";
   const hadithUnavailableNotice = preferences.contentMode !== "ayah_only" && !hadithAvailable;
+
+  const [feedItems, setFeedItems] = useState<FeedEntry[]>(() => {
+    const initial = pickInitialFeedEntry(effectiveContentMode);
+    return initial ? [initial] : [];
+  });
+  const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
+  const [hadithFavoriteIds, setHadithFavoriteIds] = useState<Set<string>>(new Set());
+  const [nextSlot, setNextSlot] = useState<NotificationSlot | undefined>(undefined);
+  const [statusMessage, setStatusMessage] = useState<string | undefined>(undefined);
+  const [slideHeight, setSlideHeight] = useState(0);
+  const [streak, setStreak] = useState<StreakInfo | undefined>(undefined);
+
+  const loadingMore = useRef(false);
+  const slideCounter = useRef(1);
 
   const pickAnotherAyah = useCallback(async (avoidAyahId?: string): Promise<string | undefined> => {
     if (!db) return undefined;

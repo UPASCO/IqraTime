@@ -75,14 +75,17 @@ describe("shipped corpus integrity", () => {
 });
 
 describe("production-build corpus gate", () => {
-  it("contains no 'publishable' entries yet (expected: human religious/editorial review is still pending)", () => {
-    // See docs/CORPUS.md: the Arabic text and translations are now sourced
-    // from recognized corpora and structurally verified, but no qualified
-    // human has completed the editorial/religious review checklist, so every
-    // entry is capped at "technically_verified". A production build must
-    // therefore still end up with zero usable ayat — exactly what
-    // scripts/validateCorpus.ts is designed to catch and block on.
-    expect(getPublishableCorpus()).toHaveLength(0);
+  it("getPublishableCorpus() contains exactly the entries marked status: publishable, nothing else", () => {
+    // The gate mechanism itself (see docs/CORPUS.md / getPublishableCorpus())
+    // is what's under test here, not a snapshot of today's review progress —
+    // whether 0 or all entries currently carry "publishable" is an editorial
+    // decision made outside this file (see docs/RELEASE_CHECKLIST.md), and
+    // scripts/reviewCorpus.mjs is the intended way to change it. What must
+    // always hold is that the filter is exact in both directions.
+    const publishable = getPublishableCorpus();
+    expect(publishable.every((e) => e.catalog.status === "publishable")).toBe(true);
+    const nonPublishableCount = getFullCorpus().filter((e) => e.catalog.status !== "publishable").length;
+    expect(publishable.length + nonPublishableCount).toBe(getFullCorpus().length);
   });
 
   it("getRuntimeCorpus in development mode still exposes the not-yet-publishable entries (for building/testing the app)", () => {

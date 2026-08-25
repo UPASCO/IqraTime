@@ -57,11 +57,16 @@ module.exports = {
     darkText: "#17201C",
   },
   defaultSchedule: {
-    startHour: 8,
-    endHour: 22,
+    // Full 24h coverage by default, no quiet-night blackout — every hour
+    // 0 through 23 gets a slot (see dailyLocalTimes() in
+    // src/notifications/scheduler.ts: with frequencyHours=1 this walks
+    // startHour..endHour inclusive, so 0..23 is the complete day, not 0..22).
+    // Still fully user-adjustable from Settings after first launch.
+    startHour: 0,
+    endHour: 23,
     frequencyHours: 1,
     activeDays: [0, 1, 2, 3, 4, 5, 6],
-    quietNightEnabled: true,
+    quietNightEnabled: false,
   },
   notificationLimits: {
     iosEffectivePendingLimit: 64,

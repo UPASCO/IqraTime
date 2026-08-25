@@ -16,11 +16,32 @@ import {
   type PermissionSnapshot,
   type OsScheduledSummary,
 } from "@/notifications";
-import { reschedule, forceFullReschedule } from "@/notifications/rescheduleService";
+import { reschedule, forceFullReschedule, formatNotificationBody } from "@/notifications/rescheduleService";
 import { loadLastRescheduleInfo, type LastRescheduleInfo } from "@/storage/diagnosticsStore";
+import { getRuntimeCorpus, getTranslation } from "@/data/corpus";
 import { formatDateTime, detectTimeZone, formatTime } from "@/utils/dateUtils";
 import { generateLocalId } from "@/utils/id";
-import type { LocalLogEntry, NotificationSlot } from "@/domain/types";
+import type { LocalLogEntry, NotificationSlot, UserPreferences } from "@/domain/types";
+
+/**
+ * A real ayah's notification body, same formatting the actual scheduled
+ * queue uses (see rescheduleService.ts) — the test buttons exist to prove
+ * end-to-end delivery, so they must show what a real notification looks
+ * like, not a placeholder string that happens to arrive but proves nothing
+ * about content.
+ */
+function sampleTestBody(preferences: UserPreferences): string {
+  const entry = getRuntimeCorpus()[0];
+  if (!entry) return "";
+  const translation = getTranslation(entry.arabic.id, preferences.translationLocale);
+  return formatNotificationBody({
+    arabicText: entry.arabic.text,
+    translationText: translation?.text,
+    showArabic: preferences.showArabicText,
+    textOrder: preferences.textOrder,
+    displayMode: preferences.textDisplayMode,
+  });
+}
 
 export default function DiagnosticsScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
@@ -80,11 +101,11 @@ export default function DiagnosticsScreen(): React.JSX.Element {
   };
 
   const handleTest = async (): Promise<void> => {
-    await sendTestNotification(preferences.interfaceLocale, t("common.appName"));
+    await sendTestNotification(preferences.interfaceLocale, sampleTestBody(preferences));
   };
 
   const handleDelayedTest = async (): Promise<void> => {
-    await sendDelayedTestNotification(preferences.interfaceLocale, t("diagnostics.delayedTestBody"));
+    await sendDelayedTestNotification(preferences.interfaceLocale, sampleTestBody(preferences));
     await refresh();
   };
 
