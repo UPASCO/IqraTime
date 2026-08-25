@@ -75,8 +75,15 @@ below is checked:
       edition (300 āyāt across 113 surahs, curated down to the āyāt a
       knowledgeable Muslim would recognise as significant on sight) via
       `node scripts/buildFullCorpus.mjs` — not hand-typed.
-- [ ] Every shipped catalog entry has gone through the reviewer checklist
-      in `docs/CORPUS.md` and reached `status: "publishable"`.
+- [x] Every shipped catalog entry (300 ayat + 500 hadith) is marked
+      `status: "publishable"` — promoted in bulk by the project owner
+      (2026-08-25) rather than individually walked through the
+      `docs/CORPUS.md` reviewer checklist. The text itself is unchanged
+      (verbatim Uthmani Arabic + licensed translations / Bukhari-Muslim
+      hadith, same sourcing as always) — what was skipped is the
+      per-entry standalone-adequacy/context check in that checklist.
+      `scripts/reviewCorpus.mjs` (`npm run review:ayah` /
+      `review:hadith`) remains available for a proper pass later.
 - [x] 11 of 12 supported languages have a real, licensed Quran translation
       (all but Arabic, which uses the Arabic text itself) fetched via
       `node scripts/buildFullCorpus.mjs` — see `docs/CORPUS.md`.
