@@ -33,7 +33,6 @@
       "channel": "preview"
     },
     "production": {
-      "autoIncrement": true,
       "env": {
         "EXPO_PUBLIC_CORPUS_ENV": "production"
       },
