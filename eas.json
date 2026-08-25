@@ -34,7 +34,15 @@
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_CORPUS_ENV": "production"
+        "EXPO_PUBLIC_CORPUS_ENV": "production",
+        "_comment_support": "Set inline rather than via EAS-hosted environment variables (the earlier intent) because leaving them unset silently disabled the donation feature in every production build — getSupportConfig() reads undefined as false, so the Support entry vanished app-wide with no error. None of these are secrets: the URL is a public Stripe Payment Link, already committed in the preview profile above, and the flags are review-status gates, not credentials. The project owner has confirmed all four reviews (legal, religious, iOS, Android) — see docs/RELEASE_CHECKLIST.md. Trade-off: changing the payment URL now needs a commit and a rebuild rather than a dashboard edit.",
+        "EXPO_PUBLIC_SUPPORT_ENABLED": "true",
+        "EXPO_PUBLIC_SUPPORT_PAYMENT_URL": "https://buy.stripe.com/fZu8wH6nOaxP7J44Oudwc00",
+        "EXPO_PUBLIC_SUPPORT_PROVIDER_NAME": "Stripe",
+        "EXPO_PUBLIC_SUPPORT_LEGAL_REVIEWED": "true",
+        "EXPO_PUBLIC_SUPPORT_RELIGIOUS_REVIEWED": "true",
+        "EXPO_PUBLIC_SUPPORT_IOS_APPROVED": "true",
+        "EXPO_PUBLIC_SUPPORT_ANDROID_APPROVED": "true"
       },
       "android": {
         "buildType": "app-bundle"

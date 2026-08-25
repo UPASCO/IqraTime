@@ -56,8 +56,14 @@ below is checked:
 - [x] A real Stripe account is verified and a payout bank account is
       configured **inside the Stripe Dashboard only** (never in this repo).
 - [x] A Stripe Payment Link is created per `docs/STRIPE_SETUP.md`'s
-      procedure and its public URL is set as `EXPO_PUBLIC_SUPPORT_PAYMENT_URL`
-      via EAS environment configuration (not committed to source control).
+      procedure and its public URL is set as `EXPO_PUBLIC_SUPPORT_PAYMENT_URL`.
+      Set inline in `eas.json`'s `production` build profile, not via
+      EAS-hosted environment variables as originally planned — leaving them
+      unset there silently disabled the whole feature with no error, since
+      `getSupportConfig()` reads an unset variable as `false`. None of these
+      values are secrets (see the `_comment_support` note in `eas.json`), so
+      the trade-off (a commit + rebuild to change the payment URL, instead
+      of a dashboard edit) was accepted.
 - [x] Legal review completed → `EXPO_PUBLIC_SUPPORT_LEGAL_REVIEWED=true`.
 - [x] Religious review completed → `EXPO_PUBLIC_SUPPORT_RELIGIOUS_REVIEWED=true`.
 - [x] Current Apple App Store guidelines on external payment links/donations
