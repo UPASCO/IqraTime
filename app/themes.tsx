@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
+import { useRouter } from "expo-router";
 
 import { Screen, Chip, Button } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -10,6 +11,7 @@ import { ALL_THEME_KEYS, type ThemeKey } from "@/domain/types";
 export default function ThemesScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
   const { t } = useI18n();
+  const router = useRouter();
   const { preferences, update } = usePreferencesStore();
 
   const toggle = (theme: ThemeKey): void => {
@@ -19,7 +21,7 @@ export default function ThemesScreen(): React.JSX.Element {
   };
 
   return (
-    <Screen>
+    <Screen onBack={() => router.back()}>
       <View style={{ gap: spacing.md }}>
         <Text style={{ color: colors.accent, fontSize: typography.sizes.title * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
           {t("themes.title")}

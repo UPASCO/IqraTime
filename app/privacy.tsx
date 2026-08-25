@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
+import { useRouter } from "expo-router";
 
 import { Screen } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -8,9 +9,10 @@ import { useI18n } from "@/i18n/I18nProvider";
 export default function PrivacyScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
   const { t } = useI18n();
+  const router = useRouter();
 
   return (
-    <Screen>
+    <Screen onBack={() => router.back()}>
       <View style={{ gap: spacing.md }}>
         <Text style={{ color: colors.accent, fontSize: typography.sizes.title * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
           {t("privacy.title")}

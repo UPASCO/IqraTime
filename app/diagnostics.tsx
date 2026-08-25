@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, Platform, Alert } from "react-native";
+import { useRouter } from "expo-router";
 
 import { Screen, SectionHeader, Button } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -46,6 +47,7 @@ function sampleTestBody(preferences: UserPreferences): string {
 export default function DiagnosticsScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
   const { t, locale } = useI18n();
+  const router = useRouter();
   const { preferences } = usePreferencesStore();
   const db = useAppDatabase();
 
@@ -124,7 +126,7 @@ export default function DiagnosticsScreen(): React.JSX.Element {
   );
 
   return (
-    <Screen>
+    <Screen onBack={() => router.back()}>
       <View style={{ gap: spacing.sm }}>
         <Text style={{ color: colors.accent, fontSize: typography.sizes.title * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
           {t("diagnostics.title")}

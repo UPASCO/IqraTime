@@ -71,7 +71,7 @@ export default function AyahDetailScreen(): React.JSX.Element {
   });
 
   return (
-    <Screen>
+    <Screen onBack={() => router.back()}>
       <View style={{ gap: spacing.md }}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
           <QuranicReference surah={ayahView.surah} ayah={ayahView.ayah} />

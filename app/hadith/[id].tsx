@@ -65,7 +65,7 @@ export default function HadithDetailScreen(): React.JSX.Element {
   });
 
   return (
-    <Screen>
+    <Screen onBack={() => router.back()}>
       <View style={{ gap: spacing.md }}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xs }}>

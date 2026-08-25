@@ -72,7 +72,7 @@ export default function HadithMenuScreen(): React.JSX.Element {
   }, [corpus, selectedTheme, query]);
 
   return (
-    <Screen scroll={false} contentContainerStyle={{ padding: 0, flex: 1 }}>
+    <Screen scroll={false} contentContainerStyle={{ padding: 0, flex: 1 }} onBack={() => router.back()}>
       <View style={{ flex: 1 }}>
         <View
           style={{

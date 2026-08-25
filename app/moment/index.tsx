@@ -115,7 +115,7 @@ export default function MomentScreen(): React.JSX.Element {
 
   if (mood && (ayahId || loading)) {
     return (
-      <Screen>
+      <Screen onBack={() => router.back()}>
         <View style={{ gap: spacing.lg }}>
           <Pressable
             onPress={() => {
@@ -249,7 +249,7 @@ export default function MomentScreen(): React.JSX.Element {
   }
 
   return (
-    <Screen>
+    <Screen onBack={() => router.back()}>
       <View style={{ gap: spacing.lg }}>
         <Text style={{ color: colors.accent, fontSize: typography.sizes.title * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
           {t("moment.title")}

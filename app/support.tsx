@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { View, Text } from "react-native";
+import { useRouter } from "expo-router";
 
 import { Screen, Button, EmptyState } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -24,6 +25,7 @@ const REASON_KEY: Record<SupportUnavailableReason, string> = {
 export default function SupportScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
   const { t } = useI18n();
+  const router = useRouter();
   const config = useMemo(() => getSupportConfig(), []);
   const reason = useMemo(() => getSupportUnavailableReason({ config }), [config]);
   const available = isSupportAvailable({ config });
@@ -37,7 +39,7 @@ export default function SupportScreen(): React.JSX.Element {
     // rather than a broken/blank screen. In development this doubles as
     // the "diagnostic explaining missing validations" the spec calls for.
     return (
-      <Screen>
+      <Screen onBack={() => router.back()}>
         <EmptyState title={t("support.unavailableTitle")} body={reason ? t(REASON_KEY[reason] as Parameters<typeof t>[0]) : undefined} />
         {__DEV__ ? (
           <View style={{ padding: spacing.md, gap: spacing.xxs }}>
@@ -63,7 +65,7 @@ export default function SupportScreen(): React.JSX.Element {
   };
 
   return (
-    <Screen>
+    <Screen onBack={() => router.back()}>
       <View style={{ gap: spacing.md }}>
         <Text style={{ color: colors.accent, fontSize: typography.sizes.title * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
           {t("support.title")}

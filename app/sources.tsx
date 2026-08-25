@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
+import { useRouter } from "expo-router";
 
 import { Screen, SectionHeader } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -11,6 +12,7 @@ import { LOCALE_NATIVE_NAMES } from "@/i18n/localeNames";
 export default function SourcesScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
   const { t } = useI18n();
+  const router = useRouter();
   const { preferences } = usePreferencesStore();
 
   const activeSource = translationSources.find((s) => s.locale === preferences.translationLocale);
@@ -23,7 +25,7 @@ export default function SourcesScreen(): React.JSX.Element {
   );
 
   return (
-    <Screen>
+    <Screen onBack={() => router.back()}>
       <View style={{ gap: spacing.sm }}>
         <Text style={{ color: colors.accent, fontSize: typography.sizes.title * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
           {t("sources.title")}

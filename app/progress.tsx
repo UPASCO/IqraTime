@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 
 import { Screen } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -14,6 +15,7 @@ const SHARE_MILESTONES = [1, 10, 50, 100, 500] as const;
 export default function ProgressScreen(): React.JSX.Element {
   const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
   const { t } = useI18n();
+  const router = useRouter();
   const progress = useDiscoveryProgress();
   const [shareCount, setShareCount] = useState(0);
 
@@ -26,7 +28,7 @@ export default function ProgressScreen(): React.JSX.Element {
   const percent = progress?.percent ?? 0;
 
   return (
-    <Screen>
+    <Screen onBack={() => router.back()}>
       <View style={{ gap: spacing.lg }}>
         <Text style={{ color: colors.accent, fontSize: typography.sizes.title * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
           {t("progress.title")}

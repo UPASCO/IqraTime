@@ -14,7 +14,7 @@ export default function AboutScreen(): React.JSX.Element {
   const router = useRouter();
 
   return (
-    <Screen>
+    <Screen onBack={() => router.back()}>
       <View style={{ gap: spacing.md }}>
         <Text style={{ color: colors.accent, fontSize: typography.sizes.title * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
           {t("common.appName")}

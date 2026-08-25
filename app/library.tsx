@@ -81,7 +81,7 @@ export default function LibraryScreen(): React.JSX.Element {
   }, [filtered]);
 
   return (
-    <Screen scroll={false}>
+    <Screen scroll={false} onBack={() => router.back()}>
       <View style={{ gap: spacing.sm, flex: 1 }}>
         <Text style={{ color: colors.accent, fontSize: 20, fontWeight: "700" }}>{t("library.title")}</Text>
         <TextInput
