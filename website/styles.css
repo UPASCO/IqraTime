@@ -285,6 +285,43 @@ section {
   color: #4a564d;
 }
 
+/* The two latest app features get a wider, gold-trimmed row of their own. */
+.feature-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.feature-card.highlight {
+  position: relative;
+  border: 1px solid var(--gold);
+  box-shadow: 0 10px 30px rgba(200, 164, 93, 0.16);
+  padding-top: 34px;
+}
+
+.feature-card.highlight h3 {
+  font-size: 1.15rem;
+}
+
+.feature-card.highlight p {
+  font-size: 0.95rem;
+}
+
+.new-badge {
+  position: absolute;
+  top: -11px;
+  inset-inline-start: 22px;
+  background: var(--gold);
+  color: var(--night);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
 /* Privacy banner */
 .privacy {
   background: var(--deep-green);

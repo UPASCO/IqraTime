@@ -92,15 +92,20 @@ function jsonLdFor(lang, pageKey) {
       publisher: { "@type": "Organization", name: "IqraTime", url: ORIGIN },
     });
 
+    // Every qN/aN pair present in the data feeds the FAQ rich-result markup.
+    const questions = [];
+    for (let n = 1; get(t, `faq.q${n}`) !== undefined; n++) {
+      questions.push({
+        "@type": "Question",
+        name: plain(get(t, `faq.q${n}`)),
+        acceptedAnswer: { "@type": "Answer", text: plain(get(t, `faq.a${n}`)) },
+      });
+    }
     blocks.push({
       "@context": "https://schema.org",
       "@type": "FAQPage",
       inLanguage: lang,
-      mainEntity: [1, 2, 3, 4, 5, 6].map((n) => ({
-        "@type": "Question",
-        name: plain(get(t, `faq.q${n}`)),
-        acceptedAnswer: { "@type": "Answer", text: plain(get(t, `faq.a${n}`)) },
-      })),
+      mainEntity: questions,
     });
   }
 
