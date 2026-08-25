@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { View, Text, TextInput, FlatList, Pressable, Share } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useFocusEffect } from "expo-router";
 
 import { Screen, EmptyState, Button, Chip } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -8,12 +8,15 @@ import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { useAyahView } from "@/hooks/useAyahView";
-import type { FavoriteEntry } from "@/domain/types";
-import { ayahIdToRouteParam } from "@/utils/routeParams";
+import { useHadithView } from "@/hooks/useHadithView";
+import type { FavoriteEntry, HadithId } from "@/domain/types";
+import { ayahIdToRouteParam, hadithIdToRouteParam } from "@/utils/routeParams";
 import { formatDateTime } from "@/utils/dateUtils";
-import { formatShareText } from "@/utils/shareText";
+import { formatShareText, formatHadithShareText } from "@/utils/shareText";
+import { listHadithFavorites, removeHadithFavorite } from "@/storage/hadithFavoritesStore";
 
 type SortMode = "date" | "surah";
+type ContentType = "ayah" | "hadith";
 
 function FavoriteRow({
   entry,
@@ -80,30 +83,94 @@ function FavoriteRow({
   );
 }
 
+/** The hadith counterpart to FavoriteRow above — hadith favorites have no timestamp (see hadithFavoritesStore.ts), just an id. */
+function HadithFavoriteRow({
+  hadithId,
+  onPress,
+  onRemove,
+}: {
+  hadithId: HadithId;
+  onPress: () => void;
+  onRemove: () => void;
+}): React.JSX.Element | null {
+  const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
+  const { t } = useI18n();
+  const { preferences } = usePreferencesStore();
+  const view = useHadithView(hadithId, preferences.translationLocale);
+
+  if (!view.found) return null;
+
+  const preview = view.translationText ?? view.arabicText ?? "";
+
+  const share = (): void => {
+    const message = formatHadithShareText({
+      translationText: view.translationText,
+      arabicText: view.arabicText,
+      collectionDisplayName: view.collectionDisplayName,
+      hadithNumber: view.hadithNumber,
+      includeArabic: preferences.showArabicText,
+      includeTranslation: preferences.textDisplayMode !== "arabic_only",
+      appName: t("common.appName"),
+    });
+    Share.share({ message });
+  };
+
+  return (
+    <Pressable
+      onPress={onPress}
+      style={{
+        backgroundColor: colors.surface,
+        borderColor: colors.border,
+        borderWidth: 1,
+        borderRadius: radii.md,
+        padding: spacing.sm,
+        gap: spacing.xxs,
+        marginBottom: spacing.xs,
+      }}
+    >
+      <Text style={{ color: colors.gold, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+        {view.collectionDisplayName} #{view.hadithNumber}
+      </Text>
+      <Text numberOfLines={3} style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier }}>
+        {preview}
+      </Text>
+      <View style={{ flexDirection: "row", gap: spacing.md, marginTop: spacing.xxs }}>
+        <Button label={t("common.share")} variant="ghost" onPress={share} />
+        <Button label={t("common.delete")} variant="ghost" onPress={onRemove} />
+      </View>
+    </Pressable>
+  );
+}
+
 export default function FavoritesScreen(): React.JSX.Element {
   const { colors, spacing, radii } = useTheme();
   const { t } = useI18n();
   const router = useRouter();
   const db = useAppDatabase();
 
+  const [contentType, setContentType] = useState<ContentType>("ayah");
   const [favorites, setFavorites] = useState<FavoriteEntry[]>([]);
+  const [hadithFavorites, setHadithFavorites] = useState<readonly HadithId[]>([]);
   const [query, setQuery] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("date");
   const [pendingUndo, setPendingUndo] = useState<FavoriteEntry | null>(null);
   const undoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const load = useCallback(async () => {
-    if (!db) return;
-    setFavorites(await db.favorites.list());
+    if (db) setFavorites(await db.favorites.list());
+    setHadithFavorites(await listHadithFavorites());
   }, [db]);
 
-  useEffect(() => {
-    // Loading data on mount/dependency-change is the standard React data-fetching
-    // pattern; the state update happens asynchronously after `db.favorites.list()`
-    // resolves, not synchronously within this effect body.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    load();
-  }, [load]);
+  // Reload every time this tab regains focus, not just once on first mount:
+  // Expo Router's Tabs keep every tab screen mounted in the background, so
+  // a mount-only effect would never see a favorite added from Home after
+  // this tab was first visited — it looked exactly like "the heart doesn't
+  // save," when the write was actually succeeding the whole time.
+  useFocusEffect(
+    useCallback(() => {
+      load();
+    }, [load]),
+  );
 
   const filtered = useMemo(() => {
     let list = favorites.filter((f) => !query || f.ayahId.includes(query));
@@ -118,6 +185,8 @@ export default function FavoritesScreen(): React.JSX.Element {
     }
     return list;
   }, [favorites, query, sortMode]);
+
+  const filteredHadith = useMemo(() => hadithFavorites.filter((id) => !query || id.includes(query)), [hadithFavorites, query]);
 
   const handleRemove = async (entry: FavoriteEntry): Promise<void> => {
     if (!db) return;
@@ -135,47 +204,74 @@ export default function FavoritesScreen(): React.JSX.Element {
     load();
   };
 
-  if (favorites.length === 0) {
-    return (
-      <Screen>
-        <EmptyState title={t("favorites.emptyTitle")} body={t("favorites.emptyBody")} />
-      </Screen>
-    );
-  }
+  const handleRemoveHadith = async (id: HadithId): Promise<void> => {
+    await removeHadithFavorite(id);
+    setHadithFavorites((prev) => prev.filter((existing) => existing !== id));
+  };
+
+  const isEmpty = contentType === "ayah" ? filtered.length === 0 : filteredHadith.length === 0;
 
   return (
     <Screen scroll={false}>
       <View style={{ gap: spacing.sm, flex: 1 }}>
-        <TextInput
-          value={query}
-          onChangeText={setQuery}
-          placeholder={t("favorites.searchPlaceholder")}
-          placeholderTextColor={colors.textSecondary}
-          style={{
-            backgroundColor: colors.surface,
-            borderColor: colors.border,
-            borderWidth: 1,
-            borderRadius: radii.sm,
-            padding: spacing.sm,
-            color: colors.textPrimary,
-            minHeight: 44,
-          }}
-        />
         <View style={{ flexDirection: "row", gap: 8 }}>
-          <Chip label={t("favorites.sortByDate")} selected={sortMode === "date"} onPress={() => setSortMode("date")} />
-          <Chip label={t("favorites.sortBySurah")} selected={sortMode === "surah"} onPress={() => setSortMode("surah")} />
+          <Chip label={t("quran.title")} selected={contentType === "ayah"} onPress={() => setContentType("ayah")} />
+          <Chip label={t("hadith.menuTitle")} selected={contentType === "hadith"} onPress={() => setContentType("hadith")} />
         </View>
-        <FlatList
-          data={filtered}
-          keyExtractor={(item) => item.ayahId}
-          renderItem={({ item }) => (
-            <FavoriteRow
-              entry={item}
-              onPress={() => router.push(`/ayah/${ayahIdToRouteParam(item.ayahId)}`)}
-              onRemove={() => handleRemove(item)}
+
+        {isEmpty ? (
+          <EmptyState title={t("favorites.emptyTitle")} body={t("favorites.emptyBody")} />
+        ) : (
+          <>
+            <TextInput
+              value={query}
+              onChangeText={setQuery}
+              placeholder={t("favorites.searchPlaceholder")}
+              placeholderTextColor={colors.textSecondary}
+              style={{
+                backgroundColor: colors.surface,
+                borderColor: colors.border,
+                borderWidth: 1,
+                borderRadius: radii.sm,
+                padding: spacing.sm,
+                color: colors.textPrimary,
+                minHeight: 44,
+              }}
             />
-          )}
-        />
+            {contentType === "ayah" ? (
+              <View style={{ flexDirection: "row", gap: 8 }}>
+                <Chip label={t("favorites.sortByDate")} selected={sortMode === "date"} onPress={() => setSortMode("date")} />
+                <Chip label={t("favorites.sortBySurah")} selected={sortMode === "surah"} onPress={() => setSortMode("surah")} />
+              </View>
+            ) : null}
+            {contentType === "ayah" ? (
+              <FlatList
+                data={filtered}
+                keyExtractor={(item) => item.ayahId}
+                renderItem={({ item }) => (
+                  <FavoriteRow
+                    entry={item}
+                    onPress={() => router.push(`/ayah/${ayahIdToRouteParam(item.ayahId)}`)}
+                    onRemove={() => handleRemove(item)}
+                  />
+                )}
+              />
+            ) : (
+              <FlatList
+                data={filteredHadith}
+                keyExtractor={(id) => id}
+                renderItem={({ item }) => (
+                  <HadithFavoriteRow
+                    hadithId={item}
+                    onPress={() => router.push(`/hadith/${hadithIdToRouteParam(item)}`)}
+                    onRemove={() => handleRemoveHadith(item)}
+                  />
+                )}
+              />
+            )}
+          </>
+        )}
+
         {pendingUndo ? (
           <View
             style={{

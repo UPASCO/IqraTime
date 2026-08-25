@@ -28,7 +28,7 @@ module.exports = {
     alt_fr: "Le Coran et les hadiths sur votre écran, sans déverrouiller — une source de hassanat, inchAllah.",
   },
   version: "1.9.4",
-  buildNumber: 17,
+  buildNumber: 18,
   iosBundleIdentifier: "com.IqraTime.com",
   // PROVISIONAL — no Android/Google Play equivalent has been registered yet
   // (only the iOS App ID above is real so far). Google Play requires an
