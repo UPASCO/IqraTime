@@ -166,6 +166,36 @@ export const ALL_THEME_KEYS: readonly ThemeKey[] = [
 ];
 
 /**
+ * The reduced, "classic hadith" subset of ThemeKey used to tag and filter
+ * hadith entries — deliberately narrower than ALL_THEME_KEYS. The full
+ * 23-key taxonomy was designed for the broader emotional/thematic range of
+ * standalone Quranic āyāt; hadith collections have their own long-standing
+ * topical convention (the "Kutub"/chapter structure of Bukhari/Muslim:
+ * faith and intention, prayer, family ties, charity, knowledge, patience,
+ * mercy, forgiveness, humility, brotherhood, justice, remembrance), and
+ * users browsing hadith by theme expect those familiar, popular categories
+ * rather than the full ayah vocabulary. Reusing ThemeKey values (rather
+ * than inventing a parallel type) means every one of these already has a
+ * reviewed translation in all 12 locales — no new i18n content needed.
+ * See scripts/retagHadithThemes.mjs, which tags every hadith entry using
+ * only this list (with "good_deeds" as the catch-all fallback).
+ */
+export const HADITH_THEME_KEYS: readonly ThemeKey[] = [
+  "good_deeds",
+  "prayer",
+  "family",
+  "generosity",
+  "knowledge",
+  "patience",
+  "mercy",
+  "forgiveness",
+  "humility",
+  "brotherhood",
+  "justice",
+  "remembrance",
+];
+
+/**
  * A whitelist entry in the editorial catalog: an ayah judged suitable for
  * standalone, out-of-context presentation as a notification. See
  * docs/CORPUS.md section "Editorial whitelist" for the review checklist.

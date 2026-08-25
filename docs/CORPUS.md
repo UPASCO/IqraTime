@@ -181,14 +181,23 @@ never are.
 
 **Theme tags** (powering the "Hadith" menu's theme filter) are assigned by
 the same MECHANICAL keyword-matching approach `scripts/buildFullCorpus.mjs`
-uses for ayat, reusing the identical `ThemeKey` taxonomy so hadith and
-ayat share one set of topics throughout the app. This is explicitly a
-topic hint, not a religious classification — about half of the 500
-entries don't match any specific keyword list and fall back to the
-"guidance" category (a real, intentional catch-all for hadith about
-everyday rulings and practice, not a bug). Like every other mechanically
-assigned theme in this app, these are a starting point for the human
-reviewer checklist below, not a finished classification.
+uses for ayat, but against `HADITH_THEME_KEYS` (`src/domain/types.ts`) — a
+deliberately reduced, 12-entry subset of the full 23-key `ThemeKey`
+taxonomy, curated to match the familiar, popular topical categories a
+hadith collection is traditionally organized by (intentions/good deeds,
+prayer, family ties, charity, knowledge, patience, mercy, forgiveness,
+humility, brotherhood, justice, remembrance) rather than the broader
+emotional range built for standalone Quranic āyāt. Every one of these 12
+keys is a `ThemeKey` value that already has a reviewed translation in all
+12 locales, so no separate hadith-only vocabulary or new translations were
+needed. This is explicitly a topic hint, not a religious classification —
+about 60% of the 500 entries don't match a specific keyword list and fall
+back to the "good_deeds" category (a real, intentional catch-all, not a
+bug). `scripts/retagHadithThemes.mjs` re-tags the already-fetched 500
+entries against this list without a network re-fetch; keep it and
+`buildHadithCorpus.mjs`'s copy of the same keyword map in sync. Like every
+other mechanically assigned theme in this app, these are a starting point
+for the human reviewer checklist below, not a finished classification.
 
 **Only 5 of the app's 12 languages have any hadith coverage in the
 source dataset**: Arabic, English, French, Bengali, and (noticeably less

@@ -58,37 +58,28 @@ const MAX_EN = 600;
 const TARGET_COUNT = 500;
 
 // --- Theme tagging -------------------------------------------------------
-// Same MECHANICAL keyword-matching approach and the same ThemeKey taxonomy
-// as scripts/buildFullCorpus.mjs — a theme tag is a topic hint for the
-// "browse hadith by theme" screen, not a religious classification. Keyword
-// lists are tuned for how hadith are typically phrased (narration framing,
-// "whoever does X", "the best of you is...") rather than reused verbatim
-// from the Qur'an-translation-tuned list, but the categories themselves are
-// identical so hadith and ayat share one taxonomy throughout the app.
+// MECHANICAL keyword-matching against HADITH_THEME_KEYS
+// (src/domain/types.ts) — the reduced, "classic hadith" subset of the full
+// ayah ThemeKey taxonomy (12 of 23 keys), not the full taxonomy every ayah
+// theme uses. A theme tag is a topic hint for the "browse hadith by theme"
+// screen, not a religious classification. Keyword lists are tuned for how
+// hadith are typically phrased (narration framing, "whoever does X", "the
+// best of you is..."). Keep this in sync with
+// scripts/retagHadithThemes.mjs, which re-tags the already-fetched 500
+// entries against this same list without a network re-fetch.
 const THEME_KEYWORDS = {
-  patience: ["patien", "persever", "steadfast", "endure"],
-  gratitude: ["grateful", "gratitude", "thank"],
-  hope: ["hope", "glad tidings", "good news", "despair not"],
-  mercy: ["merciful", "mercy", "compassion", "kind to"],
-  trust_in_god: ["rely upon", "reliance", "trust in allah", "put his trust"],
+  good_deeds: ["good deed", "righteous", "best of you", "best deed", "reward", "honest", "trustworthy", "intention", "actions are"],
   prayer: ["prayer", "pray", "salat", "prostrat", "mosque", "wudu", "ablution", "straighten your row"],
-  wisdom: ["wisdom", "wise", "understand", "reflect"],
-  forgiveness: ["forgiv", "pardon", "overlook"],
-  generosity: ["charity", "sadaqah", "zakat", "spend", "feed", "orphan", "needy", "poor"],
-  courage: ["fear not", "do not fear", "jihad", "strive", "fight"],
-  humility: ["humble", "humility", "arrogan", "proud", "haughty"],
   family: ["parents", "mother", "father", "wife", "wives", "husband", "children", "kinship", "relatives"],
-  trials: ["test", "trial", "afflict", "hardship", "calamity", "difficulty", "suffer", "sick", "illness"],
-  inner_peace: ["tranquil", "peace", "at ease", "content"],
-  remembrance: ["remember", "remembrance", "dhikr", "glorify", "praise"],
-  protection: ["protect", "refuge", "seek refuge", "guard"],
+  generosity: ["charity", "sadaqah", "zakat", "spend", "feed", "orphan", "needy", "poor"],
   knowledge: ["knowledge", "learn", "teach", "scholar", "seek knowledge"],
-  good_deeds: ["good deed", "righteous", "best of you", "best deed", "reward", "honest", "trustworthy"],
-  repentance: ["repent", "turn to allah", "seek forgiveness"],
+  patience: ["patien", "persever", "steadfast", "endure"],
+  mercy: ["merciful", "mercy", "compassion", "kind to"],
+  forgiveness: ["forgiv", "pardon", "overlook", "repent", "seek forgiveness"],
+  humility: ["humble", "humility", "arrogan", "proud", "haughty"],
+  brotherhood: ["brother", "brotherhood", "muslim is the brother", "reconcil", "each other", "neighbour", "neighbor"],
   justice: ["justice", "just", "oppress", "wrong", "fair", "usury", "riba"],
-  brotherhood: ["brother", "brotherhood", "muslim is the brother", "reconcil", "each other"],
-  creation: ["created", "creation", "heavens and the earth", "sun", "moon", "rain"],
-  guidance: ["guid", "straight path", "misguid", "astray"],
+  remembrance: ["remember", "remembrance", "dhikr", "glorify", "praise"],
 };
 
 function themesFor(en) {
@@ -97,7 +88,7 @@ function themesFor(en) {
   for (const [theme, words] of Object.entries(THEME_KEYWORDS)) {
     if (words.some((w) => lower.includes(w))) hits.push(theme);
   }
-  if (hits.length === 0) return ["guidance"];
+  if (hits.length === 0) return ["good_deeds"];
   return hits.slice(0, 3);
 }
 

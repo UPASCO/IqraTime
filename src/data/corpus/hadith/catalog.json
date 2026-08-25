@@ -22,8 +22,7 @@
       "status": "publishable",
       "themes": [
         "prayer",
-        "generosity",
-        "trials"
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -31,7 +30,7 @@
       "id": "bukhari:9",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -39,7 +38,7 @@
       "id": "bukhari:10",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -47,7 +46,7 @@
       "id": "bukhari:11",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -87,7 +86,7 @@
       "id": "bukhari:16",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -95,7 +94,7 @@
       "id": "bukhari:17",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -103,8 +102,7 @@
       "id": "bukhari:19",
       "status": "publishable",
       "themes": [
-        "trials",
-        "creation"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -121,7 +119,7 @@
       "id": "bukhari:351",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -209,7 +207,7 @@
       "id": "bukhari:364",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -217,9 +215,9 @@
       "id": "bukhari:702",
       "status": "publishable",
       "themes": [
+        "good_deeds",
         "prayer",
-        "generosity",
-        "good_deeds"
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -227,8 +225,7 @@
       "id": "bukhari:703",
       "status": "publishable",
       "themes": [
-        "prayer",
-        "trials"
+        "prayer"
       ],
       "isDemoOnly": false
     },
@@ -263,8 +260,7 @@
       "status": "publishable",
       "themes": [
         "prayer",
-        "family",
-        "trials"
+        "family"
       ],
       "isDemoOnly": false
     },
@@ -434,8 +430,8 @@
       "id": "bukhari:1436",
       "status": "publishable",
       "themes": [
-        "generosity",
-        "good_deeds"
+        "good_deeds",
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -443,9 +439,9 @@
       "id": "bukhari:1437",
       "status": "publishable",
       "themes": [
-        "wisdom",
-        "generosity",
-        "family"
+        "good_deeds",
+        "family",
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -461,8 +457,8 @@
       "id": "bukhari:1439",
       "status": "publishable",
       "themes": [
-        "generosity",
-        "family"
+        "family",
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -470,9 +466,9 @@
       "id": "bukhari:1440",
       "status": "publishable",
       "themes": [
-        "wisdom",
-        "generosity",
-        "family"
+        "good_deeds",
+        "family",
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -480,9 +476,9 @@
       "id": "bukhari:1441",
       "status": "publishable",
       "themes": [
-        "wisdom",
-        "generosity",
-        "family"
+        "good_deeds",
+        "family",
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -506,8 +502,7 @@
       "id": "bukhari:1447",
       "status": "publishable",
       "themes": [
-        "generosity",
-        "creation"
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -548,7 +543,7 @@
       "id": "bukhari:1812",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -580,7 +575,7 @@
       "id": "bukhari:1818",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -606,7 +601,7 @@
       "id": "bukhari:1825",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -614,7 +609,7 @@
       "id": "bukhari:1826",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -630,7 +625,7 @@
       "id": "bukhari:1828",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -638,7 +633,7 @@
       "id": "bukhari:1829",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -654,7 +649,7 @@
       "id": "bukhari:2165",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -662,7 +657,7 @@
       "id": "bukhari:2166",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -670,7 +665,7 @@
       "id": "bukhari:2167",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -694,7 +689,7 @@
       "id": "bukhari:2171",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -702,7 +697,7 @@
       "id": "bukhari:2172",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -710,7 +705,7 @@
       "id": "bukhari:2175",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -718,7 +713,7 @@
       "id": "bukhari:2176",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -726,7 +721,7 @@
       "id": "bukhari:2177",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -742,7 +737,7 @@
       "id": "bukhari:2180",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -758,7 +753,7 @@
       "id": "bukhari:2549",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -783,8 +778,7 @@
       "status": "publishable",
       "themes": [
         "prayer",
-        "generosity",
-        "protection"
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -792,7 +786,6 @@
       "id": "bukhari:2553",
       "status": "publishable",
       "themes": [
-        "wisdom",
         "justice"
       ],
       "isDemoOnly": false
@@ -801,8 +794,7 @@
       "id": "bukhari:2554",
       "status": "publishable",
       "themes": [
-        "family",
-        "protection"
+        "family"
       ],
       "isDemoOnly": false
     },
@@ -810,7 +802,7 @@
       "id": "bukhari:2555",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -818,7 +810,7 @@
       "id": "bukhari:2557",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -826,7 +818,7 @@
       "id": "bukhari:2559",
       "status": "publishable",
       "themes": [
-        "courage"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -834,7 +826,7 @@
       "id": "bukhari:2562",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -850,7 +842,7 @@
       "id": "bukhari:2566",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "brotherhood"
       ],
       "isDemoOnly": false
     },
@@ -858,7 +850,7 @@
       "id": "bukhari:2567",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "brotherhood"
       ],
       "isDemoOnly": false
     },
@@ -874,7 +866,7 @@
       "id": "bukhari:2939",
       "status": "publishable",
       "themes": [
-        "creation"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -882,8 +874,7 @@
       "id": "bukhari:2943",
       "status": "publishable",
       "themes": [
-        "prayer",
-        "courage"
+        "prayer"
       ],
       "isDemoOnly": false
     },
@@ -891,7 +882,7 @@
       "id": "bukhari:2945",
       "status": "publishable",
       "themes": [
-        "courage"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -899,8 +890,7 @@
       "id": "bukhari:2946",
       "status": "publishable",
       "themes": [
-        "forgiveness",
-        "courage"
+        "forgiveness"
       ],
       "isDemoOnly": false
     },
@@ -908,7 +898,7 @@
       "id": "bukhari:2947",
       "status": "publishable",
       "themes": [
-        "wisdom"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -916,7 +906,7 @@
       "id": "bukhari:2948",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -924,7 +914,7 @@
       "id": "bukhari:2949",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -932,7 +922,7 @@
       "id": "bukhari:2950",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -956,7 +946,7 @@
       "id": "bukhari:2953",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -964,7 +954,7 @@
       "id": "bukhari:2954",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -972,7 +962,7 @@
       "id": "bukhari:3331",
       "status": "publishable",
       "themes": [
-        "creation"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -980,8 +970,7 @@
       "id": "bukhari:3333",
       "status": "publishable",
       "themes": [
-        "family",
-        "creation"
+        "family"
       ],
       "isDemoOnly": false
     },
@@ -989,7 +978,7 @@
       "id": "bukhari:3334",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1021,7 +1010,7 @@
       "id": "bukhari:3338",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1029,7 +1018,7 @@
       "id": "bukhari:3341",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1037,7 +1026,7 @@
       "id": "bukhari:3343",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1045,7 +1034,7 @@
       "id": "bukhari:3345",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1053,7 +1042,7 @@
       "id": "bukhari:3346",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1061,7 +1050,7 @@
       "id": "bukhari:3347",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1069,7 +1058,7 @@
       "id": "bukhari:3351",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1085,7 +1074,7 @@
       "id": "bukhari:3735",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1111,7 +1100,7 @@
       "id": "bukhari:3740",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1135,7 +1124,7 @@
       "id": "bukhari:3746",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1143,7 +1132,7 @@
       "id": "bukhari:3747",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1151,7 +1140,7 @@
       "id": "bukhari:3748",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1159,7 +1148,7 @@
       "id": "bukhari:3749",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1175,7 +1164,7 @@
       "id": "bukhari:4142",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1183,7 +1172,7 @@
       "id": "bukhari:4144",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1199,7 +1188,7 @@
       "id": "bukhari:4148",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1207,7 +1196,7 @@
       "id": "bukhari:4149",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1215,7 +1204,7 @@
       "id": "bukhari:4151",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1223,7 +1212,7 @@
       "id": "bukhari:4153",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1231,7 +1220,7 @@
       "id": "bukhari:4154",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1239,7 +1228,7 @@
       "id": "bukhari:4155",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1247,7 +1236,7 @@
       "id": "bukhari:4156",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1255,7 +1244,7 @@
       "id": "bukhari:4157",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1263,7 +1252,6 @@
       "id": "bukhari:4159",
       "status": "publishable",
       "themes": [
-        "hope",
         "generosity"
       ],
       "isDemoOnly": false
@@ -1272,7 +1260,7 @@
       "id": "bukhari:4599",
       "status": "publishable",
       "themes": [
-        "creation"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1288,7 +1276,7 @@
       "id": "bukhari:4603",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1296,7 +1284,7 @@
       "id": "bukhari:4604",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1304,7 +1292,7 @@
       "id": "bukhari:4605",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1312,7 +1300,7 @@
       "id": "bukhari:4606",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1320,7 +1308,6 @@
       "id": "bukhari:4609",
       "status": "publishable",
       "themes": [
-        "courage",
         "family"
       ],
       "isDemoOnly": false
@@ -1329,7 +1316,7 @@
       "id": "bukhari:4612",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1337,7 +1324,7 @@
       "id": "bukhari:4613",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1361,7 +1348,7 @@
       "id": "bukhari:4616",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1369,7 +1356,7 @@
       "id": "bukhari:5009",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1377,7 +1364,7 @@
       "id": "bukhari:5011",
       "status": "publishable",
       "themes": [
-        "inner_peace"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1385,7 +1372,7 @@
       "id": "bukhari:5013",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1402,7 +1389,7 @@
       "id": "bukhari:5015",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1410,7 +1397,7 @@
       "id": "bukhari:5016",
       "status": "publishable",
       "themes": [
-        "trials"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1418,7 +1405,7 @@
       "id": "bukhari:5017",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1426,7 +1413,7 @@
       "id": "bukhari:5019",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1434,7 +1421,7 @@
       "id": "bukhari:5020",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1442,7 +1429,7 @@
       "id": "bukhari:5022",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1450,7 +1437,7 @@
       "id": "bukhari:5023",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1458,7 +1445,7 @@
       "id": "bukhari:5024",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1466,7 +1453,7 @@
       "id": "bukhari:5379",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1483,7 +1470,7 @@
       "id": "bukhari:5383",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1499,7 +1486,7 @@
       "id": "bukhari:5385",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1515,7 +1502,7 @@
       "id": "bukhari:5387",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1531,7 +1518,7 @@
       "id": "bukhari:5389",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1547,7 +1534,7 @@
       "id": "bukhari:5392",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1555,8 +1542,7 @@
       "id": "bukhari:5393",
       "status": "publishable",
       "themes": [
-        "generosity",
-        "trials"
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -1564,7 +1550,7 @@
       "id": "bukhari:5723",
       "status": "publishable",
       "themes": [
-        "trials"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1572,7 +1558,7 @@
       "id": "bukhari:5724",
       "status": "publishable",
       "themes": [
-        "trials"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1580,7 +1566,7 @@
       "id": "bukhari:5725",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1588,7 +1574,7 @@
       "id": "bukhari:5726",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1596,7 +1582,7 @@
       "id": "bukhari:5728",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1604,7 +1590,7 @@
       "id": "bukhari:5730",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1612,7 +1598,7 @@
       "id": "bukhari:5731",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1620,7 +1606,7 @@
       "id": "bukhari:5732",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1628,7 +1614,7 @@
       "id": "bukhari:5733",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1636,9 +1622,9 @@
       "id": "bukhari:5734",
       "status": "publishable",
       "themes": [
-        "patience",
+        "good_deeds",
         "family",
-        "good_deeds"
+        "patience"
       ],
       "isDemoOnly": false
     },
@@ -1646,7 +1632,7 @@
       "id": "bukhari:5735",
       "status": "publishable",
       "themes": [
-        "trials"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1654,7 +1640,7 @@
       "id": "bukhari:5738",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1688,6 +1674,7 @@
       "id": "bukhari:6062",
       "status": "publishable",
       "themes": [
+        "good_deeds",
         "family"
       ],
       "isDemoOnly": false
@@ -1720,7 +1707,7 @@
       "id": "bukhari:6067",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1728,7 +1715,7 @@
       "id": "bukhari:6068",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1760,7 +1747,7 @@
       "id": "bukhari:6420",
       "status": "publishable",
       "themes": [
-        "hope"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1768,7 +1755,7 @@
       "id": "bukhari:6421",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1784,7 +1771,7 @@
       "id": "bukhari:6423",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1792,9 +1779,8 @@
       "id": "bukhari:6424",
       "status": "publishable",
       "themes": [
-        "patience",
-        "hope",
-        "good_deeds"
+        "good_deeds",
+        "patience"
       ],
       "isDemoOnly": false
     },
@@ -1810,7 +1796,7 @@
       "id": "bukhari:6429",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1818,8 +1804,8 @@
       "id": "bukhari:6430",
       "status": "publishable",
       "themes": [
-        "generosity",
-        "good_deeds"
+        "good_deeds",
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -1827,8 +1813,8 @@
       "id": "bukhari:6431",
       "status": "publishable",
       "themes": [
-        "generosity",
-        "good_deeds"
+        "good_deeds",
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -1836,7 +1822,7 @@
       "id": "bukhari:6432",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1852,7 +1838,7 @@
       "id": "bukhari:6435",
       "status": "publishable",
       "themes": [
-        "wisdom"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1860,7 +1846,7 @@
       "id": "bukhari:6762",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1868,7 +1854,7 @@
       "id": "bukhari:6763",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1876,7 +1862,7 @@
       "id": "bukhari:6764",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1901,8 +1887,8 @@
       "status": "publishable",
       "themes": [
         "family",
-        "justice",
-        "brotherhood"
+        "brotherhood",
+        "justice"
       ],
       "isDemoOnly": false
     },
@@ -1918,7 +1904,7 @@
       "id": "bukhari:6772",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1926,7 +1912,7 @@
       "id": "bukhari:6773",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1934,7 +1920,7 @@
       "id": "bukhari:6774",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1942,7 +1928,7 @@
       "id": "bukhari:6775",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1950,7 +1936,7 @@
       "id": "bukhari:6776",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -1958,8 +1944,8 @@
       "id": "bukhari:7161",
       "status": "publishable",
       "themes": [
-        "generosity",
         "family",
+        "generosity",
         "justice"
       ],
       "isDemoOnly": false
@@ -1968,7 +1954,7 @@
       "id": "bukhari:7162",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2026,9 +2012,8 @@
       "id": "bukhari:7172",
       "status": "publishable",
       "themes": [
-        "wisdom",
-        "family",
-        "good_deeds"
+        "good_deeds",
+        "family"
       ],
       "isDemoOnly": false
     },
@@ -2036,7 +2021,7 @@
       "id": "bukhari:7173",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2052,7 +2037,7 @@
       "id": "bukhari:7176",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2060,7 +2045,7 @@
       "id": "muslim:94",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2068,7 +2053,7 @@
       "id": "muslim:95",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2076,7 +2061,7 @@
       "id": "muslim:96",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2084,7 +2069,7 @@
       "id": "muslim:98",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2100,7 +2085,7 @@
       "id": "muslim:103",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2108,7 +2093,7 @@
       "id": "muslim:105",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2133,7 +2118,7 @@
       "id": "muslim:109",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2150,8 +2135,7 @@
       "status": "publishable",
       "themes": [
         "prayer",
-        "generosity",
-        "inner_peace"
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -2160,8 +2144,7 @@
       "status": "publishable",
       "themes": [
         "prayer",
-        "generosity",
-        "inner_peace"
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -2169,7 +2152,7 @@
       "id": "muslim:509",
       "status": "publishable",
       "themes": [
-        "protection"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2177,7 +2160,7 @@
       "id": "muslim:510",
       "status": "publishable",
       "themes": [
-        "inner_peace"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2185,7 +2168,7 @@
       "id": "muslim:511",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2193,7 +2176,7 @@
       "id": "muslim:512",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2201,7 +2184,7 @@
       "id": "muslim:513",
       "status": "publishable",
       "themes": [
-        "creation"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2209,7 +2192,7 @@
       "id": "muslim:514",
       "status": "publishable",
       "themes": [
-        "creation"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2217,8 +2200,7 @@
       "id": "muslim:515",
       "status": "publishable",
       "themes": [
-        "trials",
-        "creation"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2226,8 +2208,7 @@
       "id": "muslim:516",
       "status": "publishable",
       "themes": [
-        "trials",
-        "creation"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2235,8 +2216,7 @@
       "id": "muslim:517",
       "status": "publishable",
       "themes": [
-        "trials",
-        "creation"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2244,8 +2224,8 @@
       "id": "muslim:518",
       "status": "publishable",
       "themes": [
-        "forgiveness",
-        "generosity"
+        "generosity",
+        "forgiveness"
       ],
       "isDemoOnly": false
     },
@@ -2269,7 +2249,7 @@
       "id": "muslim:521",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2277,8 +2257,7 @@
       "id": "muslim:847",
       "status": "publishable",
       "themes": [
-        "wisdom",
-        "trials"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2294,7 +2273,7 @@
       "id": "muslim:849",
       "status": "publishable",
       "themes": [
-        "hope"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2302,8 +2281,7 @@
       "id": "muslim:851",
       "status": "publishable",
       "themes": [
-        "forgiveness",
-        "trials"
+        "forgiveness"
       ],
       "isDemoOnly": false
     },
@@ -2319,7 +2297,7 @@
       "id": "muslim:855",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2343,8 +2321,7 @@
       "id": "muslim:858",
       "status": "publishable",
       "themes": [
-        "family",
-        "inner_peace"
+        "family"
       ],
       "isDemoOnly": false
     },
@@ -2386,7 +2363,7 @@
       "id": "muslim:1186",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2394,7 +2371,7 @@
       "id": "muslim:1187",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2402,8 +2379,8 @@
       "id": "muslim:1188",
       "status": "publishable",
       "themes": [
-        "prayer",
-        "good_deeds"
+        "good_deeds",
+        "prayer"
       ],
       "isDemoOnly": false
     },
@@ -2428,7 +2405,7 @@
       "id": "muslim:1192",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2453,7 +2430,7 @@
       "id": "muslim:1195",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2478,8 +2455,7 @@
       "id": "muslim:1198",
       "status": "publishable",
       "themes": [
-        "prayer",
-        "creation"
+        "prayer"
       ],
       "isDemoOnly": false
     },
@@ -2487,7 +2463,7 @@
       "id": "muslim:1200",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2495,7 +2471,7 @@
       "id": "muslim:1533",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2503,7 +2479,7 @@
       "id": "muslim:1536",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2511,7 +2487,7 @@
       "id": "muslim:1537",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2527,7 +2503,7 @@
       "id": "muslim:1539",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2535,7 +2511,7 @@
       "id": "muslim:1541",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2592,7 +2568,7 @@
       "id": "muslim:1549",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2600,7 +2576,7 @@
       "id": "muslim:1867",
       "status": "publishable",
       "themes": [
-        "inner_peace"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2608,7 +2584,7 @@
       "id": "muslim:1868",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2616,7 +2592,7 @@
       "id": "muslim:1871",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2632,7 +2608,7 @@
       "id": "muslim:1874",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2640,7 +2616,7 @@
       "id": "muslim:1875",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2648,7 +2624,7 @@
       "id": "muslim:1876",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2664,7 +2640,7 @@
       "id": "muslim:1878",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2672,7 +2648,7 @@
       "id": "muslim:1879",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2680,7 +2656,7 @@
       "id": "muslim:1880",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2688,7 +2664,7 @@
       "id": "muslim:1881",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2696,7 +2672,7 @@
       "id": "muslim:1882",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2704,7 +2680,7 @@
       "id": "muslim:2241",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2712,7 +2688,7 @@
       "id": "muslim:2242",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2720,7 +2696,7 @@
       "id": "muslim:2244",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2728,7 +2704,7 @@
       "id": "muslim:2245",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2736,7 +2712,7 @@
       "id": "muslim:2246",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2744,7 +2720,7 @@
       "id": "muslim:2247",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2752,7 +2728,7 @@
       "id": "muslim:2248",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2760,7 +2736,7 @@
       "id": "muslim:2249",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2801,9 +2777,8 @@
       "id": "muslim:2255",
       "status": "publishable",
       "themes": [
-        "forgiveness",
         "generosity",
-        "inner_peace"
+        "forgiveness"
       ],
       "isDemoOnly": false
     },
@@ -2811,7 +2786,7 @@
       "id": "muslim:2615",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2819,7 +2794,7 @@
       "id": "muslim:2616",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2827,7 +2802,7 @@
       "id": "muslim:2617",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2835,7 +2810,7 @@
       "id": "muslim:2618",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2851,7 +2826,7 @@
       "id": "muslim:2620",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2859,7 +2834,7 @@
       "id": "muslim:2621",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2875,7 +2850,7 @@
       "id": "muslim:2625",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2883,7 +2858,7 @@
       "id": "muslim:2626",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2891,7 +2866,7 @@
       "id": "muslim:2627",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2899,7 +2874,7 @@
       "id": "muslim:2628",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2907,7 +2882,7 @@
       "id": "muslim:2629",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2915,7 +2890,7 @@
       "id": "muslim:2991",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2923,7 +2898,7 @@
       "id": "muslim:2993",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2931,7 +2906,7 @@
       "id": "muslim:2994",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2939,8 +2914,7 @@
       "id": "muslim:2995",
       "status": "publishable",
       "themes": [
-        "family",
-        "inner_peace"
+        "family"
       ],
       "isDemoOnly": false
     },
@@ -2956,7 +2930,7 @@
       "id": "muslim:2997",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2973,7 +2947,7 @@
       "id": "muslim:3000",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2981,7 +2955,7 @@
       "id": "muslim:3003",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2997,7 +2971,7 @@
       "id": "muslim:3006",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3005,7 +2979,7 @@
       "id": "muslim:3007",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3013,7 +2987,7 @@
       "id": "muslim:3008",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3021,7 +2995,7 @@
       "id": "muslim:3359",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3037,7 +3011,7 @@
       "id": "muslim:3362",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3045,7 +3019,6 @@
       "id": "muslim:3363",
       "status": "publishable",
       "themes": [
-        "inner_peace",
         "justice"
       ],
       "isDemoOnly": false
@@ -3054,7 +3027,7 @@
       "id": "muslim:3364",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3070,7 +3043,7 @@
       "id": "muslim:3367",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3078,7 +3051,7 @@
       "id": "muslim:3368",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3086,7 +3059,7 @@
       "id": "muslim:3369",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3094,7 +3067,7 @@
       "id": "muslim:3370",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3102,7 +3075,7 @@
       "id": "muslim:3371",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3110,7 +3083,7 @@
       "id": "muslim:3372",
       "status": "publishable",
       "themes": [
-        "inner_peace"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3118,7 +3091,7 @@
       "id": "muslim:3373",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3142,8 +3115,7 @@
       "id": "muslim:3735",
       "status": "publishable",
       "themes": [
-        "family",
-        "inner_peace"
+        "family"
       ],
       "isDemoOnly": false
     },
@@ -3151,7 +3123,7 @@
       "id": "muslim:3736",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3191,7 +3163,7 @@
       "id": "muslim:3741",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3207,7 +3179,7 @@
       "id": "muslim:3744",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3215,7 +3187,7 @@
       "id": "muslim:3747",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3223,7 +3195,7 @@
       "id": "muslim:4069",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3231,7 +3203,7 @@
       "id": "muslim:4070",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3239,7 +3211,7 @@
       "id": "muslim:4072",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3247,8 +3219,7 @@
       "id": "muslim:4073",
       "status": "publishable",
       "themes": [
-        "family",
-        "inner_peace"
+        "family"
       ],
       "isDemoOnly": false
     },
@@ -3256,7 +3227,7 @@
       "id": "muslim:4074",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3264,7 +3235,7 @@
       "id": "muslim:4075",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3272,7 +3243,7 @@
       "id": "muslim:4076",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3280,7 +3251,7 @@
       "id": "muslim:4077",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3288,7 +3259,7 @@
       "id": "muslim:4078",
       "status": "publishable",
       "themes": [
-        "inner_peace"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3296,7 +3267,7 @@
       "id": "muslim:4079",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3304,7 +3275,7 @@
       "id": "muslim:4082",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3312,7 +3283,7 @@
       "id": "muslim:4084",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3320,7 +3291,7 @@
       "id": "muslim:4450",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3328,7 +3299,7 @@
       "id": "muslim:4451",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3336,7 +3307,7 @@
       "id": "muslim:4452",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3344,7 +3315,7 @@
       "id": "muslim:4454",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3352,7 +3323,7 @@
       "id": "muslim:4456",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3360,7 +3331,7 @@
       "id": "muslim:4458",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3368,7 +3339,7 @@
       "id": "muslim:4459",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3376,7 +3347,7 @@
       "id": "muslim:4460",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3384,7 +3355,7 @@
       "id": "muslim:4462",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3401,7 +3372,7 @@
       "id": "muslim:4465",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3409,7 +3380,7 @@
       "id": "muslim:4466",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3417,7 +3388,6 @@
       "id": "muslim:4873",
       "status": "publishable",
       "themes": [
-        "courage",
         "good_deeds"
       ],
       "isDemoOnly": false
@@ -3426,7 +3396,6 @@
       "id": "muslim:4874",
       "status": "publishable",
       "themes": [
-        "courage",
         "good_deeds"
       ],
       "isDemoOnly": false
@@ -3435,7 +3404,6 @@
       "id": "muslim:4875",
       "status": "publishable",
       "themes": [
-        "courage",
         "good_deeds"
       ],
       "isDemoOnly": false
@@ -3444,8 +3412,6 @@
       "id": "muslim:4876",
       "status": "publishable",
       "themes": [
-        "courage",
-        "trials",
         "good_deeds"
       ],
       "isDemoOnly": false
@@ -3454,8 +3420,7 @@
       "id": "muslim:4877",
       "status": "publishable",
       "themes": [
-        "courage",
-        "creation"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3463,7 +3428,7 @@
       "id": "muslim:4878",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3471,7 +3436,7 @@
       "id": "muslim:4881",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3479,7 +3444,7 @@
       "id": "muslim:4882",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3495,7 +3460,7 @@
       "id": "muslim:4884",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3503,9 +3468,7 @@
       "id": "muslim:4886",
       "status": "publishable",
       "themes": [
-        "generosity",
-        "courage",
-        "inner_peace"
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -3513,8 +3476,7 @@
       "id": "muslim:4887",
       "status": "publishable",
       "themes": [
-        "generosity",
-        "courage"
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -3522,7 +3484,7 @@
       "id": "muslim:5243",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3530,7 +3492,7 @@
       "id": "muslim:5244",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3538,7 +3500,7 @@
       "id": "muslim:5245",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3546,7 +3508,7 @@
       "id": "muslim:5246",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3554,7 +3516,7 @@
       "id": "muslim:5247",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3562,7 +3524,7 @@
       "id": "muslim:5248",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3570,7 +3532,7 @@
       "id": "muslim:5249",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3579,8 +3541,7 @@
       "status": "publishable",
       "themes": [
         "family",
-        "justice",
-        "creation"
+        "justice"
       ],
       "isDemoOnly": false
     },
@@ -3588,7 +3549,7 @@
       "id": "muslim:5251",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3596,7 +3557,7 @@
       "id": "muslim:5252",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3604,8 +3565,7 @@
       "id": "muslim:5253",
       "status": "publishable",
       "themes": [
-        "family",
-        "creation"
+        "family"
       ],
       "isDemoOnly": false
     },
@@ -3613,7 +3573,7 @@
       "id": "muslim:5254",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3629,7 +3589,7 @@
       "id": "muslim:5594",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3637,7 +3597,7 @@
       "id": "muslim:5595",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3645,7 +3605,7 @@
       "id": "muslim:5596",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3661,7 +3621,7 @@
       "id": "muslim:5598",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3669,7 +3629,7 @@
       "id": "muslim:5599",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3677,7 +3637,7 @@
       "id": "muslim:5600",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3685,7 +3645,6 @@
       "id": "muslim:5601",
       "status": "publishable",
       "themes": [
-        "inner_peace",
         "remembrance"
       ],
       "isDemoOnly": false
@@ -3702,7 +3661,7 @@
       "id": "muslim:5603",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3710,7 +3669,7 @@
       "id": "muslim:5604",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3734,7 +3693,7 @@
       "id": "muslim:5944",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3750,7 +3709,7 @@
       "id": "muslim:5949",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3758,7 +3717,7 @@
       "id": "muslim:5951",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3766,7 +3725,7 @@
       "id": "muslim:5952",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3774,7 +3733,7 @@
       "id": "muslim:5955",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3782,7 +3741,7 @@
       "id": "muslim:5956",
       "status": "publishable",
       "themes": [
-        "wisdom"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3790,7 +3749,7 @@
       "id": "muslim:5957",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3798,7 +3757,7 @@
       "id": "muslim:5958",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3806,7 +3765,7 @@
       "id": "muslim:5959",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3814,7 +3773,7 @@
       "id": "muslim:6340",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3822,7 +3781,7 @@
       "id": "muslim:6341",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3830,7 +3789,7 @@
       "id": "muslim:6342",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3838,7 +3797,7 @@
       "id": "muslim:6343",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3846,7 +3805,7 @@
       "id": "muslim:6345",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3870,7 +3829,7 @@
       "id": "muslim:6348",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3878,7 +3837,7 @@
       "id": "muslim:6350",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3886,7 +3845,7 @@
       "id": "muslim:6351",
       "status": "publishable",
       "themes": [
-        "creation"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3894,7 +3853,7 @@
       "id": "muslim:6352",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3902,7 +3861,7 @@
       "id": "muslim:6353",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3910,7 +3869,7 @@
       "id": "muslim:6718",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3918,7 +3877,7 @@
       "id": "muslim:6719",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3926,7 +3885,7 @@
       "id": "muslim:6720",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3934,9 +3893,8 @@
       "id": "muslim:6721",
       "status": "publishable",
       "themes": [
-        "hope",
-        "remembrance",
-        "good_deeds"
+        "good_deeds",
+        "remembrance"
       ],
       "isDemoOnly": false
     },
@@ -3952,8 +3910,7 @@
       "id": "muslim:6724",
       "status": "publishable",
       "themes": [
-        "family",
-        "creation"
+        "family"
       ],
       "isDemoOnly": false
     },
@@ -3961,7 +3918,7 @@
       "id": "muslim:6725",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3969,7 +3926,7 @@
       "id": "muslim:6727",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3977,7 +3934,7 @@
       "id": "muslim:6729",
       "status": "publishable",
       "themes": [
-        "inner_peace"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3993,7 +3950,7 @@
       "id": "muslim:6732",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -4001,7 +3958,7 @@
       "id": "muslim:6736",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -4009,7 +3966,7 @@
       "id": "muslim:7134",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -4017,9 +3974,8 @@
       "id": "muslim:7135",
       "status": "publishable",
       "themes": [
-        "hope",
-        "generosity",
-        "good_deeds"
+        "good_deeds",
+        "generosity"
       ],
       "isDemoOnly": false
     },
@@ -4027,7 +3983,7 @@
       "id": "muslim:7136",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -4035,7 +3991,7 @@
       "id": "muslim:7137",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -4043,7 +3999,7 @@
       "id": "muslim:7139",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -4051,7 +4007,7 @@
       "id": "muslim:7142",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -4068,7 +4024,7 @@
       "id": "muslim:7145",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -4076,7 +4032,7 @@
       "id": "muslim:7146",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -4084,8 +4040,7 @@
       "id": "muslim:7147",
       "status": "publishable",
       "themes": [
-        "family",
-        "creation"
+        "family"
       ],
       "isDemoOnly": false
     },
@@ -4093,7 +4048,6 @@
       "id": "muslim:7152",
       "status": "publishable",
       "themes": [
-        "trials",
         "remembrance"
       ],
       "isDemoOnly": false
@@ -4102,7 +4056,7 @@
       "id": "muslim:7153",
       "status": "publishable",
       "themes": [
-        "guidance"
+        "good_deeds"
       ],
       "isDemoOnly": false
     }
