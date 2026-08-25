@@ -121,7 +121,12 @@ export default function HadithMenuScreen(): React.JSX.Element {
               showsHorizontalScrollIndicator={false}
               data={themesInUse}
               keyExtractor={(k) => k}
-              contentContainerStyle={{ gap: 8 }}
+              // No maxHeight: a fixed cap clipped the chips' bottom edge as
+              // soon as the user's text-size setting grew them past 44px.
+              // flexGrow: 0 alone keeps the row at its natural height; the
+              // vertical padding gives the pressed-state scale room so the
+              // border never kisses the clip edge.
+              contentContainerStyle={{ gap: spacing.xs, paddingVertical: spacing.xxs }}
               renderItem={({ item }) => (
                 <Chip
                   label={t(`themes.names.${item}` as Parameters<typeof t>[0])}
@@ -129,7 +134,7 @@ export default function HadithMenuScreen(): React.JSX.Element {
                   onPress={() => setSelectedTheme((prev) => (prev === item ? undefined : item))}
                 />
               )}
-              style={{ maxHeight: 44, flexGrow: 0 }}
+              style={{ flexGrow: 0 }}
             />
 
             <FlatList

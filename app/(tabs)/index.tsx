@@ -200,7 +200,10 @@ function pickHadithId(avoidIds: ReadonlySet<string>): string | undefined {
 
 const NO_IDS: ReadonlySet<string> = new Set();
 
-/** One shortcut chip in the home screen's menu row. */
+/** Columns in the home shortcut grid. Two keeps every label readable at the largest text size. */
+const MENU_COLUMNS = 2;
+
+/** One shortcut tile in the home screen's menu grid. */
 interface HomeMenuItem {
   readonly icon: React.ComponentProps<typeof Ionicons>["name"];
   readonly label: string;
@@ -229,7 +232,7 @@ function pickInitialFeedEntry(effectiveContentMode: ContentMode): FeedEntry | un
 
 
 export default function HomeScreen(): React.JSX.Element {
-  const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
+  const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
   const { t, locale, direction } = useI18n();
   const router = useRouter();
   const db = useAppDatabase();
@@ -391,6 +394,14 @@ export default function HomeScreen(): React.JSX.Element {
     return items;
   }, [t]);
 
+  const menuRows = useMemo(() => {
+    const rows: HomeMenuItem[][] = [];
+    for (let i = 0; i < menuItems.length; i += MENU_COLUMNS) {
+      rows.push(menuItems.slice(i, i + MENU_COLUMNS));
+    }
+    return rows;
+  }, [menuItems]);
+
   const handleToggleFavorite = async (ayahId: string): Promise<void> => {
     if (!db) return;
     const isFav = favoriteIds.has(ayahId);
@@ -478,7 +489,7 @@ export default function HomeScreen(): React.JSX.Element {
                 backgroundColor: colors.surfaceElevated,
                 borderWidth: 1,
                 borderColor: colors.goldDecorative,
-                borderRadius: 12,
+                borderRadius: radii.md,
                 paddingVertical: spacing.sm,
                 paddingHorizontal: spacing.md,
               }}
@@ -504,36 +515,53 @@ export default function HomeScreen(): React.JSX.Element {
             </Pressable>
           ) : null}
 
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: spacing.xs }}>
-            {menuItems.map((item) => (
-              <Pressable
-                key={item.route}
-                onPress={() => router.push(item.route)}
-                accessibilityRole="button"
-                accessibilityLabel={item.label}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 6,
-                  backgroundColor: item.emphasized ? colors.surfaceElevated : colors.surface,
-                  borderWidth: 1,
-                  borderColor: item.emphasized ? colors.gold : colors.border,
-                  borderRadius: 999,
-                  paddingVertical: spacing.xs,
-                  paddingHorizontal: spacing.sm,
-                }}
-              >
-                <Ionicons name={item.icon} size={16} color={item.emphasized ? colors.gold : colors.textSecondary} />
-                <Text
-                  style={{
-                    color: item.emphasized ? colors.textPrimary : colors.textSecondary,
-                    fontSize: typography.sizes.caption * fontScaleMultiplier,
-                    fontWeight: item.emphasized ? typography.weights.semibold : typography.weights.medium,
-                  }}
-                >
-                  {item.label}
-                </Text>
-              </Pressable>
+          {/* Explicit rows of two flex:1 tiles rather than a wrapping pill
+              row. Pills sized themselves to their label, so the row broke
+              into ragged uneven groups (3 + 2 + 1) that read as
+              unstructured; a percentage width would overflow once the row
+              gap is added. Equal tiles line up cleanly whatever the label
+              lengths or the user's text-size setting. */}
+          <View style={{ gap: spacing.xs }}>
+            {menuRows.map((row, rowIndex) => (
+              <View key={rowIndex} style={{ flexDirection: "row", gap: spacing.xs }}>
+                {row.map((item) => (
+                  <Pressable
+                    key={item.route}
+                    onPress={() => router.push(item.route)}
+                    accessibilityRole="button"
+                    accessibilityLabel={item.label}
+                    style={{
+                      flex: 1,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: spacing.xs,
+                      backgroundColor: item.emphasized ? colors.surfaceElevated : colors.surface,
+                      borderWidth: 1,
+                      borderColor: item.emphasized ? colors.goldDecorative : colors.border,
+                      borderRadius: radii.md,
+                      paddingVertical: spacing.sm,
+                      paddingHorizontal: spacing.sm,
+                      minHeight: 48,
+                    }}
+                  >
+                    <Ionicons name={item.icon} size={18} color={item.emphasized ? colors.gold : colors.textSecondary} />
+                    <Text
+                      numberOfLines={1}
+                      style={{
+                        flex: 1,
+                        color: item.emphasized ? colors.textPrimary : colors.textSecondary,
+                        fontSize: typography.sizes.caption * fontScaleMultiplier,
+                        fontWeight: item.emphasized ? typography.weights.semibold : typography.weights.medium,
+                      }}
+                    >
+                      {item.label}
+                    </Text>
+                  </Pressable>
+                ))}
+                {/* Keeps a trailing odd tile at half width instead of letting
+                    it stretch across the whole row. */}
+                {row.length < MENU_COLUMNS ? <View style={{ flex: MENU_COLUMNS - row.length }} /> : null}
+              </View>
             ))}
           </View>
 
@@ -546,7 +574,7 @@ export default function HomeScreen(): React.JSX.Element {
               alignItems: "center",
               justifyContent: "space-between",
               backgroundColor: colors.surfaceElevated,
-              borderRadius: 12,
+              borderRadius: radii.md,
               paddingVertical: spacing.sm,
               paddingHorizontal: spacing.md,
             }}

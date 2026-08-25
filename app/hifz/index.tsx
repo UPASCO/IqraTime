@@ -8,7 +8,7 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAyahView } from "@/hooks/useAyahView";
-import { listHifzEntries, listDueHifzEntries, recordHifzReview, removeFromHifz, type HifzEntry } from "@/storage/hifzStore";
+import { listHifzEntries, listDueHifzEntries, recordHifzReview, removeFromHifz, REVIEW_INTERVALS_DAYS, type HifzEntry } from "@/storage/hifzStore";
 import { ayahIdToRouteParam } from "@/utils/routeParams";
 import { formatDateTime } from "@/utils/dateUtils";
 import { appConfig } from "@/config/appConfig";
@@ -37,16 +37,25 @@ function ReviewCard({ entry, onGraded }: { entry: HifzEntry; onGraded: () => voi
   return (
     <View style={{ backgroundColor: appConfig.brand.night, borderRadius: radii.lg, padding: spacing.lg, gap: spacing.md }}>
       {/* Fixed brand palette like the feed slides — never ambient theme colors on this dark card. */}
-      <Text
-        style={{
-          color: appConfig.brand.goldLight,
-          fontWeight: typography.weights.semibold,
-          letterSpacing: 1,
-          fontSize: typography.sizes.caption * fontScaleMultiplier,
-        }}
-      >
-        {t("ayah.surahLabel")} {view.surah}:{view.ayah}
-      </Text>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+        <Text
+          style={{
+            color: appConfig.brand.goldLight,
+            fontWeight: typography.weights.semibold,
+            letterSpacing: 1,
+            fontSize: typography.sizes.caption * fontScaleMultiplier,
+          }}
+        >
+          {t("ayah.surahLabel")} {view.surah}:{view.ayah}
+        </Text>
+        {/* Which rung of the interval ladder this ayah is on. Without it the
+            two grading buttons had no visible consequence, so the whole
+            mechanism was invisible: nothing on screen showed that knowing an
+            ayah pushes it further away. */}
+        <Text style={{ color: appConfig.brand.ivory, opacity: 0.7, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+          {t("hifz.stageLabel", { stage: entry.stage + 1, total: REVIEW_INTERVALS_DAYS.length })}
+        </Text>
+      </View>
 
       {revealed ? (
         <View style={{ gap: spacing.md }}>
@@ -111,15 +120,22 @@ function HifzRow({ entry, onRemove }: { entry: HifzEntry; onRemove: () => void }
           {view.arabicText}
         </Text>
       ) : null}
-      <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-        {t("hifz.nextReviewLabel")}: {formatDateTime(entry.nextReviewAtUtcIso, locale)}
-      </Text>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: spacing.xs }}>
+        <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, flexShrink: 1 }}>
+          {t("hifz.nextReviewLabel")}: {formatDateTime(entry.nextReviewAtUtcIso, locale)}
+        </Text>
+        {entry.successCount > 0 ? (
+          <Text style={{ color: colors.gold, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.medium }}>
+            {t("hifz.reviewedCountLabel", { count: entry.successCount })}
+          </Text>
+        ) : null}
+      </View>
     </Pressable>
   );
 }
 
 export default function HifzScreen(): React.JSX.Element {
-  const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
+  const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
   const { t } = useI18n();
   const router = useRouter();
 
@@ -163,6 +179,26 @@ export default function HifzScreen(): React.JSX.Element {
               {t("hifz.title")}
             </Text>
             <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.body * fontScaleMultiplier }}>{t("hifz.subtitle")}</Text>
+
+            {/* The three-step explanation only needs to be read once, so it
+                shows while there is nothing to review and disappears as soon
+                as the user has ayat in rotation. */}
+            {all.length === 0 || due.length > 0 ? (
+              <View style={{ backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1, borderRadius: radii.md, padding: spacing.md, gap: spacing.xxs }}>
+                <Text style={{ color: colors.textPrimary, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+                  {t("hifz.howTitle")}
+                </Text>
+                <Text
+                  style={{
+                    color: colors.textSecondary,
+                    fontSize: typography.sizes.caption * fontScaleMultiplier,
+                    lineHeight: typography.lineHeights.caption * fontScaleMultiplier,
+                  }}
+                >
+                  {t("hifz.howBody")}
+                </Text>
+              </View>
+            ) : null}
 
             {all.length > 0 ? <SectionHeader title={`${t("hifz.dueTodayTitle")} (${due.length})`} /> : null}
 

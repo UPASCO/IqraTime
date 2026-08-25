@@ -14,6 +14,7 @@ import {
   isExactAlarmStatusDetectable,
   getOsScheduledSummary,
   sendDelayedTestNotification,
+  openSystemNotificationSettings,
   type PermissionSnapshot,
   type OsScheduledSummary,
 } from "@/notifications";
@@ -102,14 +103,56 @@ export default function DiagnosticsScreen(): React.JSX.Element {
     setPermission(await requestPermission());
   };
 
-  const handleTest = async (): Promise<void> => {
-    await sendTestNotification(preferences.interfaceLocale, sampleTestBody(preferences));
+  /**
+   * Both test buttons used to call the scheduling API directly, with no
+   * permission check and no error handling. When permission was missing or
+   * denied the call simply did nothing and the button appeared inert —
+   * indistinguishable from "notifications are broken", which is exactly how
+   * it was reported. Now: request permission if it was never asked, explain
+   * and offer system settings if it was denied, and surface any throw
+   * instead of swallowing it.
+   *
+   * Returns true when the notification was actually handed to the OS.
+   */
+  const ensurePermissionForTest = async (): Promise<boolean> => {
+    let snapshot = await getPermissionSnapshot();
+    if (snapshot.state === "undetermined" && snapshot.canAskAgain) {
+      snapshot = await requestPermission();
+      setPermission(snapshot);
+    }
+    if (snapshot.state !== "granted") {
+      setPermission(snapshot);
+      Alert.alert(t("errors.permissionDenied"), t("diagnostics.testBlockedBody"), [
+        { text: t("common.cancel"), style: "cancel" },
+        { text: t("common.openSettings"), onPress: () => void openSystemNotificationSettings() },
+      ]);
+      return false;
+    }
+    return true;
   };
 
-  const handleDelayedTest = async (): Promise<void> => {
-    await sendDelayedTestNotification(preferences.interfaceLocale, sampleTestBody(preferences));
+  const runTest = async (send: () => Promise<unknown>, successMessage: string): Promise<void> => {
+    if (!(await ensurePermissionForTest())) return;
+    try {
+      await send();
+      Alert.alert(successMessage);
+    } catch (error) {
+      Alert.alert(t("errors.schedulingFailed"), String(error));
+    }
     await refresh();
   };
+
+  const handleTest = (): Promise<void> =>
+    runTest(
+      () => sendTestNotification(preferences.interfaceLocale, sampleTestBody(preferences)),
+      t("diagnostics.testSentBody"),
+    );
+
+  const handleDelayedTest = (): Promise<void> =>
+    runTest(
+      () => sendDelayedTestNotification(preferences.interfaceLocale, sampleTestBody(preferences)),
+      t("diagnostics.delayedTestHint"),
+    );
 
   const resultLabel = (status: LastRescheduleInfo["status"]): string => {
     if (status === "success") return t("diagnostics.resultSuccess");

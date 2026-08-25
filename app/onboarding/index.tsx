@@ -9,7 +9,7 @@ import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { getRuntimeCorpus, getTranslation } from "@/data/corpus";
 import { ALL_THEME_KEYS, type ThemeKey } from "@/domain/types";
-import { requestPermission, sendTestNotification, openSystemNotificationSettings } from "@/notifications";
+import { requestPermission, getPermissionSnapshot, sendTestNotification, openSystemNotificationSettings } from "@/notifications";
 import { formatNotificationBody } from "@/notifications/rescheduleService";
 import type { PermissionState } from "@/notifications/permissions";
 
@@ -45,6 +45,20 @@ export default function OnboardingScreen(): React.JSX.Element {
 
   const runTest = async (): Promise<void> => {
     try {
+      // Same trap as the Diagnostics test buttons: firing the API without
+      // permission silently does nothing, so the button read as broken.
+      // Ask here if it was never asked (the user can reach this step via
+      // "Not now"), and report failure rather than appearing inert.
+      let snapshot = await getPermissionSnapshot();
+      if (snapshot.state === "undetermined" && snapshot.canAskAgain) {
+        snapshot = await requestPermission();
+        setPermissionState(snapshot.state);
+      }
+      if (snapshot.state !== "granted") {
+        setTestStatus("failed");
+        return;
+      }
+
       const body = previewEntry
         ? formatNotificationBody({
             arabicText: previewEntry.arabic.text,

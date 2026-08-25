@@ -132,29 +132,15 @@ export default function AyahDetailScreen(): React.JSX.Element {
           {t("ayah.disclaimer")}
         </Text>
 
-        <View style={{ flexDirection: "row", gap: spacing.md }}>
-          <Button
-            label={justCopied ? `✓ ${t("home.copiedConfirmation")}` : t("home.copyCta")}
-            variant="secondary"
-            onPress={() => {
-              Clipboard.setStringAsync(shareText);
-              setJustCopied(true);
-              setTimeout(() => setJustCopied(false), 1500);
-            }}
-          />
-          <Button
-            label={t("home.shareCta")}
-            variant="secondary"
-            onPress={() => {
-              incrementShareCount();
-              Share.share({ message: shareText });
-            }}
-          />
-        </View>
-
+        {/* Memorize is the primary action here (it starts a commitment),
+            so it gets its own full-width row above the two secondary,
+            equal-width utilities. Each Button is wrapped in a flex:1 View
+            because Button sizes to its label — without the wrapper the two
+            were different widths, which is what made this block read as
+            unaligned. */}
         <Button
           label={inHifz ? t("hifz.removeCta") : t("hifz.memorizeCta")}
-          variant="secondary"
+          variant={inHifz ? "secondary" : "primary"}
           onPress={async () => {
             if (!ayahId) return;
             if (inHifz) {
@@ -167,6 +153,30 @@ export default function AyahDetailScreen(): React.JSX.Element {
             }
           }}
         />
+
+        <View style={{ flexDirection: "row", gap: spacing.sm }}>
+          <View style={{ flex: 1 }}>
+            <Button
+              label={justCopied ? `✓ ${t("home.copiedConfirmation")}` : t("home.copyCta")}
+              variant="secondary"
+              onPress={() => {
+                Clipboard.setStringAsync(shareText);
+                setJustCopied(true);
+                setTimeout(() => setJustCopied(false), 1500);
+              }}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Button
+              label={t("home.shareCta")}
+              variant="secondary"
+              onPress={() => {
+                incrementShareCount();
+                Share.share({ message: shareText });
+              }}
+            />
+          </View>
+        </View>
 
         <Button
           label={t("quran.openInReaderCta")}
