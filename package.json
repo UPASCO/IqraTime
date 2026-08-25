@@ -19,6 +19,8 @@
     "corpus:validate": "ts-node --project tsconfig.scripts.json scripts/validateCorpus.ts",
     "corpus:validate:prod": "CORPUS_ENV=production ts-node --project tsconfig.scripts.json scripts/validateCorpus.ts",
     "corpus:import": "ts-node --project tsconfig.scripts.json scripts/importTranslation.ts",
+    "review:ayah": "node scripts/reviewCorpus.mjs --corpus=ayah",
+    "review:hadith": "node scripts/reviewCorpus.mjs --corpus=hadith",
     "security:check-secrets": "ts-node --project tsconfig.scripts.json scripts/checkSecrets.ts",
     "prebuild": "expo prebuild",
     "check": "npm run typecheck && npm run lint && npm run test && npm run corpus:validate && npm run security:check-secrets"
