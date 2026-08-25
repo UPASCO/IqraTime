@@ -8,13 +8,13 @@ oversight.
 ## Identity & branding (`src/config/appConfig.ts`)
 
 - [x] `iosBundleIdentifier` — real, owned reverse-DNS id: `com.IqraTime.com` (registered in Apple's Certificates, Identifiers & Profiles, matching the app's App Store Connect record, Apple ID `6804868769`).
-- [ ] `androidPackage` — still the `com.example.iqratime.provisional` placeholder; no Google Play equivalent has been registered yet. Note: Google Play requires an all-lowercase package name, so this can't just mirror the iOS bundle id verbatim.
+- [x] `androidPackage` — `com.iqratime.app`. **Permanent**: Play binds a listing to its package name for life, so this cannot be changed after the first publish, only replaced by a whole new listing. All-lowercase per Play's rule, so it deliberately does not mirror the mixed-case iOS bundle id. (The old `com.example.*` placeholder would have been rejected outright — Play blocks that prefix.)
 - [x] `easProjectId` — set to the real EAS project id (`@teamupasco/ayahnow` — the EAS/Expo project itself keeps its original slug; only the app's own name/identifiers changed, see `config/shared.js`).
 - [x] `contactEmail` — `support@iqratime.com` (real, owned mailbox on the `iqratime.com` domain via OVH).
 - [x] `privacyPolicyUrl` — `https://iqratime.com/privacy.html`, hosting `docs/PRIVACY.md`'s content. Confirm the hosted page's wording actually matches `docs/PRIVACY.md` (no data collected) before submitting for review — Apple checks this against the App Privacy nutrition label.
-- [x] `iosAppStoreUrl` — real: `https://apps.apple.com/app/id6804868769`. `buildGetTheAppLine()` now includes the iOS link in shares again (it was auto-omitting it while this was still a placeholder — see "Share growth loop" below). `androidPlayStoreUrl` still needs `androidPackage` above set for real before it's correct.
+- [x] `iosAppStoreUrl` — real: `https://apps.apple.com/app/id6804868769`. `buildGetTheAppLine()` now includes the iOS link in shares again (it was auto-omitting it while this was still a placeholder — see "Share growth loop" below). `androidPlayStoreUrl` derives from `androidPackage` and is now correct too — it just 404s until the Play listing is actually published.
 - [ ] `appName`, tagline, brand colors — confirm final wording/branding with the product owner.
-- [x] `eas.json` submit section — `ascAppId` set to `6804868769`. Google Play service account key path still outstanding (no Android/Google Play setup yet). Do **not** add an `appleId` or `appleTeamId` field here: those identify the owner's personal Apple account and must never be committed. Configure an App Store Connect API Key instead (`eas credentials` or the EAS website) — see `docs/PUBLISH_FROM_IPHONE.md`.
+- [x] `eas.json` submit section — `ascAppId` set to `6804868769`; the Android block points at `./secrets/play-service-account.json` (gitignored) and the `internal` track. The service account JSON itself still has to be generated in the Play Console and placed there, or uploaded to EAS instead. Do **not** add an `appleId` or `appleTeamId` field here: those identify the owner's personal Apple account and must never be committed. Configure an App Store Connect API Key instead (`eas credentials` or the EAS website) — see `docs/PUBLISH_FROM_IPHONE.md`.
 
 ## Share growth loop
 
@@ -143,6 +143,20 @@ below is checked:
 
 ### Google Play
 
+- [ ] Google Play Developer account created (one-off US$25 registration)
+      and identity verification completed — Google will not let a listing
+      go live until verification clears, which can take a few days.
+- [ ] App created in the Play Console with package name `com.iqratime.app`.
+- [ ] Play service account JSON created (Play Console → Setup → API access)
+      and either uploaded to EAS (`eas credentials` → Android → Google
+      Service Account) or saved to `./secrets/play-service-account.json`,
+      the gitignored path `eas.json` points at. **Never commit it** — it
+      grants publish rights to the listing.
+- [x] Signing key — EAS generates and stores the upload keystore on first
+      Android build; nothing to do by hand. Do not lose the EAS account:
+      Play permanently binds the listing to this key (Play App Signing can
+      recover from a lost *upload* key, but only via a Google support
+      request).
 - [ ] Data safety form filled out truthfully (this app: no data
       collected — confirm nothing in the final dependency set changed
       that assumption).
@@ -151,7 +165,14 @@ below is checked:
 - [ ] App content rating questionnaire completed.
 - [ ] Store listing screenshots taken on a real or accurately-simulated
       device, in at least the primary supported languages.
-- [ ] Privacy policy URL live and matching `docs/PRIVACY.md`.
+- [ ] Privacy policy URL live and matching `docs/PRIVACY.md` —
+      `https://iqratime.com/privacy.html` (already live, shared with iOS).
+- [ ] Decide whether the known Android limitation is acceptable for this
+      release: **notifications do not survive a device reboot** until a
+      `BOOT_COMPLETED` receiver is implemented (see
+      `docs/KNOWN_LIMITATIONS.md`). Nothing blocks submission, but a
+      reviewer or an early user may notice the queue going quiet after a
+      restart until the app is next opened.
 
 ### Apple App Store
 

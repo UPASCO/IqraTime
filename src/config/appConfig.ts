@@ -122,9 +122,10 @@ export const appConfig = {
 
   /**
    * The Play Store URL needs no opaque id from Google — it's always
-   * `.../details?id=<package name>` — so, unlike the iOS URL above, this is
-   * already correct and will keep working once `androidPackage` is set to
-   * the real, owned package id before publishing.
+   * `.../details?id=<package name>` — so, unlike the iOS URL above, this
+   * derives correctly from the real package id with nothing to fill in.
+   * It only resolves once the listing is actually published, though: until
+   * then the link 404s, exactly as the iOS one did before submission.
    */
   androidPlayStoreUrl: `https://play.google.com/store/apps/details?id=${raw.androidPackage}`,
 

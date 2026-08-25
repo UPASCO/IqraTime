@@ -28,13 +28,15 @@ module.exports = {
     alt_fr: "Le Coran et les hadiths sur votre écran, sans déverrouiller — une source de hassanat, inchAllah.",
   },
   version: "1.9.4",
-  buildNumber: 22,
+  buildNumber: 23,
   iosBundleIdentifier: "com.IqraTime.com",
-  // PROVISIONAL — no Android/Google Play equivalent has been registered yet
-  // (only the iOS App ID above is real so far). Google Play requires an
-  // all-lowercase package name, so this can't simply mirror the iOS one
-  // verbatim once it's set for real.
-  androidPackage: "com.example.iqratime.provisional",
+  // Permanent: Google Play binds a listing to its package name for life —
+  // it can never be changed after the first publish, only replaced by a
+  // brand-new listing. All-lowercase because Play requires it, so it can't
+  // mirror the mixed-case iOS bundle id above verbatim. (The previous
+  // com.example.* placeholder would have been rejected outright: Play
+  // blocks that prefix.)
+  androidPackage: "com.iqratime.app",
   easProjectId: "5aa33698-7d7f-424c-845f-1a1e548ec93e",
   contactEmail: "support@iqratime.com",
   // The public site backing the app. Surfaced in-app (About screen) rather

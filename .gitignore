@@ -17,3 +17,9 @@ android/
 *.mobileprovision
 coverage/
 .metro-health-check*
+
+# Store-submission credentials. The Google Play service account JSON has no
+# distinctive extension (it is plain .json), so it is pinned to this one
+# directory and ignored wholesale — an accidental `git add` of it would
+# hand over publish rights to the Play listing.
+secrets/
