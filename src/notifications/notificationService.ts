@@ -160,6 +160,12 @@ function triggerToDate(trigger: Notifications.NotificationTrigger): Date | null 
       return new Date(c.year, c.month - 1, c.day, c.hour ?? 0, c.minute ?? 0, c.second ?? 0);
     }
   }
+  // iOS reads back a `type: DATE` scheduled trigger as a `UNTimeIntervalNotificationTrigger`
+  // (an elapsed-seconds-from-now trigger), not a calendar trigger — `seconds` here is a
+  // countdown, not an absolute date, so "now" must be added back to recover the fire time.
+  if (trigger.type === "timeInterval" && "seconds" in trigger && typeof (trigger as { seconds?: unknown }).seconds === "number") {
+    return new Date(Date.now() + (trigger as { seconds: number }).seconds * 1000);
+  }
   if ("value" in trigger && typeof (trigger as { value?: unknown }).value === "number") {
     return new Date((trigger as { value: number }).value);
   }
