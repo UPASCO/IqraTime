@@ -10,6 +10,7 @@ import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { appConfig } from "@/config/appConfig";
 import { isSupportAvailable } from "@/services/supportPaymentService";
 import { clearStreak } from "@/storage/streakStore";
+import { clearHifz } from "@/storage/hifzStore";
 
 export default function SettingsScreen(): React.JSX.Element {
   const { spacing } = useTheme();
@@ -28,6 +29,7 @@ export default function SettingsScreen(): React.JSX.Element {
           await db?.resetAll();
           await reset();
           await clearStreak();
+          await clearHifz();
         },
       },
     ]);

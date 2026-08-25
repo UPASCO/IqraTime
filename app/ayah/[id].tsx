@@ -13,6 +13,7 @@ import { getTafsir, tafsirSources } from "@/data/corpus";
 import { routeParamToAyahId } from "@/utils/routeParams";
 import { formatShareText, buildGetTheAppLine } from "@/utils/shareText";
 import { incrementShareCount } from "@/storage/shareCounterStore";
+import { addToHifz, isInHifz, removeFromHifz } from "@/storage/hifzStore";
 
 export default function AyahDetailScreen(): React.JSX.Element {
   const params = useLocalSearchParams<{ id: string; tafsir?: string }>();
@@ -25,6 +26,7 @@ export default function AyahDetailScreen(): React.JSX.Element {
 
   const ayahView = useAyahView(ayahId, preferences.translationLocale);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [inHifz, setInHifz] = useState(false);
   const [justCopied, setJustCopied] = useState(false);
   // `?tafsir=1` opens straight into the tafsir — the feed's tafsir button
   // (AyahFeedSlide's rail) links here rather than duplicating the tafsir
@@ -38,6 +40,11 @@ export default function AyahDetailScreen(): React.JSX.Element {
     if (!db || !ayahId) return;
     db.favorites.isFavorite(ayahId).then(setIsFavorite);
   }, [db, ayahId]);
+
+  useEffect(() => {
+    if (!ayahId) return;
+    isInHifz(ayahId).then(setInHifz);
+  }, [ayahId]);
 
   if (!ayahView.found) {
     return (
@@ -144,6 +151,22 @@ export default function AyahDetailScreen(): React.JSX.Element {
             }}
           />
         </View>
+
+        <Button
+          label={inHifz ? t("hifz.removeCta") : t("hifz.memorizeCta")}
+          variant="secondary"
+          onPress={async () => {
+            if (!ayahId) return;
+            if (inHifz) {
+              await removeFromHifz(ayahId);
+              setInHifz(false);
+            } else {
+              await addToHifz(ayahId);
+              setInHifz(true);
+              router.push("/hifz");
+            }
+          }}
+        />
 
         <Button
           label={t("quran.openInReaderCta")}

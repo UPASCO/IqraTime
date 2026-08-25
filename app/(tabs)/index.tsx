@@ -26,6 +26,7 @@ import { incrementShareCount } from "@/storage/shareCounterStore";
 import { isHadithFavorite, addHadithFavorite, removeHadithFavorite } from "@/storage/hadithFavoritesStore";
 import { hadithIdToRouteParam } from "@/utils/routeParams";
 import { nextFeedKind } from "@/services/feedContentMode";
+import { getDailyAyahId } from "@/services/dailyAyah";
 
 /** One slide in the swipeable feed, resolved to its display data via useAyahView inside the render. */
 function FeedItem({
@@ -203,7 +204,7 @@ const NO_IDS: ReadonlySet<string> = new Set();
 interface HomeMenuItem {
   readonly icon: React.ComponentProps<typeof Ionicons>["name"];
   readonly label: string;
-  readonly route: "/quran" | "/hadith" | "/progress" | "/library" | "/support";
+  readonly route: "/quran" | "/hadith" | "/hifz" | "/progress" | "/library" | "/support";
   /** Gives the chip the gold-bordered treatment reserved for primary destinations. */
   readonly emphasized: boolean;
 }
@@ -363,6 +364,12 @@ export default function HomeScreen(): React.JSX.Element {
     return t("home.nextAyahAt", { time: formatDateTime(nextSlot.fireAtUtcIso, locale) });
   }, [nextSlot, locale, t]);
 
+  // Deterministic and state-free (see dailyAyah.ts) — recomputing on each
+  // render is cheap and needs no effect/refresh logic; the value only ever
+  // changes at local midnight.
+  const dailyAyahId = getDailyAyahId();
+  const dailyRef = dailyAyahId ? getCorpusEntry(dailyAyahId) : undefined;
+
   /**
    * The home shortcut row. Qur'an and Hadith lead as the two primary
    * destinations; "Support IqraTime" is appended only when every donation
@@ -374,6 +381,7 @@ export default function HomeScreen(): React.JSX.Element {
     const items: HomeMenuItem[] = [
       { icon: "book-outline", label: t("quran.title"), route: "/quran", emphasized: true },
       { icon: "layers-outline", label: t("hadith.menuTitle"), route: "/hadith", emphasized: true },
+      { icon: "school-outline", label: t("hifz.title"), route: "/hifz", emphasized: false },
       { icon: "ribbon-outline", label: t("progress.title"), route: "/progress", emphasized: false },
       { icon: "search-outline", label: t("home.libraryCta"), route: "/library", emphasized: false },
     ];
@@ -458,6 +466,43 @@ export default function HomeScreen(): React.JSX.Element {
               </View>
             ) : null}
           </View>
+
+          {dailyRef ? (
+            <Pressable
+              onPress={() => router.push(`/ayah/${dailyRef.arabic.surah}-${dailyRef.arabic.ayah}`)}
+              accessibilityRole="button"
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                gap: spacing.sm,
+                backgroundColor: colors.surfaceElevated,
+                borderWidth: 1,
+                borderColor: colors.goldDecorative,
+                borderRadius: 12,
+                paddingVertical: spacing.sm,
+                paddingHorizontal: spacing.md,
+              }}
+            >
+              <Ionicons name="sunny-outline" size={18} color={colors.gold} />
+              <View style={{ flex: 1, gap: 2 }}>
+                <Text
+                  style={{
+                    color: colors.gold,
+                    fontSize: typography.sizes.caption * fontScaleMultiplier,
+                    fontWeight: typography.weights.semibold,
+                    textTransform: "uppercase",
+                    letterSpacing: 1,
+                  }}
+                >
+                  {t("daily.bannerLabel")}
+                </Text>
+                <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.medium }}>
+                  {t("ayah.surahLabel")} {dailyRef.arabic.surahNameTransliterated} · {dailyRef.arabic.surah}:{dailyRef.arabic.ayah}
+                </Text>
+              </View>
+              <Ionicons name={direction === "rtl" ? "chevron-back" : "chevron-forward"} size={16} color={colors.textSecondary} />
+            </Pressable>
+          ) : null}
 
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: spacing.xs }}>
             {menuItems.map((item) => (
