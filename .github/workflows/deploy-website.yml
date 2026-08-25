@@ -5,6 +5,7 @@ on:
     branches: [claude/ayahnow-website-eh17zu, main]
     paths:
       - "website/**"
+      - "scripts/website/**"
       - ".github/workflows/deploy-website.yml"
   workflow_dispatch:
 
@@ -25,6 +26,16 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # website/ is generated from scripts/website/templates + i18n-data.js.
+      # Rebuilding here means a stale commit of the output can never ship.
+      - name: Build the per-language pages
+        run: node scripts/website/build.mjs
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

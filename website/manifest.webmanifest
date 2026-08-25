@@ -1,0 +1,25 @@
+{
+  "name": "IqraTime",
+  "short_name": "IqraTime",
+  "description": "Une āyah du Coran ou un hadith authentique sur votre écran verrouillé, à l'heure de votre choix. Hors-ligne, sans compte, sans publicité.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#081C13",
+  "theme_color": "#12372A",
+  "lang": "fr",
+  "categories": ["lifestyle", "education", "books"],
+  "icons": [
+    {
+      "src": "/assets/favicon.png",
+      "sizes": "196x196",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

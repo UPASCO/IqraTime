@@ -1,12 +1,12 @@
-(function () {
-  "use strict";
-
-  var SUPPORTED = ["fr", "en", "ar", "de", "es", "it", "nl"];
-  var DEFAULT_LANG = "fr";
-  var RTL_LANGS = ["ar"];
-  var STORAGE_KEY = "iqratime-lang";
-
-  var translations = {
+/**
+ * Translation data for the IqraTime website.
+ *
+ * Build-time only: scripts/build.mjs reads this to generate one fully
+ * translated static page per language. It is never sent to the browser —
+ * visitors receive a page already written in their language, which is also
+ * what lets search engines index all seven of them.
+ */
+module.exports = {
     fr: {
       meta: {
         title: "IqraTime — Le Coran sur votre écran, sans déverrouiller",
@@ -70,6 +70,33 @@
         successTitle: "Message envoyé !",
         successText: "Merci, nous avons bien reçu votre message et nous vous répondrons dès que possible, inchAllah.",
         backHome: "← Retour à l'accueil"
+      },
+      nav2: { faq: "FAQ" },
+      share: {
+        title: "Partagez, et multipliez les hassanat",
+        text: "Faire découvrir IqraTime à un proche, c'est semer une source de bien qui continue à porter ses fruits, inchAllah.",
+        whatsapp: "Partager sur WhatsApp",
+        telegram: "Partager sur Telegram",
+        x: "Partager sur X",
+        copy: "Copier le lien",
+        copied: "Lien copié !",
+        message: "Et si le Coran venait à vous ? Une āyah ou un hadith authentique sur votre écran, chaque heure — hors-ligne, sans compte, sans publicité :"
+      },
+      faq: {
+        title: "Questions fréquentes",
+        subtitle: "Tout ce qu'on nous demande le plus souvent sur IqraTime.",
+        q1: "IqraTime est-il vraiment gratuit ?",
+        a1: "Oui, entièrement gratuit et sans publicité — et cela ne changera pas. Il n'y a ni abonnement, ni fonctionnalité payante, ni compte à créer. Les dons sont totalement facultatifs et ne débloquent rien.",
+        q2: "L'application fonctionne-t-elle sans connexion Internet ?",
+        a2: "Oui. Le corpus, les traductions et la planification des notifications sont entièrement embarqués sur votre appareil. Une fois installée, IqraTime n'a besoin d'aucune connexion pour fonctionner au quotidien.",
+        q3: "Mes données personnelles sont-elles collectées ?",
+        a3: "Non, aucune. Pas de compte, pas de serveur, pas d'analytique, pas de traqueur, pas d'identifiant publicitaire. Vos favoris, votre historique et vos réglages ne quittent jamais votre téléphone.",
+        q4: "Dans quelles langues IqraTime est-il disponible ?",
+        a4: "En 12 langues : arabe, français, anglais, espagnol, portugais, hindi, bengali, chinois simplifié, italien, russe, néerlandais et allemand — avec un support complet de l'écriture de droite à gauche pour l'arabe.",
+        q5: "Puis-je choisir à quelle heure je reçois les notifications ?",
+        a5: "Oui, entièrement. Vous définissez la plage horaire active, les jours de la semaine, la fréquence (d'une fois par heure à une fois toutes les 12 heures), des heures fixes si vous préférez, et un silence nocturne automatique.",
+        q6: "Y a-t-il des hadiths en plus des versets du Coran ?",
+        a6: "Oui. En plus des āyāt, vous pouvez activer les hadiths authentiques issus de Sahih al-Bukhari et Sahih Muslim. Chaque āyah dispose également d'un tafsir expliquant son sens et son contexte, accessible d'un simple tap."
       },
       legal: {
         title: "Politique de confidentialité",
@@ -171,6 +198,33 @@
         successText: "Thank you, we've received your message and will get back to you as soon as possible, inshaAllah.",
         backHome: "← Back to home"
       },
+      nav2: { faq: "FAQ" },
+      share: {
+        title: "Share it, and multiply the hassanat",
+        text: "Introducing IqraTime to someone you care about plants a source of good that keeps bearing fruit, inshaAllah.",
+        whatsapp: "Share on WhatsApp",
+        telegram: "Share on Telegram",
+        x: "Share on X",
+        copy: "Copy link",
+        copied: "Link copied!",
+        message: "What if the Quran came to you? An āyah or an authentic hadith on your screen, every hour — offline, no account, no ads:"
+      },
+      faq: {
+        title: "Frequently asked questions",
+        subtitle: "The things people ask us most about IqraTime.",
+        q1: "Is IqraTime really free?",
+        a1: "Yes, completely free and ad-free — and that will not change. There is no subscription, no paid feature, and no account to create. Donations are entirely optional and unlock nothing.",
+        q2: "Does the app work without an internet connection?",
+        a2: "Yes. The corpus, the translations, and the notification scheduling all ship inside the app. Once installed, IqraTime needs no connection at all for day-to-day use.",
+        q3: "Is any of my personal data collected?",
+        a3: "None whatsoever. No account, no server, no analytics, no tracker, no advertising identifier. Your favorites, history, and settings never leave your phone.",
+        q4: "Which languages is IqraTime available in?",
+        a4: "12 languages: Arabic, French, English, Spanish, Portuguese, Hindi, Bengali, Simplified Chinese, Italian, Russian, Dutch, and German — with full right-to-left support for Arabic.",
+        q5: "Can I choose what time I receive notifications?",
+        a5: "Yes, entirely. You set the active hours, the days of the week, the frequency (from once an hour to once every 12 hours), fixed times if you prefer, and an automatic night silence.",
+        q6: "Are there hadith as well as Quran verses?",
+        a6: "Yes. Alongside the āyāt, you can enable authentic hadith from Sahih al-Bukhari and Sahih Muslim. Every āyah also has a tafsir explaining its meaning and context, one tap away."
+      },
       legal: {
         title: "Privacy Policy",
         updated: "Last updated: 25 August 2026",
@@ -270,6 +324,33 @@
         successTitle: "تم إرسال الرسالة!",
         successText: "شكرًا لك، لقد استلمنا رسالتك وسنرد عليك في أقرب وقت ممكن إن شاء الله.",
         backHome: "→ العودة إلى الصفحة الرئيسية"
+      },
+      nav2: { faq: "الأسئلة الشائعة" },
+      share: {
+        title: "شاركه، وضاعِف الحسنات",
+        text: "أن تُعرِّف شخصًا تحبّه بـ IqraTime هو أن تزرع مصدر خير يستمر في العطاء، إن شاء الله.",
+        whatsapp: "المشاركة عبر واتساب",
+        telegram: "المشاركة عبر تيليجرام",
+        x: "المشاركة على X",
+        copy: "نسخ الرابط",
+        copied: "تم نسخ الرابط!",
+        message: "ماذا لو أتاك القرآن؟ آية أو حديث صحيح على شاشتك كل ساعة — بدون إنترنت، بدون حساب، بدون إعلانات:"
+      },
+      faq: {
+        title: "الأسئلة الشائعة",
+        subtitle: "أكثر ما يسألنا عنه الناس حول IqraTime.",
+        q1: "هل IqraTime مجاني فعلًا؟",
+        a1: "نعم، مجاني بالكامل وبدون إعلانات — ولن يتغيّر ذلك. لا يوجد اشتراك، ولا ميزات مدفوعة، ولا حساب لإنشائه. التبرّعات اختيارية تمامًا ولا تفتح أي ميزة.",
+        q2: "هل يعمل التطبيق بدون اتصال بالإنترنت؟",
+        a2: "نعم. النصوص والترجمات وجدولة الإشعارات كلها مضمّنة داخل التطبيق. بعد التثبيت، لا يحتاج IqraTime إلى أي اتصال للاستخدام اليومي.",
+        q3: "هل تُجمع أي من بياناتي الشخصية؟",
+        a3: "لا شيء إطلاقًا. بدون حساب، بدون خادم، بدون تحليلات، بدون متتبعات، بدون معرّف إعلاني. مفضلتك وسجلّك وإعداداتك لا تغادر هاتفك أبدًا.",
+        q4: "بأي لغات يتوفّر IqraTime؟",
+        a4: "بـ 12 لغة: العربية والفرنسية والإنجليزية والإسبانية والبرتغالية والهندية والبنغالية والصينية المبسطة والإيطالية والروسية والهولندية والألمانية — مع دعم كامل للكتابة من اليمين إلى اليسار.",
+        q5: "هل يمكنني اختيار وقت وصول الإشعارات؟",
+        a5: "نعم، بالكامل. تحدّد ساعات النشاط وأيام الأسبوع والتكرار (من مرة كل ساعة إلى مرة كل 12 ساعة) وأوقاتًا ثابتة إن أردت، مع صمت ليلي تلقائي.",
+        q6: "هل توجد أحاديث إلى جانب آيات القرآن؟",
+        a6: "نعم. إلى جانب الآيات، يمكنك تفعيل الأحاديث الصحيحة من صحيح البخاري وصحيح مسلم. كما أن لكل آية تفسيرًا يوضّح معناها وسياقها بضغطة واحدة."
       },
       legal: {
         title: "سياسة الخصوصية",
@@ -371,6 +452,33 @@
         successText: "Danke, wir haben deine Nachricht erhalten und melden uns so schnell wie möglich, inschaAllah.",
         backHome: "← Zurück zur Startseite"
       },
+      nav2: { faq: "FAQ" },
+      share: {
+        title: "Teile es und vervielfache die Hassanat",
+        text: "Jemandem, der dir wichtig ist, IqraTime zu zeigen, pflanzt eine Quelle des Guten, die weiter Früchte trägt, inschaAllah.",
+        whatsapp: "Auf WhatsApp teilen",
+        telegram: "Auf Telegram teilen",
+        x: "Auf X teilen",
+        copy: "Link kopieren",
+        copied: "Link kopiert!",
+        message: "Was wäre, wenn der Koran zu dir käme? Eine Ayah oder ein authentischer Hadith auf deinem Bildschirm, jede Stunde — offline, ohne Konto, ohne Werbung:"
+      },
+      faq: {
+        title: "Häufige Fragen",
+        subtitle: "Was uns am häufigsten zu IqraTime gefragt wird.",
+        q1: "Ist IqraTime wirklich kostenlos?",
+        a1: "Ja, vollständig kostenlos und werbefrei — und das bleibt so. Es gibt kein Abo, keine kostenpflichtige Funktion und kein Konto. Spenden sind völlig freiwillig und schalten nichts frei.",
+        q2: "Funktioniert die App ohne Internetverbindung?",
+        a2: "Ja. Textkorpus, Übersetzungen und die Benachrichtigungsplanung sind vollständig in der App enthalten. Nach der Installation braucht IqraTime im Alltag überhaupt keine Verbindung.",
+        q3: "Werden persönliche Daten von mir erhoben?",
+        a3: "Überhaupt keine. Kein Konto, kein Server, keine Analyse, kein Tracker, keine Werbe-ID. Deine Favoriten, dein Verlauf und deine Einstellungen verlassen niemals dein Telefon.",
+        q4: "In welchen Sprachen ist IqraTime verfügbar?",
+        a4: "In 12 Sprachen: Arabisch, Französisch, Englisch, Spanisch, Portugiesisch, Hindi, Bengalisch, vereinfachtes Chinesisch, Italienisch, Russisch, Niederländisch und Deutsch — mit vollständiger Rechts-nach-links-Unterstützung für Arabisch.",
+        q5: "Kann ich wählen, wann ich Benachrichtigungen erhalte?",
+        a5: "Ja, vollständig. Du legst die aktiven Stunden fest, die Wochentage, die Häufigkeit (von stündlich bis alle 12 Stunden), auf Wunsch feste Zeiten und eine automatische Nachtruhe.",
+        q6: "Gibt es neben Koranversen auch Hadithe?",
+        a6: "Ja. Neben den Ayat kannst du authentische Hadithe aus Sahih al-Bukhari und Sahih Muslim aktivieren. Zu jeder Ayah gibt es zudem einen Tafsir, der Bedeutung und Kontext erklärt — nur einen Fingertipp entfernt."
+      },
       legal: {
         title: "Datenschutzerklärung",
         updated: "Zuletzt aktualisiert: 25. August 2026",
@@ -470,6 +578,33 @@
         successTitle: "¡Mensaje enviado!",
         successText: "Gracias, hemos recibido tu mensaje y te responderemos lo antes posible, inshaAllah.",
         backHome: "← Volver al inicio"
+      },
+      nav2: { faq: "Preguntas frecuentes" },
+      share: {
+        title: "Compártelo y multiplica las hasanat",
+        text: "Dar a conocer IqraTime a alguien que quieres es sembrar una fuente de bien que sigue dando frutos, inshaAllah.",
+        whatsapp: "Compartir en WhatsApp",
+        telegram: "Compartir en Telegram",
+        x: "Compartir en X",
+        copy: "Copiar enlace",
+        copied: "¡Enlace copiado!",
+        message: "¿Y si el Corán viniera a ti? Una aleya o un hadiz auténtico en tu pantalla, cada hora — sin conexión, sin cuenta, sin publicidad:"
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        subtitle: "Lo que más nos preguntan sobre IqraTime.",
+        q1: "¿IqraTime es realmente gratuito?",
+        a1: "Sí, totalmente gratuito y sin publicidad — y no va a cambiar. No hay suscripción, ni funciones de pago, ni cuenta que crear. Las donaciones son completamente opcionales y no desbloquean nada.",
+        q2: "¿La aplicación funciona sin conexión a internet?",
+        a2: "Sí. El corpus, las traducciones y la programación de notificaciones vienen incluidos en la aplicación. Una vez instalada, IqraTime no necesita ninguna conexión para el uso diario.",
+        q3: "¿Se recopilan mis datos personales?",
+        a3: "Ninguno en absoluto. Sin cuenta, sin servidor, sin analítica, sin rastreadores, sin identificador publicitario. Tus favoritos, tu historial y tus ajustes nunca salen de tu teléfono.",
+        q4: "¿En qué idiomas está disponible IqraTime?",
+        a4: "En 12 idiomas: árabe, francés, inglés, español, portugués, hindi, bengalí, chino simplificado, italiano, ruso, neerlandés y alemán — con soporte completo de escritura de derecha a izquierda para el árabe.",
+        q5: "¿Puedo elegir a qué hora recibo las notificaciones?",
+        a5: "Sí, por completo. Defines la franja horaria activa, los días de la semana, la frecuencia (de una vez por hora a una vez cada 12 horas), horas fijas si lo prefieres, y un silencio nocturno automático.",
+        q6: "¿Hay hadices además de las aleyas del Corán?",
+        a6: "Sí. Junto a las aleyas, puedes activar hadices auténticos de Sahih al-Bujari y Sahih Muslim. Cada aleya cuenta además con un tafsir que explica su significado y contexto, a un solo toque."
       },
       legal: {
         title: "Política de privacidad",
@@ -571,6 +706,33 @@
         successText: "Grazie, abbiamo ricevuto il tuo messaggio e ti risponderemo il prima possibile, inshaAllah.",
         backHome: "← Torna alla home"
       },
+      nav2: { faq: "Domande frequenti" },
+      share: {
+        title: "Condividilo e moltiplica le hasanat",
+        text: "Far conoscere IqraTime a una persona a cui tieni significa seminare una fonte di bene che continua a dare frutti, inshaAllah.",
+        whatsapp: "Condividi su WhatsApp",
+        telegram: "Condividi su Telegram",
+        x: "Condividi su X",
+        copy: "Copia il link",
+        copied: "Link copiato!",
+        message: "E se il Corano venisse da te? Un'ayah o un hadith autentico sul tuo schermo, ogni ora — offline, senza account, senza pubblicità:"
+      },
+      faq: {
+        title: "Domande frequenti",
+        subtitle: "Le cose che ci vengono chieste più spesso su IqraTime.",
+        q1: "IqraTime è davvero gratuito?",
+        a1: "Sì, completamente gratuito e senza pubblicità — e non cambierà. Non c'è alcun abbonamento, nessuna funzione a pagamento, nessun account da creare. Le donazioni sono del tutto facoltative e non sbloccano nulla.",
+        q2: "L'app funziona senza connessione a internet?",
+        a2: "Sì. Il corpus, le traduzioni e la programmazione delle notifiche sono tutti inclusi nell'app. Una volta installata, IqraTime non ha bisogno di alcuna connessione per l'uso quotidiano.",
+        q3: "Vengono raccolti i miei dati personali?",
+        a3: "Nessuno. Nessun account, nessun server, nessuna analisi, nessun tracciamento, nessun identificativo pubblicitario. I tuoi preferiti, la cronologia e le impostazioni non lasciano mai il tuo telefono.",
+        q4: "In quali lingue è disponibile IqraTime?",
+        a4: "In 12 lingue: arabo, francese, inglese, spagnolo, portoghese, hindi, bengalese, cinese semplificato, italiano, russo, olandese e tedesco — con pieno supporto della scrittura da destra a sinistra per l'arabo.",
+        q5: "Posso scegliere a che ora ricevere le notifiche?",
+        a5: "Sì, completamente. Imposti la fascia oraria attiva, i giorni della settimana, la frequenza (da una volta all'ora a una ogni 12 ore), orari fissi se preferisci, e un silenzio notturno automatico.",
+        q6: "Ci sono hadith oltre ai versetti del Corano?",
+        a6: "Sì. Accanto alle ayat puoi attivare hadith autentici da Sahih al-Bukhari e Sahih Muslim. Ogni ayah ha inoltre un tafsir che ne spiega significato e contesto, a portata di tap."
+      },
       legal: {
         title: "Informativa sulla privacy",
         updated: "Ultimo aggiornamento: 25 agosto 2026",
@@ -671,6 +833,33 @@
         successText: "Bedankt, we hebben je bericht ontvangen en reageren zo snel mogelijk, inshaAllah.",
         backHome: "← Terug naar home"
       },
+      nav2: { faq: "Veelgestelde vragen" },
+      share: {
+        title: "Deel het en vermenigvuldig de hasanat",
+        text: "Iemand die je dierbaar is kennis laten maken met IqraTime plant een bron van goedheid die vrucht blijft dragen, inshaAllah.",
+        whatsapp: "Delen op WhatsApp",
+        telegram: "Delen op Telegram",
+        x: "Delen op X",
+        copy: "Link kopiëren",
+        copied: "Link gekopieerd!",
+        message: "Wat als de Koran naar jou toe kwam? Een ayah of authentieke hadith op je scherm, elk uur — offline, geen account, geen advertenties:"
+      },
+      faq: {
+        title: "Veelgestelde vragen",
+        subtitle: "Wat mensen ons het vaakst vragen over IqraTime.",
+        q1: "Is IqraTime echt gratis?",
+        a1: "Ja, volledig gratis en zonder advertenties — en dat blijft zo. Er is geen abonnement, geen betaalde functie en geen account nodig. Donaties zijn volledig vrijwillig en ontgrendelen niets.",
+        q2: "Werkt de app zonder internetverbinding?",
+        a2: "Ja. Het corpus, de vertalingen en de meldingsplanning zitten allemaal in de app zelf. Na installatie heeft IqraTime voor dagelijks gebruik geen enkele verbinding nodig.",
+        q3: "Worden mijn persoonlijke gegevens verzameld?",
+        a3: "Helemaal geen. Geen account, geen server, geen analytics, geen trackers, geen advertentie-ID. Je favorieten, geschiedenis en instellingen verlaten nooit je telefoon.",
+        q4: "In welke talen is IqraTime beschikbaar?",
+        a4: "In 12 talen: Arabisch, Frans, Engels, Spaans, Portugees, Hindi, Bengaals, vereenvoudigd Chinees, Italiaans, Russisch, Nederlands en Duits — met volledige ondersteuning voor rechts-naar-links schrift voor het Arabisch.",
+        q5: "Kan ik kiezen wanneer ik meldingen ontvang?",
+        a5: "Ja, volledig. Je bepaalt de actieve uren, de dagen van de week, de frequentie (van elk uur tot elke 12 uur), vaste tijden als je dat liever hebt, en een automatische nachtstilte.",
+        q6: "Zijn er naast Koranverzen ook hadith?",
+        a6: "Ja. Naast de ayat kun je authentieke hadith uit Sahih al-Bukhari en Sahih Muslim inschakelen. Elke ayah heeft bovendien een tafsir die betekenis en context uitlegt, met één tik beschikbaar."
+      },
       legal: {
         title: "Privacybeleid",
         updated: "Laatst bijgewerkt: 25 augustus 2026",
@@ -708,83 +897,3 @@
       footer: { copyright: "© 2026 IqraTime. Alle rechten voorbehouden.", privacy: "Privacybeleid", home: "Home" }
     }
   };
-
-  function getByPath(obj, path) {
-    return path.split(".").reduce(function (acc, key) {
-      return acc && acc[key] !== undefined ? acc[key] : undefined;
-    }, obj);
-  }
-
-  function detectInitialLang() {
-    try {
-      var saved = localStorage.getItem(STORAGE_KEY);
-      if (saved && SUPPORTED.indexOf(saved) !== -1) return saved;
-    } catch (e) {
-      /* localStorage unavailable (private mode, etc.) — fall through */
-    }
-    var browserLangs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || DEFAULT_LANG];
-    for (var i = 0; i < browserLangs.length; i++) {
-      var code = String(browserLangs[i]).slice(0, 2).toLowerCase();
-      if (SUPPORTED.indexOf(code) !== -1) return code;
-    }
-    return DEFAULT_LANG;
-  }
-
-  function applyLang(lang) {
-    if (SUPPORTED.indexOf(lang) === -1) lang = DEFAULT_LANG;
-    var dict = translations[lang] || translations[DEFAULT_LANG];
-
-    document.documentElement.lang = lang;
-    document.documentElement.dir = RTL_LANGS.indexOf(lang) !== -1 ? "rtl" : "ltr";
-
-    // Each page declares its own identity via <body data-page="...">, so a
-    // subpage never inherits the homepage's <title>.
-    var page = (document.body && document.body.getAttribute("data-page")) || "home";
-    var subTitleKey = page === "privacy" ? "legal.title" : page === "contact" ? "contact.title" : null;
-
-    if (subTitleKey) {
-      var subTitle = getByPath(dict, subTitleKey);
-      if (subTitle) document.title = subTitle + " — IqraTime";
-    } else if (dict.meta) {
-      if (dict.meta.title) document.title = dict.meta.title;
-      if (dict.meta.description) {
-        var metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute("content", dict.meta.description);
-      }
-    }
-
-    var nodes = document.querySelectorAll("[data-i18n]");
-    for (var i = 0; i < nodes.length; i++) {
-      var key = nodes[i].getAttribute("data-i18n");
-      var value = getByPath(dict, key);
-      if (typeof value === "string" && value.length) {
-        nodes[i].innerHTML = value;
-      }
-    }
-
-    var ayahTranslation = document.querySelector(".ayah-tr");
-    if (ayahTranslation) {
-      ayahTranslation.style.display = lang === "ar" ? "none" : "";
-    }
-
-    var select = document.getElementById("lang-switch");
-    if (select) select.value = lang;
-
-    try {
-      localStorage.setItem(STORAGE_KEY, lang);
-    } catch (e) {
-      /* ignore persistence failures */
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    applyLang(detectInitialLang());
-
-    var select = document.getElementById("lang-switch");
-    if (select) {
-      select.addEventListener("change", function () {
-        applyLang(select.value);
-      });
-    }
-  });
-})();

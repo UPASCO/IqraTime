@@ -1,103 +1,130 @@
-# Iqratime — site web (une page)
+# IqraTime — site web (iqratime.com)
 
-Site statique (HTML/CSS, sans build) présentant Iqratime : fonctionnalités,
-confidentialité, section "projets similaires" (mise en avant du prochain
-projet — une application éducative pour apprendre l'islam en s'amusant),
-un bouton de don Stripe, et contact (`support@iqratime.com` via lien
-`mailto:`).
+Site statique publié sur GitHub Pages à l'adresse <https://iqratime.com>.
+
+## ⚠️ Ce dossier est généré — ne pas l'éditer à la main
+
+Les fichiers HTML de `website/` sont **produits** par le script de build.
+Toute modification faite directement ici sera écrasée au prochain
+déploiement.
+
+| Pour changer… | Éditer… |
+|---|---|
+| le contenu / la structure d'une page | `scripts/website/templates/{index,contact,privacy}.html` |
+| un texte dans une des 7 langues | `scripts/website/i18n-data.js` |
+| les styles | `website/styles.css` *(non généré)* |
+| le comportement JS | `website/site.js` *(non généré)* |
+| l'image de partage social | `scripts/website/og-card.html`, puis régénérer (voir plus bas) |
+
+Après toute modification :
+
+```bash
+node scripts/website/build.mjs
+```
+
+Le workflow GitHub Actions lance ce build lui-même à chaque déploiement,
+donc un `website/` non régénéré ne peut pas partir en production.
+
+## Architecture
+
+```
+scripts/website/
+  templates/*.html   Source unique (français, balisé data-i18n)
+  i18n-data.js       Traductions des 7 langues (build uniquement)
+  build.mjs          Générateur
+  og-card.html       Source de l'image de partage 1200×630
+
+website/             ← SORTIE GÉNÉRÉE + fichiers statiques
+  index|contact|privacy.html      français (racine)
+  en/ ar/ de/ es/ it/ nl/         une copie traduite par langue
+  sitemap.xml                     généré
+  styles.css, site.js             écrits à la main
+  robots.txt, manifest.webmanifest, CNAME, assets/
+```
+
+### Pourquoi une page statique par langue
+
+Un site qui traduit son texte en JavaScript ne montre aux moteurs de
+recherche que la version française. En générant de vraies pages par langue
+(`/en/`, `/ar/`, …) reliées entre elles par des balises `hreflang`, les 7
+versions deviennent indexables et peuvent remonter chacune dans leur
+marché. Le visiteur, lui, ne télécharge plus les traductions des 6 autres
+langues — seulement sa page, déjà écrite dans sa langue.
+
+Le sélecteur de langue navigue vers la page équivalente (`site.js`) en
+conservant la page courante : `/ar/contact.html` → `/de/contact.html`.
 
 ## Aperçu en local
 
-Aucune dépendance : ouvrir `index.html` dans un navigateur, ou servir le
-dossier :
-
 ```bash
+node scripts/website/build.mjs
 npx serve website
 ```
 
-## Publication — GitHub Pages (gratuit, piloté par moi)
+## Régénérer l'image de partage social (og-image)
 
-Le domaine `iqratime.com` est acheté chez OVH. Pour l'hébergement, on part
-sur **GitHub Pages** plutôt que Vercel : c'est gratuit, ça n'a besoin
-d'aucun nouveau compte (juste le GitHub que ce repo utilise déjà), et je
-peux piloter tout le déploiement moi-même à chaque changement — il ne reste
-que deux actions, décrites ci-dessous, que seul le propriétaire du compte
-GitHub et du compte OVH peut faire (je n'ai accès à aucun des deux).
+`assets/og-image.png` (1200×630) est ce qui s'affiche quand le lien est
+partagé sur WhatsApp, Facebook, LinkedIn ou X. Pour la régénérer après
+avoir modifié `scripts/website/og-card.html`, ouvrir ce fichier dans un
+navigateur en 1200×630 et capturer, ou via Playwright :
 
-Déjà en place dans ce repo :
+```js
+await page.setViewportSize({ width: 1200, height: 630 });
+await page.goto("file://…/scripts/website/og-card.html");
+await page.screenshot({ path: "website/assets/og-image.png" });
+```
 
-- `.github/workflows/deploy-website.yml` : republie automatiquement
-  `website/` sur GitHub Pages à chaque push sur cette branche (et sur
-  `main`, si elle existe un jour).
-- `website/CNAME` : contient `iqratime.com`, pour que GitHub Pages serve le
-  domaine personnalisé (et génère un certificat HTTPS gratuit
-  automatiquement, une fois le domaine vérifié).
+## SEO en place
 
-### 1. Une seule case à cocher (toi uniquement — je n'ai pas cet accès)
+- Une page indexable par langue + `hreflang` (dont `x-default`).
+- `sitemap.xml` généré (21 URLs) et `robots.txt` qui le référence.
+- Données structurées JSON-LD : `SoftwareApplication`, `FAQPage`
+  (éligible aux résultats enrichis Google), `ContactPage`.
+- Open Graph + Twitter Card complets, avec une image **en URL absolue** —
+  sans quoi aucun aperçu ne s'affiche lors d'un partage.
+- Section FAQ : du texte réellement indexable qui répond à des requêtes
+  concrètes ("l'application est-elle gratuite", "fonctionne-t-elle hors
+  ligne", …).
+- `manifest.webmanifest` + `theme-color`.
 
-Dans le repo GitHub → **Settings → Pages** → *Build and deployment* →
-**Source : GitHub Actions**. C'est tout — aucune API ne me permet de
-changer ce réglage à ta place, c'est une action volontairement réservée à
-l'administrateur du repo.
+### Ce qu'il reste à faire à la main (hors code)
 
-Une fois ce réglage fait, dis-le-moi : je déclenche le déploiement (ou il
-se lance automatiquement au prochain push) et je vérifie que le site est
-bien en ligne.
+1. **Google Search Console** — ajouter la propriété `iqratime.com`,
+   valider par l'enregistrement DNS TXT chez OVH, puis soumettre
+   `https://iqratime.com/sitemap.xml`. C'est ce qui déclenche réellement
+   l'indexation ; sans cela il faut attendre que Google découvre le site.
+2. **Bing Webmaster Tools** — même chose (importable depuis Search Console).
+3. **Liens entrants** — le facteur de classement le plus lourd. Quelques
+   liens depuis des sites/annuaires réels valent plus que n'importe quel
+   réglage technique.
+4. **Fiches Store** — dès la publication de l'app, ajouter les vrais liens
+   App Store / Google Play (ils remplacent les badges « Bientôt ») et
+   renseigner le site dans les deux fiches : le lien réciproque aide les
+   deux référencements.
 
-### 2. DNS chez OVH (toi uniquement — je n'ai pas accès à ton compte OVH)
+## Domaine, hébergement, email
 
-Espace client OVH → **Domaines → iqratime.com → Zone DNS** → ajouter :
+- **Domaine** : OVH. Zone DNS pointée vers GitHub Pages (4 `A` vers
+  `185.199.108-111.153`, `CNAME www` → `upasco.github.io.`).
+- **Hébergement** : GitHub Pages, gratuit, HTTPS Let's Encrypt automatique.
+  `website/CNAME` porte le domaine ; Pages est réglé sur *Source: GitHub
+  Actions*.
+- **Email** : redirection OVH gratuite `support@iqratime.com` → boîte
+  personnelle.
 
-| Type | Nom | Cible |
-|---|---|---|
-| A | `@` (ou vide) | `185.199.108.153` |
-| A | `@` (ou vide) | `185.199.109.153` |
-| A | `@` (ou vide) | `185.199.110.153` |
-| A | `@` (ou vide) | `185.199.111.153` |
-| CNAME | `www` | `upasco.github.io.` |
+## Don
 
-Ce sont les adresses officielles de GitHub Pages (elles ne changent pas
-d'un projet à l'autre). Propagation généralement en quelques minutes à
-quelques heures.
+Les boutons de don pointent vers le Payment Link Stripe
+`https://buy.stripe.com/fZu8wH6nOaxP7J44Oudwc00`. Montant, moyens de
+paiement et libellé se gèrent dans le Dashboard Stripe, sans toucher au
+code.
 
-### Email — support@iqratime.com (gratuit, inclus chez OVH)
+## Formulaire de contact
 
-OVH inclut une **redirection email illimitée et gratuite** avec chaque
-domaine (pas besoin d'une boîte mail payante pour un simple alias support) :
+`contact.html` poste vers [FormSubmit](https://formsubmit.co) qui relaie le
+message à `support@iqratime.com` — aucun backend, compatible avec
+l'hébergement statique. Champs obligatoires : email et message.
 
-1. Espace client OVH → **Domaines → iqratime.com → Emails → Redirections**.
-2. Créer une redirection : `support@iqratime.com` → ta vraie boîte mail
-   (Gmail, etc.).
-3. *(Optionnel)* Pour pouvoir **envoyer** depuis `support@iqratime.com` (pas
-   seulement recevoir), configurer un alias d'envoi dans Gmail
-   ("Send mail as"), ou souscrire à l'offre email payante d'OVH si une
-   vraie boîte complète est nécessaire plus tard.
-
-**Coût total : 0 € au-delà du domaine déjà acheté** — hébergement GitHub
-Pages et redirection email OVH sont gratuits.
-
-### Alternative envisagée : Vercel
-
-`vercel.json` reste dans le repo si tu préfères Vercel plus tard (interface
-plus riche, aperçus de déploiement par PR, etc.) — mais ça demande de créer
-un compte Vercel et de t'y connecter, ce que je ne peux pas faire à ta
-place. GitHub Pages évite complètement cette étape.
-
-## Don — lien Stripe
-
-Le site a deux boutons "Faire un don" / "Soutenir ce projet" (section
-`#don` et carte "Prochain projet" dans `#projets-similaires`), tous deux
-pointant vers le vrai Payment Link Stripe fourni par le propriétaire du
-compte : `https://buy.stripe.com/fZu8wH6nOaxP7J44Oudwc00`.
-
-Pour changer le montant proposé, les moyens de paiement, ou le libellé,
-tout se gère directement dans le **Dashboard Stripe** (Payment Links) — pas
-besoin de toucher au code. Si un jour le lien change (nouveau Payment Link,
-rotation), remplacer les deux occurrences de l'URL dans
-`website/index.html`.
-
----
-
-Dis-moi dès que la case **Settings → Pages → Source: GitHub Actions** est
-cochée et que les DNS OVH sont posés — je vérifie que tout fonctionne
-(déploiement, HTTPS, propagation) et je vous relance si besoin.
+> Au tout premier envoi réel, FormSubmit envoie un email de confirmation à
+> `support@iqratime.com` : il faut cliquer le lien qu'il contient pour
+> activer la réception. C'est une étape unique.

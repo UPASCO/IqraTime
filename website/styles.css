@@ -788,3 +788,124 @@ footer a:hover {
   max-width: 44ch;
   margin: 0 auto 28px;
 }
+
+/* FAQ */
+.faq {
+  background: var(--warm-white);
+}
+
+.faq-list {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  border: 1px solid rgba(18, 55, 42, 0.12);
+  border-radius: 12px;
+  background: var(--ivory);
+  overflow: hidden;
+}
+
+.faq-item summary {
+  cursor: pointer;
+  padding: 18px 22px;
+  font-weight: 600;
+  color: var(--deep-green);
+  font-size: 1rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Replace the native marker with one that flips open, in both directions. */
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "+";
+  flex: none;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--secondary-green);
+  transition: transform 0.2s ease;
+}
+
+.faq-item[open] summary::after {
+  content: "−";
+}
+
+.faq-item summary:hover {
+  background: rgba(47, 107, 85, 0.05);
+}
+
+.faq-item p {
+  margin: 0;
+  padding: 0 22px 20px;
+  color: #4a564d;
+  font-size: 0.95rem;
+}
+
+/* Share */
+.share {
+  background: linear-gradient(160deg, var(--secondary-green), var(--deep-green));
+  color: var(--warm-white);
+  text-align: center;
+}
+
+.share .wrap {
+  max-width: 720px;
+}
+
+.share h2 {
+  margin-top: 0;
+  color: var(--gold-light);
+}
+
+.share p {
+  color: var(--ivory);
+  opacity: 0.92;
+  max-width: 52ch;
+  margin: 0 auto 28px;
+}
+
+.share-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: rgba(255, 252, 245, 0.12);
+  border: 1px solid rgba(255, 252, 245, 0.3);
+  color: var(--warm-white);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.share-btn:hover {
+  background: rgba(255, 252, 245, 0.22);
+  transform: translateY(-2px);
+}
+
+.share-btn.copied {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--night);
+}
