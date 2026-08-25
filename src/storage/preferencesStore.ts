@@ -22,7 +22,6 @@ export const defaultPreferences: UserPreferences = {
   textSizeScale: "medium",
   selectedThemes: [],
   selectionMode: "balanced_random",
-  antiRepeatWindow: 30,
   contentMode: "ayah_only",
   schedule: {
     enabled: false,

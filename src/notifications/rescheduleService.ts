@@ -1,7 +1,7 @@
 import type { AppDatabase } from "@/storage/types";
 import { saveLastRescheduleInfo } from "@/storage/diagnosticsStore";
-import { getRuntimeCorpus, getTranslation, getCorpusEntry } from "@/data/corpus";
-import { DEFAULT_ANTI_REPEAT_WINDOW, MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
+import { getRuntimeCorpus, getTranslation, getCorpusEntry, getAntiRepeatWindow } from "@/data/corpus";
+import { MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
 import type { NotificationSlot, ThemeKey, UserPreferences } from "@/domain/types";
 import { selectAyah } from "@/services/selectionEngine";
 import { cancelAllOsNotifications, cancelOsNotifications, scheduleOsNotification } from "./notificationService";
@@ -49,7 +49,7 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
   const corpus = getRuntimeCorpus();
   const existingSlots = await deps.db.notificationSlots.listAll();
   const [recentAyahIds, favorites, hidden] = await Promise.all([
-    deps.db.history.recentAyahIds(deps.preferences.antiRepeatWindow || DEFAULT_ANTI_REPEAT_WINDOW),
+    deps.db.history.recentAyahIds(getAntiRepeatWindow()),
     deps.db.favorites.list(),
     deps.db.hiddenAyahs.list(),
   ]);

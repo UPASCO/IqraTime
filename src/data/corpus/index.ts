@@ -51,6 +51,24 @@ export function getRuntimeCorpus(): readonly CorpusEntry[] {
   return isProductionCorpusBuild() ? getPublishableCorpus() : allEntries;
 }
 
+/**
+ * How many recent history entries the selection engine's anti-repeat
+ * filter should exclude: one full rotation of the corpus, so no āyah
+ * repeats until every other one has been shown.
+ *
+ * This used to be a user-facing "reduce repetition" number defaulting to
+ * 30, which meant an āyah could come back after only 30 notifications —
+ * about a day and a half at hourly delivery, and unmistakably repetitive.
+ * It is derived rather than configurable now: there is no reason a user
+ * would want *more* repetition, and the number was meaningless to them.
+ * When a rotation is genuinely exhausted the engine's progressive
+ * relaxation (selectionEngine.ts) drops this filter and the cycle
+ * restarts, so this can never dead-end the feed.
+ */
+export function getAntiRepeatWindow(): number {
+  return getRuntimeCorpus().length;
+}
+
 const entriesById = new Map(allEntries.map((entry) => [entry.arabic.id, entry]));
 
 export function getCorpusEntry(id: AyahId): CorpusEntry | undefined {

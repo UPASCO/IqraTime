@@ -34,7 +34,8 @@
         "gratitude",
         "remembrance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:153",
@@ -43,7 +44,8 @@
         "patience",
         "prayer"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:155",
@@ -53,7 +55,8 @@
         "hope",
         "trials"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:161",
@@ -69,7 +72,8 @@
       "themes": [
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:201",
@@ -77,7 +81,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:216",
@@ -85,7 +90,8 @@
       "themes": [
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:255",
@@ -95,7 +101,8 @@
         "knowledge",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:256",
@@ -105,7 +112,8 @@
         "justice",
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:257",
@@ -114,7 +122,8 @@
         "protection",
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:268",
@@ -124,7 +133,8 @@
         "forgiveness",
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:269",
@@ -134,7 +144,8 @@
         "wisdom",
         "remembrance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:284",
@@ -143,7 +154,8 @@
         "forgiveness",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:285",
@@ -151,7 +163,8 @@
       "themes": [
         "forgiveness"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "2:286",
@@ -161,7 +174,8 @@
         "forgiveness",
         "protection"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:8",
@@ -170,7 +184,8 @@
         "mercy",
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:26",
@@ -178,7 +193,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:31",
@@ -188,7 +204,8 @@
         "forgiveness",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:38",
@@ -206,7 +223,8 @@
         "remembrance",
         "brotherhood"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:104",
@@ -214,7 +232,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:110",
@@ -223,7 +242,8 @@
         "mercy",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:133",
@@ -232,7 +252,8 @@
         "forgiveness",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:139",
@@ -240,7 +261,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:159",
@@ -250,7 +272,8 @@
         "trust_in_god",
         "forgiveness"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:169",
@@ -258,7 +281,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:173",
@@ -268,7 +292,8 @@
         "trust_in_god",
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:185",
@@ -276,7 +301,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:190",
@@ -285,7 +311,8 @@
         "wisdom",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:192",
@@ -293,7 +320,8 @@
       "themes": [
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "3:194",
@@ -310,7 +338,8 @@
         "mercy",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "4:27",
@@ -337,7 +366,8 @@
         "humility",
         "family"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "4:59",
@@ -345,7 +375,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "4:86",
@@ -353,7 +384,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "4:110",
@@ -363,7 +395,8 @@
         "forgiveness",
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "4:135",
@@ -373,7 +406,8 @@
         "family",
         "protection"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "4:147",
@@ -382,7 +416,8 @@
         "gratitude",
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "5:8",
@@ -390,7 +425,8 @@
       "themes": [
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "5:10",
@@ -416,7 +452,8 @@
         "family",
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "6:59",
@@ -425,7 +462,8 @@
         "knowledge",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "6:74",
@@ -443,7 +481,8 @@
         "justice",
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "6:83",
@@ -461,7 +500,8 @@
         "mercy",
         "prayer"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "6:163",
@@ -469,7 +509,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "7:13",
@@ -487,7 +528,8 @@
         "mercy",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "7:96",
@@ -496,7 +538,8 @@
         "gratitude",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "7:154",
@@ -514,7 +557,8 @@
       "themes": [
         "forgiveness"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "8:2",
@@ -524,7 +568,8 @@
         "trust_in_god",
         "brotherhood"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "8:53",
@@ -532,7 +577,8 @@
       "themes": [
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "8:57",
@@ -566,7 +612,8 @@
         "justice",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "9:40",
@@ -575,7 +622,8 @@
         "wisdom",
         "inner_peace"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "9:51",
@@ -584,7 +632,8 @@
         "trust_in_god",
         "protection"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "9:56",
@@ -600,7 +649,8 @@
       "themes": [
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "9:128",
@@ -610,7 +660,8 @@
         "forgiveness",
         "trials"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "9:129",
@@ -618,7 +669,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "10:36",
@@ -636,7 +688,8 @@
         "mercy",
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "10:58",
@@ -645,7 +698,8 @@
         "gratitude",
         "mercy"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "10:62",
@@ -654,7 +708,8 @@
         "mercy",
         "good_deeds"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "10:65",
@@ -662,7 +717,8 @@
       "themes": [
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "10:84",
@@ -679,7 +735,8 @@
         "knowledge",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "11:56",
@@ -688,7 +745,8 @@
         "trust_in_god",
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "11:75",
@@ -715,7 +773,8 @@
         "prayer",
         "good_deeds"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "12:13",
@@ -742,7 +801,8 @@
         "mercy",
         "brotherhood"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "13:8",
@@ -759,7 +819,8 @@
         "gratitude",
         "protection"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "13:34",
@@ -776,7 +837,8 @@
         "gratitude",
         "remembrance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "14:19",
@@ -801,7 +863,8 @@
         "gratitude",
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "15:9",
@@ -809,7 +872,8 @@
       "themes": [
         "protection"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "15:20",
@@ -842,7 +906,8 @@
         "mercy",
         "forgiveness"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "16:53",
@@ -850,7 +915,8 @@
       "themes": [
         "gratitude"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "16:60",
@@ -867,7 +933,8 @@
         "inner_peace",
         "good_deeds"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "16:127",
@@ -876,7 +943,8 @@
         "patience",
         "courage"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "17:13",
@@ -900,7 +968,8 @@
       "themes": [
         "family"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "17:32",
@@ -908,7 +977,8 @@
       "themes": [
         "forgiveness"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "17:70",
@@ -917,7 +987,8 @@
         "family",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "17:81",
@@ -925,7 +996,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "17:110",
@@ -933,7 +1005,8 @@
       "themes": [
         "prayer"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "18:1",
@@ -952,7 +1025,8 @@
         "remembrance",
         "protection"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "18:29",
@@ -961,7 +1035,8 @@
         "hope",
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "18:39",
@@ -969,7 +1044,8 @@
       "themes": [
         "family"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "18:46",
@@ -979,7 +1055,8 @@
         "hope",
         "prayer"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "18:78",
@@ -1011,7 +1088,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "20:14",
@@ -1020,7 +1098,8 @@
         "prayer",
         "remembrance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "20:25",
@@ -1028,7 +1107,8 @@
       "themes": [
         "inner_peace"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "20:43",
@@ -1053,7 +1133,8 @@
         "hope",
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "21:35",
@@ -1061,7 +1142,8 @@
       "themes": [
         "trials"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "21:83",
@@ -1070,7 +1152,8 @@
         "mercy",
         "remembrance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "21:87",
@@ -1079,7 +1162,8 @@
         "remembrance",
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "21:89",
@@ -1103,7 +1187,8 @@
       "themes": [
         "mercy"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "22:46",
@@ -1111,7 +1196,8 @@
       "themes": [
         "wisdom"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "22:47",
@@ -1144,7 +1230,8 @@
       "themes": [
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "24:12",
@@ -1162,7 +1249,8 @@
         "knowledge",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "24:55",
@@ -1171,7 +1259,8 @@
         "good_deeds",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "25:30",
@@ -1188,7 +1277,8 @@
         "humility",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "26:2",
@@ -1206,7 +1296,8 @@
         "hope",
         "mercy"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "27:40",
@@ -1216,7 +1307,8 @@
         "trials",
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "27:69",
@@ -1241,7 +1333,8 @@
         "knowledge",
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "29:2",
@@ -1249,7 +1342,8 @@
       "themes": [
         "trials"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "29:34",
@@ -1267,7 +1361,8 @@
         "prayer",
         "remembrance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "29:69",
@@ -1276,7 +1371,8 @@
         "courage",
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "30:14",
@@ -1294,7 +1390,8 @@
         "wisdom",
         "family"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "30:30",
@@ -1304,7 +1401,8 @@
         "knowledge",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "31:13",
@@ -1313,7 +1411,8 @@
         "remembrance",
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "31:14",
@@ -1323,7 +1422,8 @@
         "family",
         "trials"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "31:17",
@@ -1333,7 +1433,8 @@
         "mercy",
         "prayer"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "31:18",
@@ -1342,7 +1443,8 @@
         "humility",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "31:19",
@@ -1350,7 +1452,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "31:28",
@@ -1375,7 +1478,8 @@
         "hope",
         "remembrance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "33:30",
@@ -1391,7 +1495,8 @@
       "themes": [
         "remembrance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "33:56",
@@ -1401,7 +1506,8 @@
         "mercy",
         "prayer"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "33:70",
@@ -1409,7 +1515,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "34:20",
@@ -1425,7 +1532,8 @@
       "themes": [
         "generosity"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "35:2",
@@ -1434,7 +1542,8 @@
         "mercy",
         "wisdom"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "35:15",
@@ -1443,7 +1552,8 @@
         "mercy",
         "remembrance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "35:25",
@@ -1459,7 +1569,8 @@
       "themes": [
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "36:77",
@@ -1475,7 +1586,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "37:22",
@@ -1501,7 +1613,8 @@
         "prayer",
         "wisdom"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "39:10",
@@ -1511,7 +1624,8 @@
         "good_deeds",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "39:19",
@@ -1529,7 +1643,8 @@
         "remembrance",
         "brotherhood"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "39:36",
@@ -1537,7 +1652,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "39:53",
@@ -1547,7 +1663,8 @@
         "mercy",
         "forgiveness"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "40:20",
@@ -1563,7 +1680,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "41:24",
@@ -1580,7 +1698,8 @@
         "patience",
         "good_deeds"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "41:37",
@@ -1589,7 +1708,8 @@
         "prayer",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "41:46",
@@ -1598,7 +1718,8 @@
         "good_deeds",
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "42:19",
@@ -1606,7 +1727,8 @@
       "themes": [
         "mercy"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "42:23",
@@ -1616,7 +1738,8 @@
         "mercy",
         "forgiveness"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "42:31",
@@ -1635,7 +1758,8 @@
         "good_deeds",
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "43:60",
@@ -1676,7 +1800,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "47:19",
@@ -1685,7 +1810,8 @@
         "forgiveness",
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "47:34",
@@ -1718,7 +1844,8 @@
         "mercy",
         "brotherhood"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "49:11",
@@ -1728,7 +1855,8 @@
         "justice",
         "brotherhood"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "49:12",
@@ -1738,7 +1866,8 @@
         "repentance",
         "brotherhood"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "49:13",
@@ -1748,7 +1877,8 @@
         "knowledge",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "50:5",
@@ -1765,7 +1895,8 @@
         "knowledge",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "51:25",
@@ -1782,7 +1913,8 @@
       "themes": [
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "52:28",
@@ -1814,7 +1946,8 @@
       "themes": [
         "gratitude"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "55:41",
@@ -1830,7 +1963,8 @@
       "themes": [
         "good_deeds"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "56:73",
@@ -1847,7 +1981,8 @@
         "knowledge",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "57:11",
@@ -1866,7 +2001,8 @@
         "humility",
         "family"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "57:22",
@@ -1875,7 +2011,8 @@
         "trials",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "58:11",
@@ -1885,7 +2022,8 @@
         "prayer",
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "58:17",
@@ -1909,7 +2047,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "59:21",
@@ -1919,7 +2058,8 @@
         "wisdom",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "59:22",
@@ -1928,7 +2068,8 @@
         "mercy",
         "knowledge"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "59:23",
@@ -1936,7 +2077,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "59:24",
@@ -1946,7 +2088,8 @@
         "remembrance",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "60:7",
@@ -1964,7 +2107,8 @@
         "mercy",
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "61:1",
@@ -1981,7 +2125,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "62:1",
@@ -2000,7 +2145,8 @@
         "prayer",
         "remembrance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "63:9",
@@ -2027,7 +2173,8 @@
         "knowledge",
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "65:2",
@@ -2037,7 +2184,8 @@
         "trials",
         "justice"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "65:7",
@@ -2047,7 +2195,8 @@
         "generosity",
         "trials"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "65:9",
@@ -2073,7 +2222,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "67:2",
@@ -2083,7 +2233,8 @@
         "trials",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "67:29",
@@ -2115,7 +2266,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "70:19",
@@ -2124,7 +2276,8 @@
         "patience",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "70:40",
@@ -2158,7 +2311,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "73:15",
@@ -2222,7 +2376,8 @@
       "themes": [
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "80:19",
@@ -2295,7 +2450,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "88:2",
@@ -2320,7 +2476,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "90:11",
@@ -2352,7 +2509,8 @@
       "themes": [
         "hope"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "93:6",
@@ -2362,7 +2520,8 @@
         "inner_peace",
         "protection"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "93:9",
@@ -2379,7 +2538,8 @@
       "themes": [
         "inner_peace"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "94:5",
@@ -2388,7 +2548,8 @@
         "hope",
         "trials"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "94:7",
@@ -2404,7 +2565,8 @@
       "themes": [
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "95:7",
@@ -2421,7 +2583,8 @@
         "knowledge",
         "creation"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "96:19",
@@ -2438,7 +2601,8 @@
       "themes": [
         "guidance"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "97:5",
@@ -2470,7 +2634,8 @@
       "themes": [
         "good_deeds"
       ],
-      "isDemoOnly": false
+      "isDemoOnly": false,
+      "notable": true
     },
     {
       "id": "100:9",

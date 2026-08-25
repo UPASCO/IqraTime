@@ -10,9 +10,9 @@ import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { useAyahView } from "@/hooks/useAyahView";
-import { getRuntimeCorpus, getTranslation, getCorpusEntry } from "@/data/corpus";
+import { getRuntimeCorpus, getTranslation, getCorpusEntry, getAntiRepeatWindow } from "@/data/corpus";
 import { selectAyah } from "@/services/selectionEngine";
-import { DEFAULT_ANTI_REPEAT_WINDOW, MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
+import { MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
 import { ALL_MOOD_KEYS, MOOD_THEME_MAP, MOOD_ICONS, type MoodKey } from "@/domain/moods";
 import { formatShareText, buildGetTheAppLine } from "@/utils/shareText";
 import { incrementShareCount } from "@/storage/shareCounterStore";
@@ -49,7 +49,7 @@ export default function MomentScreen(): React.JSX.Element {
     try {
       const themes = MOOD_THEME_MAP[chosenMood];
       const [recentAyahIds, favorites, hidden] = await Promise.all([
-        db.history.recentAyahIds(preferences.antiRepeatWindow || DEFAULT_ANTI_REPEAT_WINDOW),
+        db.history.recentAyahIds(getAntiRepeatWindow()),
         db.favorites.list(),
         db.hiddenAyahs.list(),
       ]);

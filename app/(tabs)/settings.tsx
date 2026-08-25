@@ -96,10 +96,6 @@ export default function SettingsScreen(): React.JSX.Element {
         />
         <SettingRow label={t("settings.themesLink")} onPress={() => router.push("/themes")} />
         <SettingRow label={t("settings.progressLink")} onPress={() => router.push("/progress")} />
-        <SettingRow
-          label={t("settings.antiRepeat")}
-          valueLabel={String(preferences.antiRepeatWindow)}
-        />
         <SettingRow label={t("settings.contentModeLabel")} />
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
           <Chip label={t("settings.contentModeAyahOnly")} selected={preferences.contentMode === "ayah_only"} onPress={() => update({ contentMode: "ayah_only" })} />

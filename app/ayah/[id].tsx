@@ -15,7 +15,7 @@ import { formatShareText, buildGetTheAppLine } from "@/utils/shareText";
 import { incrementShareCount } from "@/storage/shareCounterStore";
 
 export default function AyahDetailScreen(): React.JSX.Element {
-  const params = useLocalSearchParams<{ id: string }>();
+  const params = useLocalSearchParams<{ id: string; tafsir?: string }>();
   const ayahId = params.id ? routeParamToAyahId(params.id) : undefined;
   const router = useRouter();
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
@@ -26,7 +26,10 @@ export default function AyahDetailScreen(): React.JSX.Element {
   const ayahView = useAyahView(ayahId, preferences.translationLocale);
   const [isFavorite, setIsFavorite] = useState(false);
   const [justCopied, setJustCopied] = useState(false);
-  const [showTafsir, setShowTafsir] = useState(false);
+  // `?tafsir=1` opens straight into the tafsir — the feed's tafsir button
+  // (AyahFeedSlide's rail) links here rather than duplicating the tafsir
+  // rendering, disclaimer and source attribution inside the slide.
+  const [showTafsir, setShowTafsir] = useState(params.tafsir === "1");
 
   const tafsir = ayahId ? getTafsir(ayahId, preferences.translationLocale) : undefined;
   const tafsirSource = tafsir ? tafsirSources.find((s) => s.id === tafsir.sourceId) : undefined;

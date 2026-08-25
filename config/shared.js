@@ -28,7 +28,7 @@ module.exports = {
     alt_fr: "Le Coran et les hadiths sur votre écran, sans déverrouiller — une source de hassanat, inchAllah.",
   },
   version: "1.9.4",
-  buildNumber: 18,
+  buildNumber: 19,
   iosBundleIdentifier: "com.IqraTime.com",
   // PROVISIONAL — no Android/Google Play equivalent has been registered yet
   // (only the iOS App ID above is real so far). Google Play requires an
@@ -37,7 +37,13 @@ module.exports = {
   androidPackage: "com.example.iqratime.provisional",
   easProjectId: "5aa33698-7d7f-424c-845f-1a1e548ec93e",
   contactEmail: "support@iqratime.com",
+  // The public site backing the app. Surfaced in-app (About screen) rather
+  // than kept as store-listing-only metadata: a Quran/hadith app asks for a
+  // lot of trust, and a reachable site, privacy policy and support address
+  // are the cheapest, most direct way to earn it.
+  websiteUrl: "https://iqratime.com/index.html",
   privacyPolicyUrl: "https://iqratime.com/privacy.html",
+  contactUrl: "https://iqratime.com/contact.html",
   deepLinkScheme: "iqratime",
   // Real as of the app's creation in App Store Connect (Apple ID
   // 6804868769) — see docs/RELEASE_CHECKLIST.md. Shares now include the

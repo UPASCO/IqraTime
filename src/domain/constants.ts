@@ -29,9 +29,6 @@ export function timePeriodForHour(hour: number): TimePeriod {
 /** Maximum ayah character length (translation text) considered for a notification body. */
 export const MAX_NOTIFICATION_AYAH_LENGTH = 220;
 
-/** How many most-recent history entries the anti-repeat filter considers by default. */
-export const DEFAULT_ANTI_REPEAT_WINDOW = 30;
-
 export const FREQUENCY_OPTIONS_HOURS = [1, 2, 3, 4, 6, 12] as const;
 
 export const MAX_JITTER_MINUTES = 15;

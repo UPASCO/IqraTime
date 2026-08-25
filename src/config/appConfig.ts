@@ -33,7 +33,9 @@ interface SharedConfigShape {
   androidPackage: string;
   easProjectId: string;
   contactEmail: string;
+  websiteUrl: string;
   privacyPolicyUrl: string;
+  contactUrl: string;
   deepLinkScheme: string;
   iosAppStoreUrl: string;
   brand: {
@@ -92,18 +94,21 @@ export const appConfig = {
   /** Real EAS project id, from `eas init` (@teamupasco/ayahnow). */
   easProjectId: raw.easProjectId,
 
-  /**
-   * PROVISIONAL — replace with a real, monitored contact address before
-   * publishing (required by both stores for support contact).
-   */
+  /** Real, monitored support address on the app's own domain. */
   contactEmail: raw.contactEmail,
 
+  /** Public site backing the app — shown on the About screen. */
+  websiteUrl: raw.websiteUrl,
+
   /**
-   * PROVISIONAL — replace with a real, hosted privacy policy URL before
-   * publishing. Both stores require a reachable HTTPS URL even though the
-   * app collects no personal data; docs/PRIVACY.md is the source text.
+   * Live, hosted privacy policy. Both stores require a reachable HTTPS URL
+   * even though the app collects no personal data; docs/PRIVACY.md is the
+   * source text and the hosted page must stay in sync with it.
    */
   privacyPolicyUrl: raw.privacyPolicyUrl,
+
+  /** Public contact page, offered alongside contactEmail on the About screen. */
+  contactUrl: raw.contactUrl,
 
   /** Deep link scheme used for notification taps and universal links. */
   deepLinkScheme: raw.deepLinkScheme,

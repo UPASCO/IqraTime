@@ -11,11 +11,12 @@ import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { useAyahView } from "@/hooks/useAyahView";
 import { useHadithView } from "@/hooks/useHadithView";
-import { getRuntimeCorpus, getTranslation, getCorpusEntry } from "@/data/corpus";
+import { getRuntimeCorpus, getTranslation, getCorpusEntry, getAntiRepeatWindow, getTafsir } from "@/data/corpus";
 import { getRuntimeHadithCorpus, hasAnyHadithContent } from "@/data/corpus/hadith";
 import { selectAyah } from "@/services/selectionEngine";
-import { DEFAULT_ANTI_REPEAT_WINDOW, MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
+import { MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
 import { getPermissionSnapshot } from "@/notifications";
+import { isSupportAvailable } from "@/services/supportPaymentService";
 import type { ContentMode, NotificationSlot } from "@/domain/types";
 import { formatShareText, formatHadithShareText, buildGetTheAppLine } from "@/utils/shareText";
 import { formatDateTime } from "@/utils/dateUtils";
@@ -44,6 +45,7 @@ function FeedItem({
   const { t } = useI18n();
   const { preferences } = usePreferencesStore();
   const ayahView = useAyahView(ayahId, preferences.translationLocale);
+  const hasTafsir = !!getTafsir(ayahId, preferences.translationLocale);
 
   if (!ayahView.found) {
     return (
@@ -83,6 +85,13 @@ function FeedItem({
       onShareAttempted={() => incrementShareCount()}
       onCopy={() => Clipboard.setStringAsync(shareText())}
       onOpenDetail={() => router.push(`/ayah/${ayahView.surah}-${ayahView.ayah}`)}
+      // Only offered when a tafsir actually exists for this āyah in the
+      // reader's language — 3 of the 12 locales have no edition at all
+      // (docs/CORPUS.md "Tafsir"), and an always-present button that leads
+      // to "unavailable" is worse than no button.
+      onOpenTafsir={
+        hasTafsir ? () => router.push(`/ayah/${ayahView.surah}-${ayahView.ayah}?tafsir=1`) : undefined
+      }
     />
   );
 }
@@ -157,26 +166,46 @@ interface FeedEntry {
   readonly id: string;
 }
 
-/** Any corpus entry other than `avoidAyahId` — the last-resort pick that keeps the feed scrolling once the selection engine has no fresh candidates left. */
-function pickFallbackAyahId(avoidAyahId?: string): string | undefined {
+/**
+ * Any corpus entry not in `avoidIds` — the last-resort pick that keeps the
+ * feed scrolling once the selection engine has no fresh candidates left.
+ * Avoiding the whole set already shown this session (not just the previous
+ * slide) is what stops a long scroll from cycling over a handful of āyāt;
+ * once genuinely everything has been seen it falls back to the full corpus
+ * rather than dead-ending.
+ */
+function pickFallbackAyahId(avoidIds: ReadonlySet<string>): string | undefined {
   const corpus = getRuntimeCorpus();
   if (corpus.length === 0) return undefined;
-  const pool = corpus.filter((e) => e.arabic.id !== avoidAyahId);
+  const pool = corpus.filter((e) => !avoidIds.has(e.arabic.id));
   const from = pool.length > 0 ? pool : corpus;
   return from[Math.floor(Math.random() * from.length)]?.arabic.id;
 }
 
 /**
- * Hadith has no selection engine yet (no anti-repeat/theme weighting) —
- * a plain random pick, avoiding an immediate repeat, same simplification
- * tier as pickFallbackAyahId above.
+ * Hadith has no selection engine yet (no theme weighting or persisted
+ * history), so its anti-repeat is this session-scoped `avoidIds` set
+ * alone — same "never re-show until the pool is exhausted" behaviour as
+ * pickFallbackAyahId above, just without the cross-session memory āyāt get
+ * from the history table.
  */
-function pickHadithId(avoidHadithId?: string): string | undefined {
+function pickHadithId(avoidIds: ReadonlySet<string>): string | undefined {
   const corpus = getRuntimeHadithCorpus();
   if (corpus.length === 0) return undefined;
-  const pool = corpus.filter((e) => e.arabic.id !== avoidHadithId);
+  const pool = corpus.filter((e) => !avoidIds.has(e.arabic.id));
   const from = pool.length > 0 ? pool : corpus;
   return from[Math.floor(Math.random() * from.length)]?.arabic.id;
+}
+
+const NO_IDS: ReadonlySet<string> = new Set();
+
+/** One shortcut chip in the home screen's menu row. */
+interface HomeMenuItem {
+  readonly icon: React.ComponentProps<typeof Ionicons>["name"];
+  readonly label: string;
+  readonly route: "/quran" | "/hadith" | "/progress" | "/library" | "/support";
+  /** Gives the chip the gold-bordered treatment reserved for primary destinations. */
+  readonly emphasized: boolean;
 }
 
 /**
@@ -190,7 +219,7 @@ function pickHadithId(avoidHadithId?: string): string | undefined {
  */
 function pickInitialFeedEntry(effectiveContentMode: ContentMode): FeedEntry | undefined {
   if (nextFeedKind(effectiveContentMode, undefined) === "hadith") {
-    const id = pickHadithId();
+    const id = pickHadithId(NO_IDS);
     return id ? { key: "slide-0", kind: "hadith", id } : undefined;
   }
   const id = getRuntimeCorpus()[0]?.arabic.id;
@@ -227,14 +256,25 @@ export default function HomeScreen(): React.JSX.Element {
 
   const loadingMore = useRef(false);
   const slideCounter = useRef(1);
+  // Every id already shown in this feed session. The history table alone
+  // isn't enough to keep a long scroll from circling back: its writes are
+  // async and a single scroll can outrun them, and the anti-repeat window
+  // is bounded. This set is the authoritative "don't show it again"
+  // record for the session, on top of history's cross-session memory.
+  const shownAyahIds = useRef<Set<string>>(new Set());
+  const shownHadithIds = useRef<Set<string>>(new Set());
 
-  const pickAnotherAyah = useCallback(async (avoidAyahId?: string): Promise<string | undefined> => {
+  const pickAnotherAyah = useCallback(async (): Promise<string | undefined> => {
     if (!db) return undefined;
     const [recentAyahIds, favorites, hidden] = await Promise.all([
-      db.history.recentAyahIds(preferences.antiRepeatWindow || DEFAULT_ANTI_REPEAT_WINDOW),
+      db.history.recentAyahIds(getAntiRepeatWindow()),
       db.favorites.list(),
       db.hiddenAyahs.list(),
     ]);
+    // Union of what the engine already knows (persisted history) and what
+    // this session has put on screen — de-duplicated, since a slide shown
+    // moments ago is usually in both.
+    const excluded = Array.from(new Set([...recentAyahIds, ...shownAyahIds.current]));
     const result = selectAyah({
       corpus: getRuntimeCorpus(),
       getTranslation,
@@ -243,7 +283,7 @@ export default function HomeScreen(): React.JSX.Element {
       requireTranslation: preferences.textDisplayMode !== "arabic_only",
       localHour: new Date().getHours(),
       selectedThemes: preferences.selectedThemes,
-      recentAyahIds,
+      recentAyahIds: excluded,
       recentThemes: recentAyahIds.map((id) => getCorpusEntry(id)?.catalog.themes ?? []).flat(),
       favoriteAyahIds: favorites.map((f) => f.ayahId),
       hiddenAyahIds: hidden.map((h) => h.ayahId),
@@ -252,10 +292,11 @@ export default function HomeScreen(): React.JSX.Element {
     });
     // The feed must never dead-end: once every ayah has been shown, the
     // selection engine legitimately runs out of *fresh* candidates, so we
-    // fall back to any corpus entry (avoiding an immediate repeat) and keep
+    // fall back to any corpus entry not yet seen this session and keep
     // scrolling rather than silently stopping.
-    const ayahId = result.status === "selected" ? result.ayahId : pickFallbackAyahId(avoidAyahId);
+    const ayahId = result.status === "selected" ? result.ayahId : pickFallbackAyahId(shownAyahIds.current);
     if (!ayahId) return undefined;
+    shownAyahIds.current.add(ayahId);
 
     await db.history.add({
       id: generateLocalId(),
@@ -274,17 +315,20 @@ export default function HomeScreen(): React.JSX.Element {
     if (!db) return;
     const firstKind = nextFeedKind(effectiveContentMode, undefined);
     if (firstKind === "hadith") {
-      const firstHadithId = pickHadithId();
+      const firstHadithId = pickHadithId(shownHadithIds.current);
       if (firstHadithId) {
+        shownHadithIds.current.add(firstHadithId);
         setFeedItems([{ key: "slide-0", kind: "hadith", id: firstHadithId }]);
         if (await isHadithFavorite(firstHadithId)) {
           setHadithFavoriteIds((prev) => new Set(prev).add(firstHadithId));
         }
       }
     } else {
-      const history = await db.history.list(1);
-      const latest = history[0];
-      const firstId = latest ? latest.ayahId : getRuntimeCorpus()[0]?.arabic.id;
+      // Opening slide goes through the selection engine like every other
+      // slide, rather than replaying the newest history row: resuming on
+      // the last-seen āyah meant every launch opened on the one the user
+      // had just read, which reads as the app repeating itself.
+      const firstId = await pickAnotherAyah();
       if (firstId) {
         setFeedItems([{ key: "slide-0", kind: "ayah", id: firstId }]);
         if (await db.favorites.isFavorite(firstId)) {
@@ -308,10 +352,9 @@ export default function HomeScreen(): React.JSX.Element {
     } else {
       setStatusMessage(undefined);
     }
-  }, [db, preferences.schedule.enabled, effectiveContentMode, t]);
+  }, [db, preferences.schedule.enabled, effectiveContentMode, t, pickAnotherAyah]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- standard mount-time data load
     loadInitialState();
   }, [loadInitialState]);
 
@@ -319,6 +362,26 @@ export default function HomeScreen(): React.JSX.Element {
     if (!nextSlot) return t("home.nextNotificationNone");
     return t("home.nextAyahAt", { time: formatDateTime(nextSlot.fireAtUtcIso, locale) });
   }, [nextSlot, locale, t]);
+
+  /**
+   * The home shortcut row. Qur'an and Hadith lead as the two primary
+   * destinations; "Support IqraTime" is appended only when every donation
+   * gate passes (see supportPaymentService), mirroring the website's own
+   * nav — with no ads and no paid tier, this row is the only place in the
+   * app a donation is discoverable without digging through Settings.
+   */
+  const menuItems = useMemo(() => {
+    const items: HomeMenuItem[] = [
+      { icon: "book-outline", label: t("quran.title"), route: "/quran", emphasized: true },
+      { icon: "layers-outline", label: t("hadith.menuTitle"), route: "/hadith", emphasized: true },
+      { icon: "ribbon-outline", label: t("progress.title"), route: "/progress", emphasized: false },
+      { icon: "search-outline", label: t("home.libraryCta"), route: "/library", emphasized: false },
+    ];
+    if (isSupportAvailable()) {
+      items.push({ icon: "heart-outline", label: t("support.menuLabel"), route: "/support", emphasized: false });
+    }
+    return items;
+  }, [t]);
 
   const handleToggleFavorite = async (ayahId: string): Promise<void> => {
     if (!db) return;
@@ -358,13 +421,14 @@ export default function HomeScreen(): React.JSX.Element {
       const lastEntry = feedItems[feedItems.length - 1];
       const kind = nextFeedKind(effectiveContentMode, lastEntry?.kind);
       if (kind === "hadith") {
-        const nextId = pickHadithId(lastEntry?.kind === "hadith" ? lastEntry.id : undefined);
+        const nextId = pickHadithId(shownHadithIds.current);
         if (nextId) {
+          shownHadithIds.current.add(nextId);
           if (await isHadithFavorite(nextId)) setHadithFavoriteIds((prev) => new Set(prev).add(nextId));
           setFeedItems((prev) => [...prev, { key: `slide-${slideCounter.current++}`, kind: "hadith", id: nextId }]);
         }
       } else {
-        const nextId = await pickAnotherAyah(lastEntry?.kind === "ayah" ? lastEntry.id : undefined);
+        const nextId = await pickAnotherAyah();
         if (nextId) {
           // Always append, even when this ayah already appeared earlier in the
           // session: the feed is endless by design, so a finite corpus simply
@@ -396,12 +460,7 @@ export default function HomeScreen(): React.JSX.Element {
           </View>
 
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: spacing.xs }}>
-            {[
-              { icon: "book-outline" as const, label: t("quran.title"), route: "/quran" as const, emphasized: true },
-              { icon: "layers-outline" as const, label: t("hadith.menuTitle"), route: "/hadith" as const, emphasized: true },
-              { icon: "ribbon-outline" as const, label: t("progress.title"), route: "/progress" as const, emphasized: false },
-              { icon: "search-outline" as const, label: t("home.libraryCta"), route: "/library" as const, emphasized: false },
-            ].map((item) => (
+            {menuItems.map((item) => (
               <Pressable
                 key={item.route}
                 onPress={() => router.push(item.route)}

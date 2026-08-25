@@ -22,6 +22,29 @@ describe("selectAyah", () => {
     mode: "balanced_random" as const,
   };
 
+  it("strongly favours notable ayat while still leaving the rest reachable", () => {
+    // The catalog `notable` flag marks the ~165 widely-recognised ayat (see
+    // CatalogEntry.notable); weighting.ts boosts them so a rotation
+    // front-loads them. It must stay a weight and never become a filter —
+    // an unflagged ayah still has to be selectable, or a rotation could
+    // never reach the rest of the corpus.
+    const withNotable = corpus.map((entry, i) => ({
+      ...entry,
+      catalog: { ...entry.catalog, notable: i < 3 },
+    }));
+    const notableIds = new Set(withNotable.slice(0, 3).map((e) => e.arabic.id));
+
+    const picks = Array.from({ length: 200 }, (_, seed) =>
+      selectAyah({ ...baseInput, corpus: withNotable, randomSeed: seed }),
+    ).flatMap((r) => (r.status === "selected" ? [r.ayahId] : []));
+
+    const notableShare = picks.filter((id) => notableIds.has(id)).length / picks.length;
+    // 3 of 12 ayat are notable, so an unweighted engine would land near
+    // 0.25; the boost should lift it well past that without reaching 1.
+    expect(notableShare).toBeGreaterThan(0.4);
+    expect(new Set(picks.filter((id) => !notableIds.has(id))).size).toBeGreaterThan(0);
+  });
+
   it("is deterministic given the same seed", () => {
     const a = selectAyah({ ...baseInput, randomSeed: 42 });
     const b = selectAyah({ ...baseInput, randomSeed: 42 });

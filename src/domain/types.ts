@@ -208,6 +208,16 @@ export interface CatalogEntry {
   readonly editorialNote?: string;
   /** True when this entry exists only for development/demo purposes. */
   readonly isDemoOnly: boolean;
+  /**
+   * True for āyāt widely recognised or cited on their own — dua, khutbahs,
+   * calligraphy — from `ICONIC_REFS` in scripts/buildFullCorpus.mjs, the
+   * same list that drove which āyāt were curated into the corpus at all.
+   * The selection engine weights these up heavily (see weighting.ts) so a
+   * rotation front-loads the āyāt a user is most likely to recognise,
+   * without ever excluding the rest. A recall-oriented heuristic, not a
+   * religious ranking — see docs/CORPUS.md.
+   */
+  readonly notable?: boolean;
 }
 
 export type TimePeriod = "morning" | "midday" | "late_afternoon" | "evening";
@@ -271,7 +281,6 @@ export interface UserPreferences {
   readonly textSizeScale: TextSizeScale;
   readonly selectedThemes: readonly ThemeKey[];
   readonly selectionMode: SelectionMode;
-  readonly antiRepeatWindow: number; // number of most recent notifications to avoid repeating
   readonly schedule: NotificationSchedule;
   readonly contentMode: ContentMode;
 }

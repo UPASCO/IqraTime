@@ -91,10 +91,6 @@ hasn't actually been tested in this development session.
   translations produced during this session.
 - Text-size setting labels ("small"/"medium"/"large"/"extra_large" chips
   in Settings) are not yet localized strings — a small polish item.
-- `settings.antiRepeat` (the anti-repetition window size) is currently
-  display-only in Settings; there is no UI control to change it, though
-  the underlying preference and selection-engine behavior fully support
-  a different value.
 
 ## Data model
 

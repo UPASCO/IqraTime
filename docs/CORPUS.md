@@ -9,9 +9,12 @@ knowledgeable Muslim would recognise as significant on sight (see
 hand-typed, not a placeholder sample. 11 of the app's 12 supported
 languages have a real, licensed Quran translation for every one of those
 āyāt (Arabic readers use the Arabic text itself, no translation needed).
-Every entry is still marked `status: "technically_verified"`, never
-`"publishable"`: `npm run corpus:validate:prod` fails the build until a
-qualified human completes the reviewer checklist below, on purpose.
+All 300 entries are now marked `status: "publishable"` — promoted in bulk
+by the project owner rather than individually walked through the reviewer
+checklist below (see `docs/RELEASE_CHECKLIST.md`). The text and its
+sourcing are unchanged; what was skipped is the per-entry
+standalone-adequacy review. `scripts/reviewCorpus.mjs` remains available
+for a proper pass.
 
 ## Convention
 
@@ -39,9 +42,13 @@ What's still missing is **human judgement**: `scripts/buildFullCorpus.mjs`
 selects and curates by MECHANICAL criteria only (length bounds, sentence
 completeness, a hand-picked list of widely-recognised āyāt) — it cannot
 assess religious or rhetorical significance, and it does not claim to.
-Every entry therefore stays `status: "technically_verified"`, never
-`"publishable"`, until a qualified person completes the reviewer
-checklist below. This is the intended gate, not a bug: build the full
+Entries are written as `status: "technically_verified"` by the build
+script and only a human should promote them past that. The gate itself is
+still in place (`getPublishableCorpus()` / `validateCorpus.ts`); what
+changed is that the owner exercised it deliberately in bulk rather than
+per entry — see the status note at the top of this file.
+
+This is the intended gate, not a bug: build the full
 architecture and real content, block a silent production build, require
 a human sign-off before anything ships as final.
 
@@ -93,6 +100,36 @@ Current entries do not carry a per-entry `editorialNote` (see
 awaiting review" caveat on 300 entries individually would just bloat the
 shipped bundle without adding information) — a reviewer works from the
 checklist above directly, not from a pre-flagged concern per āyah.
+
+## Notable āyāt (`notable` flag)
+
+`scripts/markNotableAyat.mjs` writes a `notable: true` flag onto the 165
+shipped entries listed in `scripts/iconicRefs.mjs` — āyāt frequently
+cited on their own (dua, khutbahs, calligraphy), the same list that gave
+those āyāt priority when the corpus was downselected to 300 in the first
+place. `iconicRefs.mjs` is the single source of truth for both, so the
+build-time curation and the runtime weighting cannot drift apart.
+
+At runtime the selection engine weights these up heavily
+(`NOTABLE_BOOST` in `src/services/selectionEngine/weighting.ts`), so a
+rotation front-loads the āyāt a reader is most likely to recognise. It is
+a weight and never a filter: combined with the anti-repeat window (see
+below), every other āyah is still reached before anything repeats — the
+notable ones simply tend to come first in the cycle.
+
+Like theme tags, this is a recall-oriented heuristic, not a religious
+ranking. A wrong entry only costs an āyah a weighting boost.
+
+## Anti-repeat window
+
+`getAntiRepeatWindow()` (`src/data/corpus/index.ts`) returns the full
+runtime corpus size, so the selection engine excludes every āyah already
+in recent history until a complete rotation has been shown. This
+replaced a user-facing "reduce repetition" setting that defaulted to 30
+— under hourly notifications that let an āyah return after about a day
+and a half. When a rotation is genuinely exhausted, the engine's
+progressive relaxation drops the filter and the cycle restarts, so it can
+never dead-end.
 
 ## Consistency checks
 

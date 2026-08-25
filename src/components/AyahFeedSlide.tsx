@@ -27,6 +27,13 @@ export interface AyahFeedSlideProps {
   shareText?: string;
   onCopy?: () => void;
   onOpenDetail?: () => void;
+  /**
+   * Opens the ayah's tafsir. Pass only when a tafsir actually exists for
+   * this ayah in the reader's language (3 of 12 locales have no edition at
+   * all — see docs/CORPUS.md "Tafsir"), so the rail never offers a button
+   * that leads to an "unavailable" message.
+   */
+  onOpenTafsir?: () => void;
 }
 
 /** One full-bleed, immersive slide in the swipeable ayah feed — always the fixed brand palette, independent of light/dark theme, like a splash/hero moment rather than a themed UI surface. */
@@ -224,6 +231,17 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
             accessibilityLabel={justCopied ? t("home.copiedConfirmation") : t("home.copyCta")}
           >
             <Ionicons name={justCopied ? "checkmark" : "copy-outline"} size={21} color={justCopied ? appConfig.brand.goldLight : appConfig.brand.warmWhite} />
+          </Pressable>
+        ) : null}
+        {props.onOpenTafsir ? (
+          <Pressable
+            onPress={props.onOpenTafsir}
+            hitSlop={8}
+            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
+            accessibilityRole="button"
+            accessibilityLabel={t("ayah.tafsirShowCta")}
+          >
+            <Ionicons name="book-outline" size={22} color={appConfig.brand.warmWhite} />
           </Pressable>
         ) : null}
       </View>
