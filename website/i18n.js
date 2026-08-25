@@ -55,7 +55,22 @@
         cta: "Faire un don",
         fineprint: "Paiement sécurisé par Stripe. Don volontaire, sans contrepartie."
       },
-      support: { title: "Une question, un problème ?", text: "Notre équipe support est joignable directement par email." },
+      support: { title: "Une question, un problème ?", text: "Écrivez-nous via notre formulaire de contact, ou directement par email.", cta: "Nous contacter" },
+      contact: {
+        title: "Contactez-nous",
+        subtitle: "Une question, une suggestion, un problème technique ? Écrivez-nous — nous répondons personnellement à chaque message.",
+        labelName: "Nom",
+        labelEmail: "Email",
+        labelSubject: "Sujet",
+        labelMessage: "Message",
+        optional: "optionnel",
+        required: "obligatoire",
+        submit: "Envoyer le message",
+        altText: "Vous préférez nous écrire directement ?",
+        successTitle: "Message envoyé !",
+        successText: "Merci, nous avons bien reçu votre message et nous vous répondrons dès que possible, inchAllah.",
+        backHome: "← Retour à l'accueil"
+      },
       footer: { copyright: "© 2026 IqraTime. Tous droits réservés.", privacy: "Politique de confidentialité" }
     },
     en: {
@@ -106,7 +121,22 @@
         cta: "Donate",
         fineprint: "Secure payment via Stripe. Voluntary donation, no benefit granted."
       },
-      support: { title: "A question, an issue?", text: "Our support team is reachable directly by email." },
+      support: { title: "A question, an issue?", text: "Write to us via our contact form, or directly by email.", cta: "Contact us" },
+      contact: {
+        title: "Contact us",
+        subtitle: "A question, a suggestion, a technical issue? Write to us — we personally reply to every message.",
+        labelName: "Name",
+        labelEmail: "Email",
+        labelSubject: "Subject",
+        labelMessage: "Message",
+        optional: "optional",
+        required: "required",
+        submit: "Send message",
+        altText: "Prefer to write to us directly?",
+        successTitle: "Message sent!",
+        successText: "Thank you, we've received your message and will get back to you as soon as possible, inshaAllah.",
+        backHome: "← Back to home"
+      },
       footer: { copyright: "© 2026 IqraTime. All rights reserved.", privacy: "Privacy Policy" }
     },
     ar: {
@@ -157,7 +187,22 @@
         cta: "تبرّع الآن",
         fineprint: "دفع آمن عبر Stripe. تبرّع طوعي بدون أي مقابل."
       },
-      support: { title: "لديك سؤال أو مشكلة؟", text: "يمكنك التواصل مع فريق الدعم مباشرة عبر البريد الإلكتروني." },
+      support: { title: "لديك سؤال أو مشكلة؟", text: "راسلنا عبر نموذج التواصل، أو مباشرة عبر البريد الإلكتروني.", cta: "تواصل معنا" },
+      contact: {
+        title: "تواصل معنا",
+        subtitle: "سؤال، اقتراح، مشكلة تقنية؟ راسلنا — نرد شخصيًا على كل رسالة.",
+        labelName: "الاسم",
+        labelEmail: "البريد الإلكتروني",
+        labelSubject: "الموضوع",
+        labelMessage: "الرسالة",
+        optional: "اختياري",
+        required: "إلزامي",
+        submit: "إرسال الرسالة",
+        altText: "تفضّل مراسلتنا مباشرة؟",
+        successTitle: "تم إرسال الرسالة!",
+        successText: "شكرًا لك، لقد استلمنا رسالتك وسنرد عليك في أقرب وقت ممكن إن شاء الله.",
+        backHome: "→ العودة إلى الصفحة الرئيسية"
+      },
       footer: { copyright: "© 2026 IqraTime. جميع الحقوق محفوظة.", privacy: "سياسة الخصوصية" }
     },
     de: {
@@ -208,7 +253,22 @@
         cta: "Jetzt spenden",
         fineprint: "Sichere Zahlung über Stripe. Freiwillige Spende, ohne Gegenleistung."
       },
-      support: { title: "Eine Frage, ein Problem?", text: "Unser Support-Team ist direkt per E-Mail erreichbar." },
+      support: { title: "Eine Frage, ein Problem?", text: "Schreib uns über unser Kontaktformular oder direkt per E-Mail.", cta: "Kontaktiere uns" },
+      contact: {
+        title: "Kontaktiere uns",
+        subtitle: "Eine Frage, ein Vorschlag, ein technisches Problem? Schreib uns — wir beantworten jede Nachricht persönlich.",
+        labelName: "Name",
+        labelEmail: "E-Mail",
+        labelSubject: "Betreff",
+        labelMessage: "Nachricht",
+        optional: "optional",
+        required: "erforderlich",
+        submit: "Nachricht senden",
+        altText: "Schreibst du uns lieber direkt?",
+        successTitle: "Nachricht gesendet!",
+        successText: "Danke, wir haben deine Nachricht erhalten und melden uns so schnell wie möglich, inschaAllah.",
+        backHome: "← Zurück zur Startseite"
+      },
       footer: { copyright: "© 2026 IqraTime. Alle Rechte vorbehalten.", privacy: "Datenschutzerklärung" }
     },
     es: {
@@ -259,7 +319,22 @@
         cta: "Donar",
         fineprint: "Pago seguro con Stripe. Donación voluntaria, sin contraprestación."
       },
-      support: { title: "¿Alguna pregunta o problema?", text: "Nuestro equipo de soporte está disponible directamente por correo electrónico." },
+      support: { title: "¿Alguna pregunta o problema?", text: "Escríbenos a través de nuestro formulario de contacto, o directamente por correo electrónico.", cta: "Contáctanos" },
+      contact: {
+        title: "Contáctanos",
+        subtitle: "¿Una pregunta, una sugerencia, un problema técnico? Escríbenos — respondemos personalmente a cada mensaje.",
+        labelName: "Nombre",
+        labelEmail: "Correo electrónico",
+        labelSubject: "Asunto",
+        labelMessage: "Mensaje",
+        optional: "opcional",
+        required: "obligatorio",
+        submit: "Enviar mensaje",
+        altText: "¿Prefieres escribirnos directamente?",
+        successTitle: "¡Mensaje enviado!",
+        successText: "Gracias, hemos recibido tu mensaje y te responderemos lo antes posible, inshaAllah.",
+        backHome: "← Volver al inicio"
+      },
       footer: { copyright: "© 2026 IqraTime. Todos los derechos reservados.", privacy: "Política de privacidad" }
     },
     it: {
@@ -310,7 +385,22 @@
         cta: "Dona ora",
         fineprint: "Pagamento sicuro tramite Stripe. Donazione volontaria, senza alcuna contropartita."
       },
-      support: { title: "Una domanda, un problema?", text: "Il nostro team di assistenza è raggiungibile direttamente via email." },
+      support: { title: "Una domanda, un problema?", text: "Scrivici tramite il nostro modulo di contatto, oppure direttamente via email.", cta: "Contattaci" },
+      contact: {
+        title: "Contattaci",
+        subtitle: "Una domanda, un suggerimento, un problema tecnico? Scrivici — rispondiamo personalmente a ogni messaggio.",
+        labelName: "Nome",
+        labelEmail: "Email",
+        labelSubject: "Oggetto",
+        labelMessage: "Messaggio",
+        optional: "facoltativo",
+        required: "obbligatorio",
+        submit: "Invia messaggio",
+        altText: "Preferisci scriverci direttamente?",
+        successTitle: "Messaggio inviato!",
+        successText: "Grazie, abbiamo ricevuto il tuo messaggio e ti risponderemo il prima possibile, inshaAllah.",
+        backHome: "← Torna alla home"
+      },
       footer: { copyright: "© 2026 IqraTime. Tutti i diritti riservati.", privacy: "Informativa sulla privacy" }
     },
     nl: {
@@ -361,7 +451,22 @@
         cta: "Doneer nu",
         fineprint: "Veilige betaling via Stripe. Vrijwillige donatie, zonder tegenprestatie."
       },
-      support: { title: "Een vraag of een probleem?", text: "Ons supportteam is rechtstreeks bereikbaar per e-mail." },
+      support: { title: "Een vraag of een probleem?", text: "Schrijf ons via ons contactformulier, of rechtstreeks per e-mail.", cta: "Neem contact op" },
+      contact: {
+        title: "Neem contact op",
+        subtitle: "Een vraag, een suggestie, een technisch probleem? Schrijf ons — we beantwoorden elk bericht persoonlijk.",
+        labelName: "Naam",
+        labelEmail: "E-mail",
+        labelSubject: "Onderwerp",
+        labelMessage: "Bericht",
+        optional: "optioneel",
+        required: "verplicht",
+        submit: "Bericht verzenden",
+        altText: "Schrijf je ons liever rechtstreeks?",
+        successTitle: "Bericht verzonden!",
+        successText: "Bedankt, we hebben je bericht ontvangen en reageren zo snel mogelijk, inshaAllah.",
+        backHome: "← Terug naar home"
+      },
       footer: { copyright: "© 2026 IqraTime. Alle rechten voorbehouden.", privacy: "Privacybeleid" }
     }
   };
