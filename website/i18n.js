@@ -35,7 +35,8 @@
       },
       privacy: {
         title: "Votre vie privée, respectée par conception",
-        text: "Aucun compte, aucune connexion requise, aucun backend, aucune analytique, aucune publicité, aucun identifiant de suivi. Aucune donnée ne quitte votre appareil."
+        text: "Aucun compte, aucune connexion requise, aucun backend, aucune analytique, aucune publicité, aucun identifiant de suivi. Aucune donnée ne quitte votre appareil.",
+        readMore: "Lire la politique de confidentialité complète →"
       },
       similar: {
         title: "Projets similaires",
@@ -55,7 +56,7 @@
         fineprint: "Paiement sécurisé par Stripe. Don volontaire, sans contrepartie."
       },
       support: { title: "Une question, un problème ?", text: "Notre équipe support est joignable directement par email." },
-      footer: { copyright: "© 2026 IqraTime. Tous droits réservés." }
+      footer: { copyright: "© 2026 IqraTime. Tous droits réservés.", privacy: "Politique de confidentialité" }
     },
     en: {
       meta: {
@@ -85,7 +86,8 @@
       },
       privacy: {
         title: "Your privacy, respected by design",
-        text: "No account, no login required, no backend, no analytics, no ads, no tracking identifier. No data ever leaves your device."
+        text: "No account, no login required, no backend, no analytics, no ads, no tracking identifier. No data ever leaves your device.",
+        readMore: "Read the full privacy policy →"
       },
       similar: {
         title: "Similar projects",
@@ -105,7 +107,7 @@
         fineprint: "Secure payment via Stripe. Voluntary donation, no benefit granted."
       },
       support: { title: "A question, an issue?", text: "Our support team is reachable directly by email." },
-      footer: { copyright: "© 2026 IqraTime. All rights reserved." }
+      footer: { copyright: "© 2026 IqraTime. All rights reserved.", privacy: "Privacy Policy" }
     },
     ar: {
       meta: {
@@ -135,7 +137,8 @@
       },
       privacy: {
         title: "خصوصيتك، مُحترمة بالتصميم",
-        text: "بدون حساب، بدون تسجيل دخول، بدون خادم خلفي، بدون تحليلات، بدون إعلانات، بدون معرّف تتبّع. لا تغادر أي بيانات جهازك."
+        text: "بدون حساب، بدون تسجيل دخول، بدون خادم خلفي، بدون تحليلات، بدون إعلانات، بدون معرّف تتبّع. لا تغادر أي بيانات جهازك.",
+        readMore: "اقرأ سياسة الخصوصية كاملة ←"
       },
       similar: {
         title: "مشاريع مشابهة",
@@ -155,7 +158,7 @@
         fineprint: "دفع آمن عبر Stripe. تبرّع طوعي بدون أي مقابل."
       },
       support: { title: "لديك سؤال أو مشكلة؟", text: "يمكنك التواصل مع فريق الدعم مباشرة عبر البريد الإلكتروني." },
-      footer: { copyright: "© 2026 IqraTime. جميع الحقوق محفوظة." }
+      footer: { copyright: "© 2026 IqraTime. جميع الحقوق محفوظة.", privacy: "سياسة الخصوصية" }
     },
     de: {
       meta: {
@@ -185,7 +188,8 @@
       },
       privacy: {
         title: "Deine Privatsphäre, von Anfang an respektiert",
-        text: "Kein Konto, keine Anmeldung nötig, kein Backend, keine Analyse, keine Werbung, keine Tracking-ID. Es verlassen niemals Daten dein Gerät."
+        text: "Kein Konto, keine Anmeldung nötig, kein Backend, keine Analyse, keine Werbung, keine Tracking-ID. Es verlassen niemals Daten dein Gerät.",
+        readMore: "Vollständige Datenschutzerklärung lesen →"
       },
       similar: {
         title: "Ähnliche Projekte",
@@ -205,7 +209,7 @@
         fineprint: "Sichere Zahlung über Stripe. Freiwillige Spende, ohne Gegenleistung."
       },
       support: { title: "Eine Frage, ein Problem?", text: "Unser Support-Team ist direkt per E-Mail erreichbar." },
-      footer: { copyright: "© 2026 IqraTime. Alle Rechte vorbehalten." }
+      footer: { copyright: "© 2026 IqraTime. Alle Rechte vorbehalten.", privacy: "Datenschutzerklärung" }
     },
     es: {
       meta: {
@@ -235,7 +239,8 @@
       },
       privacy: {
         title: "Tu privacidad, respetada por diseño",
-        text: "Sin cuenta, sin necesidad de iniciar sesión, sin backend, sin analítica, sin publicidad, sin identificador de seguimiento. Ningún dato sale de tu dispositivo."
+        text: "Sin cuenta, sin necesidad de iniciar sesión, sin backend, sin analítica, sin publicidad, sin identificador de seguimiento. Ningún dato sale de tu dispositivo.",
+        readMore: "Leer la política de privacidad completa →"
       },
       similar: {
         title: "Proyectos similares",
@@ -255,7 +260,7 @@
         fineprint: "Pago seguro con Stripe. Donación voluntaria, sin contraprestación."
       },
       support: { title: "¿Alguna pregunta o problema?", text: "Nuestro equipo de soporte está disponible directamente por correo electrónico." },
-      footer: { copyright: "© 2026 IqraTime. Todos los derechos reservados." }
+      footer: { copyright: "© 2026 IqraTime. Todos los derechos reservados.", privacy: "Política de privacidad" }
     },
     it: {
       meta: {
@@ -285,7 +290,8 @@
       },
       privacy: {
         title: "La tua privacy, rispettata per progettazione",
-        text: "Nessun account, nessun accesso richiesto, nessun backend, nessuna analisi, nessuna pubblicità, nessun identificatore di tracciamento. Nessun dato lascia il tuo dispositivo."
+        text: "Nessun account, nessun accesso richiesto, nessun backend, nessuna analisi, nessuna pubblicità, nessun identificatore di tracciamento. Nessun dato lascia il tuo dispositivo.",
+        readMore: "Leggi l'informativa sulla privacy completa →"
       },
       similar: {
         title: "Progetti simili",
@@ -305,7 +311,7 @@
         fineprint: "Pagamento sicuro tramite Stripe. Donazione volontaria, senza alcuna contropartita."
       },
       support: { title: "Una domanda, un problema?", text: "Il nostro team di assistenza è raggiungibile direttamente via email." },
-      footer: { copyright: "© 2026 IqraTime. Tutti i diritti riservati." }
+      footer: { copyright: "© 2026 IqraTime. Tutti i diritti riservati.", privacy: "Informativa sulla privacy" }
     },
     nl: {
       meta: {
@@ -335,7 +341,8 @@
       },
       privacy: {
         title: "Jouw privacy, gerespecteerd door ontwerp",
-        text: "Geen account, geen inloggen nodig, geen backend, geen analytics, geen advertenties, geen tracking-ID. Er verlaten nooit gegevens je toestel."
+        text: "Geen account, geen inloggen nodig, geen backend, geen analytics, geen advertenties, geen tracking-ID. Er verlaten nooit gegevens je toestel.",
+        readMore: "Lees het volledige privacybeleid →"
       },
       similar: {
         title: "Vergelijkbare projecten",
@@ -355,7 +362,7 @@
         fineprint: "Veilige betaling via Stripe. Vrijwillige donatie, zonder tegenprestatie."
       },
       support: { title: "Een vraag of een probleem?", text: "Ons supportteam is rechtstreeks bereikbaar per e-mail." },
-      footer: { copyright: "© 2026 IqraTime. Alle rechten voorbehouden." }
+      footer: { copyright: "© 2026 IqraTime. Alle rechten voorbehouden.", privacy: "Privacybeleid" }
     }
   };
 

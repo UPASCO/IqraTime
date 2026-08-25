@@ -306,6 +306,18 @@ section {
   opacity: 0.92;
 }
 
+.privacy-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--gold-light);
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+
+.privacy-link:hover {
+  color: var(--gold);
+}
+
 /* Similar projects */
 .similar {
   background: var(--warm-white);
@@ -532,4 +544,81 @@ footer a:hover {
   .hero {
     padding: 56px 0 64px;
   }
+}
+
+/* Legal (privacy policy) page */
+.legal {
+  padding: 64px 0 96px;
+}
+
+.legal-wrap {
+  max-width: 760px;
+}
+
+.legal h1 {
+  color: var(--deep-green);
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  margin: 0 0 6px;
+}
+
+.legal-updated {
+  color: #4a564d;
+  font-size: 0.85rem;
+  margin: 0 0 40px;
+}
+
+.legal h2 {
+  color: var(--deep-green);
+  font-size: 1.25rem;
+  margin: 40px 0 14px;
+}
+
+.legal p,
+.legal li {
+  color: var(--dark-text);
+  font-size: 0.98rem;
+}
+
+.legal ul {
+  padding-inline-start: 22px;
+  margin: 0 0 16px;
+}
+
+.legal li {
+  margin-bottom: 8px;
+}
+
+.legal a {
+  color: var(--secondary-green);
+  text-decoration: underline;
+}
+
+.legal-table-wrap {
+  overflow-x: auto;
+  margin: 0 0 20px;
+  border: 1px solid rgba(18, 55, 42, 0.12);
+  border-radius: 10px;
+}
+
+.legal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.legal-table th,
+.legal-table td {
+  text-align: start;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(18, 55, 42, 0.1);
+}
+
+.legal-table th {
+  background: var(--ivory);
+  color: var(--deep-green);
+  font-weight: 600;
+}
+
+.legal-table tr:last-child td {
+  border-bottom: none;
 }
