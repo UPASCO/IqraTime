@@ -358,6 +358,8 @@ export const en = {
   support: {
     title: "Support IqraTime",
     menuLabel: "Support IqraTime",
+    progressNudgeTitle: "An ongoing good deed",
+    progressNudgeBody: "IqraTime is free, ad-free, and will stay that way. If it brings you benefit, supporting it helps carry that same benefit to others — and every good passed on counts, inshaAllah.",
     description: "Your support helps cover IqraTime's development, publishing, and maintenance costs. It is entirely optional and does not unlock any content or benefit.",
     principlesTitle: "What you should know",
     principleFree: "The app remains completely free.",

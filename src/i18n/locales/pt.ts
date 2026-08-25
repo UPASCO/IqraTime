@@ -353,6 +353,8 @@ export const pt: TranslationSchema = {
   support: {
     title: "Apoiar o IqraTime",
     menuLabel: "Apoiar o IqraTime",
+    progressNudgeTitle: "Uma boa ação contínua",
+    progressNudgeBody: "O IqraTime é gratuito, sem anúncios, e assim continuará. Se ele traz benefício a você, apoiá-lo ajuda a levar esse mesmo benefício a outros — e todo bem compartilhado conta, inshaAllah.",
     description: "Seu apoio ajuda a cobrir os custos de desenvolvimento, publicação e manutenção do IqraTime. É totalmente opcional e não desbloqueia nenhum conteúdo ou benefício.",
     principlesTitle: "O que você deve saber",
     principleFree: "O aplicativo continua totalmente gratuito.",

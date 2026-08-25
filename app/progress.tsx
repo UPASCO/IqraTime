@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 import { Screen } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -8,6 +9,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import { appConfig } from "@/config/appConfig";
 import { useDiscoveryProgress } from "@/hooks/useDiscoveryProgress";
 import { getShareCount } from "@/storage/shareCounterStore";
+import { isSupportAvailable } from "@/services/supportPaymentService";
 
 const MILESTONE_PERCENTS = [10, 25, 50, 75, 100] as const;
 const SHARE_MILESTONES = [1, 10, 50, 100, 500] as const;
@@ -160,6 +162,46 @@ export default function ProgressScreen(): React.JSX.Element {
             {t("progress.shareSectionBody")}
           </Text>
         </View>
+
+        {/* Placed here deliberately — the Progress screen is the one moment
+            the user is looking at what the app has given them (ayat
+            discovered, good shared onward), which is the honest time to
+            mention that keeping it free is itself something they can take
+            part in. Framed as sadaqah jariyah — a good that keeps giving —
+            never as need or urgency, and it never appears in the reading/
+            feed surfaces. Quiet visual weight on purpose: a plain bordered
+            card, no bright fill, no badge, no counter. */}
+        {isSupportAvailable() ? (
+          <Pressable
+            onPress={() => router.push("/support")}
+            accessibilityRole="button"
+            accessibilityLabel={t("support.menuLabel")}
+            style={{
+              borderWidth: 1,
+              borderColor: colors.gold,
+              backgroundColor: colors.surface,
+              borderRadius: radii.lg,
+              padding: spacing.md,
+              gap: spacing.xs,
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xs }}>
+              <Ionicons name="heart-outline" size={16} color={colors.gold} />
+              <Text style={{ color: colors.textPrimary, fontWeight: typography.weights.semibold, fontSize: typography.sizes.body * fontScaleMultiplier }}>
+                {t("support.progressNudgeTitle")}
+              </Text>
+            </View>
+            <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, lineHeight: 18 * fontScaleMultiplier }}>
+              {t("support.progressNudgeBody")}
+            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 4, alignSelf: "flex-end" }}>
+              <Text style={{ color: colors.gold, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+                {t("support.menuLabel")}
+              </Text>
+              <Ionicons name="chevron-forward" size={14} color={colors.gold} />
+            </View>
+          </Pressable>
+        ) : null}
       </View>
     </Screen>
   );
