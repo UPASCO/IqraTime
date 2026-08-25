@@ -7,13 +7,13 @@
 <meta name="description" content="Politique de confidentialité d'IqraTime : aucun compte, aucun serveur, aucune donnée collectée. Tout reste sur votre appareil." />
 <link rel="icon" href="assets/favicon.png" />
 <link rel="apple-touch-icon" href="assets/icon.png" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="styles.css?v=3" />
 <meta property="og:title" content="Politique de confidentialité — IqraTime" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://iqratime.com/privacy.html" />
 <link rel="canonical" href="https://iqratime.com/privacy.html" />
 </head>
-<body>
+<body data-page="privacy">
 
 <header>
   <div class="wrap">
@@ -23,12 +23,21 @@
     </a>
     <nav>
       <ul>
-        <li><a href="index.html#fonctionnalites">Fonctionnalités</a></li>
-        <li><a href="index.html#confidentialite">Confidentialité</a></li>
-        <li><a href="index.html#projets-similaires">Projets similaires</a></li>
-        <li><a href="index.html#don">Faire un don</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="index.html#fonctionnalites" data-i18n="nav.features">Fonctionnalités</a></li>
+        <li><a href="index.html#confidentialite" data-i18n="nav.privacy">Confidentialité</a></li>
+        <li><a href="index.html#projets-similaires" data-i18n="nav.similar">Projets similaires</a></li>
+        <li><a href="index.html#don" data-i18n="nav.donate">Faire un don</a></li>
+        <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
       </ul>
+      <select id="lang-switch" class="lang-switch" aria-label="Language / Langue">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+        <option value="de">Deutsch</option>
+        <option value="es">Español</option>
+        <option value="it">Italiano</option>
+        <option value="nl">Nederlands</option>
+      </select>
     </nav>
   </div>
 </header>
@@ -36,56 +45,80 @@
 <main>
   <section class="legal">
     <div class="wrap legal-wrap">
-      <h1>Politique de confidentialité</h1>
-      <p class="legal-updated">Dernière mise à jour&nbsp;: 23 août 2026</p>
+      <h1 data-i18n="legal.title">Politique de confidentialité</h1>
+      <p class="legal-updated" data-i18n="legal.updated">Dernière mise à jour&nbsp;: 25 août 2026</p>
 
-      <h2>Résumé</h2>
-      <p>
+      <h2 data-i18n="legal.sumTitle">Résumé</h2>
+      <p data-i18n="legal.sumText">
         Toutes vos préférences, votre historique et vos favoris restent sur
         votre appareil. IqraTime ne nécessite aucun compte et n'envoie
         jamais ces données à un serveur.
       </p>
 
-      <h2>Ce qu'IqraTime ne fait pas</h2>
+      <h2 data-i18n="legal.notTitle">Ce qu'IqraTime ne fait pas</h2>
       <ul>
-        <li>Aucun compte, aucune inscription, aucune connexion, aucun identifiant utilisateur d'aucune sorte.</li>
-        <li>Aucun serveur backend pour le fonctionnement quotidien.</li>
-        <li>Aucun SDK d'analytique, de rapport de plantage, ou de publicité.</li>
-        <li>Aucun identifiant publicitaire (IDFA/GAID) lu ou généré.</li>
-        <li>Aucun profilage, aucun suivi comportemental, aucune « personnalisation » au-delà des thèmes et réglages que vous choisissez explicitement.</li>
-        <li>Aucun accès GPS ou à toute autre donnée de localisation.</li>
-        <li>Aucun accès aux contacts, au microphone ou à la caméra.</li>
-        <li>Aucune synchronisation des favoris, de l'historique ou des préférences vers un service distant.</li>
-        <li>Aucune télémétrie, cachée ou non.</li>
+        <li data-i18n="legal.not1">Aucun compte, aucune inscription, aucune connexion, aucun identifiant utilisateur d'aucune sorte.</li>
+        <li data-i18n="legal.not2">Aucun serveur backend pour le fonctionnement quotidien.</li>
+        <li data-i18n="legal.not3">Aucun SDK d'analytique, de rapport de plantage, ou de publicité.</li>
+        <li data-i18n="legal.not4">Aucun identifiant publicitaire (IDFA/GAID) lu ou généré.</li>
+        <li data-i18n="legal.not5">Aucun profilage, aucun suivi comportemental, aucune « personnalisation » au-delà des thèmes et réglages que vous choisissez explicitement.</li>
+        <li data-i18n="legal.not6">Aucun accès GPS ou à toute autre donnée de localisation.</li>
+        <li data-i18n="legal.not7">Aucun accès aux contacts, au microphone ou à la caméra.</li>
+        <li data-i18n="legal.not8">Aucune synchronisation des favoris, de l'historique ou des préférences vers un service distant.</li>
+        <li data-i18n="legal.not9">Aucune télémétrie, cachée ou non.</li>
       </ul>
 
-      <h2>Ce qui est stocké, et où</h2>
-      <p>
+      <h2 data-i18n="legal.storedTitle">Ce qui est stocké, et où</h2>
+      <p data-i18n="legal.storedIntro">
         Tout ce qui suit vit <strong>uniquement sur l'appareil</strong>, dans
         une base locale (SQLite) ou dans le stockage local de préférences.
       </p>
       <div class="legal-table-wrap">
         <table class="legal-table">
           <thead>
-            <tr><th>Donnée</th><th>Stockage</th><th>Usage</th></tr>
+            <tr>
+              <th data-i18n="legal.thData">Donnée</th>
+              <th data-i18n="legal.thStore">Stockage</th>
+              <th data-i18n="legal.thUse">Usage</th>
+            </tr>
           </thead>
           <tbody>
-            <tr><td>Préférences (langue, horaires, thème, etc.)</td><td>Stockage local</td><td>Se souvenir de vos réglages</td></tr>
-            <tr><td>Historique des notifications / favoris</td><td>Base locale (SQLite)</td><td>Afficher l'historique et les favoris, éviter les répétitions</td></tr>
-            <tr><td>Āyāt masquées</td><td>Base locale (SQLite)</td><td>Respecter les āyāt que vous avez choisi d'exclure</td></tr>
-            <tr><td>Créneaux de notification programmés</td><td>Base locale (SQLite)</td><td>La file de notifications glissante</td></tr>
-            <tr><td>Journal d'erreurs local</td><td>Base locale (SQLite)</td><td>Écran de diagnostics uniquement — jamais transmis</td></tr>
+            <tr>
+              <td data-i18n="legal.d1">Préférences (langue, horaires, thème, etc.)</td>
+              <td data-i18n="legal.sPrefs">Stockage local</td>
+              <td data-i18n="legal.u1">Se souvenir de vos réglages</td>
+            </tr>
+            <tr>
+              <td data-i18n="legal.d2">Historique des notifications / favoris</td>
+              <td data-i18n="legal.sDb">Base locale (SQLite)</td>
+              <td data-i18n="legal.u2">Afficher l'historique et les favoris, éviter les répétitions</td>
+            </tr>
+            <tr>
+              <td data-i18n="legal.d3">Āyāt masquées</td>
+              <td data-i18n="legal.sDb">Base locale (SQLite)</td>
+              <td data-i18n="legal.u3">Respecter les āyāt que vous avez choisi d'exclure</td>
+            </tr>
+            <tr>
+              <td data-i18n="legal.d4">Créneaux de notification programmés</td>
+              <td data-i18n="legal.sDb">Base locale (SQLite)</td>
+              <td data-i18n="legal.u4">La file de notifications glissante</td>
+            </tr>
+            <tr>
+              <td data-i18n="legal.d5">Journal d'erreurs local</td>
+              <td data-i18n="legal.sDb">Base locale (SQLite)</td>
+              <td data-i18n="legal.u5">Écran de diagnostics uniquement — jamais transmis</td>
+            </tr>
           </tbody>
         </table>
       </div>
-      <p>
+      <p data-i18n="legal.storedOutro">
         Désinstaller l'application supprime tout cela. « Réinitialiser
         toutes les données locales » dans les Réglages supprime tout sans
         désinstaller.
       </p>
 
-      <h2>Dons optionnels « Soutenir IqraTime »</h2>
-      <p>
+      <h2 data-i18n="legal.donateTitle">Dons optionnels « Soutenir IqraTime »</h2>
+      <p data-i18n="legal.donateText">
         Si activé, l'écran de soutien ouvre un Payment Link hébergé par
         Stripe dans le navigateur système de votre appareil. IqraTime ne
         voit, ne demande, ne stocke, ni ne transmet jamais aucune donnée de
@@ -97,8 +130,19 @@
         d'IqraTime.
       </p>
 
-      <h2>Dépendances tierces</h2>
-      <p>
+      <h2 data-i18n="legal.formTitle">Formulaire de contact du site</h2>
+      <p data-i18n="legal.formText">
+        Si vous utilisez le formulaire de contact de ce site, les
+        informations que vous y saisissez (email, et le cas échéant nom,
+        sujet et message) sont transmises par le service FormSubmit
+        uniquement pour nous acheminer votre message par email. Elles
+        servent exclusivement à vous répondre, ne sont jamais revendues ni
+        utilisées à des fins publicitaires, et sont indépendantes de
+        l'application mobile — qui, elle, ne collecte rien.
+      </p>
+
+      <h2 data-i18n="legal.depsTitle">Dépendances tierces</h2>
+      <p data-i18n="legal.depsText">
         Chaque dépendance a été choisie notamment sur ce critère&nbsp;:
         collecte-t-elle des données par défaut&nbsp;? Aucune des
         bibliothèques utilisées n'inclut de composant d'analytique ou de
@@ -106,9 +150,9 @@
         sans infrastructure de push distant.
       </p>
 
-      <h2>Contact</h2>
+      <h2 data-i18n="legal.contactTitle">Contact</h2>
       <p>
-        Pour toute question relative à cette politique de confidentialité&nbsp;:
+        <span data-i18n="legal.contactText">Pour toute question relative à cette politique de confidentialité&nbsp;:</span>
         <a href="mailto:support@iqratime.com">support@iqratime.com</a>
       </p>
     </div>
@@ -117,15 +161,16 @@
 
 <footer>
   <div class="wrap">
-    <span>© 2026 IqraTime. Tous droits réservés.</span>
+    <span data-i18n="footer.copyright">© 2026 IqraTime. Tous droits réservés.</span>
     <nav>
-      <ul style="display:flex; list-style:none; margin:0; padding:0;">
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="contact.html">Contact</a></li>
+      <ul style="display:flex; list-style:none; margin:0; padding:0; gap:20px;">
+        <li><a href="index.html" data-i18n="footer.home">Accueil</a></li>
+        <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
       </ul>
     </nav>
   </div>
 </footer>
 
+<script src="i18n.js?v=3" defer></script>
 </body>
 </html>

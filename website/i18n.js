@@ -71,7 +71,41 @@
         successText: "Merci, nous avons bien reçu votre message et nous vous répondrons dès que possible, inchAllah.",
         backHome: "← Retour à l'accueil"
       },
-      footer: { copyright: "© 2026 IqraTime. Tous droits réservés.", privacy: "Politique de confidentialité" }
+      legal: {
+        title: "Politique de confidentialité",
+        updated: "Dernière mise à jour : 25 août 2026",
+        sumTitle: "Résumé",
+        sumText: "Toutes vos préférences, votre historique et vos favoris restent sur votre appareil. IqraTime ne nécessite aucun compte et n'envoie jamais ces données à un serveur.",
+        notTitle: "Ce qu'IqraTime ne fait pas",
+        not1: "Aucun compte, aucune inscription, aucune connexion, aucun identifiant utilisateur d'aucune sorte.",
+        not2: "Aucun serveur backend pour le fonctionnement quotidien.",
+        not3: "Aucun SDK d'analytique, de rapport de plantage, ou de publicité.",
+        not4: "Aucun identifiant publicitaire (IDFA/GAID) lu ou généré.",
+        not5: "Aucun profilage, aucun suivi comportemental, aucune « personnalisation » au-delà des thèmes et réglages que vous choisissez explicitement.",
+        not6: "Aucun accès GPS ou à toute autre donnée de localisation.",
+        not7: "Aucun accès aux contacts, au microphone ou à la caméra.",
+        not8: "Aucune synchronisation des favoris, de l'historique ou des préférences vers un service distant.",
+        not9: "Aucune télémétrie, cachée ou non.",
+        storedTitle: "Ce qui est stocké, et où",
+        storedIntro: "Tout ce qui suit vit <strong>uniquement sur l'appareil</strong>, dans une base locale (SQLite) ou dans le stockage local de préférences.",
+        thData: "Donnée", thStore: "Stockage", thUse: "Usage",
+        sPrefs: "Stockage local", sDb: "Base locale (SQLite)",
+        d1: "Préférences (langue, horaires, thème, etc.)", u1: "Se souvenir de vos réglages",
+        d2: "Historique des notifications / favoris", u2: "Afficher l'historique et les favoris, éviter les répétitions",
+        d3: "Āyāt masquées", u3: "Respecter les āyāt que vous avez choisi d'exclure",
+        d4: "Créneaux de notification programmés", u4: "La file de notifications glissante",
+        d5: "Journal d'erreurs local", u5: "Écran de diagnostics uniquement — jamais transmis",
+        storedOutro: "Désinstaller l'application supprime tout cela. « Réinitialiser toutes les données locales » dans les Réglages supprime tout sans désinstaller.",
+        donateTitle: "Dons optionnels « Soutenir IqraTime »",
+        donateText: "Si activé, l'écran de soutien ouvre un Payment Link hébergé par Stripe dans le navigateur système de votre appareil. IqraTime ne voit, ne demande, ne stocke, ni ne transmet jamais aucune donnée de paiement — aucun numéro de carte, aucune date d'expiration, aucun CVC, aucun détail de compte Apple Pay/Google Pay, aucune coordonnée bancaire, aucun montant, aucun historique de transaction Stripe. Cette page est entièrement opérée par Stripe et régie par sa propre politique de confidentialité, indépendante de celle d'IqraTime.",
+        formTitle: "Formulaire de contact du site",
+        formText: "Si vous utilisez le formulaire de contact de ce site, les informations que vous y saisissez (email, et le cas échéant nom, sujet et message) sont transmises par le service FormSubmit uniquement pour nous acheminer votre message par email. Elles servent exclusivement à vous répondre, ne sont jamais revendues ni utilisées à des fins publicitaires, et sont indépendantes de l'application mobile — qui, elle, ne collecte rien.",
+        depsTitle: "Dépendances tierces",
+        depsText: "Chaque dépendance a été choisie notamment sur ce critère : collecte-t-elle des données par défaut ? Aucune des bibliothèques utilisées n'inclut de composant d'analytique ou de suivi. Les notifications sont exclusivement programmées localement, sans infrastructure de push distant.",
+        contactTitle: "Contact",
+        contactText: "Pour toute question relative à cette politique de confidentialité :"
+      },
+      footer: { copyright: "© 2026 IqraTime. Tous droits réservés.", privacy: "Politique de confidentialité", home: "Accueil" }
     },
     en: {
       meta: {
@@ -137,7 +171,41 @@
         successText: "Thank you, we've received your message and will get back to you as soon as possible, inshaAllah.",
         backHome: "← Back to home"
       },
-      footer: { copyright: "© 2026 IqraTime. All rights reserved.", privacy: "Privacy Policy" }
+      legal: {
+        title: "Privacy Policy",
+        updated: "Last updated: 25 August 2026",
+        sumTitle: "Summary",
+        sumText: "All your preferences, history, and favorites stay on your device. IqraTime requires no account and never sends this data to any server.",
+        notTitle: "What IqraTime does not do",
+        not1: "No account, no sign-up, no login, no user identifier of any kind.",
+        not2: "No backend server for day-to-day operation.",
+        not3: "No analytics SDK, no crash-reporting SDK, no advertising SDK.",
+        not4: "No advertising identifier (IDFA/GAID) is read or generated.",
+        not5: "No profiling, no behavioral tracking, no “personalization” beyond the themes and settings you explicitly pick.",
+        not6: "No GPS or any other location access.",
+        not7: "No access to contacts, microphone, or camera.",
+        not8: "No synchronization of favorites, history, or preferences to any remote service.",
+        not9: "No telemetry of any kind, hidden or otherwise.",
+        storedTitle: "What is stored, and where",
+        storedIntro: "Everything below lives <strong>only on the device</strong>, in a local database (SQLite) or in local preferences storage.",
+        thData: "Data", thStore: "Storage", thUse: "Purpose",
+        sPrefs: "Local storage", sDb: "Local database (SQLite)",
+        d1: "Preferences (language, schedule, theme, etc.)", u1: "Remember your settings",
+        d2: "Notification history / favorites", u2: "Show history and favorites, avoid repeats",
+        d3: "Hidden āyāt", u3: "Respect the āyāt you chose to exclude",
+        d4: "Scheduled notification slots", u4: "The sliding notification queue",
+        d5: "Local error log", u5: "Diagnostics screen only — never transmitted",
+        storedOutro: "Uninstalling the app deletes all of it. “Reset all local data” in Settings deletes all of it without uninstalling.",
+        donateTitle: "Optional “Support IqraTime” donations",
+        donateText: "If enabled, the Support screen opens a Stripe-hosted Payment Link in your device's system browser. IqraTime never sees, requests, stores, or transmits any payment data — no card number, no expiration date, no CVC, no Apple Pay/Google Pay account details, no bank details, no amount, no Stripe transaction history. That page is operated entirely by Stripe and governed by its own privacy policy, independent of IqraTime's.",
+        formTitle: "Website contact form",
+        formText: "If you use this website's contact form, the information you enter (email, and where provided your name, subject and message) is relayed by the FormSubmit service solely to deliver your message to us by email. It is used only to reply to you, is never sold or used for advertising, and is separate from the mobile app — which collects nothing at all.",
+        depsTitle: "Third-party dependencies",
+        depsText: "Every dependency was chosen partly on this criterion: does it collect data by default? None of the libraries used include a bundled analytics or tracking component. Notifications are scheduled exclusively on-device, with no remote push infrastructure.",
+        contactTitle: "Contact",
+        contactText: "For any question about this privacy policy:"
+      },
+      footer: { copyright: "© 2026 IqraTime. All rights reserved.", privacy: "Privacy Policy", home: "Home" }
     },
     ar: {
       meta: {
@@ -203,7 +271,41 @@
         successText: "شكرًا لك، لقد استلمنا رسالتك وسنرد عليك في أقرب وقت ممكن إن شاء الله.",
         backHome: "→ العودة إلى الصفحة الرئيسية"
       },
-      footer: { copyright: "© 2026 IqraTime. جميع الحقوق محفوظة.", privacy: "سياسة الخصوصية" }
+      legal: {
+        title: "سياسة الخصوصية",
+        updated: "آخر تحديث: 25 أغسطس 2026",
+        sumTitle: "ملخّص",
+        sumText: "تبقى جميع تفضيلاتك وسجلّك ومفضلاتك على جهازك. لا يتطلب IqraTime أي حساب ولا يرسل هذه البيانات إلى أي خادم.",
+        notTitle: "ما لا يفعله IqraTime",
+        not1: "بدون حساب، بدون تسجيل، بدون تسجيل دخول، بدون أي معرّف للمستخدم.",
+        not2: "بدون خادم خلفي للتشغيل اليومي.",
+        not3: "بدون أدوات تحليلات، بدون تقارير أعطال، بدون إعلانات.",
+        not4: "لا تتم قراءة أو إنشاء أي معرّف إعلاني (IDFA/GAID).",
+        not5: "بدون تصنيف، بدون تتبّع سلوكي، بدون «تخصيص» يتجاوز المواضيع والإعدادات التي تختارها بنفسك.",
+        not6: "بدون وصول إلى GPS أو أي بيانات موقع أخرى.",
+        not7: "بدون وصول إلى جهات الاتصال أو الميكروفون أو الكاميرا.",
+        not8: "بدون مزامنة للمفضلة أو السجل أو التفضيلات مع أي خدمة عن بُعد.",
+        not9: "بدون أي تتبّع تقني، ظاهر أو خفي.",
+        storedTitle: "ما يُخزَّن، وأين",
+        storedIntro: "كل ما يلي موجود <strong>على الجهاز فقط</strong>، في قاعدة بيانات محلية (SQLite) أو في تخزين التفضيلات المحلي.",
+        thData: "البيانات", thStore: "التخزين", thUse: "الغرض",
+        sPrefs: "تخزين محلي", sDb: "قاعدة بيانات محلية (SQLite)",
+        d1: "التفضيلات (اللغة، الجدول، المظهر، إلخ)", u1: "تذكّر إعداداتك",
+        d2: "سجل الإشعارات / المفضلة", u2: "عرض السجل والمفضلة وتجنّب التكرار",
+        d3: "الآيات المخفية", u3: "احترام الآيات التي اخترت استبعادها",
+        d4: "مواعيد الإشعارات المجدولة", u4: "قائمة الإشعارات المتحركة",
+        d5: "سجل الأخطاء المحلي", u5: "شاشة التشخيص فقط — لا يُرسل أبدًا",
+        storedOutro: "إلغاء تثبيت التطبيق يحذف كل ذلك. و«إعادة تعيين كل البيانات المحلية» في الإعدادات تحذف كل شيء دون إلغاء التثبيت.",
+        donateTitle: "التبرّعات الاختيارية «ادعم IqraTime»",
+        donateText: "عند التفعيل، تفتح شاشة الدعم رابط دفع مستضافًا لدى Stripe في متصفح النظام على جهازك. لا يرى IqraTime ولا يطلب ولا يخزّن ولا ينقل أي بيانات دفع — لا رقم بطاقة، ولا تاريخ انتهاء، ولا CVC، ولا تفاصيل حساب Apple Pay/Google Pay، ولا بيانات مصرفية، ولا مبلغ، ولا سجل معاملات Stripe. تُدار تلك الصفحة بالكامل من Stripe وتخضع لسياسة الخصوصية الخاصة بها، بشكل مستقل عن IqraTime.",
+        formTitle: "نموذج التواصل في الموقع",
+        formText: "إذا استخدمت نموذج التواصل في هذا الموقع، فإن المعلومات التي تُدخلها (البريد الإلكتروني، وعند توفرها الاسم والموضوع والرسالة) تُنقل عبر خدمة FormSubmit لغرض واحد فقط هو إيصال رسالتك إلينا بالبريد الإلكتروني. تُستخدم حصريًا للرد عليك، ولا تُباع أبدًا ولا تُستخدم لأغراض إعلانية، وهي منفصلة عن تطبيق الهاتف — الذي لا يجمع أي شيء إطلاقًا.",
+        depsTitle: "الاعتماديات الخارجية",
+        depsText: "اختيرت كل مكتبة بناءً على هذا المعيار أيضًا: هل تجمع بيانات افتراضيًا؟ لا تتضمن أي من المكتبات المستخدمة مكوّن تحليلات أو تتبّع. تُجدول الإشعارات على الجهاز حصريًا، دون أي بنية دفع عن بُعد.",
+        contactTitle: "تواصل معنا",
+        contactText: "لأي سؤال يتعلق بسياسة الخصوصية هذه:"
+      },
+      footer: { copyright: "© 2026 IqraTime. جميع الحقوق محفوظة.", privacy: "سياسة الخصوصية", home: "الرئيسية" }
     },
     de: {
       meta: {
@@ -269,7 +371,41 @@
         successText: "Danke, wir haben deine Nachricht erhalten und melden uns so schnell wie möglich, inschaAllah.",
         backHome: "← Zurück zur Startseite"
       },
-      footer: { copyright: "© 2026 IqraTime. Alle Rechte vorbehalten.", privacy: "Datenschutzerklärung" }
+      legal: {
+        title: "Datenschutzerklärung",
+        updated: "Zuletzt aktualisiert: 25. August 2026",
+        sumTitle: "Zusammenfassung",
+        sumText: "Alle deine Einstellungen, dein Verlauf und deine Favoriten bleiben auf deinem Gerät. IqraTime benötigt kein Konto und sendet diese Daten niemals an einen Server.",
+        notTitle: "Was IqraTime nicht tut",
+        not1: "Kein Konto, keine Registrierung, keine Anmeldung, keinerlei Nutzerkennung.",
+        not2: "Kein Backend-Server für den täglichen Betrieb.",
+        not3: "Kein Analyse-SDK, kein Absturzbericht-SDK, kein Werbe-SDK.",
+        not4: "Es wird keine Werbe-ID (IDFA/GAID) gelesen oder erzeugt.",
+        not5: "Kein Profiling, kein Verhaltens-Tracking, keine „Personalisierung“ über die von dir gewählten Themen und Einstellungen hinaus.",
+        not6: "Kein GPS- oder sonstiger Standortzugriff.",
+        not7: "Kein Zugriff auf Kontakte, Mikrofon oder Kamera.",
+        not8: "Keine Synchronisierung von Favoriten, Verlauf oder Einstellungen mit einem entfernten Dienst.",
+        not9: "Keinerlei Telemetrie, weder versteckt noch offen.",
+        storedTitle: "Was gespeichert wird und wo",
+        storedIntro: "Alles Folgende liegt <strong>ausschließlich auf dem Gerät</strong>, in einer lokalen Datenbank (SQLite) oder im lokalen Einstellungsspeicher.",
+        thData: "Daten", thStore: "Speicher", thUse: "Zweck",
+        sPrefs: "Lokaler Speicher", sDb: "Lokale Datenbank (SQLite)",
+        d1: "Einstellungen (Sprache, Zeitplan, Design usw.)", u1: "Deine Einstellungen merken",
+        d2: "Benachrichtigungsverlauf / Favoriten", u2: "Verlauf und Favoriten anzeigen, Wiederholungen vermeiden",
+        d3: "Ausgeblendete Ayat", u3: "Die von dir ausgeschlossenen Ayat respektieren",
+        d4: "Geplante Benachrichtigungs-Slots", u4: "Die gleitende Benachrichtigungs-Warteschlange",
+        d5: "Lokales Fehlerprotokoll", u5: "Nur für den Diagnose-Bildschirm — wird nie übertragen",
+        storedOutro: "Das Deinstallieren der App löscht all das. „Alle lokalen Daten zurücksetzen“ in den Einstellungen löscht alles, ohne zu deinstallieren.",
+        donateTitle: "Optionale Spenden „IqraTime unterstützen“",
+        donateText: "Wenn aktiviert, öffnet der Unterstützungs-Bildschirm einen von Stripe gehosteten Payment Link im Systembrowser deines Geräts. IqraTime sieht, erfragt, speichert und überträgt niemals Zahlungsdaten — keine Kartennummer, kein Ablaufdatum, keinen CVC, keine Apple-Pay-/Google-Pay-Kontodaten, keine Bankdaten, keinen Betrag, keine Stripe-Transaktionshistorie. Diese Seite wird vollständig von Stripe betrieben und unterliegt deren eigener Datenschutzerklärung, unabhängig von der von IqraTime.",
+        formTitle: "Kontaktformular der Website",
+        formText: "Wenn du das Kontaktformular dieser Website nutzt, werden die eingegebenen Angaben (E-Mail sowie ggf. Name, Betreff und Nachricht) über den Dienst FormSubmit ausschließlich weitergeleitet, um uns deine Nachricht per E-Mail zuzustellen. Sie dienen nur der Beantwortung, werden nie verkauft oder für Werbung genutzt und sind unabhängig von der mobilen App — die selbst gar nichts erhebt.",
+        depsTitle: "Drittanbieter-Abhängigkeiten",
+        depsText: "Jede Abhängigkeit wurde auch nach diesem Kriterium ausgewählt: Erhebt sie standardmäßig Daten? Keine der verwendeten Bibliotheken enthält eine integrierte Analyse- oder Tracking-Komponente. Benachrichtigungen werden ausschließlich lokal geplant, ohne Remote-Push-Infrastruktur.",
+        contactTitle: "Kontakt",
+        contactText: "Bei Fragen zu dieser Datenschutzerklärung:"
+      },
+      footer: { copyright: "© 2026 IqraTime. Alle Rechte vorbehalten.", privacy: "Datenschutzerklärung", home: "Startseite" }
     },
     es: {
       meta: {
@@ -335,7 +471,41 @@
         successText: "Gracias, hemos recibido tu mensaje y te responderemos lo antes posible, inshaAllah.",
         backHome: "← Volver al inicio"
       },
-      footer: { copyright: "© 2026 IqraTime. Todos los derechos reservados.", privacy: "Política de privacidad" }
+      legal: {
+        title: "Política de privacidad",
+        updated: "Última actualización: 25 de agosto de 2026",
+        sumTitle: "Resumen",
+        sumText: "Todas tus preferencias, tu historial y tus favoritos permanecen en tu dispositivo. IqraTime no requiere ninguna cuenta y nunca envía estos datos a ningún servidor.",
+        notTitle: "Lo que IqraTime no hace",
+        not1: "Sin cuenta, sin registro, sin inicio de sesión, sin ningún identificador de usuario.",
+        not2: "Sin servidor backend para el funcionamiento diario.",
+        not3: "Sin SDK de analítica, de informes de fallos ni de publicidad.",
+        not4: "No se lee ni se genera ningún identificador publicitario (IDFA/GAID).",
+        not5: "Sin perfilado, sin seguimiento del comportamiento, sin «personalización» más allá de los temas y ajustes que elijas explícitamente.",
+        not6: "Sin acceso al GPS ni a ningún otro dato de ubicación.",
+        not7: "Sin acceso a los contactos, al micrófono ni a la cámara.",
+        not8: "Sin sincronización de favoritos, historial o preferencias con ningún servicio remoto.",
+        not9: "Sin telemetría de ningún tipo, oculta o no.",
+        storedTitle: "Qué se almacena, y dónde",
+        storedIntro: "Todo lo siguiente vive <strong>únicamente en el dispositivo</strong>, en una base de datos local (SQLite) o en el almacenamiento local de preferencias.",
+        thData: "Dato", thStore: "Almacenamiento", thUse: "Finalidad",
+        sPrefs: "Almacenamiento local", sDb: "Base de datos local (SQLite)",
+        d1: "Preferencias (idioma, horarios, tema, etc.)", u1: "Recordar tus ajustes",
+        d2: "Historial de notificaciones / favoritos", u2: "Mostrar el historial y los favoritos, evitar repeticiones",
+        d3: "Aleyas ocultas", u3: "Respetar las aleyas que has elegido excluir",
+        d4: "Franjas de notificación programadas", u4: "La cola deslizante de notificaciones",
+        d5: "Registro de errores local", u5: "Solo para la pantalla de diagnóstico — nunca se transmite",
+        storedOutro: "Desinstalar la aplicación elimina todo eso. «Restablecer todos los datos locales» en los Ajustes lo elimina todo sin desinstalar.",
+        donateTitle: "Donaciones opcionales «Apoyar IqraTime»",
+        donateText: "Si está activado, la pantalla de apoyo abre un Payment Link alojado por Stripe en el navegador del sistema de tu dispositivo. IqraTime nunca ve, solicita, almacena ni transmite ningún dato de pago — ningún número de tarjeta, ninguna fecha de caducidad, ningún CVC, ningún detalle de cuenta de Apple Pay/Google Pay, ningún dato bancario, ningún importe, ningún historial de transacciones de Stripe. Esa página está operada íntegramente por Stripe y se rige por su propia política de privacidad, independiente de la de IqraTime.",
+        formTitle: "Formulario de contacto del sitio",
+        formText: "Si utilizas el formulario de contacto de este sitio, la información que introduces (correo electrónico y, si los indicas, nombre, asunto y mensaje) se transmite mediante el servicio FormSubmit únicamente para hacernos llegar tu mensaje por correo electrónico. Se usa exclusivamente para responderte, nunca se vende ni se utiliza con fines publicitarios, y es independiente de la aplicación móvil, que no recopila nada.",
+        depsTitle: "Dependencias de terceros",
+        depsText: "Cada dependencia se eligió también según este criterio: ¿recopila datos por defecto? Ninguna de las bibliotecas utilizadas incluye un componente de analítica o de seguimiento. Las notificaciones se programan exclusivamente en el dispositivo, sin infraestructura de push remoto.",
+        contactTitle: "Contacto",
+        contactText: "Para cualquier pregunta sobre esta política de privacidad:"
+      },
+      footer: { copyright: "© 2026 IqraTime. Todos los derechos reservados.", privacy: "Política de privacidad", home: "Inicio" }
     },
     it: {
       meta: {
@@ -401,7 +571,41 @@
         successText: "Grazie, abbiamo ricevuto il tuo messaggio e ti risponderemo il prima possibile, inshaAllah.",
         backHome: "← Torna alla home"
       },
-      footer: { copyright: "© 2026 IqraTime. Tutti i diritti riservati.", privacy: "Informativa sulla privacy" }
+      legal: {
+        title: "Informativa sulla privacy",
+        updated: "Ultimo aggiornamento: 25 agosto 2026",
+        sumTitle: "In sintesi",
+        sumText: "Tutte le tue preferenze, la cronologia e i preferiti restano sul tuo dispositivo. IqraTime non richiede alcun account e non invia mai questi dati a nessun server.",
+        notTitle: "Ciò che IqraTime non fa",
+        not1: "Nessun account, nessuna registrazione, nessun accesso, nessun identificativo utente di alcun tipo.",
+        not2: "Nessun server backend per il funzionamento quotidiano.",
+        not3: "Nessun SDK di analisi, di segnalazione crash o pubblicitario.",
+        not4: "Nessun identificativo pubblicitario (IDFA/GAID) viene letto o generato.",
+        not5: "Nessuna profilazione, nessun tracciamento comportamentale, nessuna «personalizzazione» oltre ai temi e alle impostazioni che scegli esplicitamente.",
+        not6: "Nessun accesso al GPS o ad altri dati di posizione.",
+        not7: "Nessun accesso a contatti, microfono o fotocamera.",
+        not8: "Nessuna sincronizzazione di preferiti, cronologia o impostazioni verso servizi remoti.",
+        not9: "Nessuna telemetria di alcun tipo, nascosta o meno.",
+        storedTitle: "Cosa viene memorizzato, e dove",
+        storedIntro: "Tutto ciò che segue risiede <strong>solo sul dispositivo</strong>, in un database locale (SQLite) o nell'archivio locale delle preferenze.",
+        thData: "Dato", thStore: "Archiviazione", thUse: "Finalità",
+        sPrefs: "Archivio locale", sDb: "Database locale (SQLite)",
+        d1: "Preferenze (lingua, orari, tema, ecc.)", u1: "Ricordare le tue impostazioni",
+        d2: "Cronologia notifiche / preferiti", u2: "Mostrare cronologia e preferiti, evitare ripetizioni",
+        d3: "Ayat nascoste", u3: "Rispettare le ayat che hai scelto di escludere",
+        d4: "Slot di notifica programmati", u4: "La coda scorrevole delle notifiche",
+        d5: "Registro errori locale", u5: "Solo per la schermata di diagnostica — mai trasmesso",
+        storedOutro: "Disinstallare l'app elimina tutto. «Reimposta tutti i dati locali» nelle Impostazioni elimina tutto senza disinstallare.",
+        donateTitle: "Donazioni facoltative «Sostieni IqraTime»",
+        donateText: "Se attivo, la schermata di sostegno apre un Payment Link ospitato da Stripe nel browser di sistema del tuo dispositivo. IqraTime non vede, non richiede, non memorizza né trasmette mai alcun dato di pagamento — nessun numero di carta, nessuna data di scadenza, nessun CVC, nessun dettaglio di account Apple Pay/Google Pay, nessuna coordinata bancaria, nessun importo, nessuno storico transazioni Stripe. Quella pagina è gestita interamente da Stripe ed è regolata dalla sua informativa sulla privacy, indipendente da quella di IqraTime.",
+        formTitle: "Modulo di contatto del sito",
+        formText: "Se utilizzi il modulo di contatto di questo sito, le informazioni inserite (email e, se forniti, nome, oggetto e messaggio) vengono trasmesse tramite il servizio FormSubmit al solo scopo di recapitarci il tuo messaggio via email. Sono usate esclusivamente per risponderti, non vengono mai vendute né utilizzate a fini pubblicitari, e sono indipendenti dall'app mobile — che non raccoglie nulla.",
+        depsTitle: "Dipendenze di terze parti",
+        depsText: "Ogni dipendenza è stata scelta anche in base a questo criterio: raccoglie dati per impostazione predefinita? Nessuna delle librerie utilizzate include componenti di analisi o tracciamento. Le notifiche sono programmate esclusivamente sul dispositivo, senza infrastruttura di push remoto.",
+        contactTitle: "Contatto",
+        contactText: "Per qualsiasi domanda su questa informativa sulla privacy:"
+      },
+      footer: { copyright: "© 2026 IqraTime. Tutti i diritti riservati.", privacy: "Informativa sulla privacy", home: "Home" }
     },
     nl: {
       meta: {
@@ -467,7 +671,41 @@
         successText: "Bedankt, we hebben je bericht ontvangen en reageren zo snel mogelijk, inshaAllah.",
         backHome: "← Terug naar home"
       },
-      footer: { copyright: "© 2026 IqraTime. Alle rechten voorbehouden.", privacy: "Privacybeleid" }
+      legal: {
+        title: "Privacybeleid",
+        updated: "Laatst bijgewerkt: 25 augustus 2026",
+        sumTitle: "Samenvatting",
+        sumText: "Al je voorkeuren, geschiedenis en favorieten blijven op je toestel. IqraTime vereist geen account en stuurt deze gegevens nooit naar een server.",
+        notTitle: "Wat IqraTime niet doet",
+        not1: "Geen account, geen registratie, geen login, geen enkele gebruikers-ID.",
+        not2: "Geen backend-server voor de dagelijkse werking.",
+        not3: "Geen analytics-SDK, geen crashrapportage-SDK, geen advertentie-SDK.",
+        not4: "Er wordt geen advertentie-ID (IDFA/GAID) gelezen of aangemaakt.",
+        not5: "Geen profilering, geen gedragstracking, geen „personalisatie” buiten de thema's en instellingen die je zelf kiest.",
+        not6: "Geen toegang tot gps of andere locatiegegevens.",
+        not7: "Geen toegang tot contacten, microfoon of camera.",
+        not8: "Geen synchronisatie van favorieten, geschiedenis of voorkeuren met een externe dienst.",
+        not9: "Geen enkele vorm van telemetrie, verborgen of niet.",
+        storedTitle: "Wat wordt opgeslagen, en waar",
+        storedIntro: "Alles hieronder staat <strong>uitsluitend op het toestel</strong>, in een lokale database (SQLite) of in de lokale voorkeursopslag.",
+        thData: "Gegevens", thStore: "Opslag", thUse: "Doel",
+        sPrefs: "Lokale opslag", sDb: "Lokale database (SQLite)",
+        d1: "Voorkeuren (taal, schema, thema, enz.)", u1: "Je instellingen onthouden",
+        d2: "Meldingsgeschiedenis / favorieten", u2: "Geschiedenis en favorieten tonen, herhaling vermijden",
+        d3: "Verborgen ayat", u3: "De ayat respecteren die je hebt uitgesloten",
+        d4: "Geplande meldingsmomenten", u4: "De schuivende meldingswachtrij",
+        d5: "Lokaal foutenlogboek", u5: "Alleen voor het diagnosescherm — wordt nooit verzonden",
+        storedOutro: "De app verwijderen wist dit alles. „Alle lokale gegevens resetten” in de Instellingen wist alles zonder de app te verwijderen.",
+        donateTitle: "Optionele donaties „Steun IqraTime”",
+        donateText: "Indien ingeschakeld opent het ondersteuningsscherm een door Stripe gehoste Payment Link in de systeembrowser van je toestel. IqraTime ziet, vraagt, bewaart of verzendt nooit betaalgegevens — geen kaartnummer, geen vervaldatum, geen CVC, geen Apple Pay-/Google Pay-accountgegevens, geen bankgegevens, geen bedrag, geen Stripe-transactiegeschiedenis. Die pagina wordt volledig door Stripe beheerd en valt onder hun eigen privacybeleid, los van dat van IqraTime.",
+        formTitle: "Contactformulier van de website",
+        formText: "Als je het contactformulier van deze website gebruikt, worden de gegevens die je invult (e-mail en, indien opgegeven, naam, onderwerp en bericht) via de dienst FormSubmit doorgestuurd met als enig doel je bericht per e-mail bij ons te bezorgen. Ze worden uitsluitend gebruikt om je te antwoorden, worden nooit verkocht of voor advertenties gebruikt, en staan los van de mobiele app — die zelf niets verzamelt.",
+        depsTitle: "Afhankelijkheden van derden",
+        depsText: "Elke afhankelijkheid is mede gekozen op dit criterium: verzamelt ze standaard gegevens? Geen van de gebruikte bibliotheken bevat een ingebouwde analytics- of trackingcomponent. Meldingen worden uitsluitend op het toestel ingepland, zonder externe push-infrastructuur.",
+        contactTitle: "Contact",
+        contactText: "Voor vragen over dit privacybeleid:"
+      },
+      footer: { copyright: "© 2026 IqraTime. Alle rechten voorbehouden.", privacy: "Privacybeleid", home: "Home" }
     }
   };
 
@@ -499,7 +737,15 @@
     document.documentElement.lang = lang;
     document.documentElement.dir = RTL_LANGS.indexOf(lang) !== -1 ? "rtl" : "ltr";
 
-    if (dict.meta) {
+    // Each page declares its own identity via <body data-page="...">, so a
+    // subpage never inherits the homepage's <title>.
+    var page = (document.body && document.body.getAttribute("data-page")) || "home";
+    var subTitleKey = page === "privacy" ? "legal.title" : page === "contact" ? "contact.title" : null;
+
+    if (subTitleKey) {
+      var subTitle = getByPath(dict, subTitleKey);
+      if (subTitle) document.title = subTitle + " — IqraTime";
+    } else if (dict.meta) {
       if (dict.meta.title) document.title = dict.meta.title;
       if (dict.meta.description) {
         var metaDesc = document.querySelector('meta[name="description"]');
