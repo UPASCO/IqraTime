@@ -353,7 +353,7 @@ export const fr: TranslationSchema = {
   support: {
     title: "Soutenir IqraTime",
     menuLabel: "Soutenir IqraTime",
-    progressNudgeTitle: "Une sadaqa jāriya",
+    progressNudgeTitle: "Une sadaqa jariya",
     progressNudgeBody: "IqraTime est gratuit, sans publicité, et le restera. Si l'app vous apporte du bien, la soutenir aide à transmettre ce même bien à d'autres — et tout bien transmis compte, inchAllah.",
     description: "Votre soutien contribue aux frais de développement, de publication et de maintenance d'IqraTime. Il est entièrement facultatif et ne débloque aucun contenu ni avantage.",
     principlesTitle: "Ce que vous devez savoir",

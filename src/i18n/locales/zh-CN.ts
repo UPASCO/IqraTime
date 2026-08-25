@@ -354,7 +354,7 @@ export const zhCN: TranslationSchema = {
     title: "支持 IqraTime",
     menuLabel: "支持 IqraTime",
     progressNudgeTitle: "延续的善行",
-    progressNudgeBody: "IqraTime 免费、无广告，并将一直如此。如果它给您带来益处，支持它就能把同样的益处带给更多人——每一份传递出去的善都有其回报，إن شاء الله。",
+    progressNudgeBody: "IqraTime 免费、无广告，并将一直如此。如果它给您带来益处，支持它就能把同样的益处带给更多人——每一份传递出去的善都有其回报，因沙安拉。",
     description: "您的支持有助于支付 IqraTime 的开发、发布和维护费用。这完全是自愿的，不会解锁任何内容或权益。",
     principlesTitle: "您需要了解的信息",
     principleFree: "应用将继续完全免费。",

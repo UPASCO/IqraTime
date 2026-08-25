@@ -229,7 +229,7 @@ function pickInitialFeedEntry(effectiveContentMode: ContentMode): FeedEntry | un
 
 export default function HomeScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
-  const { t, locale } = useI18n();
+  const { t, locale, direction } = useI18n();
   const router = useRouter();
   const db = useAppDatabase();
   const { preferences } = usePreferencesStore();
@@ -515,7 +515,7 @@ export default function HomeScreen(): React.JSX.Element {
                 {t("home.momentCta")}
               </Text>
             </View>
-            <Ionicons name="chevron-forward" size={16} color={colors.textSecondary} />
+            <Ionicons name={direction === "rtl" ? "chevron-back" : "chevron-forward"} size={16} color={colors.textSecondary} />
           </Pressable>
 
           {statusMessage ? (

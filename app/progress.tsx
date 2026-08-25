@@ -16,7 +16,7 @@ const SHARE_MILESTONES = [1, 10, 50, 100, 500] as const;
 
 export default function ProgressScreen(): React.JSX.Element {
   const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
-  const { t } = useI18n();
+  const { t, direction } = useI18n();
   const router = useRouter();
   const progress = useDiscoveryProgress();
   const [shareCount, setShareCount] = useState(0);
@@ -175,10 +175,13 @@ export default function ProgressScreen(): React.JSX.Element {
           <Pressable
             onPress={() => router.push("/support")}
             accessibilityRole="button"
-            accessibilityLabel={t("support.menuLabel")}
+            // No accessibilityLabel on purpose: it would override the children
+            // for screen readers, so VoiceOver/TalkBack would announce only
+            // "Support IqraTime" and never the sadaqah-jariyah copy. Without
+            // it, the full card text is read.
             style={{
               borderWidth: 1,
-              borderColor: colors.gold,
+              borderColor: colors.goldDecorative,
               backgroundColor: colors.surface,
               borderRadius: radii.lg,
               padding: spacing.md,
@@ -191,14 +194,20 @@ export default function ProgressScreen(): React.JSX.Element {
                 {t("support.progressNudgeTitle")}
               </Text>
             </View>
-            <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, lineHeight: 18 * fontScaleMultiplier }}>
+            <Text
+              style={{
+                color: colors.textSecondary,
+                fontSize: typography.sizes.caption * fontScaleMultiplier,
+                lineHeight: typography.lineHeights.caption * fontScaleMultiplier,
+              }}
+            >
               {t("support.progressNudgeBody")}
             </Text>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 4, alignSelf: "flex-end" }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xxs, alignSelf: "flex-end" }}>
               <Text style={{ color: colors.gold, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
                 {t("support.menuLabel")}
               </Text>
-              <Ionicons name="chevron-forward" size={14} color={colors.gold} />
+              <Ionicons name={direction === "rtl" ? "chevron-back" : "chevron-forward"} size={14} color={colors.gold} />
             </View>
           </Pressable>
         ) : null}
