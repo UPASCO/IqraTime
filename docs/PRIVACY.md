@@ -65,5 +65,4 @@ this app does not use — all notifications here are scheduled locally.
 
 ## Contact
 
-Provisional: `appConfig.contactEmail` in `src/config/appConfig.ts` — must
-be replaced with a real, monitored address before publication.
+`support@iqratime.com` (`appConfig.contactEmail` in `src/config/appConfig.ts`).

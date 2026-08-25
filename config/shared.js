@@ -36,8 +36,8 @@ module.exports = {
   // verbatim once it's set for real.
   androidPackage: "com.example.iqratime.provisional",
   easProjectId: "5aa33698-7d7f-424c-845f-1a1e548ec93e",
-  contactEmail: "contact@iqratime.example",
-  privacyPolicyUrl: "https://iqratime.example/privacy",
+  contactEmail: "support@iqratime.com",
+  privacyPolicyUrl: "https://iqratime.com/privacy.html",
   deepLinkScheme: "iqratime",
   // Real as of the app's creation in App Store Connect (Apple ID
   // 6804868769) — see docs/RELEASE_CHECKLIST.md. Shares now include the
