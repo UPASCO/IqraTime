@@ -40,7 +40,12 @@ export function Screen({ children, scroll = true, style, contentContainerStyle, 
   );
 
   return (
-    <SafeAreaView style={[styles.flex, { backgroundColor: colors.background }, style]} edges={["top", "left", "right"]}>
+    // "bottom" is included so CTAs at the end of a screen (e.g. onboarding's
+    // "Continue") clear Android's gesture bar / 3-button nav instead of
+    // sitting flush against it. Harmless on tab-root screens too: their
+    // content sits above the tab bar, which already reserves its own
+    // safe-area space, so this just adds a little extra breathing room.
+    <SafeAreaView style={[styles.flex, { backgroundColor: colors.background }, style]} edges={["top", "left", "right", "bottom"]}>
       {onBack ? (
         <Pressable
           onPress={onBack}
