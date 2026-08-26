@@ -28,14 +28,20 @@ hasn't actually been tested in this development session.
 
 ## Notifications
 
-- **Android boot receiver is not implemented.** `AlarmManager`-based exact
-  alarms are cleared on Android reboot; restoring them after boot requires
-  a native `BOOT_COMPLETED` broadcast receiver, which needs a custom Expo
-  config plugin (Kotlin/Java code) — out of scope for this session. The
-  `RECEIVE_BOOT_COMPLETED` permission is declared in `app.config.ts` in
-  preparation, but nothing currently listens for that broadcast. Practical
-  mitigation: the queue refills automatically next time the app is
-  foregrounded.
+- **Android reboot recovery uses a periodic background task, not a native
+  boot receiver.** `AlarmManager`-based exact alarms are cleared on Android
+  reboot. Rather than a native `BOOT_COMPLETED` broadcast receiver (which
+  would need a custom Expo config plugin and Kotlin/Java code), the queue
+  self-heals via `src/notifications/backgroundRequeue.ts`: a periodic
+  background task (`expo-background-task`, backed by Android's WorkManager
+  and iOS's BGTaskScheduler) re-runs the same `reschedule()` the app runs on
+  foreground. WorkManager persists its own schedule and re-arms itself
+  across a reboot on its own — no receiver code required from the app.
+  Trade-off: recovery isn't instant. The OS treats `minimumInterval` (15
+  minutes, the floor) as a lower bound, not a guarantee — actual runs can be
+  much less frequent, especially on iOS, and are always subject to the same
+  battery-optimization/manufacturer restrictions noted below. Opening the
+  app still refills the queue immediately regardless.
 - Exact-alarm permission status (Android 12+) cannot be read
   programmatically via any currently-available Expo API — see
   `isExactAlarmStatusDetectable()`. Diagnostics links to system settings

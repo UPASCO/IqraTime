@@ -167,12 +167,19 @@ below is checked:
       device, in at least the primary supported languages.
 - [ ] Privacy policy URL live and matching `docs/PRIVACY.md` —
       `https://iqratime.com/privacy.html` (already live, shared with iOS).
-- [ ] Decide whether the known Android limitation is acceptable for this
-      release: **notifications do not survive a device reboot** until a
-      `BOOT_COMPLETED` receiver is implemented (see
-      `docs/KNOWN_LIMITATIONS.md`). Nothing blocks submission, but a
-      reviewer or an early user may notice the queue going quiet after a
-      restart until the app is next opened.
+- [x] Android reboot recovery: a periodic background task
+      (`src/notifications/backgroundRequeue.ts`) self-heals the queue after
+      a reboot without a native `BOOT_COMPLETED` receiver — see
+      `docs/KNOWN_LIMITATIONS.md` for the timing trade-off (not instant,
+      opening the app still refills immediately).
+- [ ] **Fill out Play Console's "Alarms & reminders" permission
+      declaration form**, justifying use of `SCHEDULE_EXACT_ALARM`
+      (declared in `app.config.ts` because notification delivery times are
+      exact-time DATE triggers — see `docs/NOTIFICATIONS.md`). Google
+      reviews this declaration specifically for this permission; skipping
+      it risks rejection or a forced removal after publication. Found in
+      Play Console under the app's policy/declarations section — check
+      current location at submission time, Google moves this occasionally.
 
 ### Apple App Store
 

@@ -117,14 +117,14 @@ pinning `process.env.TZ`.
 - **iOS**: locally-scheduled notifications persist across a normal device
   restart; they do not require any app code to run again to fire.
 - **Android**: `AlarmManager`-based exact alarms are cleared on device
-  reboot unless an app re-registers them via a `BOOT_COMPLETED` broadcast
-  receiver. **This native boot-receiver is not implemented in this
-  build** — see `docs/KNOWN_LIMITATIONS.md`. The
-  `android.permission.RECEIVE_BOOT_COMPLETED` permission is declared in
-  `app.config.ts` in preparation for it, but the actual receiver requires
-  native Kotlin/Java code via a custom Expo config plugin, which is out of
-  scope for this session. Practical mitigation already in place: the
-  queue refills automatically the next time the app is foregrounded.
+  reboot. Rather than a native `BOOT_COMPLETED` receiver, a periodic
+  background task (`src/notifications/backgroundRequeue.ts`, via
+  `expo-background-task`/WorkManager) re-runs `reschedule()` on its own
+  schedule and self-heals the queue without the app being opened — see
+  `docs/KNOWN_LIMITATIONS.md` for the timing trade-off. The
+  `android.permission.RECEIVE_BOOT_COMPLETED` permission declared in
+  `app.config.ts` supports WorkManager's own reboot-survival mechanism.
+  Opening the app still refills the queue immediately either way.
 - **Force-quit**: does not cancel already-scheduled OS notifications on
   either platform; it does mean the queue won't refill until the app runs
   again.

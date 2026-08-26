@@ -125,6 +125,7 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
         bodyText,
         locale: slot.locale,
         soundEnabled: deps.preferences.schedule.soundEnabled,
+        vibrationEnabled: deps.preferences.schedule.vibrationEnabled,
       });
       scheduledSlots.push(slot);
     } catch (error) {

@@ -57,6 +57,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "expo-router",
     "expo-sqlite",
     "expo-localization",
+    "expo-task-manager",
+    "expo-background-task",
     [
       "expo-notifications",
       {

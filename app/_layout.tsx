@@ -1,19 +1,38 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { AppState, type AppStateStatus } from "react-native";
 import { Stack, useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 
-import { ThemeProvider } from "@/theme/ThemeProvider";
+import { ThemeProvider, useTheme } from "@/theme/ThemeProvider";
 import { I18nProvider, applyNativeLayoutDirection } from "@/i18n/I18nProvider";
 import { AppDatabaseProvider, useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
-import { registerNotificationCategory, useNotificationResponseHandler } from "@/notifications";
+import {
+  registerNotificationCategory,
+  ensureAndroidNotificationChannels,
+  registerBackgroundRequeueTask,
+  useNotificationResponseHandler,
+} from "@/notifications";
 import { reschedule } from "@/notifications/rescheduleService";
 import { detectTimeZone } from "@/utils/dateUtils";
 import { generateLocalId } from "@/utils/id";
 import { ayahIdToRouteParam } from "@/utils/routeParams";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
+
+/**
+ * The system status bar (clock/battery/signal icons) never tracks the
+ * in-app theme choice on its own — without this, choosing "Dark" while the
+ * device is in system light mode (or vice versa) leaves icons the wrong
+ * color against the app's background. `expo-status-bar`'s "auto" mode goes
+ * by the device's system scheme, not resolvedScheme, so it has to be driven
+ * explicitly here.
+ */
+function ThemedStatusBar(): React.JSX.Element {
+  const { resolvedScheme } = useTheme();
+  return <StatusBar style={resolvedScheme === "dark" ? "light" : "dark"} />;
+}
 
 function NotificationRouting(): null {
   const router = useRouter();
@@ -65,6 +84,8 @@ function RootNavigator(): React.JSX.Element {
 
   useEffect(() => {
     hydrate().finally(() => setReady(true));
+    ensureAndroidNotificationChannels().catch(() => {});
+    registerBackgroundRequeueTask().catch(() => {});
   }, [hydrate]);
 
   useEffect(() => {
@@ -83,6 +104,7 @@ function RootNavigator(): React.JSX.Element {
     <ThemeProvider initialMode={preferences.appThemeMode} initialTextSizeScale={preferences.textSizeScale}>
       <I18nProvider locale={preferences.interfaceLocale}>
         <AppDatabaseProvider>
+          <ThemedStatusBar />
           <NotificationRouting />
           <AutoRescheduler />
           <Stack screenOptions={{ headerShown: false }}>
