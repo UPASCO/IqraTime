@@ -56,7 +56,6 @@
         "ascAppId": "6804868769"
       },
       "android": {
-        "_comment": "The Google Play service account JSON is a real credential and must never be committed. Either upload it once to EAS (eas credentials -> Android -> Google Service Account) and drop this serviceAccountKeyPath entirely, or keep the file at the gitignored path below. 'internal' publishes to the Internal testing track, not to production: promote from the Play Console once the listing is reviewed.",
         "serviceAccountKeyPath": "./secrets/play-service-account.json",
         "track": "internal"
       }
