@@ -206,7 +206,9 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
 const styles = StyleSheet.create({
   slide: { width: "100%", justifyContent: "center" },
   tapArea: { flex: 1 },
-  scrollContent: { flexGrow: 1, justifyContent: "center", paddingVertical: 24 },
+  // See AyahFeedSlide's identical change: flex-start instead of centering
+  // keeps content anchored near the top instead of floating too low.
+  scrollContent: { flexGrow: 1, justifyContent: "flex-start", paddingTop: 32, paddingBottom: 24 },
   arabicText: { textAlign: "right", writingDirection: "rtl", fontWeight: "500" },
   hadithPill: { backgroundColor: "rgba(228,193,112,0.9)", borderRadius: 999 },
   brandFooter: { borderTopWidth: StyleSheet.hairlineWidth, gap: 2 },

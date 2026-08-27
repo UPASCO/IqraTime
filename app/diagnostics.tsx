@@ -47,7 +47,7 @@ function sampleTestBody(preferences: UserPreferences): string {
 
 export default function DiagnosticsScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
-  const { t, locale } = useI18n();
+  const { t, tPlural, locale } = useI18n();
   const router = useRouter();
   const { preferences } = usePreferencesStore();
   const db = useAppDatabase();
@@ -189,7 +189,7 @@ export default function DiagnosticsScreen(): React.JSX.Element {
         {row(t("diagnostics.nextNotification"), slots[0] ? formatDateTime(slots[0].fireAtUtcIso, locale) : t("home.nextNotificationNone"))}
         {row(t("diagnostics.scheduledCount"), String(slots.length))}
         {row(t("diagnostics.activeWindow"), `${formatTime(preferences.schedule.startHour, 0, locale)} – ${formatTime(preferences.schedule.endHour, 0, locale)}`)}
-        {row(t("diagnostics.frequency"), t("common.frequencyEveryHour", { count: preferences.schedule.frequencyHours }))}
+        {row(t("diagnostics.frequency"), tPlural("common.frequencyEveryHour", preferences.schedule.frequencyHours))}
         {row(t("diagnostics.timeZone"), detectTimeZone())}
 
         <SectionHeader title={t("diagnostics.osTruthTitle")} />

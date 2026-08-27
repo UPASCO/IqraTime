@@ -261,7 +261,12 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
 const styles = StyleSheet.create({
   slide: { width: "100%", justifyContent: "center" },
   tapArea: { flex: 1 },
-  scrollContent: { flexGrow: 1, justifyContent: "center", paddingVertical: 24 },
+  // flex-start rather than center: on a tall device the slide fills most of
+  // the screen below the header, and centering left the text floating in
+  // empty space with nothing above it — reads as the app's body sitting
+  // too low. Anchoring near the top instead puts it right under the header,
+  // the way a reading app should look; longer ayat still scroll normally.
+  scrollContent: { flexGrow: 1, justifyContent: "flex-start", paddingTop: 32, paddingBottom: 24 },
   arabicText: { textAlign: "right", writingDirection: "rtl", fontWeight: "500" },
   themeRow: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   brandFooter: { borderTopWidth: StyleSheet.hairlineWidth, gap: 2 },

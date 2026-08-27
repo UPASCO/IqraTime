@@ -16,10 +16,11 @@ import { getRuntimeHadithCorpus, hasAnyHadithContent } from "@/data/corpus/hadit
 import { selectAyah } from "@/services/selectionEngine";
 import { MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
 import { getPermissionSnapshot } from "@/notifications";
+import { reschedule } from "@/notifications/rescheduleService";
 import { isSupportAvailable } from "@/services/supportPaymentService";
 import type { ContentMode, NotificationSlot } from "@/domain/types";
 import { formatShareText, formatHadithShareText, buildGetTheAppLine } from "@/utils/shareText";
-import { formatDateTime } from "@/utils/dateUtils";
+import { formatDateTime, detectTimeZone } from "@/utils/dateUtils";
 import { generateLocalId } from "@/utils/id";
 import { recordAppOpen, type StreakInfo } from "@/storage/streakStore";
 import { incrementShareCount } from "@/storage/shareCounterStore";
@@ -341,21 +342,40 @@ export default function HomeScreen(): React.JSX.Element {
       }
     }
 
-    const upcoming = await db.notificationSlots.listUpcoming(new Date().toISOString());
-    setNextSlot(upcoming[0]);
-
     recordAppOpen().then(setStreak);
 
     const permission = await getPermissionSnapshot();
     if (permission.state === "denied") {
+      setNextSlot((await db.notificationSlots.listUpcoming(new Date().toISOString()))[0]);
       setStatusMessage(t("diagnostics.permissionDenied"));
     } else if (!preferences.schedule.enabled) {
+      setNextSlot((await db.notificationSlots.listUpcoming(new Date().toISOString()))[0]);
       setStatusMessage(undefined);
-    } else if (upcoming.length === 0) {
-      setStatusMessage(t("errors.schedulingFailed"));
     } else {
-      setStatusMessage(undefined);
+      // AutoRescheduler (app/_layout.tsx) already reschedules on every app
+      // foreground, independently of this screen mounting. Reading
+      // db.notificationSlots.listUpcoming() here without waiting for that
+      // to finish raced it: on a cold start this effect and AutoRescheduler's
+      // both fire from mount, with no ordering guarantee, so this screen
+      // could catch the queue between "emptied because slots expired since
+      // last open" and "refilled" and report a false schedulingFailed even
+      // though scheduling succeeds moments later (confirmed by Diagnostics
+      // showing a healthy queue right after). Awaiting the same reschedule()
+      // here — safe to call again, it's idempotent — guarantees the
+      // "upcoming" list reflects this session's actual outcome before
+      // deciding whether to show the error.
+      const result = await reschedule({
+        db,
+        preferences,
+        now: new Date(),
+        timeZone: detectTimeZone(),
+        generateId: generateLocalId,
+      });
+      const upcoming = await db.notificationSlots.listUpcoming(new Date().toISOString());
+      setNextSlot(upcoming[0]);
+      setStatusMessage(upcoming.length === 0 && result.errors.length > 0 ? t("errors.schedulingFailed") : undefined);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- deliberately scoped to schedule.enabled: AutoRescheduler (app/_layout.tsx) already reruns reschedule() reactively on every other preferences change, so this effect only needs to fire on mount and when scheduling is toggled, not on every unrelated preference edit.
   }, [db, preferences.schedule.enabled, effectiveContentMode, t, pickAnotherAyah]);
 
   useEffect(() => {
