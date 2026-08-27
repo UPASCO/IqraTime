@@ -31,6 +31,8 @@ const DEFAULT_LANG = "fr";
 const LANGS = ["fr", "en", "ar", "de", "es", "it", "nl"];
 const RTL = new Set(["ar"]);
 
+const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.iqratime.app";
+
 /** og:locale wants a full locale, not a bare language code. */
 const OG_LOCALE = {
   fr: "fr_FR",
@@ -83,11 +85,14 @@ function jsonLdFor(lang, pageKey) {
       "@type": "SoftwareApplication",
       name: "IqraTime",
       applicationCategory: "LifestyleApplication",
-      operatingSystem: "iOS, Android",
+      operatingSystem: "Android",
       description: plain(get(t, "hero.lead")),
       inLanguage: lang,
       url: urlFor(lang, "index.html"),
       image: `${ORIGIN}/assets/og-image.png`,
+      installUrl: PLAY_STORE_URL,
+      downloadUrl: PLAY_STORE_URL,
+      sameAs: [PLAY_STORE_URL],
       offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
       publisher: { "@type": "Organization", name: "IqraTime", url: ORIGIN },
     });

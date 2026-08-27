@@ -189,6 +189,21 @@ nav a:hover {
   cursor: default;
 }
 
+/* The app is live on this store — its badge is the hero's real CTA. */
+.badge.store {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--night);
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(200, 164, 93, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.badge.store:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(200, 164, 93, 0.45);
+}
+
 .hero-visual {
   position: relative;
   display: flex;

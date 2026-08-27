@@ -24,7 +24,7 @@ module.exports = {
       title: "Et si chaque notification comptait vraiment ?",
       lead: "Une āyah du Coran ou un hadith authentique différent par heure, directement sur votre écran verrouillé — une source de hassanat, inchAllah, sans compte, sans serveur, sans connexion Internet nécessaire au quotidien.",
       badgeIos: "📱 Bientôt sur l'App Store",
-      badgeAndroid: "🤖 Bientôt sur Google Play"
+      badgeAndroid: "🤖 Télécharger sur Google Play"
     },
     phone: {
       translation: "« Et fais bonne annonce aux endurants. »",
@@ -215,7 +215,7 @@ module.exports = {
       title: "What if every notification truly counted?",
       lead: "A different Quran āyah or authentic hadith every hour, straight to your lock screen — a source of hassanat, inshaAllah, no account, no server, no internet connection needed day to day.",
       badgeIos: "📱 Coming soon on the App Store",
-      badgeAndroid: "🤖 Coming soon on Google Play"
+      badgeAndroid: "🤖 Download on Google Play"
     },
     phone: {
       translation: "“And give good tidings to the patient.”",
@@ -406,7 +406,7 @@ module.exports = {
       title: "ماذا لو كان لكل إشعار قيمة حقيقية؟",
       lead: "آية من القرآن أو حديث صحيح مختلف كل ساعة، مباشرة على شاشة القفل — مصدر للحسنات إن شاء الله، بدون حساب، بدون خادم، بدون حاجة للاتصال بالإنترنت في الاستخدام اليومي.",
       badgeIos: "📱 قريبًا على App Store",
-      badgeAndroid: "🤖 قريبًا على Google Play"
+      badgeAndroid: "🤖 حمّله من Google Play"
     },
     phone: {
       translation: "",
@@ -597,7 +597,7 @@ module.exports = {
       title: "Was wäre, wenn jede Benachrichtigung wirklich zählte?",
       lead: "Stündlich eine andere Koran-Ayah oder ein authentischer Hadith, direkt auf deinem Sperrbildschirm — eine Quelle für Hassanat, inschaAllah, ohne Konto, ohne Server, ohne dass im Alltag eine Internetverbindung nötig ist.",
       badgeIos: "📱 Bald im App Store",
-      badgeAndroid: "🤖 Bald bei Google Play"
+      badgeAndroid: "🤖 Bei Google Play laden"
     },
     phone: {
       translation: "„Und verkünde frohe Botschaft den Geduldigen.“",
@@ -788,7 +788,7 @@ module.exports = {
       title: "¿Y si cada notificación realmente importara?",
       lead: "Una aleya del Corán o un hadiz auténtico distinto cada hora, directamente en tu pantalla de bloqueo — una fuente de hasanat, inshaAllah, sin cuenta, sin servidor, sin necesidad de conexión a internet en el día a día.",
       badgeIos: "📱 Próximamente en App Store",
-      badgeAndroid: "🤖 Próximamente en Google Play"
+      badgeAndroid: "🤖 Descargar en Google Play"
     },
     phone: {
       translation: "«Y anuncia buenas nuevas a los pacientes.»",
@@ -979,7 +979,7 @@ module.exports = {
       title: "E se ogni notifica contasse davvero?",
       lead: "Un'ayah del Corano o un hadith autentico diverso ogni ora, direttamente sulla schermata di blocco — una fonte di hasanat, inshaAllah, senza account, senza server, senza bisogno di connessione a Internet nell'uso quotidiano.",
       badgeIos: "📱 Presto su App Store",
-      badgeAndroid: "🤖 Presto su Google Play"
+      badgeAndroid: "🤖 Scarica su Google Play"
     },
     phone: {
       translation: "«E da' il lieto annuncio ai pazienti.»",
@@ -1170,7 +1170,7 @@ module.exports = {
       title: "Wat als elke melding echt zou tellen?",
       lead: "Elk uur een andere Koran-ayah of authentieke hadith, rechtstreeks op je vergrendelscherm — een bron van hasanat, inshaAllah, geen account, geen server, geen internetverbinding nodig in het dagelijks gebruik.",
       badgeIos: "📱 Binnenkort in de App Store",
-      badgeAndroid: "🤖 Binnenkort op Google Play"
+      badgeAndroid: "🤖 Downloaden op Google Play"
     },
     phone: {
       translation: "“En verkondig blijde tijding aan de geduldigen.”",
