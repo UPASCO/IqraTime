@@ -353,18 +353,19 @@ export default function HomeScreen(): React.JSX.Element {
       setStatusMessage(undefined);
     } else {
       // AutoRescheduler (app/_layout.tsx) already reschedules on every app
-      // foreground, independently of this screen mounting. Reading
-      // db.notificationSlots.listUpcoming() here without waiting for that
-      // to finish raced it: on a cold start this effect and AutoRescheduler's
-      // both fire from mount, with no ordering guarantee, so this screen
-      // could catch the queue between "emptied because slots expired since
-      // last open" and "refilled" and report a false schedulingFailed even
-      // though scheduling succeeds moments later (confirmed by Diagnostics
-      // showing a healthy queue right after). Awaiting the same reschedule()
-      // here — safe to call again, it's idempotent — guarantees the
-      // "upcoming" list reflects this session's actual outcome before
-      // deciding whether to show the error.
-      const result = await reschedule({
+      // foreground, independently of this screen mounting. Awaiting the
+      // same reschedule() here — safe to call again, it's idempotent —
+      // guarantees "upcoming" below reflects this session's actual outcome
+      // rather than possibly racing AutoRescheduler's own call and catching
+      // the queue mid-refill.
+      //
+      // A scheduling failure is deliberately never surfaced here: it's a
+      // developer-facing signal (Diagnostics already reads the same
+      // reschedule() outcome via loadLastRescheduleInfo()), not something an
+      // everyday user can act on or should be alarmed by on the home
+      // screen. Silently falling back to nextNotificationLine's plain
+      // "no notification scheduled yet" reads as normal, not broken.
+      await reschedule({
         db,
         preferences,
         now: new Date(),
@@ -373,7 +374,7 @@ export default function HomeScreen(): React.JSX.Element {
       });
       const upcoming = await db.notificationSlots.listUpcoming(new Date().toISOString());
       setNextSlot(upcoming[0]);
-      setStatusMessage(upcoming.length === 0 && result.errors.length > 0 ? t("errors.schedulingFailed") : undefined);
+      setStatusMessage(undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- deliberately scoped to schedule.enabled: AutoRescheduler (app/_layout.tsx) already reruns reschedule() reactively on every other preferences change, so this effect only needs to fire on mount and when scheduling is toggled, not on every unrelated preference edit.
   }, [db, preferences.schedule.enabled, effectiveContentMode, t, pickAnotherAyah]);
