@@ -43,6 +43,16 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
   const [justCopied, setJustCopied] = React.useState(false);
   const [isPreparingShareImage, setIsPreparingShareImage] = React.useState(false);
   const shotRef = useRef<ViewShotRef>(null);
+  // Most āyāt are shorter than the slide, so the inner ScrollView has
+  // nothing to scroll — but on Android, a same-axis ScrollView nested
+  // inside the outer paging FlatList still grabs every vertical touch the
+  // instant it's scrollable at all (even by a few px of rounding), and
+  // never releases it back to the pager: swiping got stuck on one āyah with
+  // no way to reach the next. iOS's touch arbitration is lenient enough
+  // that this never showed up there. Disabling scroll outright whenever the
+  // content actually fits removes the conflict for the common case; only
+  // the rare overflowing āyah (Āyat al-Kursī and the like) still scrolls.
+  const [contentOverflows, setContentOverflows] = React.useState(false);
 
   const handleCopy = (): void => {
     props.onCopy?.();
@@ -135,6 +145,8 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
         contentContainerStyle={styles.scrollContent}
         bounces={false}
         showsVerticalScrollIndicator={false}
+        scrollEnabled={contentOverflows}
+        onContentSizeChange={(_w, contentHeight) => setContentOverflows(contentHeight > props.height)}
       >
         <Pressable
           onPress={props.onOpenDetail}

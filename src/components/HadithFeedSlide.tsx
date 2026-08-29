@@ -39,6 +39,12 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
   const [justCopied, setJustCopied] = React.useState(false);
   const [isPreparingShareImage, setIsPreparingShareImage] = React.useState(false);
   const shotRef = useRef<ViewShotRef>(null);
+  // See AyahFeedSlide's identical state for why: on Android a same-axis
+  // ScrollView nested in the outer paging FlatList grabs every vertical
+  // touch once it's scrollable at all, even by a few px, and never hands it
+  // back — swiping got stuck. Disabling scroll unless the hadith text
+  // actually overflows the slide removes the conflict for the common case.
+  const [contentOverflows, setContentOverflows] = React.useState(false);
 
   const handleCopy = (): void => {
     props.onCopy?.();
@@ -107,7 +113,14 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
   return (
     <View style={[styles.slide, { height: props.height, backgroundColor: appConfig.brand.night }]}>
       <ViewShot ref={shotRef} style={[styles.tapArea, { backgroundColor: appConfig.brand.night }]} options={{ format: "png", quality: 0.95 }}>
-      <ScrollView style={styles.tapArea} contentContainerStyle={styles.scrollContent} bounces={false} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.tapArea}
+        contentContainerStyle={styles.scrollContent}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        scrollEnabled={contentOverflows}
+        onContentSizeChange={(_w, contentHeight) => setContentOverflows(contentHeight > props.height)}
+      >
         <Pressable
           onPress={props.onOpenDetail}
           accessibilityRole={props.onOpenDetail ? "button" : undefined}
