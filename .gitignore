@@ -8,8 +8,11 @@ expo-env.d.ts
 *.orig.*
 .env
 .env.local
-ios/
-android/
+# Anchored to the repo root: these target the native projects `expo prebuild`
+# generates. Unanchored, git matches the name at any depth, which silently
+# swallowed store-assets/ios/ (App Store screenshots) too.
+/ios/
+/android/
 *.jks
 *.p8
 *.p12
