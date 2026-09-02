@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { View, Text, TextInput, SectionList, Alert, Pressable } from "react-native";
+import { View, Text, TextInput, SectionList, Alert, Pressable, FlatList } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -151,17 +151,27 @@ export default function HistoryScreen(): React.JSX.Element {
           }}
           accessibilityLabel={t("history.searchPlaceholder")}
         />
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-          <Chip label={t("history.favoritesOnlyLabel")} selected={favoritesOnly} onPress={() => setFavoritesOnly((v) => !v)} />
-          {ALL_THEME_KEYS.slice(0, 6).map((theme) => (
+        {/* Every topic rather than an arbitrary first six, as one
+            horizontal strip so the filter row stays one line tall at any
+            text size (same treatment as the hadith menu's theme chips). */}
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={ALL_THEME_KEYS}
+          keyExtractor={(theme) => theme}
+          style={{ flexGrow: 0 }}
+          contentContainerStyle={{ gap: 8, paddingVertical: spacing.xxs }}
+          ListHeaderComponent={
+            <Chip label={t("history.favoritesOnlyLabel")} selected={favoritesOnly} onPress={() => setFavoritesOnly((v) => !v)} />
+          }
+          renderItem={({ item: theme }) => (
             <Chip
-              key={theme}
               label={t(`themes.names.${theme}` as Parameters<typeof t>[0])}
               selected={themeFilter === theme}
               onPress={() => setThemeFilter((current) => (current === theme ? null : theme))}
             />
-          ))}
-        </View>
+          )}
+        />
         <SectionList
           sections={sections}
           keyExtractor={(item) => item.id}

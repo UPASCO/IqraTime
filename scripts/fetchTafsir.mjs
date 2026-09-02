@@ -29,22 +29,13 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 
+import { TAFSIR_BASE_URL, TAFSIR_EDITIONS } from "./tafsirEditions.mjs";
+
 const ROOT = path.dirname(path.dirname(new URL(import.meta.url).pathname));
 const CORPUS_DIR = path.join(ROOT, "src", "data", "corpus");
 const OUT_DIR = path.join(CORPUS_DIR, "tafsir");
-const BASE_URL = "https://raw.githubusercontent.com/spa5k/tafsir_api/main/tafsir";
-
-const TAFSIR_EDITIONS = {
-  ar: { slug: "ar-tafsir-al-mukhtasar", sourceId: "ar-mukhtasar-v1" },
-  en: { slug: "en-tafsir-al-mukhtasar", sourceId: "en-mukhtasar-v1" },
-  fr: { slug: "french-mokhtasar", sourceId: "fr-mukhtasar-v1" },
-  es: { slug: "spanish-mokhtasar", sourceId: "es-mukhtasar-v1" },
-  hi: { slug: "hindi-mokhtasar", sourceId: "hi-mukhtasar-v1" },
-  bn: { slug: "bengali-mokhtasar", sourceId: "bn-mukhtasar-v1" },
-  "zh-CN": { slug: "chinese-mokhtasar", sourceId: "zh-mukhtasar-v1" },
-  it: { slug: "italian-mokhtasar", sourceId: "it-mukhtasar-v1" },
-  ru: { slug: "russian-mokhtasar", sourceId: "ru-mukhtasar-v1" },
-};
+// Edition table shared with scripts/extendCorpus.mjs — see tafsirEditions.mjs.
+const BASE_URL = TAFSIR_BASE_URL;
 
 const arabicEntries = JSON.parse(readFileSync(path.join(CORPUS_DIR, "arabic.json"), "utf8")).entries;
 const surahs = [...new Set(arabicEntries.map((e) => e.surah))].sort((a, b) => a - b);

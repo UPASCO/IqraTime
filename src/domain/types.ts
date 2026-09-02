@@ -287,11 +287,21 @@ export interface UserPreferences {
 
 export type NotificationSlotStatus = "scheduled" | "delivered" | "cancelled" | "failed";
 
+/**
+ * What a scheduled notification carries. Mirrors ContentMode: "ayah_only"
+ * schedules only "ayah" slots, "hadith_only" only "hadith" slots, "mixed"
+ * strictly alternates the two — the same rule the home feed follows
+ * (src/services/feedContentMode.ts).
+ */
+export type NotificationContentKind = "ayah" | "hadith";
+
 /** A single planned (or already-fired) local notification. */
 export interface NotificationSlot {
   readonly id: string; // local UUID, also used as the OS notification identifier
   readonly fireAtUtcIso: string;
-  readonly ayahId: AyahId;
+  readonly kind: NotificationContentKind;
+  /** An AyahId ("94:5") when kind is "ayah", a HadithId ("bukhari:6116") when kind is "hadith". */
+  readonly contentId: string;
   readonly locale: SupportedLocale;
   readonly status: NotificationSlotStatus;
   readonly createdAtUtcIso: string;

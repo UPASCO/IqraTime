@@ -146,6 +146,12 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
         bounces={false}
         showsVerticalScrollIndicator={false}
         scrollEnabled={contentOverflows}
+        // Android only (no-op on iOS): when the text does overflow and this
+        // inner ScrollView is live, nested scrolling lets the outer paging
+        // FlatList take the gesture over once the inner one hits its top or
+        // bottom edge — otherwise a long slide traps every vertical swipe
+        // and the feed can't move on. iOS already hands off natively.
+        nestedScrollEnabled
         onContentSizeChange={(_w, contentHeight) => setContentOverflows(contentHeight > props.height)}
       >
         <Pressable

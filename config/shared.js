@@ -28,7 +28,7 @@ module.exports = {
     alt_fr: "Le Coran et les hadiths sur votre écran, sans déverrouiller — une source de hassanat, inchAllah.",
   },
   version: "1.9.5",
-  buildNumber: 30,
+  buildNumber: 31,
   iosBundleIdentifier: "com.IqraTime.com",
   // Permanent: Google Play binds a listing to its package name for life —
   // it can never be changed after the first publish, only replaced by a

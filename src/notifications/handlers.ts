@@ -10,13 +10,26 @@ export interface ParsedNotificationAction {
   readonly data: NotificationActionData | null;
 }
 
-/** Pure parsing of a native notification response — kept separate from the listener wiring so it's unit-testable without expo-notifications running. */
+/**
+ * Pure parsing of a native notification response — kept separate from the
+ * listener wiring so it's unit-testable without expo-notifications running.
+ *
+ * Accepts both payload shapes: the current `{ kind, contentId }` and the
+ * pre-1.9.5 `{ ayahId }`. Notifications scheduled by an older build stay
+ * queued in the OS across an app update and can be tapped days later, so
+ * the old shape must keep routing rather than being dropped as malformed.
+ */
 export function parseNotificationResponse(response: Notifications.NotificationResponse): ParsedNotificationAction {
-  const raw = response.notification.request.content.data as Partial<NotificationActionData> | undefined;
-  const data: NotificationActionData | null =
-    raw && typeof raw.ayahId === "string" && typeof raw.locale === "string" && typeof raw.slotId === "string"
-      ? { ayahId: raw.ayahId, locale: raw.locale as NotificationActionData["locale"], slotId: raw.slotId }
-      : null;
+  const raw = response.notification.request.content.data as (Partial<NotificationActionData> & { ayahId?: unknown }) | undefined;
+  let data: NotificationActionData | null = null;
+  if (raw && typeof raw.locale === "string" && typeof raw.slotId === "string") {
+    const locale = raw.locale as NotificationActionData["locale"];
+    if (typeof raw.contentId === "string" && (raw.kind === "ayah" || raw.kind === "hadith")) {
+      data = { kind: raw.kind, contentId: raw.contentId, locale, slotId: raw.slotId };
+    } else if (typeof raw.ayahId === "string") {
+      data = { kind: "ayah", contentId: raw.ayahId, locale, slotId: raw.slotId };
+    }
+  }
 
   const actionIdentifier = response.actionIdentifier;
   if (actionIdentifier === "favorite" || actionIdentifier === "another" || actionIdentifier === "open") {

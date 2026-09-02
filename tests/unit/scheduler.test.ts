@@ -128,7 +128,8 @@ function makeSlot(overrides: Partial<NotificationSlot> = {}): NotificationSlot {
   return {
     id: "slot-1",
     fireAtUtcIso: new Date(2025, 0, 2, 9, 0, 0).toISOString(),
-    ayahId: "1:1",
+    kind: "ayah",
+    contentId: "1:1",
     locale: "en",
     status: "scheduled",
     createdAtUtcIso: new Date(2025, 0, 1).toISOString(),
@@ -143,12 +144,13 @@ describe("planNotifications", () => {
     horizonDays: 3,
     maxPendingSlots: 20,
     translationLocale: "en" as const,
+    contentMode: "ayah_only" as const,
     timeZone: "UTC",
     generateId: (() => {
       let i = 0;
       return () => `id-${i++}`;
     })(),
-    selectAyahForSlot: () => ({ ayahId: "1:1" }),
+    selectContentForSlot: () => ({ kind: "ayah" as const, contentId: "1:1" }),
   };
 
   it("cancels nothing and schedules a full queue when there are no existing slots", () => {
@@ -194,5 +196,52 @@ describe("planNotifications", () => {
     const plan = planNotifications({ ...commonInput, now: new Date(2025, 0, 1), existingSlots: [existing] });
     const ids = plan.finalSlots.map((s) => s.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("cancels a future slot queued in a different translation language and regenerates it", () => {
+    const stale = makeSlot({ id: "french", locale: "fr", fireAtUtcIso: new Date(2025, 0, 5).toISOString() });
+    const plan = planNotifications({ ...commonInput, now: new Date(2025, 0, 1, 6, 0, 0), existingSlots: [stale] });
+    expect(plan.toCancel).toEqual(["french"]);
+    expect(plan.finalSlots.every((s) => s.locale === "en")).toBe(true);
+  });
+
+  it("cancels queued hadith slots once the content mode no longer allows them, and keeps āyah slots", () => {
+    const hadith = makeSlot({ id: "h", kind: "hadith", contentId: "bukhari:6116", fireAtUtcIso: new Date(2025, 0, 5).toISOString() });
+    const ayah = makeSlot({ id: "a", fireAtUtcIso: new Date(2025, 0, 6).toISOString() });
+    const plan = planNotifications({ ...commonInput, contentMode: "ayah_only", now: new Date(2025, 0, 1, 6, 0, 0), existingSlots: [hadith, ayah] });
+    expect(plan.toCancel).toEqual(["h"]);
+    expect(plan.finalSlots.some((s) => s.id === "a")).toBe(true);
+  });
+
+  it("keeps both kinds queued in mixed mode", () => {
+    const hadith = makeSlot({ id: "h", kind: "hadith", contentId: "bukhari:6116", fireAtUtcIso: new Date(2025, 0, 5).toISOString() });
+    const ayah = makeSlot({ id: "a", fireAtUtcIso: new Date(2025, 0, 6).toISOString() });
+    const plan = planNotifications({ ...commonInput, contentMode: "mixed", now: new Date(2025, 0, 1, 6, 0, 0), existingSlots: [hadith, ayah] });
+    expect(plan.toCancel).toEqual([]);
+  });
+
+  it("tells the picker the kind of the slot firing just before each new one, starting from the last kept slot", () => {
+    const keptEarlier = makeSlot({ id: "k1", kind: "hadith", contentId: "bukhari:6116", fireAtUtcIso: new Date(2025, 0, 2, 9).toISOString() });
+    const keptLast = makeSlot({ id: "k2", kind: "ayah", contentId: "2:255", fireAtUtcIso: new Date(2025, 0, 2, 10).toISOString() });
+    const seen: (string | undefined)[] = [];
+    let flip = 0;
+    const plan = planNotifications({
+      ...commonInput,
+      contentMode: "mixed",
+      maxPendingSlots: 6,
+      now: new Date(2025, 0, 1, 6, 0, 0),
+      // Deliberately unordered: the plan must sort kept slots by time itself.
+      existingSlots: [keptLast, keptEarlier],
+      selectContentForSlot: (_hour, previousKind) => {
+        seen.push(previousKind);
+        flip += 1;
+        return flip % 2 === 1 ? { kind: "hadith", contentId: `muslim:${flip}` } : { kind: "ayah", contentId: `1:${flip}` };
+      },
+    });
+    expect(seen[0]).toBe("ayah");
+    // Each subsequent call sees the kind of the previous pick.
+    for (let i = 1; i < seen.length; i += 1) {
+      expect(seen[i]).toBe(plan.toSchedule[i - 1]!.kind);
+    }
   });
 });

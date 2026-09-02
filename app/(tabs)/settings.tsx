@@ -11,6 +11,18 @@ import { appConfig } from "@/config/appConfig";
 import { isSupportAvailable } from "@/services/supportPaymentService";
 import { clearStreak } from "@/storage/streakStore";
 import { clearHifz } from "@/storage/hifzStore";
+import type { TextSizeScale } from "@/domain/types";
+import type { TranslationKey } from "@/i18n/schema";
+
+const TEXT_SIZE_SCALES: readonly TextSizeScale[] = ["small", "medium", "large", "extra_large"];
+
+/** Localized chip labels — the raw scale keys used to be shown verbatim ("extra_large") in every language. */
+const TEXT_SIZE_LABEL_KEYS: Readonly<Record<TextSizeScale, TranslationKey>> = {
+  small: "settings.textSizeSmall",
+  medium: "settings.textSizeMedium",
+  large: "settings.textSizeLarge",
+  extra_large: "settings.textSizeExtraLarge",
+};
 
 export default function SettingsScreen(): React.JSX.Element {
   const { spacing } = useTheme();
@@ -122,9 +134,9 @@ export default function SettingsScreen(): React.JSX.Element {
           </View>
         ) : null}
         <SettingRow label={t("settings.textSize")} />
-        <View style={{ flexDirection: "row", gap: 8, marginTop: spacing.xs }}>
-          {(["small", "medium", "large", "extra_large"] as const).map((scale) => (
-            <Chip key={scale} label={scale} selected={preferences.textSizeScale === scale} onPress={() => update({ textSizeScale: scale })} />
+        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: spacing.xs }}>
+          {TEXT_SIZE_SCALES.map((scale) => (
+            <Chip key={scale} label={t(TEXT_SIZE_LABEL_KEYS[scale])} selected={preferences.textSizeScale === scale} onPress={() => update({ textSizeScale: scale })} />
           ))}
         </View>
 

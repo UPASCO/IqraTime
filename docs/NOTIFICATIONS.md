@@ -151,16 +151,70 @@ pinning `process.env.TZ`.
 ## Notification content format
 
 ```
-Title: IqraTime • Surah 94:5
+Title: IqraTime • Surah Ash-Sharh 94:5
 Body:  « With hardship comes ease. »
 ```
 
-(`notifications.titleTemplate` in each locale catalog; body composed by
-`formatNotificationBody()` in `rescheduleService.ts` from the user's
-Arabic/translation/order preferences.) The body is **never truncated** to
-fit — `selectAyah()`'s length filter excludes ayat too long for
-`MAX_NOTIFICATION_AYAH_LENGTH` (220 chars) *before* selection, so a
-shorter āyah is chosen instead of cutting a longer one short.
+(`notifications.titleTemplate` in each locale catalog — the surah's
+transliterated name, or its Arabic name for Arabic readers, then the
+numeric reference; body composed by `formatNotificationBody()` in
+`rescheduleService.ts` from the user's Arabic/translation/order
+preferences.) The body is **never truncated** to fit — `selectAyah()`'s
+length filter excludes ayat too long for `MAX_NOTIFICATION_AYAH_LENGTH`
+(220 chars) *before* selection, so a shorter āyah is chosen instead of
+cutting a longer one short.
+
+## Hadith notifications
+
+The "What to show" preference (`contentMode`) applies to the queue exactly
+as it applies to the home feed: "āyāt only" schedules only āyāt, "hadith
+only" only hadith, "mixed" strictly alternates one hadith, one āyah —
+`nextFeedKind()` in `src/services/feedContentMode.ts` is the single rule
+both follow, and `planNotifications()` passes each pick the kind of the
+slot firing just before it so the alternation survives a refill instead
+of restarting. For a translation language with no hadith edition the
+mode degrades to āyāt only (`effectiveContentMode()`), same as the feed.
+
+```
+Title: IqraTime • Sahih al-Bukhari #6116
+Body:  Narrated Abu Huraira: A man said to the Prophet (ﷺ), "Advise me!" …
+```
+
+A hadith slot carries a `kind: "hadith"` and a HadithId in
+`NotificationSlot.contentId` (migration `002_slot_kind`); tapping it opens
+`/hadith/[id]`. Picking is `pickHadithForNotification()`
+(`src/notifications/hadithPicker.ts`): a uniform draw over the hadith
+that have text in the body's language, preferring those under
+`MAX_NOTIFICATION_HADITH_LENGTH` (320 chars) and never repeating one that
+is still queued, with the same progressive relaxation as the āyah engine
+so it cannot dead-end. The body is the **translation alone** whenever the
+user reads one — the Arabic text carries the full isnad, which by itself
+can exceed what a lock screen shows before the report starts — and the
+Arabic for Arabic readers or "Arabic only" display
+(`formatHadithNotificationBody()`). Hadith have no theme preference,
+time-of-day weighting or persisted history; those remain āyah-only.
+
+## What invalidates an already-queued notification
+
+`planNotifications()` keeps a future slot only while it still matches
+what would be scheduled today. Besides having fired or a time-zone
+change, a slot is cancelled and regenerated when its **translation
+language** differs from the current preference or its **kind** is no
+longer allowed by the content mode — so switching language or "What to
+show" takes effect at the next reschedule (app foreground) rather than
+after every queued notification, up to days of them, has fired in the
+old language.
+
+Independently of that, `NOTIFICATION_QUEUE_VERSION`
+(`rescheduleService.ts`) is bumped whenever a build changes what a queued
+notification carries (title format, payload shape, slot kinds). On
+launch, `AutoRescheduler` in `app/_layout.tsx` compares it with the
+version stored on the device (`src/storage/queueVersionStore.ts`) and,
+when they differ, runs one `forceFullReschedule()` instead of the
+incremental refill — so an update never keeps delivering the previous
+build's content. Notifications already in the OS from a pre-1.9.5 build
+still route on tap: `parseNotificationResponse()` accepts the old
+`{ ayahId }` payload as well as `{ kind, contentId }`.
 
 ## Notification actions
 

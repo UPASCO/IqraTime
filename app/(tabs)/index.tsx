@@ -26,8 +26,9 @@ import { recordAppOpen, type StreakInfo } from "@/storage/streakStore";
 import { incrementShareCount } from "@/storage/shareCounterStore";
 import { isHadithFavorite, addHadithFavorite, removeHadithFavorite } from "@/storage/hadithFavoritesStore";
 import { hadithIdToRouteParam } from "@/utils/routeParams";
-import { nextFeedKind } from "@/services/feedContentMode";
+import { nextFeedKind, effectiveContentMode as effectiveContentMode_ } from "@/services/feedContentMode";
 import { getDailyAyahId } from "@/services/dailyAyah";
+import { settledSlideIndex, slidesNeeded } from "@/services/feedBuffer";
 
 /** One slide in the swipeable feed, resolved to its display data via useAyahView inside the render. */
 function FeedItem({
@@ -201,13 +202,6 @@ function pickHadithId(avoidIds: ReadonlySet<string>): string | undefined {
 
 const NO_IDS: ReadonlySet<string> = new Set();
 
-/**
- * How many slides are kept ready below the one on screen. Three is enough
- * that even a fast run of swipes never catches up with the (async, DB-backed)
- * selection of the next one, while keeping the mounted card count small.
- */
-const FEED_BUFFER = 3;
-
 /** Columns in the home shortcut grid. Two keeps every label readable at the largest text size. */
 const MENU_COLUMNS = 2;
 
@@ -252,7 +246,7 @@ export default function HomeScreen(): React.JSX.Element {
   // broken/empty hadith cards — with an explicit notice so it never reads
   // as the preference being ignored for no reason.
   const hadithAvailable = hasAnyHadithContent(preferences.translationLocale);
-  const effectiveContentMode: ContentMode = preferences.contentMode === "ayah_only" || hadithAvailable ? preferences.contentMode : "ayah_only";
+  const effectiveContentMode: ContentMode = effectiveContentMode_(preferences.contentMode, preferences.translationLocale);
   const hadithUnavailableNotice = preferences.contentMode !== "ayah_only" && !hadithAvailable;
 
   const [feedItems, setFeedItems] = useState<FeedEntry[]>(() => {
@@ -362,7 +356,8 @@ export default function HomeScreen(): React.JSX.Element {
   }, [effectiveContentMode, pickAnotherAyah]);
 
   /**
-   * Keeps FEED_BUFFER slides ready *below* the one on screen.
+   * Keeps FEED_BUFFER (src/services/feedBuffer.ts) slides ready *below* the
+   * one on screen.
    *
    * The feed used to grow by exactly one slide per FlatList onEndReached
    * call, starting from a single full-screen item. On Android that callback
@@ -377,9 +372,10 @@ export default function HomeScreen(): React.JSX.Element {
     if (loadingMore.current) return;
     loadingMore.current = true;
     try {
-      let guard = 0;
-      while (feedItemsRef.current.length < currentIndexRef.current + 1 + FEED_BUFFER && guard++ < FEED_BUFFER + 1) {
+      let remaining = slidesNeeded(currentIndexRef.current, feedItemsRef.current.length);
+      while (remaining > 0) {
         if (!(await appendSlide())) break;
+        remaining -= 1;
       }
     } finally {
       loadingMore.current = false;
@@ -541,7 +537,7 @@ export default function HomeScreen(): React.JSX.Element {
    */
   const handleScrollSettled = (offsetY: number): void => {
     if (slideHeight <= 0) return;
-    const index = Math.max(0, Math.round(offsetY / slideHeight));
+    const index = settledSlideIndex(offsetY, slideHeight, feedItemsRef.current.length);
     currentIndexRef.current = index;
     if (index > 0 && !hasSwiped) setHasSwiped(true);
     topUpFeed();

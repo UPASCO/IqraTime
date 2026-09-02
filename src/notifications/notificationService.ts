@@ -2,7 +2,7 @@ import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 
 import type { SupportedLocale } from "@/config/appConfig";
-import type { AyahReference, NotificationSlot } from "@/domain/types";
+import type { NotificationContentKind, NotificationSlot } from "@/domain/types";
 import { translate } from "@/i18n";
 
 export const NOTIFICATION_CATEGORY = "ayahnow.ayah";
@@ -65,7 +65,9 @@ export async function ensureAndroidNotificationChannels(): Promise<void> {
 }
 
 export interface NotificationActionData {
-  readonly ayahId: string;
+  readonly kind: NotificationContentKind;
+  /** AyahId or HadithId, per `kind` — see NotificationSlot.contentId. */
+  readonly contentId: string;
   readonly locale: SupportedLocale;
   readonly slotId: string;
   readonly [key: string]: unknown;
@@ -114,7 +116,7 @@ export async function registerNotificationCategory(locale: SupportedLocale): Pro
 
 export interface ScheduleContentInput {
   readonly slot: NotificationSlot;
-  readonly reference: AyahReference;
+  readonly title: string;
   readonly bodyText: string;
   readonly locale: SupportedLocale;
   readonly soundEnabled: boolean;
@@ -122,13 +124,9 @@ export interface ScheduleContentInput {
 }
 
 export async function scheduleOsNotification(input: ScheduleContentInput): Promise<void> {
-  const title = translate(input.locale, "notifications.titleTemplate", {
-    surah: input.reference.surah,
-    ayah: input.reference.ayah,
-  });
-
   const data: NotificationActionData = {
-    ayahId: `${input.reference.surah}:${input.reference.ayah}`,
+    kind: input.slot.kind,
+    contentId: input.slot.contentId,
     locale: input.locale,
     slotId: input.slot.id,
   };
@@ -136,7 +134,7 @@ export async function scheduleOsNotification(input: ScheduleContentInput): Promi
   await Notifications.scheduleNotificationAsync({
     identifier: input.slot.id,
     content: {
-      title,
+      title: input.title,
       body: input.bodyText,
       sound: input.soundEnabled,
       categoryIdentifier: NOTIFICATION_CATEGORY,

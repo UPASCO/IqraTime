@@ -24,7 +24,6 @@ export default function HadithDetailScreen(): React.JSX.Element {
   const hadithView = useHadithView(hadithId, preferences.translationLocale);
   const [isFavorite, setIsFavorite] = useState(false);
   const [justCopied, setJustCopied] = useState(false);
-  const [showExplanation, setShowExplanation] = useState(false);
 
   useEffect(() => {
     if (!hadithId) return;
@@ -90,16 +89,11 @@ export default function HadithDetailScreen(): React.JSX.Element {
           {t("hadith.disclaimer")}
         </Text>
 
-        <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: spacing.md, gap: spacing.sm }}>
-          <Button
-            label={showExplanation ? t("hadith.explanationHideCta") : t("hadith.explanationShowCta")}
-            variant="secondary"
-            onPress={() => setShowExplanation((v) => !v)}
-          />
-          {showExplanation ? (
-            <Text style={{ color: colors.textSecondary, fontStyle: "italic" }}>{t("hadith.explanationUnavailable")}</Text>
-          ) : null}
-        </View>
+        {/* No "Show explanation" button: no verified sharh source ships yet
+            (docs/CORPUS.md "Hadith"), and a button whose only outcome is
+            "unavailable" is worse than none — the same rule the āyah slide
+            applies to its tafsir button. Reinstate it with the i18n keys
+            hadith.explanation* once a real source exists. */}
 
         <View style={{ flexDirection: "row", gap: spacing.md }}>
           <Button

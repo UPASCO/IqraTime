@@ -52,6 +52,18 @@ export function getRuntimeCorpus(): readonly CorpusEntry[] {
 }
 
 /**
+ * The āyah used wherever the app needs one representative example — the
+ * onboarding preview and the Diagnostics test notifications. 94:5 ("with
+ * hardship comes ease") when the corpus has it: short, complete, and about
+ * the most widely recognised line in the Qur'an; otherwise the first
+ * notable entry, otherwise the first entry at all.
+ */
+export function getSampleAyahEntry(): CorpusEntry | undefined {
+  const corpus = getRuntimeCorpus();
+  return corpus.find((entry) => entry.arabic.id === "94:5") ?? corpus.find((entry) => entry.catalog.notable) ?? corpus[0];
+}
+
+/**
  * How many recent history entries the selection engine's anti-repeat
  * filter should exclude: one full rotation of the corpus, so no āyah
  * repeats until every other one has been shown.

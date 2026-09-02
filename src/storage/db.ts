@@ -1,11 +1,20 @@
 import * as SQLite from "expo-sqlite";
 
 import { MIGRATION_001_INIT } from "./migrations/001_init";
+import { MIGRATION_002_SLOT_KIND } from "./migrations/002_slot_kind";
 
 const DATABASE_NAME = "ayahnow.db";
 
+/**
+ * One schema step: either a SQL string (must be idempotent — CREATE TABLE IF
+ * NOT EXISTS and friends) or a function that inspects the schema before
+ * changing it, for statements SQLite offers no IF NOT EXISTS form of, such
+ * as ALTER TABLE … ADD COLUMN.
+ */
+export type Migration = string | ((db: SQLite.SQLiteDatabase) => Promise<void>);
+
 /** Ordered list of migrations. Each index+1 is its target `user_version`. */
-const MIGRATIONS: readonly string[] = [MIGRATION_001_INIT];
+const MIGRATIONS: readonly Migration[] = [MIGRATION_001_INIT, MIGRATION_002_SLOT_KIND];
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
 
@@ -34,7 +43,11 @@ async function openAndMigrate(): Promise<SQLite.SQLiteDatabase> {
     const migration = MIGRATIONS[index];
     if (!migration) continue;
     await db.withTransactionAsync(async () => {
-      await db.execAsync(migration);
+      if (typeof migration === "string") {
+        await db.execAsync(migration);
+      } else {
+        await migration(db);
+      }
     });
     currentVersion = index + 1;
     await db.execAsync(`PRAGMA user_version = ${currentVersion};`);

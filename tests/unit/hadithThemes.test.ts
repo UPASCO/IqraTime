@@ -4,8 +4,9 @@ import { HADITH_THEME_KEYS } from "@/domain/types";
 describe("hadith theme tagging (powers the 'browse hadith by theme' menu)", () => {
   const corpus = getFullHadithCorpus();
 
-  it("has all 500 entries", () => {
-    expect(corpus).toHaveLength(500);
+  it("ships the original 500 mechanically selected entries plus the curated additions", () => {
+    // 500 from scripts/buildHadithCorpus.mjs, plus scripts/curatedHadithAdditions.mjs.
+    expect(corpus.length).toBeGreaterThanOrEqual(500);
   });
 
   it("gives every entry at least one theme, and only from the reduced classic-hadith taxonomy (HADITH_THEME_KEYS)", () => {

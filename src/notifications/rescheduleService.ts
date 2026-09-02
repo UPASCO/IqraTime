@@ -1,12 +1,28 @@
 import type { AppDatabase } from "@/storage/types";
 import { saveLastRescheduleInfo } from "@/storage/diagnosticsStore";
 import { getRuntimeCorpus, getTranslation, getCorpusEntry, getAntiRepeatWindow } from "@/data/corpus";
-import { MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
+import { getRuntimeHadithCorpus, getHadithEntry, getHadithTranslation } from "@/data/corpus/hadith";
+import { MAX_NOTIFICATION_AYAH_LENGTH, MAX_NOTIFICATION_HADITH_LENGTH } from "@/domain/constants";
 import type { NotificationSlot, ThemeKey, UserPreferences } from "@/domain/types";
-import { selectAyah } from "@/services/selectionEngine";
+import { effectiveContentMode, nextFeedKind } from "@/services/feedContentMode";
+import { mulberry32, selectAyah } from "@/services/selectionEngine";
+import { pickHadithForNotification } from "./hadithPicker";
 import { cancelAllOsNotifications, cancelOsNotifications, scheduleOsNotification } from "./notificationService";
+import { ayahNotificationTitle, hadithNotificationTitle } from "./notificationTitles";
 import { getMaxPendingNotifications, getSchedulingHorizonDays } from "./limits";
-import { planNotifications } from "./scheduler";
+import { planNotifications, type PickedContent } from "./scheduler";
+
+/**
+ * Bumped whenever a change to the app makes notifications that are ALREADY
+ * queued in the OS stale — a new content format, a new payload shape, a
+ * corpus change the user should see right away. app/_layout.tsx compares
+ * it with the version stored on the device at the last run and, when they
+ * differ, does one forceFullReschedule() instead of the usual incremental
+ * refill, so an update never keeps delivering the previous build's content
+ * for days. History: 1 = original queue; 2 = titles carry the surah name,
+ * hadith slots, payload { kind, contentId } (1.9.5).
+ */
+export const NOTIFICATION_QUEUE_VERSION = 2;
 
 export interface RescheduleDependencies {
   readonly db: AppDatabase;
@@ -59,7 +75,68 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
     .flat();
 
   const usedIdsThisRun = new Set<string>(recentAyahIds);
+  // Content already waiting in the queue counts as "recent" too: without
+  // this a refill could queue an āyah (or hadith) that is still due to
+  // fire from the previous refill, and the user would see it twice in a row.
+  const queuedHadithIds = new Set<string>();
+  for (const slot of existingSlots) {
+    if (slot.status !== "scheduled") continue;
+    if (slot.kind === "hadith") queuedHadithIds.add(slot.contentId);
+    else usedIdsThisRun.add(slot.contentId);
+  }
   let lastSurah: number | undefined = getCorpusEntry(recentAyahIds[0] ?? "")?.arabic.surah;
+
+  const { translationLocale, textDisplayMode } = deps.preferences;
+  // Same downgrade the feed applies: hadith modes fall back to āyāt for a
+  // language with no hadith edition (see effectiveContentMode).
+  const contentMode = effectiveContentMode(deps.preferences.contentMode, translationLocale);
+  // A separate stream from the selection engine's so seeding one never
+  // shifts the other's picks.
+  const hadithRandom = mulberry32((deps.randomSeed ?? deps.now.getTime()) ^ 0x9e3779b9);
+
+  const pickAyah = (localHour: number): PickedContent | null => {
+    const result = selectAyah({
+      corpus,
+      getTranslation,
+      translationLocale,
+      showArabic: deps.preferences.showArabicText,
+      requireTranslation: textDisplayMode !== "arabic_only",
+      localHour,
+      selectedThemes: deps.preferences.selectedThemes,
+      recentAyahIds: Array.from(usedIdsThisRun),
+      recentThemes,
+      favoriteAyahIds: favorites.map((f) => f.ayahId),
+      hiddenAyahIds: hidden.map((h) => h.ayahId),
+      maxLength: MAX_NOTIFICATION_AYAH_LENGTH,
+      mode: deps.preferences.selectionMode,
+      lastSurah,
+    });
+    if (result.status !== "selected") {
+      errors.push("selection_engine_no_candidates");
+      return null;
+    }
+    usedIdsThisRun.add(result.ayahId);
+    lastSurah = result.entry.arabic.surah;
+    return { kind: "ayah", contentId: result.ayahId };
+  };
+
+  const pickHadith = (): PickedContent | null => {
+    const picked = pickHadithForNotification({
+      corpus: getRuntimeHadithCorpus(),
+      getTranslation: getHadithTranslation,
+      locale: translationLocale,
+      displayMode: textDisplayMode,
+      excludeIds: queuedHadithIds,
+      maxLength: MAX_NOTIFICATION_HADITH_LENGTH,
+      random: hadithRandom,
+    });
+    if (!picked) {
+      errors.push("hadith_no_candidates");
+      return null;
+    }
+    queuedHadithIds.add(picked.hadithId);
+    return { kind: "hadith", contentId: picked.hadithId };
+  };
 
   const plan = planNotifications({
     schedule: deps.preferences.schedule,
@@ -67,34 +144,20 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
     existingSlots,
     horizonDays: getSchedulingHorizonDays(),
     maxPendingSlots: getMaxPendingNotifications(),
-    translationLocale: deps.preferences.translationLocale,
+    translationLocale,
+    contentMode,
     timeZone: deps.timeZone,
     generateId: deps.generateId,
     randomSeed: deps.randomSeed,
-    selectAyahForSlot: (localHour) => {
-      const result = selectAyah({
-        corpus,
-        getTranslation,
-        translationLocale: deps.preferences.translationLocale,
-        showArabic: deps.preferences.showArabicText,
-        requireTranslation: deps.preferences.textDisplayMode !== "arabic_only",
-        localHour,
-        selectedThemes: deps.preferences.selectedThemes,
-        recentAyahIds: Array.from(usedIdsThisRun),
-        recentThemes,
-        favoriteAyahIds: favorites.map((f) => f.ayahId),
-        hiddenAyahIds: hidden.map((h) => h.ayahId),
-        maxLength: MAX_NOTIFICATION_AYAH_LENGTH,
-        mode: deps.preferences.selectionMode,
-        lastSurah,
-      });
-      if (result.status !== "selected") {
-        errors.push("selection_engine_no_candidates");
-        return null;
+    selectContentForSlot: (localHour, previousKind) => {
+      // The exact alternation rule the home feed uses, so "mixed" means the
+      // same thing on the lock screen as on screen: one hadith, one āyah.
+      // A hadith slot that cannot be filled (an empty pool is the only way)
+      // falls back to an āyah rather than leaving a gap in the schedule.
+      if (nextFeedKind(contentMode, previousKind) === "hadith") {
+        return pickHadith() ?? pickAyah(localHour);
       }
-      usedIdsThisRun.add(result.ayahId);
-      lastSurah = result.entry.arabic.surah;
-      return { ayahId: result.ayahId };
+      return pickAyah(localHour);
     },
   });
 
@@ -105,24 +168,16 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
 
   const scheduledSlots: NotificationSlot[] = [];
   for (const slot of plan.toSchedule) {
-    const entry = getCorpusEntry(slot.ayahId);
-    if (!entry) {
-      errors.push(`missing_corpus_entry:${slot.ayahId}`);
+    const content = slot.kind === "hadith" ? buildHadithNotification(slot, deps.preferences) : buildAyahNotification(slot, deps.preferences);
+    if (!content) {
+      errors.push(`missing_corpus_entry:${slot.contentId}`);
       continue;
     }
-    const translation = getTranslation(slot.ayahId, slot.locale);
-    const bodyText = formatNotificationBody({
-      arabicText: entry.arabic.text,
-      translationText: translation?.text,
-      showArabic: deps.preferences.showArabicText,
-      textOrder: deps.preferences.textOrder,
-      displayMode: deps.preferences.textDisplayMode,
-    });
     try {
       await scheduleOsNotification({
         slot,
-        reference: { surah: entry.arabic.surah, ayah: entry.arabic.ayah },
-        bodyText,
+        title: content.title,
+        bodyText: content.bodyText,
         locale: slot.locale,
         soundEnabled: deps.preferences.schedule.soundEnabled,
         vibrationEnabled: deps.preferences.schedule.vibrationEnabled,
@@ -188,6 +243,67 @@ async function safeCancelOs(ids: readonly string[], errors: string[]): Promise<v
   } catch (error) {
     errors.push(`os_cancel_failed:${String(error)}`);
   }
+}
+
+interface NotificationContent {
+  readonly title: string;
+  readonly bodyText: string;
+}
+
+/** Title + body for an āyah slot, or undefined when its id no longer resolves (corpus changed under an old queue). */
+function buildAyahNotification(slot: NotificationSlot, preferences: UserPreferences): NotificationContent | undefined {
+  const entry = getCorpusEntry(slot.contentId);
+  if (!entry) return undefined;
+  const translation = getTranslation(slot.contentId, slot.locale);
+  return {
+    title: ayahNotificationTitle(slot.locale, {
+      surah: entry.arabic.surah,
+      ayah: entry.arabic.ayah,
+      surahName: slot.locale === "ar" ? entry.arabic.surahNameArabic : entry.arabic.surahNameTransliterated,
+    }),
+    bodyText: formatNotificationBody({
+      arabicText: entry.arabic.text,
+      translationText: translation?.text,
+      showArabic: preferences.showArabicText,
+      textOrder: preferences.textOrder,
+      displayMode: preferences.textDisplayMode,
+    }),
+  };
+}
+
+/** Title + body for a hadith slot, or undefined when its id no longer resolves. */
+function buildHadithNotification(slot: NotificationSlot, preferences: UserPreferences): NotificationContent | undefined {
+  const entry = getHadithEntry(slot.contentId);
+  if (!entry) return undefined;
+  const translation = getHadithTranslation(slot.contentId, slot.locale);
+  return {
+    title: hadithNotificationTitle(slot.locale, entry.arabic.collectionDisplayName, entry.arabic.hadithNumber),
+    bodyText: formatHadithNotificationBody({
+      arabicText: entry.arabic.text,
+      translationText: translation?.text,
+      displayMode: preferences.textDisplayMode,
+    }),
+  };
+}
+
+export interface FormatHadithNotificationBodyInput {
+  readonly arabicText: string;
+  readonly translationText: string | undefined;
+  readonly displayMode: UserPreferences["textDisplayMode"];
+}
+
+/**
+ * Composes a hadith notification body. Unlike an āyah, a hadith is never
+ * shown Arabic + translation together here: the Arabic text carries the
+ * full isnad (chain of narrators), which alone can run past what a lock
+ * screen shows before the report itself even starts. So the translation
+ * is the body whenever the user reads one; the Arabic is the body only
+ * for Arabic readers and for "Arabic only" display. The full Arabic with
+ * its isnad is one tap away on the hadith screen.
+ */
+export function formatHadithNotificationBody(input: FormatHadithNotificationBodyInput): string {
+  if (input.displayMode !== "arabic_only" && input.translationText?.trim()) return input.translationText;
+  return input.arabicText;
 }
 
 export interface FormatNotificationBodyInput {

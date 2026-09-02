@@ -2,19 +2,29 @@
 
 ## Current status: real content, not yet human-reviewed
 
-`src/data/corpus/arabic.json` ships **300 āyāt**, fetched verbatim from
-the King Fahd Complex Uthmani edition and curated down to a set a
-knowledgeable Muslim would recognise as significant on sight (see
-"Curated downselection" in `scripts/buildFullCorpus.mjs`) — not
-hand-typed, not a placeholder sample. 11 of the app's 12 supported
-languages have a real, licensed Quran translation for every one of those
-āyāt (Arabic readers use the Arabic text itself, no translation needed).
-All 300 entries are now marked `status: "publishable"` — promoted in bulk
-by the project owner rather than individually walked through the reviewer
-checklist below (see `docs/RELEASE_CHECKLIST.md`). The text and its
-sourcing are unchanged; what was skipped is the per-entry
-standalone-adequacy review. `scripts/reviewCorpus.mjs` remains available
-for a proper pass.
+`src/data/corpus/arabic.json` ships **561 āyāt**, fetched verbatim from
+the King Fahd Complex Uthmani edition — not hand-typed, not a placeholder
+sample. They come from two passes:
+
+- **300** selected by `scripts/buildFullCorpus.mjs`: a mechanical
+  standalone filter plus a curated downselection ("Curated downselection"
+  in that script) to a set a knowledgeable Muslim would recognise as
+  significant on sight.
+- **261** added by `scripts/extendCorpus.mjs` from the hand-picked
+  whitelist in `scripts/curatedAyatAdditions.mjs` — see "Curated
+  additions" below for how that list was made and what it deliberately
+  leaves out.
+
+11 of the app's 12 supported languages have a real, licensed Quran
+translation for every one of those āyāt (Arabic readers use the Arabic
+text itself, no translation needed). All entries are marked
+`status: "publishable"`: the original 300 were promoted in bulk by the
+project owner rather than individually walked through the reviewer
+checklist below (see `docs/RELEASE_CHECKLIST.md`); the additions were each
+read against checklist item 4 (standalone adequacy) when they were
+whitelisted, but not by a scholar. The text and its sourcing are exactly
+the datasets' own. `scripts/reviewCorpus.mjs` remains available for a
+proper pass.
 
 ## Convention
 
@@ -101,14 +111,57 @@ awaiting review" caveat on 300 entries individually would just bloat the
 shipped bundle without adding information) — a reviewer works from the
 checklist above directly, not from a pre-flagged concern per āyah.
 
+## Curated additions (`scripts/curatedAyatAdditions.mjs`)
+
+The mechanical build above plus its round-robin "one per surah" top-up
+left out a long list of āyāt any practising Muslim recognises on sight —
+the parable of the grain of charity (2:261), "you will never attain
+righteousness until you spend of what you love" (3:92), "Allah wrongs not
+even an atom's weight" (4:40), Yusuf's dua (12:101), "We made the Qur'an
+easy to remember" (54:17), "He is the First and the Last" (57:3), the
+opening of Surat al-Ikhlas (112:1) — while the same surah's slot went to
+a mechanically "quotable" but forgettable neighbour.
+
+`scripts/curatedAyatAdditions.mjs` is a hand-picked whitelist of such
+āyāt, applied by `node scripts/extendCorpus.mjs`:
+
+- Every id passes the **same mechanical standalone filter**
+  `buildFullCorpus.mjs` applies (length bounds, no mid-sentence opening
+  in any Latin-script edition, no continuation or referential opening, no
+  trailing continuation punctuation in any edition). `extendCorpus.mjs`
+  re-checks and refuses anything that fails; the few admitted exceptions
+  are listed and justified in `MECHANICAL_CHECK_EXCEPTIONS` in the same
+  file (currently one: 23:1, four characters under the English length
+  floor but a complete sentence everywhere).
+- Every id was read against reviewer checklist item 4. Famous āyāt whose
+  subject is only known from the previous āyah ("So We answered his
+  call…", "He said: …", "Fear not, I am with you both") were left out,
+  as were two widely cited āyāt that attribute misfortune to one's own
+  deeds (4:79, 42:30): true, but read cold on a lock screen by someone
+  ill or grieving they land as blame, and a notification cannot carry
+  the context that softens them.
+- **No text is typed.** The Arabic and all eleven translations are copied
+  from `src/data/quran/` (the full-Qur'an reader dataset, built from the
+  exact same editions — `extendCorpus.mjs` refuses to run if the two ever
+  disagree on an āyah they both contain), and tafsir is fetched from the
+  same edition `scripts/fetchTafsir.mjs` uses, for the added surahs only.
+- Themes come from the shared tagger in `scripts/ayahThemes.mjs`, the
+  `notable` flag from `ICONIC_REFS` — the same rules as the original 300.
+
+To drop an addition later, remove it from the whitelist and from the
+corpus JSON files (or rebuild with `buildFullCorpus.mjs` and re-run
+`extendCorpus.mjs`).
+
 ## Notable āyāt (`notable` flag)
 
-`scripts/markNotableAyat.mjs` writes a `notable: true` flag onto the 165
-shipped entries listed in `scripts/iconicRefs.mjs` — āyāt frequently
-cited on their own (dua, khutbahs, calligraphy), the same list that gave
-those āyāt priority when the corpus was downselected to 300 in the first
-place. `iconicRefs.mjs` is the single source of truth for both, so the
-build-time curation and the runtime weighting cannot drift apart.
+`scripts/markNotableAyat.mjs` writes a `notable: true` flag onto the
+shipped entries listed in `scripts/iconicRefs.mjs` (262 of the 561 as of
+the curated extension) — āyāt frequently cited on their own (dua,
+khutbahs, calligraphy), the same list that gave those āyāt priority when
+the corpus was downselected to 300 in the first place, extended with the
+most-cited of the curated additions. `iconicRefs.mjs` is the single
+source of truth for both, so the build-time curation and the runtime
+weighting cannot drift apart.
 
 At runtime the selection engine weights these up heavily
 (`NOTABLE_BOOST` in `src/services/selectionEngine/weighting.ts`), so a
@@ -195,14 +248,15 @@ before any of it can be represented as fully vetted.
 tradition) text, opt-in via Settings → "What to show" (ayat only by
 default, hadith only, or mixed — strictly one hadith then one ayah when
 mixed, never a random blend). Shown in its own swipeable feed slide, a
-dedicated **"Hadith" menu** (`app/hadith/index.tsx`) that lists all 500
+dedicated **"Hadith" menu** (`app/hadith/index.tsx`) that lists all 584
 entries filterable by theme and searchable by collection/number, and the
 `/hadith/[id]` detail screen; favorited hadith live in AsyncStorage
 (`src/storage/hadithFavoritesStore.ts`), separate from the SQLite
 favorites table ayat use — deliberately, to avoid touching the schema
 and pipeline the notification system depends on while this feature is
-still new. **Hadith is not yet wired into scheduled notifications** —
-only ayat are, for now.
+still new. Hadith **are** scheduled as notifications under the "hadith
+only" and "mixed" modes — see `docs/NOTIFICATIONS.md` "Hadith
+notifications".
 
 Only **Sahih al-Bukhari** and **Sahih Muslim** are used — by scholarly
 consensus (the "Sahihayn") the two most rigorously authenticated hadith
@@ -216,6 +270,25 @@ the two collections. No hadith text is ever generated, paraphrased, or
 altered by an AI model, for the same reason the Quran text and its tafsir
 never are.
 
+**Curated additions (84 entries).** That mechanical selection took a dozen
+consecutive hadith numbers from each of twenty evenly spaced ranges —
+good for spread, blind to fame — and so skipped nearly every hadith people
+actually quote ("Do not become angry", "the strong is the one who
+controls himself in anger", "speak good or keep silent", "be in this
+world as a stranger", "two blessings many people lose", "Allah does not
+look at your faces and wealth but at your hearts and deeds", "charity
+does not decrease wealth", "O My servants, I have forbidden oppression
+for Myself"…). `scripts/curatedHadithAdditions.mjs` lists those by
+number, each located by its distinctive wording in the English edition
+and chosen among the collection's own duplicates of the report as the
+shortest variant complete in all four required languages; reports whose
+only version is embedded in a long story, or that need historical context
+to read fairly on a lock screen, were left out, and reports already in
+the corpus under another number were not duplicated.
+`node scripts/extendHadithCorpus.mjs` fetches them verbatim from the same
+editions and appends them; it refuses any id not complete in Arabic,
+English, French and Bengali.
+
 **Theme tags** (powering the "Hadith" menu's theme filter) are assigned by
 the same MECHANICAL keyword-matching approach `scripts/buildFullCorpus.mjs`
 uses for ayat, but against `HADITH_THEME_KEYS` (`src/domain/types.ts`) — a
@@ -228,11 +301,12 @@ emotional range built for standalone Quranic āyāt. Every one of these 12
 keys is a `ThemeKey` value that already has a reviewed translation in all
 12 locales, so no separate hadith-only vocabulary or new translations were
 needed. This is explicitly a topic hint, not a religious classification —
-about 60% of the 500 entries don't match a specific keyword list and fall
+about 60% of the entries don't match a specific keyword list and fall
 back to the "good_deeds" category (a real, intentional catch-all, not a
-bug). `scripts/retagHadithThemes.mjs` re-tags the already-fetched 500
-entries against this list without a network re-fetch; keep it and
-`buildHadithCorpus.mjs`'s copy of the same keyword map in sync. Like every
+bug). `scripts/retagHadithThemes.mjs` re-tags the already-fetched
+entries against this list without a network re-fetch; the keyword map
+itself lives once in `scripts/hadithThemes.mjs`, shared by the build,
+retag and extend scripts. Like every
 other mechanically assigned theme in this app, these are a starting point
 for the human reviewer checklist below, not a finished classification.
 

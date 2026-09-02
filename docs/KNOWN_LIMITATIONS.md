@@ -7,11 +7,12 @@ hasn't actually been tested in this development session.
 
 ## Corpus & translations
 
-- The shipped corpus is **300 curated āyāt** (real, verbatim Arabic text
-  and 11-language translations — see `docs/CORPUS.md`), not yet reviewed
-  by a qualified human for religious/editorial accuracy — every entry
-  stays `status: "technically_verified"` until that happens.
-- Hadith (500 entries, Sahih al-Bukhari + Sahih Muslim only) covers only
+- The shipped corpus is **561 curated āyāt** (real, verbatim Arabic text
+  and 11-language translations — see `docs/CORPUS.md`): 300 from the
+  mechanical build plus 261 from a hand-picked whitelist. Not yet reviewed
+  by a qualified scholar for religious/editorial accuracy — the whitelist
+  was read for standalone adequacy, nothing more.
+- Hadith (584 entries, Sahih al-Bukhari + Sahih Muslim only) covers only
   5 of the app's 12 languages (ar/en/fr/bn/ru); tafsir covers 9 of 12
   (all but Portuguese, Dutch, and German). No edition exists yet in the
   open datasets this project sources from for the missing languages. See
@@ -95,13 +96,14 @@ hasn't actually been tested in this development session.
 - UI strings are complete and type-checked for all 12 languages, but have
   not been proofread by a native speaker of each language beyond the
   translations produced during this session.
-- Text-size setting labels ("small"/"medium"/"large"/"extra_large" chips
-  in Settings) are not yet localized strings — a small polish item.
 
 ## Data model
 
-- Only one storage migration exists (`001_init`) — the migration chain
-  has not been exercised across a real schema change, only structurally
-  reviewed.
+- Two storage migrations exist (`001_init`, `002_slot_kind`). The second
+  is the first real schema change the chain has carried (an added
+  column, written as an idempotent function because SQLite has no
+  `ADD COLUMN IF NOT EXISTS`); it has been unit-reviewed and exercised
+  against the in-memory test database, not yet on a device upgraded from
+  an earlier build.
 - No checksum verification is implemented for the Arabic corpus data at
   runtime (only structural validation via `scripts/validateCorpus.ts`).

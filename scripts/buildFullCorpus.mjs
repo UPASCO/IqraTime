@@ -24,6 +24,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { ICONIC_REFS } from "./iconicRefs.mjs";
+import { ayahThemesFor } from "./ayahThemes.mjs";
 
 const srcDir = process.argv[2];
 if (!srcDir) {
@@ -171,45 +172,10 @@ function isStandaloneCandidate(id, en, ar) {
 }
 
 // --- Theme tagging -----------------------------------------------------
-// Keyword matching on the English translation. Deliberately coarse: theme
-// tags are explicitly part of what a human reviewer must verify.
-
-const THEME_KEYWORDS = {
-  patience: ["patien", "persever", "steadfast", "endure", "bear with"],
-  gratitude: ["grateful", "gratitude", "thank", "bounty", "favour", "favor", "blessing"],
-  hope: ["hope", "glad tidings", "good news", "ease", "relief", "despair not", "do not despair"],
-  mercy: ["merciful", "mercy", "compassion", "kind"],
-  trust_in_god: ["rely upon", "reliance", "trust in allah", "sufficient for us", "put their trust", "disposer of affairs"],
-  prayer: ["prayer", "salat", "prostrat", "bow down", "worship him", "establish the"],
-  wisdom: ["wisdom", "wise", "understand", "ponder", "reflect", "reason"],
-  forgiveness: ["forgiv", "pardon", "overlook", "absolve"],
-  generosity: ["spend", "charity", "zakat", "give of", "feed the", "orphan", "needy", "poor"],
-  courage: ["fear not", "do not fear", "grieve not", "be not afraid", "strive", "fight in the"],
-  humility: ["humble", "humility", "arrogan", "boast", "proud", "haughty"],
-  family: ["parents", "mother", "father", "wives", "spouse", "children", "kindred", "relatives"],
-  trials: ["test", "trial", "afflict", "hardship", "calamity", "difficulty", "suffer"],
-  inner_peace: ["tranquil", "peace", "hearts find rest", "at rest", "serenity", "content"],
-  remembrance: ["remember", "remembrance", "mention of allah", "glorify", "praise"],
-  protection: ["protect", "guard", "refuge", "shelter", "defend", "preserve"],
-  knowledge: ["knowledge", "know", "learn", "teach", "taught", "scholars", "read"],
-  good_deeds: ["righteous deed", "good deed", "do good", "does good", "best of deeds", "reward"],
-  repentance: ["repent", "turn to allah", "turn in repentance", "seek forgiveness"],
-  justice: ["justice", "just", "equit", "oppress", "wrong", "fair", "balance", "witness"],
-  brotherhood: ["brother", "believers are", "hold fast", "unity", "reconcil", "each other"],
-  creation: ["created", "creation", "heavens and the earth", "sky", "earth", "rain", "sun", "moon", "stars", "night and day"],
-  guidance: ["guid", "straight path", "right path", "misguid", "astray", "light"],
-};
-
-function themesFor(en) {
-  const lower = en.toLowerCase();
-  const hits = [];
-  for (const [theme, words] of Object.entries(THEME_KEYWORDS)) {
-    if (words.some((w) => lower.includes(w))) hits.push(theme);
-  }
-  // Cap at three so theme filtering stays meaningful rather than matching everything.
-  if (hits.length === 0) return ["guidance"];
-  return hits.slice(0, 3);
-}
+// Shared with scripts/extendCorpus.mjs (see scripts/ayahThemes.mjs) so the
+// original build and the curated additions tag by exactly the same rule.
+// Deliberately coarse: theme tags are explicitly part of what a human
+// reviewer must verify.
 
 // --- Build -------------------------------------------------------------
 
@@ -351,7 +317,7 @@ const catalogOut = {
   entries: selected.map((e) => ({
     id: e.id,
     status: "technically_verified",
-    themes: themesFor(e.en),
+    themes: ayahThemesFor(e.en),
     isDemoOnly: false,
   })),
 };

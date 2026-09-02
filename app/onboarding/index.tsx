@@ -7,7 +7,7 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
-import { getRuntimeCorpus, getTranslation } from "@/data/corpus";
+import { getSampleAyahEntry, getTranslation } from "@/data/corpus";
 import { ALL_THEME_KEYS, type ThemeKey } from "@/domain/types";
 import { requestPermission, getPermissionSnapshot, sendTestNotification, openSystemNotificationSettings } from "@/notifications";
 import { formatNotificationBody } from "@/notifications/rescheduleService";
@@ -26,7 +26,10 @@ export default function OnboardingScreen(): React.JSX.Element {
   const [permissionState, setPermissionState] = useState<PermissionState>("undetermined");
   const [testStatus, setTestStatus] = useState<"idle" | "sent" | "failed">("idle");
 
-  const previewEntry = useMemo(() => getRuntimeCorpus()[0], []);
+  // The first impression of what a notification looks like: a short,
+  // instantly recognised āyah rather than whatever happens to sort first
+  // in the corpus (the basmala).
+  const previewEntry = useMemo(() => getSampleAyahEntry(), []);
   const previewTranslation = previewEntry ? getTranslation(previewEntry.arabic.id, preferences.translationLocale) : undefined;
 
   const next = (): void => setStep((s) => Math.min(TOTAL_STEPS, s + 1));
@@ -156,7 +159,8 @@ export default function OnboardingScreen(): React.JSX.Element {
             <DaySelector activeDays={preferences.schedule.activeDays} onChange={(days) => update({ schedule: { ...preferences.schedule, activeDays: days } })} />
             <Text style={{ color: colors.textSecondary }}>{t("onboarding.step3.themesLabel")}</Text>
             <View style={styles.chipsRow}>
-              {ALL_THEME_KEYS.slice(0, 8).map((theme) => (
+              {/* Every topic, not an arbitrary first eight — the same list the Themes screen offers. */}
+              {ALL_THEME_KEYS.map((theme) => (
                 <Chip
                   key={theme}
                   label={t(`themes.names.${theme}` as Parameters<typeof t>[0])}

@@ -78,10 +78,12 @@ below is checked:
 ## Corpus (`docs/CORPUS.md`, `docs/TRANSLATIONS.md`)
 
 - [x] Arabic text sourced verbatim from the King Fahd Complex Uthmani
-      edition (300 āyāt across 113 surahs, curated down to the āyāt a
-      knowledgeable Muslim would recognise as significant on sight) via
-      `node scripts/buildFullCorpus.mjs` — not hand-typed.
-- [x] Every shipped catalog entry (300 ayat + 500 hadith) is marked
+      edition (561 āyāt: 300 curated down by
+      `node scripts/buildFullCorpus.mjs` to the āyāt a knowledgeable
+      Muslim would recognise as significant on sight, plus 261 from the
+      hand-picked whitelist applied by `node scripts/extendCorpus.mjs`)
+      — not hand-typed.
+- [x] Every shipped catalog entry (561 ayat + 584 hadith) is marked
       `status: "publishable"` — promoted in bulk by the project owner
       (2026-08-25) rather than individually walked through the
       `docs/CORPUS.md` reviewer checklist. The text itself is unchanged
@@ -97,10 +99,12 @@ below is checked:
       except Portuguese, Dutch, and German, which have no edition in the
       source dataset) via `node scripts/fetchTafsir.mjs` — see
       `docs/CORPUS.md` "Tafsir".
-- [x] Hadith corpus (Sahih al-Bukhari + Sahih Muslim only, 500 entries)
-      fetched verbatim via `node scripts/buildHadithCorpus.mjs` — covers
-      5 of 12 languages (ar/en/fr/bn/ru); opt-in, off by default; not yet
-      wired into scheduled notifications — see `docs/CORPUS.md` "Hadith".
+- [x] Hadith corpus (Sahih al-Bukhari + Sahih Muslim only, 584 entries:
+      500 via `node scripts/buildHadithCorpus.mjs` plus 84 curated via
+      `node scripts/extendHadithCorpus.mjs`) fetched verbatim — covers
+      5 of 12 languages (ar/en/fr/bn/ru); opt-in, off by default;
+      scheduled as notifications under the hadith/mixed modes — see
+      `docs/CORPUS.md` "Hadith" and `docs/NOTIFICATIONS.md`.
 - [x] Full Qur'an reader (all 114 surahs, 6236 āyāt, 11 of 12 languages —
       same gap as above, Arabic uses its own text) fetched verbatim via
       `node scripts/buildQuranReaderData.mjs` — see `docs/CORPUS.md`

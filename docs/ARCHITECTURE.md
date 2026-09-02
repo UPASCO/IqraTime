@@ -130,7 +130,10 @@ History and favorites need substring search and ordering (`ORDER BY
 received_at_utc DESC`, indexed), and the notification-slot table needs
 range queries (`WHERE fire_at_utc >= ?`) to find "what's upcoming" — all
 naturally expressed in SQL with indexes (see
-`src/storage/migrations/001_init.ts`). Preferences are a single small JSON
+`src/storage/migrations/001_init.ts`; `002_slot_kind.ts` adds the slot
+kind — a migration step may be a SQL string or, for statements SQLite
+has no idempotent form of, a function that inspects the schema first).
+Preferences are a single small JSON
 blob read/written as a whole, for which a key-value store is simpler and
 faster than a SQL table with no meaningful query pattern. Using SQLite for
 everything would be one storage technology instead of two, but preferences

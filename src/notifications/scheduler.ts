@@ -1,5 +1,5 @@
 import type { SupportedLocale } from "@/config/appConfig";
-import type { NotificationSchedule, NotificationSlot, WeekdayIndex } from "@/domain/types";
+import type { ContentMode, NotificationContentKind, NotificationSchedule, NotificationSlot, WeekdayIndex } from "@/domain/types";
 import { mulberry32, type RandomFn } from "@/services/selectionEngine/rng";
 
 /**
@@ -112,6 +112,11 @@ export function generateSlotTimes(options: GenerateSlotTimesOptions): GeneratedS
   return results.sort((a, b) => a.fireAtUtc.getTime() - b.fireAtUtc.getTime());
 }
 
+export interface PickedContent {
+  readonly kind: NotificationContentKind;
+  readonly contentId: string;
+}
+
 export interface PlanNotificationsInput {
   readonly schedule: NotificationSchedule;
   readonly now: Date;
@@ -119,8 +124,20 @@ export interface PlanNotificationsInput {
   readonly horizonDays: number;
   readonly maxPendingSlots: number;
   readonly translationLocale: SupportedLocale;
+  /**
+   * What the queue may carry. A kept slot whose kind this mode no longer
+   * allows is cancelled and regenerated, so switching "What to show" takes
+   * effect at the next reschedule rather than after the whole queue drains.
+   */
+  readonly contentMode: ContentMode;
   readonly timeZone: string;
-  readonly selectAyahForSlot: (localHour: number) => { ayahId: string } | null;
+  /**
+   * Picks the content for one new slot. `previousKind` is the kind of the
+   * slot that fires just before it (the last kept slot for the first new
+   * one, then the previous pick), so "mixed" can keep alternating across
+   * refills instead of restarting the pattern each time.
+   */
+  readonly selectContentForSlot: (localHour: number, previousKind: NotificationContentKind | undefined) => PickedContent | null;
   readonly generateId: () => string;
   readonly randomSeed?: number;
 }
@@ -132,10 +149,24 @@ export interface NotificationPlan {
   readonly timeZoneChanged: boolean;
 }
 
+/** Whether a slot of this kind may stay queued under the given content mode. */
+export function isKindAllowed(kind: NotificationContentKind, contentMode: ContentMode): boolean {
+  if (contentMode === "ayah_only") return kind === "ayah";
+  if (contentMode === "hadith_only") return kind === "hadith";
+  return true;
+}
+
 /**
  * Diffs the desired sliding notification queue against what's already
  * scheduled, so that rescheduling only cancels what must change and never
  * creates duplicates. See docs/NOTIFICATIONS.md "Sliding queue strategy".
+ *
+ * A kept slot is one that is still in the future AND still matches what
+ * the user would get if it were scheduled today: same time zone, same
+ * translation language, a kind the current content mode allows. Anything
+ * else is cancelled and regenerated — previously a language or content
+ * change only reached the queue once every already-scheduled notification
+ * (up to 58 on iOS, hours to days of them) had fired in the old language.
  */
 export function planNotifications(input: PlanNotificationsInput): NotificationPlan {
   const priorTimeZone = input.existingSlots.find((s) => s.status === "scheduled")?.timeZone;
@@ -147,10 +178,16 @@ export function planNotifications(input: PlanNotificationsInput): NotificationPl
   }
 
   const isObsolete = (slot: NotificationSlot): boolean =>
-    slot.status === "scheduled" && (timeZoneChanged || new Date(slot.fireAtUtcIso).getTime() <= input.now.getTime());
+    slot.status === "scheduled" &&
+    (timeZoneChanged ||
+      new Date(slot.fireAtUtcIso).getTime() <= input.now.getTime() ||
+      slot.locale !== input.translationLocale ||
+      !isKindAllowed(slot.kind, input.contentMode));
 
   const toCancel = input.existingSlots.filter(isObsolete).map((s) => s.id);
-  const keptSlots = input.existingSlots.filter((s) => s.status === "scheduled" && !isObsolete(s));
+  const keptSlots = input.existingSlots
+    .filter((s) => s.status === "scheduled" && !isObsolete(s))
+    .sort((a, b) => a.fireAtUtcIso.localeCompare(b.fireAtUtcIso));
 
   const remainingBudget = Math.max(0, input.maxPendingSlots - keptSlots.length);
   if (remainingBudget === 0) {
@@ -172,13 +209,16 @@ export function planNotifications(input: PlanNotificationsInput): NotificationPl
   });
 
   const toSchedule: NotificationSlot[] = [];
+  let previousKind: NotificationContentKind | undefined = keptSlots[keptSlots.length - 1]?.kind;
   for (const time of times) {
-    const picked = input.selectAyahForSlot(time.localHour);
+    const picked = input.selectContentForSlot(time.localHour, previousKind);
     if (!picked) continue; // corpus exhausted for this slot — logged by the caller
+    previousKind = picked.kind;
     toSchedule.push({
       id: input.generateId(),
       fireAtUtcIso: time.fireAtUtc.toISOString(),
-      ayahId: picked.ayahId,
+      kind: picked.kind,
+      contentId: picked.contentId,
       locale: input.translationLocale,
       status: "scheduled",
       createdAtUtcIso: input.now.toISOString(),

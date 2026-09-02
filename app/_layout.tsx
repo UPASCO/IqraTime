@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AppState, type AppStateStatus } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -14,10 +14,11 @@ import {
   registerBackgroundRequeueTask,
   useNotificationResponseHandler,
 } from "@/notifications";
-import { reschedule } from "@/notifications/rescheduleService";
+import { NOTIFICATION_QUEUE_VERSION, forceFullReschedule, reschedule } from "@/notifications/rescheduleService";
+import { loadQueueVersion, saveQueueVersion } from "@/storage/queueVersionStore";
 import { detectTimeZone } from "@/utils/dateUtils";
 import { generateLocalId } from "@/utils/id";
-import { ayahIdToRouteParam } from "@/utils/routeParams";
+import { ayahIdToRouteParam, hadithIdToRouteParam } from "@/utils/routeParams";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -41,7 +42,11 @@ function NotificationRouting(): null {
     useCallback(
       (action) => {
         if (!action.data) return;
-        router.push(`/ayah/${ayahIdToRouteParam(action.data.ayahId)}`);
+        if (action.data.kind === "hadith") {
+          router.push(`/hadith/${hadithIdToRouteParam(action.data.contentId)}`);
+        } else {
+          router.push(`/ayah/${ayahIdToRouteParam(action.data.contentId)}`);
+        }
       },
       [router],
     ),
@@ -53,27 +58,42 @@ function NotificationRouting(): null {
 function AutoRescheduler(): null {
   const db = useAppDatabase();
   const { preferences, hydrated } = usePreferencesStore();
+  // Guards the one-time queue-version check so it runs exactly once per
+  // app process, not every time a preference change recreates the callback.
+  const versionChecked = useRef(false);
 
-  const runReschedule = useCallback(() => {
-    if (!db || !hydrated) return;
-    reschedule({
-      db,
-      preferences,
-      now: new Date(),
-      timeZone: detectTimeZone(),
-      generateId: generateLocalId,
-    }).catch(() => {
-      // Failures are recorded per-slot inside reschedule(); nothing further to do here.
-    });
-  }, [db, hydrated, preferences]);
+  const runReschedule = useCallback(
+    (full: boolean) => {
+      if (!db || !hydrated) return;
+      const deps = { db, preferences, now: new Date(), timeZone: detectTimeZone(), generateId: generateLocalId };
+      (full ? forceFullReschedule(deps) : reschedule(deps)).catch(() => {
+        // Failures are recorded per-slot inside reschedule(); nothing further to do here.
+      });
+    },
+    [db, hydrated, preferences],
+  );
 
   useEffect(() => {
-    runReschedule();
+    if (!db || !hydrated) return;
+    if (versionChecked.current) {
+      runReschedule(false);
+    } else {
+      versionChecked.current = true;
+      // After an update that changed what a queued notification carries
+      // (see NOTIFICATION_QUEUE_VERSION), renew the whole queue once so the
+      // user never keeps receiving the previous build's content for days —
+      // the incremental refill deliberately leaves future slots untouched.
+      loadQueueVersion().then((stored) => {
+        const stale = stored !== NOTIFICATION_QUEUE_VERSION;
+        runReschedule(stale);
+        if (stale) saveQueueVersion(NOTIFICATION_QUEUE_VERSION).catch(() => {});
+      });
+    }
     const sub = AppState.addEventListener("change", (state: AppStateStatus) => {
-      if (state === "active") runReschedule();
+      if (state === "active") runReschedule(false);
     });
     return () => sub.remove();
-  }, [runReschedule]);
+  }, [db, hydrated, runReschedule]);
 
   return null;
 }

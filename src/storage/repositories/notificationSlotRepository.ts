@@ -6,7 +6,9 @@ import type { NotificationSlotRepository } from "../types";
 interface SlotRow {
   id: string;
   fire_at_utc: string;
+  /** Holds the content id for BOTH kinds — kept under its original name so migration 002 only had to add `kind`, never rewrite rows. */
   ayah_id: string;
+  kind: string | null;
   locale: string;
   status: string;
   created_at_utc: string;
@@ -17,7 +19,9 @@ function fromRow(row: SlotRow): NotificationSlot {
   return {
     id: row.id,
     fireAtUtcIso: row.fire_at_utc,
-    ayahId: row.ayah_id,
+    // Rows written before migration 002 have no kind: they were all āyāt.
+    kind: row.kind === "hadith" ? "hadith" : "ayah",
+    contentId: row.ayah_id,
     locale: row.locale as NotificationSlot["locale"],
     status: row.status as NotificationSlotStatus,
     createdAtUtcIso: row.created_at_utc,
@@ -32,9 +36,9 @@ export function createNotificationSlotRepository(db: SQLite.SQLiteDatabase): Not
         for (const slot of slots) {
           await db.runAsync(
             `INSERT OR REPLACE INTO notification_slots
-             (id, fire_at_utc, ayah_id, locale, status, created_at_utc, time_zone)
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [slot.id, slot.fireAtUtcIso, slot.ayahId, slot.locale, slot.status, slot.createdAtUtcIso, slot.timeZone],
+             (id, fire_at_utc, ayah_id, kind, locale, status, created_at_utc, time_zone)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [slot.id, slot.fireAtUtcIso, slot.contentId, slot.kind, slot.locale, slot.status, slot.createdAtUtcIso, slot.timeZone],
           );
         }
       });

@@ -20,7 +20,7 @@ import {
 } from "@/notifications";
 import { reschedule, forceFullReschedule, formatNotificationBody } from "@/notifications/rescheduleService";
 import { loadLastRescheduleInfo, type LastRescheduleInfo } from "@/storage/diagnosticsStore";
-import { getRuntimeCorpus, getTranslation } from "@/data/corpus";
+import { getTranslation, getSampleAyahEntry } from "@/data/corpus";
 import { formatDateTime, detectTimeZone, formatTime } from "@/utils/dateUtils";
 import { generateLocalId } from "@/utils/id";
 import type { LocalLogEntry, NotificationSlot, UserPreferences } from "@/domain/types";
@@ -33,7 +33,7 @@ import type { LocalLogEntry, NotificationSlot, UserPreferences } from "@/domain/
  * about content.
  */
 function sampleTestBody(preferences: UserPreferences): string {
-  const entry = getRuntimeCorpus()[0];
+  const entry = getSampleAyahEntry();
   if (!entry) return "";
   const translation = getTranslation(entry.arabic.id, preferences.translationLocale);
   return formatNotificationBody({

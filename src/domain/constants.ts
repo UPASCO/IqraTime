@@ -29,6 +29,16 @@ export function timePeriodForHour(hour: number): TimePeriod {
 /** Maximum ayah character length (translation text) considered for a notification body. */
 export const MAX_NOTIFICATION_AYAH_LENGTH = 220;
 
+/**
+ * Maximum hadith character length (translation text) preferred for a
+ * notification body. Hadith run longer than āyāt (the corpus admits up to
+ * 600 English characters), and a lock-screen banner shows roughly the first
+ * 300 before the user has to expand it — so shorter reports are preferred
+ * for the queue, and longer ones are still reachable in the feed. A soft
+ * bound: when nothing shorter is left it is relaxed rather than dead-ending.
+ */
+export const MAX_NOTIFICATION_HADITH_LENGTH = 320;
+
 export const FREQUENCY_OPTIONS_HOURS = [1, 2, 3, 4, 6, 12] as const;
 
 export const MAX_JITTER_MINUTES = 15;
