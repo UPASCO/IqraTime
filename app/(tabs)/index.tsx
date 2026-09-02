@@ -201,6 +201,13 @@ function pickHadithId(avoidIds: ReadonlySet<string>): string | undefined {
 
 const NO_IDS: ReadonlySet<string> = new Set();
 
+/**
+ * How many slides are kept ready below the one on screen. Three is enough
+ * that even a fast run of swipes never catches up with the (async, DB-backed)
+ * selection of the next one, while keeping the mounted card count small.
+ */
+const FEED_BUFFER = 3;
+
 /** Columns in the home shortcut grid. Two keeps every label readable at the largest text size. */
 const MENU_COLUMNS = 2;
 
@@ -261,6 +268,15 @@ export default function HomeScreen(): React.JSX.Element {
 
   const loadingMore = useRef(false);
   const slideCounter = useRef(1);
+  // Synchronous mirror of `feedItems`. topUpFeed() below appends several
+  // slides in one async loop; reading the React state there would see the
+  // stale closure value and compute the wrong "next kind" / length, so the
+  // ref is the source of truth and setFeedItems() just publishes it.
+  const feedItemsRef = useRef<FeedEntry[]>(feedItems);
+  // Index of the slide currently on screen, updated from the FlatList's
+  // scroll-settle callbacks. Drives how far ahead the buffer must reach.
+  const currentIndexRef = useRef(0);
+  const [hasSwiped, setHasSwiped] = useState(false);
   // Every id already shown in this feed session. The history table alone
   // isn't enough to keep a long scroll from circling back: its writes are
   // async and a single scroll can outrun them, and the anti-repeat window
@@ -316,6 +332,60 @@ export default function HomeScreen(): React.JSX.Element {
     return ayahId;
   }, [db, preferences]);
 
+  /**
+   * Picks and appends exactly one slide after the current last one. Returns
+   * false when neither corpus can supply anything (empty corpus) so the
+   * caller can stop looping instead of spinning.
+   */
+  const appendSlide = useCallback(async (): Promise<boolean> => {
+    const lastEntry = feedItemsRef.current[feedItemsRef.current.length - 1];
+    const kind = nextFeedKind(effectiveContentMode, lastEntry?.kind);
+    let entry: FeedEntry | undefined;
+    if (kind === "hadith") {
+      const nextId = pickHadithId(shownHadithIds.current);
+      if (nextId) {
+        shownHadithIds.current.add(nextId);
+        if (await isHadithFavorite(nextId)) setHadithFavoriteIds((prev) => new Set(prev).add(nextId));
+        entry = { key: `slide-${slideCounter.current++}`, kind: "hadith", id: nextId };
+      }
+    } else {
+      const nextId = await pickAnotherAyah();
+      // Always append, even when this ayah already appeared earlier in the
+      // session: the feed is endless by design, so a finite corpus simply
+      // starts coming round again instead of the scroll dead-ending.
+      if (nextId) entry = { key: `slide-${slideCounter.current++}`, kind: "ayah", id: nextId };
+    }
+    if (!entry) return false;
+    feedItemsRef.current = [...feedItemsRef.current, entry];
+    setFeedItems(feedItemsRef.current);
+    return true;
+  }, [effectiveContentMode, pickAnotherAyah]);
+
+  /**
+   * Keeps FEED_BUFFER slides ready *below* the one on screen.
+   *
+   * The feed used to grow by exactly one slide per FlatList onEndReached
+   * call, starting from a single full-screen item. On Android that callback
+   * is unreliable when the content is no taller than the viewport (it can
+   * fire once, late, or not at all), so intermittently there was simply no
+   * next slide to swipe to and the gesture bounced back onto the same āyah.
+   * Pre-filling a small buffer — on mount and after every settled swipe —
+   * means a next page always exists before the user reaches for it, and
+   * onEndReached becomes a redundant safety net rather than the mechanism.
+   */
+  const topUpFeed = useCallback(async (): Promise<void> => {
+    if (loadingMore.current) return;
+    loadingMore.current = true;
+    try {
+      let guard = 0;
+      while (feedItemsRef.current.length < currentIndexRef.current + 1 + FEED_BUFFER && guard++ < FEED_BUFFER + 1) {
+        if (!(await appendSlide())) break;
+      }
+    } finally {
+      loadingMore.current = false;
+    }
+  }, [appendSlide]);
+
   const loadInitialState = useCallback(async () => {
     if (!db) return;
     const firstKind = nextFeedKind(effectiveContentMode, undefined);
@@ -323,7 +393,9 @@ export default function HomeScreen(): React.JSX.Element {
       const firstHadithId = pickHadithId(shownHadithIds.current);
       if (firstHadithId) {
         shownHadithIds.current.add(firstHadithId);
-        setFeedItems([{ key: "slide-0", kind: "hadith", id: firstHadithId }]);
+        feedItemsRef.current = [{ key: "slide-0", kind: "hadith", id: firstHadithId }];
+        currentIndexRef.current = 0;
+        setFeedItems(feedItemsRef.current);
         if (await isHadithFavorite(firstHadithId)) {
           setHadithFavoriteIds((prev) => new Set(prev).add(firstHadithId));
         }
@@ -335,12 +407,19 @@ export default function HomeScreen(): React.JSX.Element {
       // had just read, which reads as the app repeating itself.
       const firstId = await pickAnotherAyah();
       if (firstId) {
-        setFeedItems([{ key: "slide-0", kind: "ayah", id: firstId }]);
+        feedItemsRef.current = [{ key: "slide-0", kind: "ayah", id: firstId }];
+        currentIndexRef.current = 0;
+        setFeedItems(feedItemsRef.current);
         if (await db.favorites.isFavorite(firstId)) {
           setFavoriteIds((prev) => new Set(prev).add(firstId));
         }
       }
     }
+    // Pre-fill the swipe buffer right away so the very first swipe already
+    // has somewhere to go (see topUpFeed for why this can't wait for
+    // onEndReached). Not awaited: the notification bookkeeping below must
+    // not be delayed by DB reads for slides the user hasn't asked for yet.
+    topUpFeed();
 
     recordAppOpen().then(setStreak);
 
@@ -377,7 +456,7 @@ export default function HomeScreen(): React.JSX.Element {
       setStatusMessage(undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- deliberately scoped to schedule.enabled: AutoRescheduler (app/_layout.tsx) already reruns reschedule() reactively on every other preferences change, so this effect only needs to fire on mount and when scheduling is toggled, not on every unrelated preference edit.
-  }, [db, preferences.schedule.enabled, effectiveContentMode, t, pickAnotherAyah]);
+  }, [db, preferences.schedule.enabled, effectiveContentMode, t, pickAnotherAyah, topUpFeed]);
 
   useEffect(() => {
     loadInitialState();
@@ -454,31 +533,18 @@ export default function HomeScreen(): React.JSX.Element {
     }
   };
 
-  const handleEndReached = async (): Promise<void> => {
-    if (loadingMore.current) return;
-    loadingMore.current = true;
-    try {
-      const lastEntry = feedItems[feedItems.length - 1];
-      const kind = nextFeedKind(effectiveContentMode, lastEntry?.kind);
-      if (kind === "hadith") {
-        const nextId = pickHadithId(shownHadithIds.current);
-        if (nextId) {
-          shownHadithIds.current.add(nextId);
-          if (await isHadithFavorite(nextId)) setHadithFavoriteIds((prev) => new Set(prev).add(nextId));
-          setFeedItems((prev) => [...prev, { key: `slide-${slideCounter.current++}`, kind: "hadith", id: nextId }]);
-        }
-      } else {
-        const nextId = await pickAnotherAyah();
-        if (nextId) {
-          // Always append, even when this ayah already appeared earlier in the
-          // session: the feed is endless by design, so a finite corpus simply
-          // starts coming round again instead of the scroll dead-ending.
-          setFeedItems((prev) => [...prev, { key: `slide-${slideCounter.current++}`, kind: "ayah", id: nextId }]);
-        }
-      }
-    } finally {
-      loadingMore.current = false;
-    }
+  /**
+   * Called whenever the FlatList settles on a page (both after a flick and
+   * after a slow drag released without momentum — Android fires only one of
+   * the two depending on the gesture, so both are wired to this). Records
+   * which slide is on screen and refills the buffer beneath it.
+   */
+  const handleScrollSettled = (offsetY: number): void => {
+    if (slideHeight <= 0) return;
+    const index = Math.max(0, Math.round(offsetY / slideHeight));
+    currentIndexRef.current = index;
+    if (index > 0 && !hasSwiped) setHasSwiped(true);
+    topUpFeed();
   };
 
   return (
@@ -644,7 +710,7 @@ export default function HomeScreen(): React.JSX.Element {
                     hadithId={item.id}
                     height={slideHeight}
                     isFavorite={hadithFavoriteIds.has(item.id)}
-                    showSwipeHint={index === 0 && feedItems.length === 1}
+                    showSwipeHint={index === 0 && !hasSwiped}
                     onToggleFavorite={handleToggleHadithFavorite}
                   />
                 ) : (
@@ -652,18 +718,38 @@ export default function HomeScreen(): React.JSX.Element {
                     ayahId={item.id}
                     height={slideHeight}
                     isFavorite={favoriteIds.has(item.id)}
-                    showSwipeHint={index === 0 && feedItems.length === 1}
+                    showSwipeHint={index === 0 && !hasSwiped}
                     onToggleFavorite={handleToggleFavorite}
                   />
                 )
               }
               pagingEnabled
               showsVerticalScrollIndicator={false}
+              // One full slide per snap, aligned to the top of the viewport,
+              // and never more than one page per flick: without
+              // disableIntervalMomentum a strong Android fling can overshoot
+              // two pages, and a gentle one can settle back on the page it
+              // started from. overScrollMode="never" removes the Android
+              // stretch/glow at the ends, which otherwise made a swipe past
+              // the last buffered slide look like the list had jammed.
               snapToInterval={slideHeight}
+              snapToAlignment="start"
+              disableIntervalMomentum
               decelerationRate="fast"
+              overScrollMode="never"
+              // Every slide is a full-height card; keeping the neighbours
+              // mounted (rather than clipped/recycled) is what makes the
+              // next page paint instantly on swipe instead of after a
+              // blank frame. Three slides mounted at a time is cheap.
+              removeClippedSubviews={false}
+              initialNumToRender={3}
+              windowSize={5}
               getItemLayout={(_data, index) => ({ length: slideHeight, offset: slideHeight * index, index })}
-              onEndReached={handleEndReached}
-              onEndReachedThreshold={1.2}
+              onMomentumScrollEnd={(e) => handleScrollSettled(e.nativeEvent.contentOffset.y)}
+              onScrollEndDrag={(e) => handleScrollSettled(e.nativeEvent.contentOffset.y)}
+              // Safety net only — the buffer above is the real mechanism.
+              onEndReached={() => topUpFeed()}
+              onEndReachedThreshold={1.5}
             />
           ) : null}
         </View>
