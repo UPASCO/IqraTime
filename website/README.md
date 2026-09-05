@@ -97,10 +97,10 @@ await page.screenshot({ path: "website/assets/og-image.png" });
 3. **Liens entrants** — le facteur de classement le plus lourd. Quelques
    liens depuis des sites/annuaires réels valent plus que n'importe quel
    réglage technique.
-4. **Fiches Store** — dès la publication de l'app, ajouter les vrais liens
-   App Store / Google Play (ils remplacent les badges « Bientôt ») et
-   renseigner le site dans les deux fiches : le lien réciproque aide les
-   deux référencements.
+4. ~~**Fiches Store**~~ — fait : les badges pointent vers les vraies fiches
+   Google Play et App Store. Reste à renseigner `iqratime.com` dans les
+   deux fiches (App Store Connect / Play Console) : le lien réciproque
+   aide les deux référencements.
 
 ## Domaine, hébergement, email
 

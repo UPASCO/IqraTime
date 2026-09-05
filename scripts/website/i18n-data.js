@@ -23,7 +23,7 @@ module.exports = {
       kicker: "اقرأ · Iqra — « Lis ! », premier mot révélé du Coran",
       title: "Et si chaque notification comptait vraiment ?",
       lead: "Une āyah du Coran ou un hadith authentique différent par heure, directement sur votre écran verrouillé — une source de hassanat, inchAllah, sans compte, sans serveur, sans connexion Internet nécessaire au quotidien.",
-      badgeIos: "📱 Bientôt sur l'App Store",
+      badgeIos: "📱 Télécharger sur l'App Store",
       badgeAndroid: "🤖 Télécharger sur Google Play"
     },
     phone: {
@@ -214,7 +214,7 @@ module.exports = {
       kicker: "اقرأ · Iqra — “Read!”, the first word revealed in the Quran",
       title: "What if every notification truly counted?",
       lead: "A different Quran āyah or authentic hadith every hour, straight to your lock screen — a source of hassanat, inshaAllah, no account, no server, no internet connection needed day to day.",
-      badgeIos: "📱 Coming soon on the App Store",
+      badgeIos: "📱 Download on the App Store",
       badgeAndroid: "🤖 Download on Google Play"
     },
     phone: {
@@ -405,7 +405,7 @@ module.exports = {
       kicker: "اقرأ — أول كلمة نزلت في القرآن الكريم",
       title: "ماذا لو كان لكل إشعار قيمة حقيقية؟",
       lead: "آية من القرآن أو حديث صحيح مختلف كل ساعة، مباشرة على شاشة القفل — مصدر للحسنات إن شاء الله، بدون حساب، بدون خادم، بدون حاجة للاتصال بالإنترنت في الاستخدام اليومي.",
-      badgeIos: "📱 قريبًا على App Store",
+      badgeIos: "📱 حمّله من App Store",
       badgeAndroid: "🤖 حمّله من Google Play"
     },
     phone: {
@@ -596,7 +596,7 @@ module.exports = {
       kicker: "اقرأ · Iqra — „Lies!“, das erste offenbarte Wort des Korans",
       title: "Was wäre, wenn jede Benachrichtigung wirklich zählte?",
       lead: "Stündlich eine andere Koran-Ayah oder ein authentischer Hadith, direkt auf deinem Sperrbildschirm — eine Quelle für Hassanat, inschaAllah, ohne Konto, ohne Server, ohne dass im Alltag eine Internetverbindung nötig ist.",
-      badgeIos: "📱 Bald im App Store",
+      badgeIos: "📱 Im App Store laden",
       badgeAndroid: "🤖 Bei Google Play laden"
     },
     phone: {
@@ -787,7 +787,7 @@ module.exports = {
       kicker: "اقرأ · Iqra — «¡Lee!», la primera palabra revelada del Corán",
       title: "¿Y si cada notificación realmente importara?",
       lead: "Una aleya del Corán o un hadiz auténtico distinto cada hora, directamente en tu pantalla de bloqueo — una fuente de hasanat, inshaAllah, sin cuenta, sin servidor, sin necesidad de conexión a internet en el día a día.",
-      badgeIos: "📱 Próximamente en App Store",
+      badgeIos: "📱 Descargar en App Store",
       badgeAndroid: "🤖 Descargar en Google Play"
     },
     phone: {
@@ -978,7 +978,7 @@ module.exports = {
       kicker: "اقرأ · Iqra — «Leggi!», la prima parola rivelata del Corano",
       title: "E se ogni notifica contasse davvero?",
       lead: "Un'ayah del Corano o un hadith autentico diverso ogni ora, direttamente sulla schermata di blocco — una fonte di hasanat, inshaAllah, senza account, senza server, senza bisogno di connessione a Internet nell'uso quotidiano.",
-      badgeIos: "📱 Presto su App Store",
+      badgeIos: "📱 Scarica su App Store",
       badgeAndroid: "🤖 Scarica su Google Play"
     },
     phone: {
@@ -1169,7 +1169,7 @@ module.exports = {
       kicker: "اقرأ · Iqra — 'Lees!', het eerste geopenbaarde woord van de Koran",
       title: "Wat als elke melding echt zou tellen?",
       lead: "Elk uur een andere Koran-ayah of authentieke hadith, rechtstreeks op je vergrendelscherm — een bron van hasanat, inshaAllah, geen account, geen server, geen internetverbinding nodig in het dagelijks gebruik.",
-      badgeIos: "📱 Binnenkort in de App Store",
+      badgeIos: "📱 Downloaden in de App Store",
       badgeAndroid: "🤖 Downloaden op Google Play"
     },
     phone: {
