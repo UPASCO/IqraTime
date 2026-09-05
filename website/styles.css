@@ -171,37 +171,67 @@ nav a:hover {
   gap: 12px;
 }
 
-.badge {
+/* Store badges follow each store's current badge convention: black plate, the
+   store's own mark, a small lead-in line over the store name. Built as text
+   rather than bitmaps so they stay crisp, translate with the page, and mirror
+   in Arabic. */
+.store-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 18px;
-  border-radius: 10px;
-  background: rgba(247, 243, 232, 0.08);
-  border: 1px solid rgba(247, 243, 232, 0.25);
-  color: var(--ivory);
-  font-size: 0.9rem;
+  gap: 10px;
+  padding: 9px 16px;
+  border-radius: 9px;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
   text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
-.badge.soon {
-  opacity: 0.75;
-  cursor: default;
-}
-
-/* The app is live on this store — its badge is the hero's real CTA. */
-.badge.store {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: var(--night);
-  font-weight: 700;
-  box-shadow: 0 8px 24px rgba(200, 164, 93, 0.35);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.badge.store:hover {
+.store-badge:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(200, 164, 93, 0.45);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+.store-badge-mark {
+  width: 24px;
+  height: 26px;
+  flex: none;
+}
+
+/* The Apple mark reads smaller than the Play mark at equal box height. */
+.store-badge-apple .store-badge-mark {
+  width: 21px;
+  height: 26px;
+  margin-top: -2px;
+}
+
+.store-badge-copy {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+}
+
+.store-badge-pre {
+  font-size: 0.62rem;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Apple's badge sets its lead-in sentence case, Google's sets it upper. */
+.store-badge-apple .store-badge-pre {
+  font-size: 0.68rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.store-badge-name {
+  font-size: 1.25rem;
+  line-height: 1.15;
+  font-weight: 500;
+  letter-spacing: 0.005em;
 }
 
 .hero-visual {
@@ -581,6 +611,18 @@ footer a:hover {
 }
 
 @media (max-width: 640px) {
+  /* Stacked, the two plates would otherwise sit at their own natural widths and
+     read as ragged; one grid column gives them a shared edge. */
+  .badges {
+    display: grid;
+    grid-template-columns: min(260px, 100%);
+    justify-content: center;
+  }
+
+  .store-badge {
+    justify-content: center;
+  }
+
   header .wrap {
     flex-direction: column;
     gap: 10px;
