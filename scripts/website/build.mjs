@@ -32,7 +32,13 @@ const LANGS = ["fr", "en", "ar", "de", "es", "it", "nl"];
 const RTL = new Set(["ar"]);
 
 const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.iqratime.app";
-const APPLE_STORE_URL = "https://apps.apple.com/app/id680466769";
+// Interim: the numeric App Store id has not been confirmed yet (the one read off
+// the App Store Connect screenshot was 9 digits and resolved to an unrelated 2013
+// app, hence "unavailable in your country"). This search URL resolves to the real
+// listing today. Replace it — here and in templates/index.html — with the direct
+// https://apps.apple.com/app/id<10 digits> link once confirmed, and add it back to
+// the JSON-LD store URLs below.
+const APPLE_STORE_URL = "https://apps.apple.com/search?term=iqratime";
 
 /** og:locale wants a full locale, not a bare language code. */
 const OG_LOCALE = {
@@ -91,9 +97,12 @@ function jsonLdFor(lang, pageKey) {
       inLanguage: lang,
       url: urlFor(lang, "index.html"),
       image: `${ORIGIN}/assets/og-image.png`,
-      installUrl: [PLAY_STORE_URL, APPLE_STORE_URL],
-      downloadUrl: [PLAY_STORE_URL, APPLE_STORE_URL],
-      sameAs: [PLAY_STORE_URL, APPLE_STORE_URL],
+      // Play only until the App Store product URL is confirmed: a search URL is
+      // not a product page, and pointing structured data at the wrong app is
+      // worse than listing one store.
+      installUrl: [PLAY_STORE_URL],
+      downloadUrl: [PLAY_STORE_URL],
+      sameAs: [PLAY_STORE_URL],
       offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
       publisher: { "@type": "Organization", name: "IqraTime", url: ORIGIN },
     });
