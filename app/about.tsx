@@ -2,12 +2,11 @@ import React from "react";
 import { View, Text, Pressable, Linking } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-import { Screen, Button, SectionHeader } from "@/components";
+import { Screen, SectionHeader } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { useRouter } from "expo-router";
 import { appConfig } from "@/config/appConfig";
-import { isSupportAvailable } from "@/services/supportPaymentService";
 
 export default function AboutScreen(): React.JSX.Element {
   const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
@@ -78,10 +77,6 @@ export default function AboutScreen(): React.JSX.Element {
           {linkRow("chatbubble-ellipses-outline", t("settings.contactLink"), "iqratime.com/contact", () => open(appConfig.contactUrl))}
           {linkRow("mail-outline", t("settings.contactEmailLabel"), appConfig.contactEmail, () => open(`mailto:${appConfig.contactEmail}`))}
         </View>
-
-        {isSupportAvailable() || __DEV__ ? (
-          <Button label={t("support.menuLabel")} variant="secondary" onPress={() => router.push("/support")} />
-        ) : null}
       </View>
     </Screen>
   );

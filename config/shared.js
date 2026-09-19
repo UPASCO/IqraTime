@@ -27,8 +27,8 @@ module.exports = {
     fr: "Et si chaque notification comptait vraiment ! Une āyah ou un hadith authentique, un peu de hassanat, inchAllah.",
     alt_fr: "Le Coran et les hadiths sur votre écran, sans déverrouiller — une source de hassanat, inchAllah.",
   },
-  version: "1.9.5",
-  buildNumber: 31,
+  version: "1.9.6",
+  buildNumber: 32,
   iosBundleIdentifier: "com.IqraTime.com",
   // Permanent: Google Play binds a listing to its package name for life —
   // it can never be changed after the first publish, only replaced by a

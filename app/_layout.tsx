@@ -151,7 +151,6 @@ function RootNavigator(): React.JSX.Element {
             <Stack.Screen name="sources" />
             <Stack.Screen name="privacy" />
             <Stack.Screen name="about" />
-            <Stack.Screen name="support" />
           </Stack>
         </AppDatabaseProvider>
       </I18nProvider>

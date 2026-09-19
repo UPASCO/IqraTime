@@ -17,7 +17,6 @@ import { selectAyah } from "@/services/selectionEngine";
 import { MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
 import { getPermissionSnapshot } from "@/notifications";
 import { reschedule } from "@/notifications/rescheduleService";
-import { isSupportAvailable } from "@/services/supportPaymentService";
 import type { ContentMode, NotificationSlot } from "@/domain/types";
 import { formatShareText, formatHadithShareText, buildGetTheAppLine } from "@/utils/shareText";
 import { formatDateTime, detectTimeZone } from "@/utils/dateUtils";
@@ -209,7 +208,7 @@ const MENU_COLUMNS = 2;
 interface HomeMenuItem {
   readonly icon: React.ComponentProps<typeof Ionicons>["name"];
   readonly label: string;
-  readonly route: "/quran" | "/hadith" | "/hifz" | "/progress" | "/library" | "/support";
+  readonly route: "/quran" | "/hadith" | "/hifz" | "/progress" | "/library";
   /** Gives the chip the gold-bordered treatment reserved for primary destinations. */
   readonly emphasized: boolean;
 }
@@ -469,26 +468,17 @@ export default function HomeScreen(): React.JSX.Element {
   const dailyAyahId = getDailyAyahId();
   const dailyRef = dailyAyahId ? getCorpusEntry(dailyAyahId) : undefined;
 
-  /**
-   * The home shortcut row. Qur'an and Hadith lead as the two primary
-   * destinations; "Support IqraTime" is appended only when every donation
-   * gate passes (see supportPaymentService), mirroring the website's own
-   * nav — with no ads and no paid tier, this row is the only place in the
-   * app a donation is discoverable without digging through Settings.
-   */
-  const menuItems = useMemo(() => {
-    const items: HomeMenuItem[] = [
+  /** The home shortcut row. Qur'an and Hadith lead as the two primary destinations. */
+  const menuItems = useMemo(
+    (): HomeMenuItem[] => [
       { icon: "book-outline", label: t("quran.title"), route: "/quran", emphasized: true },
       { icon: "layers-outline", label: t("hadith.menuTitle"), route: "/hadith", emphasized: true },
       { icon: "school-outline", label: t("hifz.title"), route: "/hifz", emphasized: false },
       { icon: "ribbon-outline", label: t("progress.title"), route: "/progress", emphasized: false },
       { icon: "search-outline", label: t("home.libraryCta"), route: "/library", emphasized: false },
-    ];
-    if (isSupportAvailable()) {
-      items.push({ icon: "heart-outline", label: t("support.menuLabel"), route: "/support", emphasized: false });
-    }
-    return items;
-  }, [t]);
+    ],
+    [t],
+  );
 
   const menuRows = useMemo(() => {
     const rows: HomeMenuItem[][] = [];
