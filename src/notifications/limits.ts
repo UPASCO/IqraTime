@@ -26,3 +26,14 @@ export function getMaxPendingNotifications(): number {
 export function getSchedulingHorizonDays(): number {
   return Platform.OS === "ios" ? 21 : 30;
 }
+
+/**
+ * How many days of daily-extra slots (Name/Invocation of the day — see
+ * src/notifications/dailyExtras.ts) are queued ahead. Deliberately shorter
+ * than the main horizon on iOS: each enabled daily extra costs one slot per
+ * day out of the same ~58-notification OS budget the āyah queue draws
+ * from, and ten days of dailies is plenty between two app opens.
+ */
+export function getDailyExtrasHorizonDays(): number {
+  return Platform.OS === "ios" ? 10 : 30;
+}

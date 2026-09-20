@@ -6,6 +6,7 @@ import { MAX_NOTIFICATION_AYAH_LENGTH, MAX_NOTIFICATION_HADITH_LENGTH } from "@/
 import type { NotificationSlot, ThemeKey, UserPreferences } from "@/domain/types";
 import { effectiveContentMode, nextFeedKind } from "@/services/feedContentMode";
 import { mulberry32, selectAyah } from "@/services/selectionEngine";
+import { buildDuaNotification, buildNameNotification, isDailyExtraKind, planDailyExtras } from "./dailyExtras";
 import { pickHadithForNotification } from "./hadithPicker";
 import { cancelAllOsNotifications, cancelOsNotifications, scheduleOsNotification } from "./notificationService";
 import { ayahNotificationTitle, hadithNotificationTitle } from "./notificationTitles";
@@ -20,9 +21,11 @@ import { planNotifications, type PickedContent } from "./scheduler";
  * differ, does one forceFullReschedule() instead of the usual incremental
  * refill, so an update never keeps delivering the previous build's content
  * for days. History: 1 = original queue; 2 = titles carry the surah name,
- * hadith slots, payload { kind, contentId } (1.9.5).
+ * hadith slots, payload { kind, contentId } (1.9.5); 3 = Name-of-the-day
+ * and Invocation-of-the-day slots (kinds "name"/"dua") share the OS budget
+ * with the main queue (2.0.0).
  */
-export const NOTIFICATION_QUEUE_VERSION = 2;
+export const NOTIFICATION_QUEUE_VERSION = 3;
 
 export interface RescheduleDependencies {
   readonly db: AppDatabase;
@@ -52,18 +55,71 @@ export interface RescheduleResult {
  */
 export async function reschedule(deps: RescheduleDependencies): Promise<RescheduleResult> {
   const errors: string[] = [];
+  const allExistingSlots = await deps.db.notificationSlots.listAll();
+
+  // The daily extras (Name/Invocation of the day) run on their own toggles,
+  // independent of the main schedule.enabled switch — a user may want the
+  // one daily Name without any āyah queue at all. They are planned FIRST so
+  // the main queue below can be budgeted against what they consume out of
+  // the shared OS pending-notification ceiling.
+  const extrasPlan = planDailyExtras({
+    existingSlots: allExistingSlots,
+    preferences: deps.preferences,
+    now: deps.now,
+    timeZone: deps.timeZone,
+    generateId: deps.generateId,
+  });
+  await safeCancelOs(extrasPlan.toCancel, errors);
+  if (extrasPlan.toCancel.length > 0) {
+    await deps.db.notificationSlots.cancelAll(extrasPlan.toCancel);
+  }
+  const scheduledExtras: NotificationSlot[] = [];
+  for (const slot of extrasPlan.toSchedule) {
+    const content = slot.kind === "name" ? buildNameNotification(slot) : buildDuaNotification(slot, deps.preferences);
+    if (!content) {
+      errors.push(`missing_corpus_entry:${slot.contentId}`);
+      continue;
+    }
+    try {
+      await scheduleOsNotification({
+        slot,
+        title: content.title,
+        bodyText: content.bodyText,
+        locale: slot.locale,
+        soundEnabled: deps.preferences.schedule.soundEnabled,
+        vibrationEnabled: deps.preferences.schedule.vibrationEnabled,
+      });
+      scheduledExtras.push(slot);
+    } catch (error) {
+      errors.push(`os_schedule_failed:${slot.id}:${String(error)}`);
+    }
+  }
+  if (scheduledExtras.length > 0) {
+    await deps.db.notificationSlots.saveAll(scheduledExtras);
+  }
+  const extrasCount = extrasPlan.keptCount + scheduledExtras.length;
+
+  // Everything below is the main āyah/hadith sliding queue — the extras
+  // are invisible to it (planNotifications' content-mode rules only know
+  // "ayah" and "hadith", and an extra's contentId must never leak into the
+  // āyah anti-repeat set).
+  const existingSlots = allExistingSlots.filter((s) => !isDailyExtraKind(s.kind));
 
   if (!deps.preferences.schedule.enabled) {
-    const existing = await deps.db.notificationSlots.listAll();
-    const toCancel = existing.filter((s) => s.status === "scheduled").map((s) => s.id);
+    const toCancel = existingSlots.filter((s) => s.status === "scheduled").map((s) => s.id);
     await safeCancelOs(toCancel, errors);
     await deps.db.notificationSlots.cancelAll(toCancel);
-    await saveLastRescheduleInfo({ atUtcIso: deps.now.toISOString(), status: "disabled", scheduledCount: 0 });
-    return { status: "disabled", scheduledCount: 0, cancelledCount: toCancel.length, timeZoneChanged: false, errors };
+    await saveLastRescheduleInfo({ atUtcIso: deps.now.toISOString(), status: "disabled", scheduledCount: scheduledExtras.length });
+    return {
+      status: "disabled",
+      scheduledCount: scheduledExtras.length,
+      cancelledCount: toCancel.length + extrasPlan.toCancel.length,
+      timeZoneChanged: false,
+      errors,
+    };
   }
 
   const corpus = getRuntimeCorpus();
-  const existingSlots = await deps.db.notificationSlots.listAll();
   const [recentAyahIds, favorites, hidden] = await Promise.all([
     deps.db.history.recentAyahIds(getAntiRepeatWindow()),
     deps.db.favorites.list(),
@@ -143,7 +199,10 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
     now: deps.now,
     existingSlots,
     horizonDays: getSchedulingHorizonDays(),
-    maxPendingSlots: getMaxPendingNotifications(),
+    // The extras spend out of the same OS ceiling; at least one slot is
+    // always left to the main queue so enabling both dailies can never
+    // silence the āyah schedule entirely.
+    maxPendingSlots: Math.max(1, getMaxPendingNotifications() - extrasCount),
     translationLocale,
     contentMode,
     timeZone: deps.timeZone,
@@ -154,7 +213,10 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
       // same thing on the lock screen as on screen: one hadith, one āyah.
       // A hadith slot that cannot be filled (an empty pool is the only way)
       // falls back to an āyah rather than leaving a gap in the schedule.
-      if (nextFeedKind(contentMode, previousKind) === "hadith") {
+      // Extras are filtered out of this planner's input, so previousKind is
+      // only ever a feed kind here; the guard just satisfies the type.
+      const previousFeedKind = previousKind === "ayah" || previousKind === "hadith" ? previousKind : undefined;
+      if (nextFeedKind(contentMode, previousFeedKind) === "hadith") {
         return pickHadith() ?? pickAyah(localHour);
       }
       return pickAyah(localHour);
@@ -191,8 +253,8 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
   // Persist exactly the slots the OS accepted — never a positional slice of
   // the *attempted* list, which silently recorded failed slots (and dropped
   // successful ones) whenever a schedule call failed mid-batch.
-  const scheduledCount = scheduledSlots.length;
-  if (scheduledCount > 0) {
+  const scheduledCount = scheduledSlots.length + scheduledExtras.length;
+  if (scheduledSlots.length > 0) {
     await deps.db.notificationSlots.saveAll(scheduledSlots);
   }
 
@@ -209,7 +271,7 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
   return {
     status,
     scheduledCount,
-    cancelledCount: plan.toCancel.length,
+    cancelledCount: plan.toCancel.length + extrasPlan.toCancel.length,
     timeZoneChanged: plan.timeZoneChanged,
     errors,
   };

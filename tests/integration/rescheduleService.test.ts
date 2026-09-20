@@ -1,4 +1,5 @@
 import { reschedule } from "@/notifications/rescheduleService";
+import { isDailyExtraKind } from "@/notifications/dailyExtras";
 import { scheduleOsNotification } from "@/notifications/notificationService";
 import { defaultPreferences } from "@/storage/preferencesStore";
 import { createInMemoryDatabase } from "../fixtures/inMemoryDatabase";
@@ -64,10 +65,15 @@ describe("reschedule() integration", () => {
     scheduleMock.mockClear();
     const result = await reschedule({ db, preferences: prefs({ contentMode: "hadith_only" }), now, timeZone: "UTC", generateId: idGen() });
     expect(result.status).toBe("success");
-    const stored = await db.notificationSlots.listAll();
+    // The daily extras (Name/Invocation of the day) ride along on their own
+    // toggles whatever the content mode says — only the main queue is
+    // governed by hadith_only.
+    const stored = mainQueue(await db.notificationSlots.listAll());
     expect(stored.length).toBeGreaterThan(0);
     expect(stored.every((s) => s.kind === "hadith" && /^(bukhari|muslim):\d+$/.test(s.contentId))).toBe(true);
-    const titles = scheduleMock.mock.calls.map((call) => (call[0] as { title: string }).title);
+    const hadithCalls = scheduleMock.mock.calls.filter((call) => (call[0] as { slot: NotificationSlot }).slot.kind === "hadith");
+    expect(hadithCalls.length).toBeGreaterThan(0);
+    const titles = hadithCalls.map((call) => (call[0] as { title: string }).title);
     expect(titles.every((title) => /Sahih (al-Bukhari|Muslim) #\d+/.test(title))).toBe(true);
     // Arabic-only display: the body is the Arabic text, never empty.
     const bodies = scheduleMock.mock.calls.map((call) => (call[0] as { bodyText: string }).bodyText);
@@ -77,7 +83,7 @@ describe("reschedule() integration", () => {
   it("strictly alternates hadith and āyah in mixed mode, in firing order", async () => {
     const db = createInMemoryDatabase();
     await reschedule({ db, preferences: prefs({ contentMode: "mixed" }), now, timeZone: "UTC", generateId: idGen() });
-    const stored = (await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled").sort(byFireTime);
+    const stored = mainQueue(await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled").sort(byFireTime);
     expect(stored.length).toBeGreaterThan(2);
     for (let i = 1; i < stored.length; i += 1) {
       expect(stored[i]!.kind).not.toBe(stored[i - 1]!.kind);
@@ -88,11 +94,11 @@ describe("reschedule() integration", () => {
     const db = createInMemoryDatabase();
     const mixed = prefs({ contentMode: "mixed" });
     await reschedule({ db, preferences: mixed, now, timeZone: "UTC", generateId: idGen() });
-    const firstRun = (await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled").sort(byFireTime);
+    const firstRun = mainQueue(await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled").sort(byFireTime);
     // Advance past the first few slots so the refill has room to add new ones after the kept tail.
     const later = new Date(new Date(firstRun[3]!.fireAtUtcIso).getTime() + 1000);
     await reschedule({ db, preferences: mixed, now: later, timeZone: "UTC", generateId: idGen() });
-    const all = (await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled").sort(byFireTime);
+    const all = mainQueue(await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled").sort(byFireTime);
     for (let i = 1; i < all.length; i += 1) {
       expect(all[i]!.kind).not.toBe(all[i - 1]!.kind);
     }
@@ -103,7 +109,9 @@ describe("reschedule() integration", () => {
     const scheduleMock = scheduleOsNotification as jest.Mock;
     scheduleMock.mockClear();
     await reschedule({ db, preferences: prefs(), now, timeZone: "UTC", generateId: idGen() });
-    const titles = scheduleMock.mock.calls.map((call) => (call[0] as { title: string }).title);
+    const ayahCalls = scheduleMock.mock.calls.filter((call) => (call[0] as { slot: NotificationSlot }).slot.kind === "ayah");
+    expect(ayahCalls.length).toBeGreaterThan(0);
+    const titles = ayahCalls.map((call) => (call[0] as { title: string }).title);
     // e.g. "IqraTime • Surah Al-Baqarah 2:286" — a name, then the numeric reference.
     expect(titles.every((title) => /IqraTime • Surah [^\d]+ \d+:\d+$/.test(title))).toBe(true);
   });
@@ -132,20 +140,49 @@ describe("reschedule() integration", () => {
   it("falls back to āyāt only for a translation language that has no hadith edition", async () => {
     const db = createInMemoryDatabase();
     await reschedule({ db, preferences: prefs({ contentMode: "hadith_only", translationLocale: "de" }), now, timeZone: "UTC", generateId: idGen() });
-    const stored = (await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled");
+    const stored = mainQueue(await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled");
     expect(stored.length).toBeGreaterThan(0);
     expect(stored.every((s) => s.kind === "ayah")).toBe(true);
   });
 
-  it("cancels everything and schedules nothing when notifications are disabled", async () => {
+  it("cancels the main queue when notifications are disabled, but keeps the daily extras running", async () => {
     const db = createInMemoryDatabase();
     await reschedule({ db, preferences: prefs(), now, timeZone: "UTC", generateId: idGen() });
     const result = await reschedule({ db, preferences: prefs({ schedule: { ...prefs().schedule, enabled: false } }), now, timeZone: "UTC", generateId: idGen() });
     expect(result.status).toBe("disabled");
     const remaining = (await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled");
+    // The master switch governs the āyah/hadith queue only — the default-on
+    // Name-of-the-day slots deliberately survive it (their own toggle turns
+    // them off).
+    expect(mainQueue(remaining)).toHaveLength(0);
+    expect(remaining.length).toBeGreaterThan(0);
+    expect(remaining.every((s) => s.kind === "name")).toBe(true);
+  });
+
+  it("schedules nothing at all when the schedule and both daily extras are off", async () => {
+    const db = createInMemoryDatabase();
+    const off = prefs({ dailyNameEnabled: false, dailyDuaEnabled: false });
+    await reschedule({ db, preferences: off, now, timeZone: "UTC", generateId: idGen() });
+    const result = await reschedule({ db, preferences: { ...off, schedule: { ...off.schedule, enabled: false } }, now, timeZone: "UTC", generateId: idGen() });
+    expect(result.status).toBe("disabled");
+    const remaining = (await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled");
     expect(remaining).toHaveLength(0);
   });
+
+  it("schedules one dua slot per day when the daily invocation is enabled", async () => {
+    const db = createInMemoryDatabase();
+    await reschedule({ db, preferences: prefs({ dailyDuaEnabled: true }), now, timeZone: "UTC", generateId: idGen() });
+    const duaSlots = (await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled" && s.kind === "dua");
+    expect(duaSlots.length).toBeGreaterThan(0);
+    const days = duaSlots.map((s) => s.fireAtUtcIso.slice(0, 10));
+    expect(new Set(days).size).toBe(days.length);
+  });
 });
+
+/** The āyah/hadith sliding queue — everything except the daily-extra slots. */
+function mainQueue(slots: readonly NotificationSlot[]): NotificationSlot[] {
+  return slots.filter((s) => !isDailyExtraKind(s.kind));
+}
 
 function byFireTime(a: NotificationSlot, b: NotificationSlot): number {
   return a.fireAtUtcIso.localeCompare(b.fireAtUtcIso);

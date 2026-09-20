@@ -94,6 +94,39 @@ export default function SettingsScreen(): React.JSX.Element {
           value={preferences.schedule.vibrationEnabled}
           onValueChange={(v) => update({ schedule: { ...preferences.schedule, vibrationEnabled: v } })}
         />
+        {/* The two dailies are deliberately independent of the master
+            "Notifications enabled" switch above: that switch governs the
+            āyah/hadith queue, while a user may want exactly one Name (or
+            invocation) a day and nothing else — see
+            src/notifications/dailyExtras.ts. */}
+        <SettingRow
+          label={t("settings.dailyNameToggle")}
+          description={t("settings.dailyNameDescription")}
+          value={preferences.dailyNameEnabled}
+          onValueChange={(v) => update({ dailyNameEnabled: v })}
+        />
+        {preferences.dailyNameEnabled ? (
+          <TimeSelector
+            label={t("settings.dailyNameToggle")}
+            hour={preferences.dailyNameHour}
+            minute={0}
+            onChange={(hour) => update({ dailyNameHour: hour })}
+          />
+        ) : null}
+        <SettingRow
+          label={t("settings.dailyDuaToggle")}
+          description={t("settings.dailyDuaDescription")}
+          value={preferences.dailyDuaEnabled}
+          onValueChange={(v) => update({ dailyDuaEnabled: v })}
+        />
+        {preferences.dailyDuaEnabled ? (
+          <TimeSelector
+            label={t("settings.dailyDuaToggle")}
+            hour={preferences.dailyDuaHour}
+            minute={0}
+            onChange={(hour) => update({ dailyDuaHour: hour })}
+          />
+        ) : null}
         <SectionHeader title={t("settings.sectionContent")} />
         <SettingRow label={t("settings.translationLanguage")} />
         <LanguageChipSelector value={preferences.translationLocale} onChange={(locale) => update({ translationLocale: locale })} />

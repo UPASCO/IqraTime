@@ -24,7 +24,7 @@ export function parseNotificationResponse(response: Notifications.NotificationRe
   let data: NotificationActionData | null = null;
   if (raw && typeof raw.locale === "string" && typeof raw.slotId === "string") {
     const locale = raw.locale as NotificationActionData["locale"];
-    if (typeof raw.contentId === "string" && (raw.kind === "ayah" || raw.kind === "hadith")) {
+    if (typeof raw.contentId === "string" && (raw.kind === "ayah" || raw.kind === "hadith" || raw.kind === "name" || raw.kind === "dua")) {
       data = { kind: raw.kind, contentId: raw.contentId, locale, slotId: raw.slotId };
     } else if (typeof raw.ayahId === "string") {
       data = { kind: "ayah", contentId: raw.ayahId, locale, slotId: raw.slotId };

@@ -194,6 +194,43 @@ Arabic for Arabic readers or "Arabic only" display
 (`formatHadithNotificationBody()`). Hadith have no theme preference,
 time-of-day weighting or persisted history; those remain āyah-only.
 
+## Daily extras: Name of the day, Invocation of the day (2.0.0)
+
+Two optional once-a-day notifications ride alongside the main queue:
+the **Name of the day** (one of the 99 Names of Allah, kind `"name"`,
+default **on** at 08:00) and the **Invocation of the day** (kind
+`"dua"`, default off, 20:00). They are planned by
+`src/notifications/dailyExtras.ts`, not `planNotifications()`, because
+everything about them differs: independent toggles (they keep firing
+when the master āyah/hadith switch is off), one fixed local hour instead
+of a frequency window, and **deterministic content tied to the calendar
+day** — every user worldwide gets the same name (a strict 1→99 walk of
+the canonical order) and the same dua (a seeded no-repeat shuffle over
+the short-and-translated pool) on the same local date, exactly like the
+Āyah of the day.
+
+They spend out of the same OS pending-notification ceiling as the main
+queue, so `reschedule()` plans them **first** and hands the main planner
+`getMaxPendingNotifications() − extrasCount` (always leaving it at least
+one slot). Their horizon is `getDailyExtrasHorizonDays()`: 10 days on
+iOS (each enabled extra costs one slot per day out of the ~58 budget),
+30 on Android.
+
+## Cold-start notification taps
+
+A tap that *launches* the app never reaches
+`addNotificationResponseReceivedListener` — iOS delivers the response
+before JS is alive and Android bakes it into the launch intent — which
+used to land the user on Home with an unrelated āyah on screen.
+`NotificationRouting` (`app/_layout.tsx`) now also calls
+`getLastNotificationResponseAsync()` once per process, gated on the root
+navigator being mounted (`useRootNavigationState().key`), and routes it
+through the same handler as a warm tap. An AsyncStorage key remembers
+the last cold-start response already routed (identifier + delivery
+date), because Android replays the same launch intent when the task is
+recreated later and re-routing to a days-old notification would be worse
+than doing nothing.
+
 ## What invalidates an already-queued notification
 
 `planNotifications()` keeps a future slot only while it still matches
@@ -212,8 +249,10 @@ launch, `AutoRescheduler` in `app/_layout.tsx` compares it with the
 version stored on the device (`src/storage/queueVersionStore.ts`) and,
 when they differ, runs one `forceFullReschedule()` instead of the
 incremental refill — so an update never keeps delivering the previous
-build's content. Notifications already in the OS from a pre-1.9.5 build
-still route on tap: `parseNotificationResponse()` accepts the old
+build's content. Version history: 2 = surah-name titles, hadith slots,
+`{ kind, contentId }` payload (1.9.5); 3 = daily-extra slots share the
+OS budget (2.0.0). Notifications already in the OS from a pre-1.9.5
+build still route on tap: `parseNotificationResponse()` accepts the old
 `{ ayahId }` payload as well as `{ kind, contentId }`.
 
 ## Notification actions

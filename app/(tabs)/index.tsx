@@ -27,6 +27,7 @@ import { isHadithFavorite, addHadithFavorite, removeHadithFavorite } from "@/sto
 import { hadithIdToRouteParam } from "@/utils/routeParams";
 import { nextFeedKind, effectiveContentMode as effectiveContentMode_ } from "@/services/feedContentMode";
 import { getDailyAyahId } from "@/services/dailyAyah";
+import { getDailyName, nameMeaningFor } from "@/data/names";
 import { settledSlideIndex, slidesNeeded } from "@/services/feedBuffer";
 
 /** One slide in the swipeable feed, resolved to its display data via useAyahView inside the render. */
@@ -208,7 +209,7 @@ const MENU_COLUMNS = 2;
 interface HomeMenuItem {
   readonly icon: React.ComponentProps<typeof Ionicons>["name"];
   readonly label: string;
-  readonly route: "/quran" | "/hadith" | "/hifz" | "/progress" | "/library";
+  readonly route: "/quran" | "/hadith" | "/duas" | "/names" | "/hifz" | "/progress" | "/library";
   /** Gives the chip the gold-bordered treatment reserved for primary destinations. */
   readonly emphasized: boolean;
 }
@@ -467,12 +468,15 @@ export default function HomeScreen(): React.JSX.Element {
   // changes at local midnight.
   const dailyAyahId = getDailyAyahId();
   const dailyRef = dailyAyahId ? getCorpusEntry(dailyAyahId) : undefined;
+  const dailyName = getDailyName();
 
   /** The home shortcut row. Qur'an and Hadith lead as the two primary destinations. */
   const menuItems = useMemo(
     (): HomeMenuItem[] => [
       { icon: "book-outline", label: t("quran.title"), route: "/quran", emphasized: true },
       { icon: "layers-outline", label: t("hadith.menuTitle"), route: "/hadith", emphasized: true },
+      { icon: "flower-outline", label: t("duas.title"), route: "/duas", emphasized: true },
+      { icon: "diamond-outline", label: t("names.title"), route: "/names", emphasized: false },
       { icon: "school-outline", label: t("hifz.title"), route: "/hifz", emphasized: false },
       { icon: "ribbon-outline", label: t("progress.title"), route: "/progress", emphasized: false },
       { icon: "search-outline", label: t("home.libraryCta"), route: "/library", emphasized: false },
@@ -551,26 +555,70 @@ export default function HomeScreen(): React.JSX.Element {
             ) : null}
           </View>
 
-          {dailyRef ? (
+          {/* The two dailies share one row: the āyah of the day and the Name
+              of the day, both communal (every user worldwide sees the same
+              pair on the same date), which is what makes them shareable —
+              "did you see today's name?" only works if everyone has it. */}
+          <View style={{ flexDirection: "row", gap: spacing.xs }}>
+            {dailyRef ? (
+              <Pressable
+                onPress={() => router.push(`/ayah/${dailyRef.arabic.surah}-${dailyRef.arabic.ayah}`)}
+                accessibilityRole="button"
+                style={{
+                  flex: 1,
+                  gap: 2,
+                  backgroundColor: colors.surfaceElevated,
+                  borderWidth: 1,
+                  borderColor: colors.goldDecorative,
+                  borderRadius: radii.md,
+                  paddingVertical: spacing.sm,
+                  paddingHorizontal: spacing.sm,
+                }}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xxs }}>
+                  <Ionicons name="sunny-outline" size={14} color={colors.gold} />
+                  <Text
+                    numberOfLines={1}
+                    style={{
+                      flex: 1,
+                      color: colors.gold,
+                      fontSize: typography.sizes.caption * fontScaleMultiplier,
+                      fontWeight: typography.weights.semibold,
+                      textTransform: "uppercase",
+                      letterSpacing: 1,
+                    }}
+                  >
+                    {t("daily.bannerLabel")}
+                  </Text>
+                </View>
+                <Text
+                  numberOfLines={1}
+                  style={{ color: colors.textPrimary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.medium }}
+                >
+                  {dailyRef.arabic.surahNameTransliterated} · {dailyRef.arabic.surah}:{dailyRef.arabic.ayah}
+                </Text>
+              </Pressable>
+            ) : null}
             <Pressable
-              onPress={() => router.push(`/ayah/${dailyRef.arabic.surah}-${dailyRef.arabic.ayah}`)}
+              onPress={() => router.push(`/names?n=${dailyName.number}`)}
               accessibilityRole="button"
               style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: spacing.sm,
+                flex: 1,
+                gap: 2,
                 backgroundColor: colors.surfaceElevated,
                 borderWidth: 1,
                 borderColor: colors.goldDecorative,
                 borderRadius: radii.md,
                 paddingVertical: spacing.sm,
-                paddingHorizontal: spacing.md,
+                paddingHorizontal: spacing.sm,
               }}
             >
-              <Ionicons name="sunny-outline" size={18} color={colors.gold} />
-              <View style={{ flex: 1, gap: 2 }}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xxs }}>
+                <Ionicons name="diamond-outline" size={14} color={colors.gold} />
                 <Text
+                  numberOfLines={1}
                   style={{
+                    flex: 1,
                     color: colors.gold,
                     fontSize: typography.sizes.caption * fontScaleMultiplier,
                     fontWeight: typography.weights.semibold,
@@ -578,15 +626,17 @@ export default function HomeScreen(): React.JSX.Element {
                     letterSpacing: 1,
                   }}
                 >
-                  {t("daily.bannerLabel")}
-                </Text>
-                <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.medium }}>
-                  {t("ayah.surahLabel")} {dailyRef.arabic.surahNameTransliterated} · {dailyRef.arabic.surah}:{dailyRef.arabic.ayah}
+                  {t("daily.nameBannerLabel")}
                 </Text>
               </View>
-              <Ionicons name={direction === "rtl" ? "chevron-back" : "chevron-forward"} size={16} color={colors.textSecondary} />
+              <Text
+                numberOfLines={1}
+                style={{ color: colors.textPrimary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.medium }}
+              >
+                {dailyName.transliteration} · {nameMeaningFor(dailyName, locale)}
+              </Text>
             </Pressable>
-          ) : null}
+          </View>
 
           {/* Explicit rows of two flex:1 tiles rather than a wrapping pill
               row. Pills sized themselves to their label, so the row broke

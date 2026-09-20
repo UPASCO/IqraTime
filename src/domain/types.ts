@@ -283,6 +283,13 @@ export interface UserPreferences {
   readonly selectionMode: SelectionMode;
   readonly schedule: NotificationSchedule;
   readonly contentMode: ContentMode;
+  /** One "Name of the day" notification per day (kind "name"), on top of the āyah/hadith queue. */
+  readonly dailyNameEnabled: boolean;
+  /** Local hour (0-23) the daily name fires at. */
+  readonly dailyNameHour: number;
+  /** One "Invocation of the day" notification per day (kind "dua"). */
+  readonly dailyDuaEnabled: boolean;
+  readonly dailyDuaHour: number;
 }
 
 export type NotificationSlotStatus = "scheduled" | "delivered" | "cancelled" | "failed";
@@ -293,14 +300,14 @@ export type NotificationSlotStatus = "scheduled" | "delivered" | "cancelled" | "
  * strictly alternates the two — the same rule the home feed follows
  * (src/services/feedContentMode.ts).
  */
-export type NotificationContentKind = "ayah" | "hadith";
+export type NotificationContentKind = "ayah" | "hadith" | "name" | "dua";
 
 /** A single planned (or already-fired) local notification. */
 export interface NotificationSlot {
   readonly id: string; // local UUID, also used as the OS notification identifier
   readonly fireAtUtcIso: string;
   readonly kind: NotificationContentKind;
-  /** An AyahId ("94:5") when kind is "ayah", a HadithId ("bukhari:6116") when kind is "hadith". */
+  /** AyahId ("94:5") for "ayah", HadithId ("bukhari:6116") for "hadith", a name number ("42") for "name", a dua id ("daily-dua-27") for "dua". */
   readonly contentId: string;
   readonly locale: SupportedLocale;
   readonly status: NotificationSlotStatus;

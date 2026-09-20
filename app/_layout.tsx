@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AppState, type AppStateStatus } from "react-native";
-import { Stack, useRouter } from "expo-router";
+import { Stack, useRootNavigationState, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
+import * as Notifications from "expo-notifications";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { ThemeProvider, useTheme } from "@/theme/ThemeProvider";
 import { I18nProvider, applyNativeLayoutDirection } from "@/i18n/I18nProvider";
@@ -13,6 +15,8 @@ import {
   ensureAndroidNotificationChannels,
   registerBackgroundRequeueTask,
   useNotificationResponseHandler,
+  parseNotificationResponse,
+  type ParsedNotificationAction,
 } from "@/notifications";
 import { NOTIFICATION_QUEUE_VERSION, forceFullReschedule, reschedule } from "@/notifications/rescheduleService";
 import { loadQueueVersion, saveQueueVersion } from "@/storage/queueVersionStore";
@@ -35,22 +39,68 @@ function ThemedStatusBar(): React.JSX.Element {
   return <StatusBar style={resolvedScheme === "dark" ? "light" : "dark"} />;
 }
 
+/** AsyncStorage key remembering the last cold-start notification tap already routed (see below). */
+const LAST_COLD_START_TAP_KEY = "iqratime.lastColdStartNotificationTap";
+
 function NotificationRouting(): null {
   const router = useRouter();
+  // null until expo-router has mounted the root navigator; pushing before
+  // that point is silently dropped, which is exactly the cold-start bug.
+  const navigationReady = useRootNavigationState()?.key != null;
+  const coldStartChecked = useRef(false);
 
-  useNotificationResponseHandler(
-    useCallback(
-      (action) => {
-        if (!action.data) return;
-        if (action.data.kind === "hadith") {
+  const routeAction = useCallback(
+    (action: ParsedNotificationAction) => {
+      if (!action.data) return;
+      switch (action.data.kind) {
+        case "hadith":
           router.push(`/hadith/${hadithIdToRouteParam(action.data.contentId)}`);
-        } else {
+          break;
+        case "name":
+          router.push(`/names?n=${action.data.contentId}`);
+          break;
+        case "dua":
+          router.push(`/duas/${action.data.contentId}`);
+          break;
+        default:
           router.push(`/ayah/${ayahIdToRouteParam(action.data.contentId)}`);
-        }
-      },
-      [router],
-    ),
+      }
+    },
+    [router],
   );
+
+  // Warm path: the app process is already running (foreground/background)
+  // when the notification is tapped, so the response listener fires.
+  useNotificationResponseHandler(routeAction);
+
+  // Cold path: when the tap itself LAUNCHES the app, iOS delivers the
+  // response before JS is alive and Android bakes it into the launch
+  // intent — the listener above never fires, the user lands on Home, and
+  // the tapped āyah is nowhere in sight (the long-standing "wrong ayah on
+  // tap" bug). getLastNotificationResponseAsync() recovers that response;
+  // it is read once per process, only after the navigator can actually
+  // route. The AsyncStorage dedupe guards Android's intent replay: the OS
+  // re-delivers the same launch intent when the task is recreated hours
+  // later, and re-routing the user to a days-old āyah then would be worse
+  // than doing nothing.
+  useEffect(() => {
+    if (!navigationReady || coldStartChecked.current) return;
+    coldStartChecked.current = true;
+    (async () => {
+      const response = await Notifications.getLastNotificationResponseAsync();
+      if (!response) return;
+      const action = parseNotificationResponse(response);
+      if (!action.data) return;
+      const tapKey = `${response.notification.request.identifier}@${response.notification.date}`;
+      try {
+        if ((await AsyncStorage.getItem(LAST_COLD_START_TAP_KEY)) === tapKey) return;
+        await AsyncStorage.setItem(LAST_COLD_START_TAP_KEY, tapKey);
+      } catch {
+        // Storage unavailable — routing once too often beats never routing.
+      }
+      routeAction(action);
+    })().catch(() => {});
+  }, [navigationReady, routeAction]);
 
   return null;
 }
@@ -147,6 +197,9 @@ function RootNavigator(): React.JSX.Element {
             <Stack.Screen name="quran/[surah]" options={{ presentation: "card" }} />
             <Stack.Screen name="hadith/index" options={{ presentation: "card" }} />
             <Stack.Screen name="hifz/index" options={{ presentation: "card" }} />
+            <Stack.Screen name="names/index" options={{ presentation: "card" }} />
+            <Stack.Screen name="duas/index" options={{ presentation: "card" }} />
+            <Stack.Screen name="duas/[id]" options={{ presentation: "card" }} />
             <Stack.Screen name="diagnostics" />
             <Stack.Screen name="sources" />
             <Stack.Screen name="privacy" />

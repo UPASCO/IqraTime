@@ -23,3 +23,13 @@ export function ayahNotificationTitle(locale: SupportedLocale, ref: AyahTitleInp
 export function hadithNotificationTitle(locale: SupportedLocale, collectionDisplayName: string, hadithNumber: number): string {
   return translate(locale, "notifications.hadithTitleTemplate", { collection: collectionDisplayName, number: hadithNumber });
 }
+
+/** The Name-of-the-day title, e.g. "IqraTime • Ar-Raḥmān — Name 1/99". */
+export function nameNotificationTitle(locale: SupportedLocale, transliteration: string, number: number): string {
+  return translate(locale, "notifications.nameTitleTemplate", { transliteration, number });
+}
+
+/** The Invocation-of-the-day title, e.g. "IqraTime • Invocation avant de dormir". */
+export function duaNotificationTitle(locale: SupportedLocale, title: string): string {
+  return translate(locale, "notifications.duaTitleTemplate", { title });
+}

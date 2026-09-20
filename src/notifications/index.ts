@@ -1,4 +1,5 @@
 export * from "./scheduler";
+export * from "./dailyExtras";
 export * from "./limits";
 export * from "./permissions";
 export * from "./notificationService";

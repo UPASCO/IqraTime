@@ -23,6 +23,13 @@ export const defaultPreferences: UserPreferences = {
   selectedThemes: [],
   selectionMode: "balanced_random",
   contentMode: "ayah_only",
+  // The Name of the day ships on by default — one gentle notification at
+  // 08:00 that is the same for every user worldwide (see
+  // src/data/names/index.ts) — and the daily invocation is opt-in.
+  dailyNameEnabled: true,
+  dailyNameHour: 8,
+  dailyDuaEnabled: false,
+  dailyDuaHour: 20,
   schedule: {
     enabled: false,
     startHour: appConfig.defaultSchedule.startHour,
