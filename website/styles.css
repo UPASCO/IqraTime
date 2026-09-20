@@ -469,36 +469,6 @@ section {
   color: var(--warm-white);
 }
 
-/* Donate */
-.donate {
-  background: linear-gradient(160deg, var(--deep-green), var(--night));
-  color: var(--warm-white);
-  text-align: center;
-}
-
-.donate .wrap {
-  max-width: 640px;
-}
-
-.donate h2 {
-  margin-top: 0;
-  color: var(--gold-light);
-}
-
-.donate p {
-  color: var(--ivory);
-  opacity: 0.92;
-}
-
-.donate .btn {
-  background: var(--gold);
-  color: var(--night);
-}
-
-.donate .btn:hover {
-  box-shadow: 0 10px 24px rgba(200, 164, 93, 0.35);
-}
-
 .fine-print {
   margin-top: 16px;
   margin-bottom: 0;
@@ -508,11 +478,6 @@ section {
 
 .fine-print a {
   text-decoration: underline;
-}
-
-.donate .fine-print {
-  font-size: 0.8rem;
-  opacity: 0.7;
 }
 
 /* Support / Contact */

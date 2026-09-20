@@ -16,7 +16,6 @@ module.exports = {
       features: "Fonctionnalités",
       privacy: "Confidentialité",
       similar: "Projets similaires",
-      donate: "Faire un don",
       contact: "Contact"
     },
     hero: {
@@ -86,16 +85,9 @@ module.exports = {
       featuredStatus: "Prochain projet",
       featuredTitle: "Application éducative — apprendre l'islam en s'amusant",
       featuredDesc: "Une application ludique et hors-ligne pour découvrir et apprendre les bases de l'islam en s'amusant, avec les mêmes principes qu'IqraTime : aucun compte, aucune publicité, aucune donnée collectée.",
-      featuredCta: "Soutenir ce projet",
       ideaStatus: "Vous avez une idée ?",
       ideaTitle: "Proposez un projet similaire",
       ideaDesc: "Une idée d'application de rappel, dans le même esprit qu'IqraTime ? Écrivez-nous — nous sommes toujours curieux d'échanger sur de nouveaux projets."
-    },
-    donate: {
-      title: "Soutenir nos projets",
-      text: "IqraTime est gratuit, hors-ligne et sans publicité — et le restera. Vos dons aident à financer son développement continu ainsi que nos prochains projets, comme l'application éducative pour apprendre l'islam en s'amusant.",
-      cta: "Faire un don",
-      fineprint: "Paiement sécurisé par Stripe. Don volontaire, sans contrepartie."
     },
     support: {
       title: "Une question, un problème ?",
@@ -134,7 +126,7 @@ module.exports = {
       title: "Questions fréquentes",
       subtitle: "Tout ce qu'on nous demande le plus souvent sur IqraTime.",
       q1: "IqraTime est-il vraiment gratuit ?",
-      a1: "Oui, entièrement gratuit et sans publicité — et cela ne changera pas. Il n'y a ni abonnement, ni fonctionnalité payante, ni compte à créer. Les dons sont totalement facultatifs et ne débloquent rien.",
+      a1: "Oui, entièrement gratuit et sans publicité — et cela ne changera pas. Il n'y a ni abonnement, ni fonctionnalité payante, ni compte à créer.",
       q2: "L'application fonctionne-t-elle sans connexion Internet ?",
       a2: "Oui. Le corpus, les traductions et la planification des notifications sont entièrement embarqués sur votre appareil. Une fois installée, IqraTime n'a besoin d'aucune connexion pour fonctionner au quotidien.",
       q3: "Mes données personnelles sont-elles collectées ?",
@@ -183,8 +175,6 @@ module.exports = {
       d5: "Journal d'erreurs local",
       u5: "Écran de diagnostics uniquement — jamais transmis",
       storedOutro: "Désinstaller l'application supprime tout cela. « Réinitialiser toutes les données locales » dans les Réglages supprime tout sans désinstaller.",
-      donateTitle: "Dons optionnels « Soutenir IqraTime »",
-      donateText: "Si activé, l'écran de soutien ouvre un Payment Link hébergé par Stripe dans le navigateur système de votre appareil. IqraTime ne voit, ne demande, ne stocke, ni ne transmet jamais aucune donnée de paiement — aucun numéro de carte, aucune date d'expiration, aucun CVC, aucun détail de compte Apple Pay/Google Pay, aucune coordonnée bancaire, aucun montant, aucun historique de transaction Stripe. Cette page est entièrement opérée par Stripe et régie par sa propre politique de confidentialité, indépendante de celle d'IqraTime.",
       formTitle: "Formulaire de contact du site",
       formText: "Si vous utilisez le formulaire de contact de ce site, les informations que vous y saisissez (email, et le cas échéant nom, sujet et message) sont transmises par le service FormSubmit uniquement pour nous acheminer votre message par email. Elles servent exclusivement à vous répondre, ne sont jamais revendues ni utilisées à des fins publicitaires, et sont indépendantes de l'application mobile — qui, elle, ne collecte rien.",
       depsTitle: "Dépendances tierces",
@@ -207,7 +197,6 @@ module.exports = {
       features: "Features",
       privacy: "Privacy",
       similar: "Similar projects",
-      donate: "Donate",
       contact: "Contact"
     },
     hero: {
@@ -277,16 +266,9 @@ module.exports = {
       featuredStatus: "Next project",
       featuredTitle: "Educational app — learning Islam while having fun",
       featuredDesc: "A playful, offline app to discover and learn the basics of Islam while having fun, built on the same principles as IqraTime: no account, no ads, no data collected.",
-      featuredCta: "Support this project",
       ideaStatus: "Got an idea?",
       ideaTitle: "Suggest a similar project",
       ideaDesc: "An idea for a reminder app, in the same spirit as IqraTime? Write to us — we're always curious to talk about new projects."
-    },
-    donate: {
-      title: "Support our projects",
-      text: "IqraTime is free, offline, and ad-free — and it will stay that way. Your donations help fund its ongoing development as well as our upcoming projects, like the educational app for learning Islam while having fun.",
-      cta: "Donate",
-      fineprint: "Secure payment via Stripe. Voluntary donation, no benefit granted."
     },
     support: {
       title: "A question, an issue?",
@@ -325,7 +307,7 @@ module.exports = {
       title: "Frequently asked questions",
       subtitle: "The things people ask us most about IqraTime.",
       q1: "Is IqraTime really free?",
-      a1: "Yes, completely free and ad-free — and that will not change. There is no subscription, no paid feature, and no account to create. Donations are entirely optional and unlock nothing.",
+      a1: "Yes, completely free and ad-free — and that will not change. There is no subscription, no paid feature, and no account to create.",
       q2: "Does the app work without an internet connection?",
       a2: "Yes. The corpus, the translations, and the notification scheduling all ship inside the app. Once installed, IqraTime needs no connection at all for day-to-day use.",
       q3: "Is any of my personal data collected?",
@@ -374,8 +356,6 @@ module.exports = {
       d5: "Local error log",
       u5: "Diagnostics screen only — never transmitted",
       storedOutro: "Uninstalling the app deletes all of it. “Reset all local data” in Settings deletes all of it without uninstalling.",
-      donateTitle: "Optional “Support IqraTime” donations",
-      donateText: "If enabled, the Support screen opens a Stripe-hosted Payment Link in your device's system browser. IqraTime never sees, requests, stores, or transmits any payment data — no card number, no expiration date, no CVC, no Apple Pay/Google Pay account details, no bank details, no amount, no Stripe transaction history. That page is operated entirely by Stripe and governed by its own privacy policy, independent of IqraTime's.",
       formTitle: "Website contact form",
       formText: "If you use this website's contact form, the information you enter (email, and where provided your name, subject and message) is relayed by the FormSubmit service solely to deliver your message to us by email. It is used only to reply to you, is never sold or used for advertising, and is separate from the mobile app — which collects nothing at all.",
       depsTitle: "Third-party dependencies",
@@ -398,7 +378,6 @@ module.exports = {
       features: "المزايا",
       privacy: "الخصوصية",
       similar: "مشاريع مشابهة",
-      donate: "تبرّع",
       contact: "تواصل معنا"
     },
     hero: {
@@ -468,16 +447,9 @@ module.exports = {
       featuredStatus: "المشروع القادم",
       featuredTitle: "تطبيق تعليمي — تعلّم الإسلام بمتعة",
       featuredDesc: "تطبيق ممتع يعمل بدون إنترنت لاكتشاف وتعلّم أساسيات الإسلام بمتعة، بنفس مبادئ IqraTime: بدون حساب، بدون إعلانات، بدون جمع بيانات.",
-      featuredCta: "ادعم هذا المشروع",
       ideaStatus: "لديك فكرة؟",
       ideaTitle: "اقترح مشروعًا مشابهًا",
       ideaDesc: "لديك فكرة لتطبيق تذكير بنفس روح IqraTime؟ راسلنا — نحن دائمًا متحمسون للنقاش حول مشاريع جديدة."
-    },
-    donate: {
-      title: "ادعم مشاريعنا",
-      text: "IqraTime مجاني، يعمل بدون إنترنت، وبدون إعلانات — وسيبقى كذلك. تبرعاتك تساعد في تمويل تطويره المستمر ومشاريعنا القادمة، مثل التطبيق التعليمي لتعلّم الإسلام بمتعة.",
-      cta: "تبرّع الآن",
-      fineprint: "دفع آمن عبر Stripe. تبرّع طوعي بدون أي مقابل."
     },
     support: {
       title: "لديك سؤال أو مشكلة؟",
@@ -516,7 +488,7 @@ module.exports = {
       title: "الأسئلة الشائعة",
       subtitle: "أكثر ما يسألنا عنه الناس حول IqraTime.",
       q1: "هل IqraTime مجاني فعلًا؟",
-      a1: "نعم، مجاني بالكامل وبدون إعلانات — ولن يتغيّر ذلك. لا يوجد اشتراك، ولا ميزات مدفوعة، ولا حساب لإنشائه. التبرّعات اختيارية تمامًا ولا تفتح أي ميزة.",
+      a1: "نعم، مجاني بالكامل وبدون إعلانات — ولن يتغيّر ذلك. لا يوجد اشتراك، ولا ميزات مدفوعة، ولا حساب لإنشائه.",
       q2: "هل يعمل التطبيق بدون اتصال بالإنترنت؟",
       a2: "نعم. النصوص والترجمات وجدولة الإشعارات كلها مضمّنة داخل التطبيق. بعد التثبيت، لا يحتاج IqraTime إلى أي اتصال للاستخدام اليومي.",
       q3: "هل تُجمع أي من بياناتي الشخصية؟",
@@ -565,8 +537,6 @@ module.exports = {
       d5: "سجل الأخطاء المحلي",
       u5: "شاشة التشخيص فقط — لا يُرسل أبدًا",
       storedOutro: "إلغاء تثبيت التطبيق يحذف كل ذلك. و«إعادة تعيين كل البيانات المحلية» في الإعدادات تحذف كل شيء دون إلغاء التثبيت.",
-      donateTitle: "التبرّعات الاختيارية «ادعم IqraTime»",
-      donateText: "عند التفعيل، تفتح شاشة الدعم رابط دفع مستضافًا لدى Stripe في متصفح النظام على جهازك. لا يرى IqraTime ولا يطلب ولا يخزّن ولا ينقل أي بيانات دفع — لا رقم بطاقة، ولا تاريخ انتهاء، ولا CVC، ولا تفاصيل حساب Apple Pay/Google Pay، ولا بيانات مصرفية، ولا مبلغ، ولا سجل معاملات Stripe. تُدار تلك الصفحة بالكامل من Stripe وتخضع لسياسة الخصوصية الخاصة بها، بشكل مستقل عن IqraTime.",
       formTitle: "نموذج التواصل في الموقع",
       formText: "إذا استخدمت نموذج التواصل في هذا الموقع، فإن المعلومات التي تُدخلها (البريد الإلكتروني، وعند توفرها الاسم والموضوع والرسالة) تُنقل عبر خدمة FormSubmit لغرض واحد فقط هو إيصال رسالتك إلينا بالبريد الإلكتروني. تُستخدم حصريًا للرد عليك، ولا تُباع أبدًا ولا تُستخدم لأغراض إعلانية، وهي منفصلة عن تطبيق الهاتف — الذي لا يجمع أي شيء إطلاقًا.",
       depsTitle: "الاعتماديات الخارجية",
@@ -589,7 +559,6 @@ module.exports = {
       features: "Funktionen",
       privacy: "Datenschutz",
       similar: "Ähnliche Projekte",
-      donate: "Spenden",
       contact: "Kontakt"
     },
     hero: {
@@ -659,16 +628,9 @@ module.exports = {
       featuredStatus: "Nächstes Projekt",
       featuredTitle: "Bildungs-App — den Islam spielerisch lernen",
       featuredDesc: "Eine spielerische Offline-App, um die Grundlagen des Islam spielerisch zu entdecken und zu lernen — nach denselben Prinzipien wie IqraTime: kein Konto, keine Werbung, keine Datenerhebung.",
-      featuredCta: "Dieses Projekt unterstützen",
       ideaStatus: "Hast du eine Idee?",
       ideaTitle: "Schlage ein ähnliches Projekt vor",
       ideaDesc: "Eine Idee für eine Erinnerungs-App im Geiste von IqraTime? Schreib uns — wir sind immer neugierig auf neue Projektideen."
-    },
-    donate: {
-      title: "Unterstütze unsere Projekte",
-      text: "IqraTime ist kostenlos, offline und werbefrei — und das wird so bleiben. Deine Spenden helfen, die laufende Entwicklung sowie unsere kommenden Projekte zu finanzieren, wie die Bildungs-App zum spielerischen Erlernen des Islam.",
-      cta: "Jetzt spenden",
-      fineprint: "Sichere Zahlung über Stripe. Freiwillige Spende, ohne Gegenleistung."
     },
     support: {
       title: "Eine Frage, ein Problem?",
@@ -707,7 +669,7 @@ module.exports = {
       title: "Häufige Fragen",
       subtitle: "Was uns am häufigsten zu IqraTime gefragt wird.",
       q1: "Ist IqraTime wirklich kostenlos?",
-      a1: "Ja, vollständig kostenlos und werbefrei — und das bleibt so. Es gibt kein Abo, keine kostenpflichtige Funktion und kein Konto. Spenden sind völlig freiwillig und schalten nichts frei.",
+      a1: "Ja, vollständig kostenlos und werbefrei — und das bleibt so. Es gibt kein Abo, keine kostenpflichtige Funktion und kein Konto.",
       q2: "Funktioniert die App ohne Internetverbindung?",
       a2: "Ja. Textkorpus, Übersetzungen und die Benachrichtigungsplanung sind vollständig in der App enthalten. Nach der Installation braucht IqraTime im Alltag überhaupt keine Verbindung.",
       q3: "Werden persönliche Daten von mir erhoben?",
@@ -756,8 +718,6 @@ module.exports = {
       d5: "Lokales Fehlerprotokoll",
       u5: "Nur für den Diagnose-Bildschirm — wird nie übertragen",
       storedOutro: "Das Deinstallieren der App löscht all das. „Alle lokalen Daten zurücksetzen“ in den Einstellungen löscht alles, ohne zu deinstallieren.",
-      donateTitle: "Optionale Spenden „IqraTime unterstützen“",
-      donateText: "Wenn aktiviert, öffnet der Unterstützungs-Bildschirm einen von Stripe gehosteten Payment Link im Systembrowser deines Geräts. IqraTime sieht, erfragt, speichert und überträgt niemals Zahlungsdaten — keine Kartennummer, kein Ablaufdatum, keinen CVC, keine Apple-Pay-/Google-Pay-Kontodaten, keine Bankdaten, keinen Betrag, keine Stripe-Transaktionshistorie. Diese Seite wird vollständig von Stripe betrieben und unterliegt deren eigener Datenschutzerklärung, unabhängig von der von IqraTime.",
       formTitle: "Kontaktformular der Website",
       formText: "Wenn du das Kontaktformular dieser Website nutzt, werden die eingegebenen Angaben (E-Mail sowie ggf. Name, Betreff und Nachricht) über den Dienst FormSubmit ausschließlich weitergeleitet, um uns deine Nachricht per E-Mail zuzustellen. Sie dienen nur der Beantwortung, werden nie verkauft oder für Werbung genutzt und sind unabhängig von der mobilen App — die selbst gar nichts erhebt.",
       depsTitle: "Drittanbieter-Abhängigkeiten",
@@ -780,7 +740,6 @@ module.exports = {
       features: "Funciones",
       privacy: "Privacidad",
       similar: "Proyectos similares",
-      donate: "Donar",
       contact: "Contacto"
     },
     hero: {
@@ -850,16 +809,9 @@ module.exports = {
       featuredStatus: "Próximo proyecto",
       featuredTitle: "Aplicación educativa — aprender islam divirtiéndose",
       featuredDesc: "Una aplicación lúdica y sin conexión para descubrir y aprender las bases del islam divirtiéndose, con los mismos principios que IqraTime: sin cuenta, sin publicidad, sin recopilación de datos.",
-      featuredCta: "Apoyar este proyecto",
       ideaStatus: "¿Tienes una idea?",
       ideaTitle: "Propón un proyecto similar",
       ideaDesc: "¿Tienes una idea para una app de recordatorios con el mismo espíritu que IqraTime? Escríbenos — siempre nos interesa hablar de nuevos proyectos."
-    },
-    donate: {
-      title: "Apoya nuestros proyectos",
-      text: "IqraTime es gratuito, funciona sin conexión y sin publicidad — y seguirá siéndolo. Tus donaciones ayudan a financiar su desarrollo continuo, así como nuestros próximos proyectos, como la aplicación educativa para aprender islam divirtiéndose.",
-      cta: "Donar",
-      fineprint: "Pago seguro con Stripe. Donación voluntaria, sin contraprestación."
     },
     support: {
       title: "¿Alguna pregunta o problema?",
@@ -898,7 +850,7 @@ module.exports = {
       title: "Preguntas frecuentes",
       subtitle: "Lo que más nos preguntan sobre IqraTime.",
       q1: "¿IqraTime es realmente gratuito?",
-      a1: "Sí, totalmente gratuito y sin publicidad — y no va a cambiar. No hay suscripción, ni funciones de pago, ni cuenta que crear. Las donaciones son completamente opcionales y no desbloquean nada.",
+      a1: "Sí, totalmente gratuito y sin publicidad — y no va a cambiar. No hay suscripción, ni funciones de pago, ni cuenta que crear.",
       q2: "¿La aplicación funciona sin conexión a internet?",
       a2: "Sí. El corpus, las traducciones y la programación de notificaciones vienen incluidos en la aplicación. Una vez instalada, IqraTime no necesita ninguna conexión para el uso diario.",
       q3: "¿Se recopilan mis datos personales?",
@@ -947,8 +899,6 @@ module.exports = {
       d5: "Registro de errores local",
       u5: "Solo para la pantalla de diagnóstico — nunca se transmite",
       storedOutro: "Desinstalar la aplicación elimina todo eso. «Restablecer todos los datos locales» en los Ajustes lo elimina todo sin desinstalar.",
-      donateTitle: "Donaciones opcionales «Apoyar IqraTime»",
-      donateText: "Si está activado, la pantalla de apoyo abre un Payment Link alojado por Stripe en el navegador del sistema de tu dispositivo. IqraTime nunca ve, solicita, almacena ni transmite ningún dato de pago — ningún número de tarjeta, ninguna fecha de caducidad, ningún CVC, ningún detalle de cuenta de Apple Pay/Google Pay, ningún dato bancario, ningún importe, ningún historial de transacciones de Stripe. Esa página está operada íntegramente por Stripe y se rige por su propia política de privacidad, independiente de la de IqraTime.",
       formTitle: "Formulario de contacto del sitio",
       formText: "Si utilizas el formulario de contacto de este sitio, la información que introduces (correo electrónico y, si los indicas, nombre, asunto y mensaje) se transmite mediante el servicio FormSubmit únicamente para hacernos llegar tu mensaje por correo electrónico. Se usa exclusivamente para responderte, nunca se vende ni se utiliza con fines publicitarios, y es independiente de la aplicación móvil, que no recopila nada.",
       depsTitle: "Dependencias de terceros",
@@ -971,7 +921,6 @@ module.exports = {
       features: "Funzionalità",
       privacy: "Privacy",
       similar: "Progetti simili",
-      donate: "Dona",
       contact: "Contatto"
     },
     hero: {
@@ -1041,16 +990,9 @@ module.exports = {
       featuredStatus: "Prossimo progetto",
       featuredTitle: "App educativa — imparare l'islam divertendosi",
       featuredDesc: "Un'app ludica e offline per scoprire e imparare le basi dell'islam divertendosi, con gli stessi principi di IqraTime: nessun account, nessuna pubblicità, nessun dato raccolto.",
-      featuredCta: "Sostieni questo progetto",
       ideaStatus: "Hai un'idea?",
       ideaTitle: "Proponi un progetto simile",
       ideaDesc: "Un'idea per un'app di promemoria nello stesso spirito di IqraTime? Scrivici — siamo sempre curiosi di parlare di nuovi progetti."
-    },
-    donate: {
-      title: "Sostieni i nostri progetti",
-      text: "IqraTime è gratuito, offline e senza pubblicità — e lo rimarrà. Le tue donazioni aiutano a finanziare il suo sviluppo continuo e i nostri prossimi progetti, come l'app educativa per imparare l'islam divertendosi.",
-      cta: "Dona ora",
-      fineprint: "Pagamento sicuro tramite Stripe. Donazione volontaria, senza alcuna contropartita."
     },
     support: {
       title: "Una domanda, un problema?",
@@ -1089,7 +1031,7 @@ module.exports = {
       title: "Domande frequenti",
       subtitle: "Le cose che ci vengono chieste più spesso su IqraTime.",
       q1: "IqraTime è davvero gratuito?",
-      a1: "Sì, completamente gratuito e senza pubblicità — e non cambierà. Non c'è alcun abbonamento, nessuna funzione a pagamento, nessun account da creare. Le donazioni sono del tutto facoltative e non sbloccano nulla.",
+      a1: "Sì, completamente gratuito e senza pubblicità — e non cambierà. Non c'è alcun abbonamento, nessuna funzione a pagamento, nessun account da creare.",
       q2: "L'app funziona senza connessione a internet?",
       a2: "Sì. Il corpus, le traduzioni e la programmazione delle notifiche sono tutti inclusi nell'app. Una volta installata, IqraTime non ha bisogno di alcuna connessione per l'uso quotidiano.",
       q3: "Vengono raccolti i miei dati personali?",
@@ -1138,8 +1080,6 @@ module.exports = {
       d5: "Registro errori locale",
       u5: "Solo per la schermata di diagnostica — mai trasmesso",
       storedOutro: "Disinstallare l'app elimina tutto. «Reimposta tutti i dati locali» nelle Impostazioni elimina tutto senza disinstallare.",
-      donateTitle: "Donazioni facoltative «Sostieni IqraTime»",
-      donateText: "Se attivo, la schermata di sostegno apre un Payment Link ospitato da Stripe nel browser di sistema del tuo dispositivo. IqraTime non vede, non richiede, non memorizza né trasmette mai alcun dato di pagamento — nessun numero di carta, nessuna data di scadenza, nessun CVC, nessun dettaglio di account Apple Pay/Google Pay, nessuna coordinata bancaria, nessun importo, nessuno storico transazioni Stripe. Quella pagina è gestita interamente da Stripe ed è regolata dalla sua informativa sulla privacy, indipendente da quella di IqraTime.",
       formTitle: "Modulo di contatto del sito",
       formText: "Se utilizzi il modulo di contatto di questo sito, le informazioni inserite (email e, se forniti, nome, oggetto e messaggio) vengono trasmesse tramite il servizio FormSubmit al solo scopo di recapitarci il tuo messaggio via email. Sono usate esclusivamente per risponderti, non vengono mai vendute né utilizzate a fini pubblicitari, e sono indipendenti dall'app mobile — che non raccoglie nulla.",
       depsTitle: "Dipendenze di terze parti",
@@ -1162,7 +1102,6 @@ module.exports = {
       features: "Functies",
       privacy: "Privacy",
       similar: "Vergelijkbare projecten",
-      donate: "Doneren",
       contact: "Contact"
     },
     hero: {
@@ -1232,16 +1171,9 @@ module.exports = {
       featuredStatus: "Volgend project",
       featuredTitle: "Educatieve app — de islam leren terwijl je plezier hebt",
       featuredDesc: "Een speelse offline-app om de basis van de islam op een leuke manier te ontdekken en te leren, met dezelfde principes als IqraTime: geen account, geen advertenties, geen verzamelde gegevens.",
-      featuredCta: "Steun dit project",
       ideaStatus: "Heb je een idee?",
       ideaTitle: "Stel een vergelijkbaar project voor",
       ideaDesc: "Een idee voor een herinnerings-app in dezelfde geest als IqraTime? Schrijf ons — we praten graag over nieuwe projecten."
-    },
-    donate: {
-      title: "Steun onze projecten",
-      text: "IqraTime is gratis, offline en zonder advertenties — en dat blijft zo. Jouw donaties helpen de verdere ontwikkeling te financieren, evenals onze volgende projecten, zoals de educatieve app om de islam te leren terwijl je plezier hebt.",
-      cta: "Doneer nu",
-      fineprint: "Veilige betaling via Stripe. Vrijwillige donatie, zonder tegenprestatie."
     },
     support: {
       title: "Een vraag of een probleem?",
@@ -1280,7 +1212,7 @@ module.exports = {
       title: "Veelgestelde vragen",
       subtitle: "Wat mensen ons het vaakst vragen over IqraTime.",
       q1: "Is IqraTime echt gratis?",
-      a1: "Ja, volledig gratis en zonder advertenties — en dat blijft zo. Er is geen abonnement, geen betaalde functie en geen account nodig. Donaties zijn volledig vrijwillig en ontgrendelen niets.",
+      a1: "Ja, volledig gratis en zonder advertenties — en dat blijft zo. Er is geen abonnement, geen betaalde functie en geen account nodig.",
       q2: "Werkt de app zonder internetverbinding?",
       a2: "Ja. Het corpus, de vertalingen en de meldingsplanning zitten allemaal in de app zelf. Na installatie heeft IqraTime voor dagelijks gebruik geen enkele verbinding nodig.",
       q3: "Worden mijn persoonlijke gegevens verzameld?",
@@ -1329,8 +1261,6 @@ module.exports = {
       d5: "Lokaal foutenlogboek",
       u5: "Alleen voor het diagnosescherm — wordt nooit verzonden",
       storedOutro: "De app verwijderen wist dit alles. „Alle lokale gegevens resetten” in de Instellingen wist alles zonder de app te verwijderen.",
-      donateTitle: "Optionele donaties „Steun IqraTime”",
-      donateText: "Indien ingeschakeld opent het ondersteuningsscherm een door Stripe gehoste Payment Link in de systeembrowser van je toestel. IqraTime ziet, vraagt, bewaart of verzendt nooit betaalgegevens — geen kaartnummer, geen vervaldatum, geen CVC, geen Apple Pay-/Google Pay-accountgegevens, geen bankgegevens, geen bedrag, geen Stripe-transactiegeschiedenis. Die pagina wordt volledig door Stripe beheerd en valt onder hun eigen privacybeleid, los van dat van IqraTime.",
       formTitle: "Contactformulier van de website",
       formText: "Als je het contactformulier van deze website gebruikt, worden de gegevens die je invult (e-mail en, indien opgegeven, naam, onderwerp en bericht) via de dienst FormSubmit doorgestuurd met als enig doel je bericht per e-mail bij ons te bezorgen. Ze worden uitsluitend gebruikt om je te antwoorden, worden nooit verkocht of voor advertenties gebruikt, en staan los van de mobiele app — die zelf niets verzamelt.",
       depsTitle: "Afhankelijkheden van derden",
