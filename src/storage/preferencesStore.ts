@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { appConfig } from "@/config/appConfig";
-import type { UserPreferences } from "@/domain/types";
+import type { ContentMode, UserPreferences } from "@/domain/types";
+import { legacyContentModeToKinds } from "@/services/feedContentMode";
 
 const STORAGE_KEY = "ayahnow.preferences";
 export const PREFERENCES_SCHEMA_VERSION = 1;
@@ -22,7 +23,10 @@ export const defaultPreferences: UserPreferences = {
   textSizeScale: "medium",
   selectedThemes: [],
   selectionMode: "balanced_random",
-  contentMode: "ayah_only",
+  // Everything on by default (2.1.0): the feed and the notification queue
+  // rotate through āyāt, hadiths, Names and invocations; each kind can be
+  // switched off independently in Settings.
+  contentKinds: { ayah: true, hadith: true, name: true, dua: true },
   // The Name of the day ships on by default — one gentle notification at
   // 08:00 that is the same for every user worldwide (see
   // src/data/names/index.ts) — and the daily invocation is opt-in.
@@ -62,10 +66,22 @@ function looksLikePreferences(value: unknown): value is UserPreferences {
   );
 }
 
-/** Migrates an older persisted shape forward. Currently a no-op chain (schema v1 is the first version). */
+/** Migrates an older persisted shape forward (schema v1 covers all shapes so far; additive fields are backfilled from defaults). */
 function migrate(stored: StoredPreferences): UserPreferences {
-  // Future migrations: `if (stored.schemaVersion < 2) { ... }`
-  return { ...defaultPreferences, ...stored.preferences, schedule: { ...defaultPreferences.schedule, ...stored.preferences.schedule } };
+  const merged: UserPreferences = {
+    ...defaultPreferences,
+    ...stored.preferences,
+    schedule: { ...defaultPreferences.schedule, ...stored.preferences.schedule },
+  };
+  // Pre-2.1.0 builds persisted a three-way `contentMode` instead of
+  // `contentKinds`. When the stored value has no contentKinds yet, map the
+  // legacy switch (see legacyContentModeToKinds for why the old default
+  // maps to the new everything-on default).
+  const legacy = (stored.preferences as UserPreferences & { contentMode?: ContentMode }).contentMode;
+  if (!(stored.preferences as Partial<UserPreferences>).contentKinds && legacy) {
+    return { ...merged, contentKinds: legacyContentModeToKinds(legacy) };
+  }
+  return merged;
 }
 
 export interface LoadPreferencesResult {

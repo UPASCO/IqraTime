@@ -251,9 +251,25 @@ when they differ, runs one `forceFullReschedule()` instead of the
 incremental refill — so an update never keeps delivering the previous
 build's content. Version history: 2 = surah-name titles, hadith slots,
 `{ kind, contentId }` payload (1.9.5); 3 = daily-extra slots share the
-OS budget (2.0.0). Notifications already in the OS from a pre-1.9.5
+OS budget (2.0.0); 4 = ContentKinds rotation and the "daily-" extra-slot
+id prefix (2.1.0). Notifications already in the OS from a pre-1.9.5
 build still route on tap: `parseNotificationResponse()` accepts the old
 `{ ayahId }` payload as well as `{ kind, contentId }`.
+
+## What the queue carries: ContentKinds (2.1.0)
+
+"What to show" is four independent toggles — āyāt, hadiths, Names of
+Allah, invocations (`ContentKinds`, default all on) — driving the home
+feed and the notification queue through the same fixed rotation
+(`KIND_ROTATION` in `src/services/feedContentMode.ts`): āyah → hadith →
+name → dua, restricted to the enabled kinds, so the mix is predictable
+rather than a random blend. Hadith drops out automatically for a locale
+with no hadith edition (`effectiveContentKinds`), and an empty selection
+falls back to āyāt so the queue can never go silent. Names and duas in
+the MAIN queue are random picks with the still-pending ones excluded —
+distinct from the fixed-hour communal "Name/Invocation of the day"
+extras, whose slots are recognised by their `daily-` id prefix
+(`isDailyExtraSlot`) now that kind alone no longer identifies them.
 
 ## Notification actions
 

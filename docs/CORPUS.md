@@ -343,11 +343,14 @@ verbatim from the MIT-licensed
 build cross-checks every Arabic name (diacritics- and hamza-folded)
 against an embedded canonical list, refusing to write if fewer than
 97/99 match. Documented **editorial exceptions**: the Latin
-transliterations, the one-line French renderings, and the English gloss
-for Al-Aḥad (n°67 — imanikurd counts "Allah" itself as its first entry,
-so only 98 of the traditional 99 exist there). A one-line meaning is a
-gloss, not scripture; non-English/French locales see the English gloss
-as a deliberate visible fallback (`nameMeaningFor`).
+transliterations, the one-line renderings in
+fr/de/es/it/nl/pt/ru (scripts/addNamesGlossesI18n.mjs, keyed by number
+and guarded by transliteration so they can never misalign), and the
+English gloss for Al-Aḥad (n°67 — imanikurd counts "Allah" itself as its
+first entry, so only 98 of the traditional 99 exist there). A one-line
+meaning is a gloss, not scripture; bn/hi/zh-CN see the English gloss as
+a deliberate visible fallback, and Arabic readers get no gloss at all —
+the name itself is the text (`nameMeaningFor` returns "").
 
 **`src/data/duas/duas.json`** — 110 well-known invocations. The five
 Hisn-style categories (daily, morning/evening adhkar, after-salah,
@@ -355,9 +358,9 @@ selected) are copied verbatim — Arabic, transliteration, English
 translation, source line, benefit note — from the MIT-licensed
 [fitrahive/dua-dhikr](https://github.com/fitrahive/dua-dhikr) dataset.
 The `quranic-dua` category (the famous Rabbanā duas) copies **full,
-consecutive āyāt** and their English/French translations verbatim from
-`src/data/quran/` — the app's own licensed dataset — never a fragment
-cut mid-verse. The French functional titles are editorial labels (like
+consecutive āyāt** and their translations in **all 11 reader editions**
+verbatim from `src/data/quran/` — the app's own licensed dataset — never
+a fragment cut mid-verse, so these 13 entries are fully localized. The French functional titles are editorial labels (like
 UI strings), not translations of scripture; the dua texts themselves are
 shown in English for non-French locales with an explicit on-screen
 notice (`duas.englishFallbackNotice`), the same visible-fallback policy

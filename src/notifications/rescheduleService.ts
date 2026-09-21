@@ -4,9 +4,11 @@ import { getRuntimeCorpus, getTranslation, getCorpusEntry, getAntiRepeatWindow }
 import { getRuntimeHadithCorpus, getHadithEntry, getHadithTranslation } from "@/data/corpus/hadith";
 import { MAX_NOTIFICATION_AYAH_LENGTH, MAX_NOTIFICATION_HADITH_LENGTH } from "@/domain/constants";
 import type { NotificationSlot, ThemeKey, UserPreferences } from "@/domain/types";
-import { effectiveContentMode, nextFeedKind } from "@/services/feedContentMode";
+import { effectiveContentKinds, nextFeedKind } from "@/services/feedContentMode";
 import { mulberry32, selectAyah } from "@/services/selectionEngine";
-import { buildDuaNotification, buildNameNotification, isDailyExtraKind, planDailyExtras } from "./dailyExtras";
+import { getAllNames } from "@/data/names";
+import { getDailyDuaPool } from "@/data/duas";
+import { buildDuaNotification, buildNameNotification, isDailyExtraSlot, planDailyExtras } from "./dailyExtras";
 import { pickHadithForNotification } from "./hadithPicker";
 import { cancelAllOsNotifications, cancelOsNotifications, scheduleOsNotification } from "./notificationService";
 import { ayahNotificationTitle, hadithNotificationTitle } from "./notificationTitles";
@@ -23,9 +25,11 @@ import { planNotifications, type PickedContent } from "./scheduler";
  * for days. History: 1 = original queue; 2 = titles carry the surah name,
  * hadith slots, payload { kind, contentId } (1.9.5); 3 = Name-of-the-day
  * and Invocation-of-the-day slots (kinds "name"/"dua") share the OS budget
- * with the main queue (2.0.0).
+ * with the main queue (2.0.0); 4 = the main queue rotates through the
+ * enabled ContentKinds (names and duas included) and daily-extra slots
+ * carry the "daily-" id prefix (2.1.0).
  */
-export const NOTIFICATION_QUEUE_VERSION = 3;
+export const NOTIFICATION_QUEUE_VERSION = 4;
 
 export interface RescheduleDependencies {
   readonly db: AppDatabase;
@@ -99,11 +103,10 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
   }
   const extrasCount = extrasPlan.keptCount + scheduledExtras.length;
 
-  // Everything below is the main āyah/hadith sliding queue — the extras
-  // are invisible to it (planNotifications' content-mode rules only know
-  // "ayah" and "hadith", and an extra's contentId must never leak into the
-  // āyah anti-repeat set).
-  const existingSlots = allExistingSlots.filter((s) => !isDailyExtraKind(s.kind));
+  // Everything below is the main sliding queue — the daily extras are
+  // invisible to it (they answer to their own toggles and hours, and an
+  // extra's contentId must never leak into the queue's anti-repeat sets).
+  const existingSlots = allExistingSlots.filter((s) => !isDailyExtraSlot(s));
 
   if (!deps.preferences.schedule.enabled) {
     const toCancel = existingSlots.filter((s) => s.status === "scheduled").map((s) => s.id);
@@ -132,23 +135,28 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
 
   const usedIdsThisRun = new Set<string>(recentAyahIds);
   // Content already waiting in the queue counts as "recent" too: without
-  // this a refill could queue an āyah (or hadith) that is still due to
-  // fire from the previous refill, and the user would see it twice in a row.
+  // this a refill could queue content that is still due to fire from the
+  // previous refill, and the user would see it twice in a row.
   const queuedHadithIds = new Set<string>();
+  const queuedNameNumbers = new Set<string>();
+  const queuedDuaIds = new Set<string>();
   for (const slot of existingSlots) {
     if (slot.status !== "scheduled") continue;
     if (slot.kind === "hadith") queuedHadithIds.add(slot.contentId);
+    else if (slot.kind === "name") queuedNameNumbers.add(slot.contentId);
+    else if (slot.kind === "dua") queuedDuaIds.add(slot.contentId);
     else usedIdsThisRun.add(slot.contentId);
   }
   let lastSurah: number | undefined = getCorpusEntry(recentAyahIds[0] ?? "")?.arabic.surah;
 
   const { translationLocale, textDisplayMode } = deps.preferences;
-  // Same downgrade the feed applies: hadith modes fall back to āyāt for a
-  // language with no hadith edition (see effectiveContentMode).
-  const contentMode = effectiveContentMode(deps.preferences.contentMode, translationLocale);
-  // A separate stream from the selection engine's so seeding one never
-  // shifts the other's picks.
+  // Same gating the feed applies: hadith drops out of the rotation for a
+  // language with no hadith edition (see effectiveContentKinds).
+  const contentKinds = effectiveContentKinds(deps.preferences.contentKinds, translationLocale);
+  // Separate streams from the selection engine's so seeding one never
+  // shifts the others' picks.
   const hadithRandom = mulberry32((deps.randomSeed ?? deps.now.getTime()) ^ 0x9e3779b9);
+  const extraRandom = mulberry32((deps.randomSeed ?? deps.now.getTime()) ^ 0x51ed270b);
 
   const pickAyah = (localHour: number): PickedContent | null => {
     const result = selectAyah({
@@ -194,6 +202,31 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
     return { kind: "hadith", contentId: picked.hadithId };
   };
 
+  // Names and duas in the MAIN queue (kind rotation — distinct from the
+  // fixed-hour "Name/Invocation of the day" extras): random picks with the
+  // still-queued ones excluded, so nothing repeats while pending. Both
+  // pools are small; once exhausted the exclusion resets rather than
+  // leaving a hole in the schedule.
+  const pickFromPool = (pool: readonly string[], queued: Set<string>, random: () => number): string | undefined => {
+    const fresh = pool.filter((id) => !queued.has(id));
+    const from = fresh.length > 0 ? fresh : pool;
+    const picked = from[Math.floor(random() * from.length)];
+    if (picked !== undefined) queued.add(picked);
+    return picked;
+  };
+
+  const pickName = (): PickedContent | null => {
+    const picked = pickFromPool(getAllNames().map((n) => String(n.number)), queuedNameNumbers, extraRandom);
+    return picked ? { kind: "name", contentId: picked } : null;
+  };
+
+  const pickDua = (): PickedContent | null => {
+    // Same lock-screen-suitable pool as the daily invocation: translated
+    // and short enough to be read at a glance.
+    const picked = pickFromPool(getDailyDuaPool().map((d) => d.id), queuedDuaIds, extraRandom);
+    return picked ? { kind: "dua", contentId: picked } : null;
+  };
+
   const plan = planNotifications({
     schedule: deps.preferences.schedule,
     now: deps.now,
@@ -204,21 +237,19 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
     // silence the āyah schedule entirely.
     maxPendingSlots: Math.max(1, getMaxPendingNotifications() - extrasCount),
     translationLocale,
-    contentMode,
+    contentKinds,
     timeZone: deps.timeZone,
     generateId: deps.generateId,
     randomSeed: deps.randomSeed,
     selectContentForSlot: (localHour, previousKind) => {
-      // The exact alternation rule the home feed uses, so "mixed" means the
-      // same thing on the lock screen as on screen: one hadith, one āyah.
-      // A hadith slot that cannot be filled (an empty pool is the only way)
-      // falls back to an āyah rather than leaving a gap in the schedule.
-      // Extras are filtered out of this planner's input, so previousKind is
-      // only ever a feed kind here; the guard just satisfies the type.
-      const previousFeedKind = previousKind === "ayah" || previousKind === "hadith" ? previousKind : undefined;
-      if (nextFeedKind(contentMode, previousFeedKind) === "hadith") {
-        return pickHadith() ?? pickAyah(localHour);
-      }
+      // The exact rotation rule the home feed uses, so the mix means the
+      // same thing on the lock screen as on screen. A hadith slot that
+      // cannot be filled (an empty pool is the only way) falls back to an
+      // āyah rather than leaving a gap in the schedule.
+      const kind = nextFeedKind(contentKinds, previousKind);
+      if (kind === "hadith") return pickHadith() ?? pickAyah(localHour);
+      if (kind === "name") return pickName() ?? pickAyah(localHour);
+      if (kind === "dua") return pickDua() ?? pickAyah(localHour);
       return pickAyah(localHour);
     },
   });
@@ -230,7 +261,14 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
 
   const scheduledSlots: NotificationSlot[] = [];
   for (const slot of plan.toSchedule) {
-    const content = slot.kind === "hadith" ? buildHadithNotification(slot, deps.preferences) : buildAyahNotification(slot, deps.preferences);
+    const content =
+      slot.kind === "hadith"
+        ? buildHadithNotification(slot, deps.preferences)
+        : slot.kind === "name"
+          ? buildNameNotification(slot)
+          : slot.kind === "dua"
+            ? buildDuaNotification(slot, deps.preferences)
+            : buildAyahNotification(slot, deps.preferences);
     if (!content) {
       errors.push(`missing_corpus_entry:${slot.contentId}`);
       continue;

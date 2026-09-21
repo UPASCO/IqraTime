@@ -1,5 +1,5 @@
 import { reschedule } from "@/notifications/rescheduleService";
-import { isDailyExtraKind } from "@/notifications/dailyExtras";
+import { isDailyExtraSlot } from "@/notifications/dailyExtras";
 import { scheduleOsNotification } from "@/notifications/notificationService";
 import { defaultPreferences } from "@/storage/preferencesStore";
 import { createInMemoryDatabase } from "../fixtures/inMemoryDatabase";
@@ -52,18 +52,24 @@ describe("reschedule() integration", () => {
     }
   });
 
-  it("never queues the same āyah twice while it is still pending", async () => {
+  it("never queues the same content twice within a kind while it is still pending", async () => {
     const db = createInMemoryDatabase();
     await reschedule({ db, preferences: prefs(), now, timeZone: "UTC", generateId: idGen() });
-    const queued = (await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled").map((s) => s.contentId);
-    expect(new Set(queued).size).toBe(queued.length);
+    const queued = mainQueue(await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled");
+    // Anti-repeat is per kind (an āyah "2:255" and a hadith share nothing);
+    // the calendar-driven daily extras are excluded — the Name of the day
+    // may legitimately coincide with a rotation pick.
+    for (const kind of ["ayah", "hadith", "name", "dua"] as const) {
+      const ids = queued.filter((s) => s.kind === kind).map((s) => s.contentId);
+      expect(new Set(ids).size).toBe(ids.length);
+    }
   });
 
   it("schedules only hadith in hadith_only mode, titled by collection and number", async () => {
     const db = createInMemoryDatabase();
     const scheduleMock = scheduleOsNotification as jest.Mock;
     scheduleMock.mockClear();
-    const result = await reschedule({ db, preferences: prefs({ contentMode: "hadith_only" }), now, timeZone: "UTC", generateId: idGen() });
+    const result = await reschedule({ db, preferences: prefs({ contentKinds: { ayah: false, hadith: true, name: false, dua: false } }), now, timeZone: "UTC", generateId: idGen() });
     expect(result.status).toBe("success");
     // The daily extras (Name/Invocation of the day) ride along on their own
     // toggles whatever the content mode says — only the main queue is
@@ -82,7 +88,7 @@ describe("reschedule() integration", () => {
 
   it("strictly alternates hadith and āyah in mixed mode, in firing order", async () => {
     const db = createInMemoryDatabase();
-    await reschedule({ db, preferences: prefs({ contentMode: "mixed" }), now, timeZone: "UTC", generateId: idGen() });
+    await reschedule({ db, preferences: prefs({ contentKinds: { ayah: true, hadith: true, name: false, dua: false } }), now, timeZone: "UTC", generateId: idGen() });
     const stored = mainQueue(await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled").sort(byFireTime);
     expect(stored.length).toBeGreaterThan(2);
     for (let i = 1; i < stored.length; i += 1) {
@@ -92,7 +98,7 @@ describe("reschedule() integration", () => {
 
   it("keeps alternating across a refill instead of restarting the pattern", async () => {
     const db = createInMemoryDatabase();
-    const mixed = prefs({ contentMode: "mixed" });
+    const mixed = prefs({ contentKinds: { ayah: true, hadith: true, name: false, dua: false } });
     await reschedule({ db, preferences: mixed, now, timeZone: "UTC", generateId: idGen() });
     const firstRun = mainQueue(await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled").sort(byFireTime);
     // Advance past the first few slots so the refill has room to add new ones after the kept tail.
@@ -130,16 +136,18 @@ describe("reschedule() integration", () => {
 
   it("drops queued hadith as soon as the user switches back to āyāt only", async () => {
     const db = createInMemoryDatabase();
-    await reschedule({ db, preferences: prefs({ contentMode: "hadith_only" }), now, timeZone: "UTC", generateId: idGen() });
-    await reschedule({ db, preferences: prefs({ contentMode: "ayah_only" }), now: new Date(now.getTime() + 1000), timeZone: "UTC", generateId: idGen() });
-    const remaining = (await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled");
+    await reschedule({ db, preferences: prefs({ contentKinds: { ayah: false, hadith: true, name: false, dua: false } }), now, timeZone: "UTC", generateId: idGen() });
+    await reschedule({ db, preferences: prefs({ contentKinds: { ayah: true, hadith: false, name: false, dua: false } }), now: new Date(now.getTime() + 1000), timeZone: "UTC", generateId: idGen() });
+    // The daily-extra slots answer to their own toggles, not to the kinds —
+    // only the main queue must have purged the disabled kinds.
+    const remaining = mainQueue(await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled");
     expect(remaining.length).toBeGreaterThan(0);
     expect(remaining.every((s) => s.kind === "ayah")).toBe(true);
   });
 
   it("falls back to āyāt only for a translation language that has no hadith edition", async () => {
     const db = createInMemoryDatabase();
-    await reschedule({ db, preferences: prefs({ contentMode: "hadith_only", translationLocale: "de" }), now, timeZone: "UTC", generateId: idGen() });
+    await reschedule({ db, preferences: prefs({ contentKinds: { ayah: false, hadith: true, name: false, dua: false }, translationLocale: "de" }), now, timeZone: "UTC", generateId: idGen() });
     const stored = mainQueue(await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled");
     expect(stored.length).toBeGreaterThan(0);
     expect(stored.every((s) => s.kind === "ayah")).toBe(true);
@@ -169,19 +177,22 @@ describe("reschedule() integration", () => {
     expect(remaining).toHaveLength(0);
   });
 
-  it("schedules one dua slot per day when the daily invocation is enabled", async () => {
+  it("schedules one DAILY dua slot per day when the daily invocation is enabled", async () => {
     const db = createInMemoryDatabase();
     await reschedule({ db, preferences: prefs({ dailyDuaEnabled: true }), now, timeZone: "UTC", generateId: idGen() });
-    const duaSlots = (await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled" && s.kind === "dua");
-    expect(duaSlots.length).toBeGreaterThan(0);
-    const days = duaSlots.map((s) => s.fireAtUtcIso.slice(0, 10));
+    const all = (await db.notificationSlots.listAll()).filter((s) => s.status === "scheduled");
+    // The one-per-day guarantee belongs to the daily-extra planner; the
+    // main queue may rotate additional dua slots on top.
+    const dailyDuaSlots = all.filter((s) => isDailyExtraSlot(s) && s.kind === "dua");
+    expect(dailyDuaSlots.length).toBeGreaterThan(0);
+    const days = dailyDuaSlots.map((s) => s.fireAtUtcIso.slice(0, 10));
     expect(new Set(days).size).toBe(days.length);
   });
 });
 
-/** The āyah/hadith sliding queue — everything except the daily-extra slots. */
+/** The main sliding queue — everything except the daily-extra slots (which carry the "daily-" id prefix). */
 function mainQueue(slots: readonly NotificationSlot[]): NotificationSlot[] {
-  return slots.filter((s) => !isDailyExtraKind(s.kind));
+  return slots.filter((s) => !isDailyExtraSlot(s));
 }
 
 function byFireTime(a: NotificationSlot, b: NotificationSlot): number {

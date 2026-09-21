@@ -11,7 +11,8 @@ export interface NameOfAllah {
   readonly number: number;
   readonly arabic: string;
   readonly transliteration: string;
-  readonly meaning: { readonly en: string; readonly fr: string };
+  /** One-line renderings of the meaning: en verbatim from the dataset; fr/de/es/it/nl/pt/ru editorial glosses (scripts/addNamesGlossesI18n.mjs). */
+  readonly meaning: { readonly en: string; readonly fr: string; readonly [locale: string]: string | undefined };
 }
 
 const entries = namesData.entries as readonly NameOfAllah[];
@@ -26,14 +27,17 @@ export function getName(number: number): NameOfAllah | undefined {
 }
 
 /**
- * The meaning in the reader's display language. Only English and French
- * renderings exist (see the dataset's provenance note); every other locale
- * reads the English gloss — a deliberate, visible fallback (a one-line
- * meaning is a gloss, not scripture), never a silent substitution of one
- * translated scripture text for another.
+ * The meaning in the reader's display language. Renderings exist in
+ * en/fr/de/es/it/nl/pt/ru (all editorial glosses except en — see the
+ * dataset's provenance note); bn/hi/zh-CN read the English gloss as a
+ * deliberate, visible fallback (a one-line meaning is a gloss, not
+ * scripture). Arabic readers get an EMPTY string on purpose: the name
+ * itself is the text, and pinning an English gloss under it would be
+ * noise — callers hide the meaning line when this returns "".
  */
 export function nameMeaningFor(name: NameOfAllah, locale: string): string {
-  return locale === "fr" ? name.meaning.fr : name.meaning.en;
+  if (locale === "ar") return "";
+  return name.meaning[locale] ?? name.meaning.en;
 }
 
 /**

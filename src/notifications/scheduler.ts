@@ -1,5 +1,5 @@
 import type { SupportedLocale } from "@/config/appConfig";
-import type { ContentMode, NotificationContentKind, NotificationSchedule, NotificationSlot, WeekdayIndex } from "@/domain/types";
+import type { ContentKinds, NotificationContentKind, NotificationSchedule, NotificationSlot, WeekdayIndex } from "@/domain/types";
 import { mulberry32, type RandomFn } from "@/services/selectionEngine/rng";
 
 /**
@@ -125,11 +125,11 @@ export interface PlanNotificationsInput {
   readonly maxPendingSlots: number;
   readonly translationLocale: SupportedLocale;
   /**
-   * What the queue may carry. A kept slot whose kind this mode no longer
-   * allows is cancelled and regenerated, so switching "What to show" takes
+   * What the queue may carry. A kept slot whose kind is no longer enabled
+   * is cancelled and regenerated, so switching "What to show" takes
    * effect at the next reschedule rather than after the whole queue drains.
    */
-  readonly contentMode: ContentMode;
+  readonly contentKinds: ContentKinds;
   readonly timeZone: string;
   /**
    * Picks the content for one new slot. `previousKind` is the kind of the
@@ -149,11 +149,9 @@ export interface NotificationPlan {
   readonly timeZoneChanged: boolean;
 }
 
-/** Whether a slot of this kind may stay queued under the given content mode. */
-export function isKindAllowed(kind: NotificationContentKind, contentMode: ContentMode): boolean {
-  if (contentMode === "ayah_only") return kind === "ayah";
-  if (contentMode === "hadith_only") return kind === "hadith";
-  return true;
+/** Whether a slot of this kind may stay queued under the enabled content kinds. */
+export function isKindAllowed(kind: NotificationContentKind, contentKinds: ContentKinds): boolean {
+  return contentKinds[kind];
 }
 
 /**
@@ -182,7 +180,7 @@ export function planNotifications(input: PlanNotificationsInput): NotificationPl
     (timeZoneChanged ||
       new Date(slot.fireAtUtcIso).getTime() <= input.now.getTime() ||
       slot.locale !== input.translationLocale ||
-      !isKindAllowed(slot.kind, input.contentMode));
+      !isKindAllowed(slot.kind, input.contentKinds));
 
   const toCancel = input.existingSlots.filter(isObsolete).map((s) => s.id);
   const keptSlots = input.existingSlots

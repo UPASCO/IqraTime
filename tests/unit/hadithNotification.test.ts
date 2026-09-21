@@ -2,7 +2,7 @@ import { pickHadithForNotification } from "@/notifications/hadithPicker";
 import { formatHadithNotificationBody } from "@/notifications/rescheduleService";
 import { getRuntimeHadithCorpus, getHadithTranslation } from "@/data/corpus/hadith";
 import { mulberry32 } from "@/services/selectionEngine";
-import { effectiveContentMode } from "@/services/feedContentMode";
+import { effectiveContentKinds } from "@/services/feedContentMode";
 import { MAX_NOTIFICATION_HADITH_LENGTH } from "@/domain/constants";
 
 jest.mock("@/notifications/notificationService", () => ({
@@ -69,18 +69,27 @@ describe("pickHadithForNotification", () => {
   });
 });
 
-describe("effectiveContentMode", () => {
-  it("keeps hadith modes for a language with a hadith edition", () => {
-    expect(effectiveContentMode("hadith_only", "en")).toBe("hadith_only");
-    expect(effectiveContentMode("mixed", "fr")).toBe("mixed");
+describe("effectiveContentKinds", () => {
+  const all = { ayah: true, hadith: true, name: true, dua: true };
+
+  it("keeps hadith enabled for a language with a hadith edition", () => {
+    expect(effectiveContentKinds(all, "en").hadith).toBe(true);
+    expect(effectiveContentKinds(all, "fr").hadith).toBe(true);
   });
 
-  it("downgrades hadith modes to āyāt only where no hadith edition exists", () => {
-    expect(effectiveContentMode("hadith_only", "de")).toBe("ayah_only");
-    expect(effectiveContentMode("mixed", "zh-CN")).toBe("ayah_only");
+  it("drops hadith out of the rotation where no hadith edition exists", () => {
+    expect(effectiveContentKinds(all, "de").hadith).toBe(false);
+    expect(effectiveContentKinds(all, "zh-CN").hadith).toBe(false);
+    // The other kinds are untouched.
+    expect(effectiveContentKinds(all, "de")).toEqual({ ayah: true, hadith: false, name: true, dua: true });
   });
 
-  it("leaves āyāt only untouched", () => {
-    expect(effectiveContentMode("ayah_only", "de")).toBe("ayah_only");
+  it("falls back to āyāt when the gating empties the selection", () => {
+    expect(effectiveContentKinds({ ayah: false, hadith: true, name: false, dua: false }, "de")).toEqual({
+      ayah: true,
+      hadith: false,
+      name: false,
+      dua: false,
+    });
   });
 });

@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 import { Ionicons } from "@expo/vector-icons";
 
-import { Screen, AyahFeedSlide, HadithFeedSlide, NotificationStatusCard, EmptyState } from "@/components";
+import { Screen, AyahFeedSlide, HadithFeedSlide, NameFeedSlide, DuaFeedSlide, NotificationStatusCard, EmptyState } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
@@ -17,7 +17,7 @@ import { selectAyah } from "@/services/selectionEngine";
 import { MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
 import { getPermissionSnapshot } from "@/notifications";
 import { reschedule } from "@/notifications/rescheduleService";
-import type { ContentMode, NotificationSlot } from "@/domain/types";
+import type { ContentKinds, NotificationSlot } from "@/domain/types";
 import { formatShareText, formatHadithShareText, buildGetTheAppLine } from "@/utils/shareText";
 import { formatDateTime, detectTimeZone } from "@/utils/dateUtils";
 import { generateLocalId } from "@/utils/id";
@@ -25,9 +25,9 @@ import { recordAppOpen, type StreakInfo } from "@/storage/streakStore";
 import { incrementShareCount } from "@/storage/shareCounterStore";
 import { isHadithFavorite, addHadithFavorite, removeHadithFavorite } from "@/storage/hadithFavoritesStore";
 import { hadithIdToRouteParam } from "@/utils/routeParams";
-import { nextFeedKind, effectiveContentMode as effectiveContentMode_ } from "@/services/feedContentMode";
-import { getDailyAyahId } from "@/services/dailyAyah";
-import { getDailyName, nameMeaningFor } from "@/data/names";
+import { nextFeedKind, effectiveContentKinds, type FeedKind } from "@/services/feedContentMode";
+import { getName, nameMeaningFor, getAllNames } from "@/data/names";
+import { getAllDuas, getDua, duaTitleFor, duaTranslationFor } from "@/data/duas";
 import { settledSlideIndex, slidesNeeded } from "@/services/feedBuffer";
 
 /** One slide in the swipeable feed, resolved to its display data via useAyahView inside the render. */
@@ -158,14 +158,99 @@ function HadithFeedItem({
   );
 }
 
+/** A Name of Allah as a feed slide. */
+function NameFeedItem({ nameNumber, height, showSwipeHint }: { nameNumber: number; height: number; showSwipeHint: boolean }): React.JSX.Element {
+  const router = useRouter();
+  const { t, locale } = useI18n();
+  const name = getName(nameNumber);
+
+  if (!name) {
+    return (
+      <View style={{ height, alignItems: "center", justifyContent: "center" }}>
+        <EmptyState title={t("home.noAyahYetTitle")} body={t("home.noAyahYetBody")} />
+      </View>
+    );
+  }
+
+  const meaning = nameMeaningFor(name, locale);
+  const shareText = [
+    name.arabic,
+    meaning ? `${name.transliteration} — ${meaning}` : name.transliteration,
+    `${t("names.positionLabel", { number: name.number })} (${t("common.appName")})`,
+    buildGetTheAppLine(t),
+  ].join("\n\n");
+
+  return (
+    <NameFeedSlide
+      height={height}
+      number={name.number}
+      arabic={name.arabic}
+      transliteration={name.transliteration}
+      meaning={meaning}
+      showSwipeHint={showSwipeHint}
+      onShare={() => {
+        incrementShareCount();
+        Share.share({ message: shareText });
+      }}
+      onCopy={() => Clipboard.setStringAsync(shareText)}
+      onOpenDetail={() => router.push(`/names?n=${name.number}`)}
+    />
+  );
+}
+
+/** An invocation as a feed slide. */
+function DuaFeedItem({ duaId, height, showSwipeHint }: { duaId: string; height: number; showSwipeHint: boolean }): React.JSX.Element {
+  const router = useRouter();
+  const { t, locale } = useI18n();
+  const dua = getDua(duaId);
+
+  if (!dua) {
+    return (
+      <View style={{ height, alignItems: "center", justifyContent: "center" }}>
+        <EmptyState title={t("home.noAyahYetTitle")} body={t("home.noAyahYetBody")} />
+      </View>
+    );
+  }
+
+  const title = duaTitleFor(dua, locale);
+  const translation = duaTranslationFor(dua, locale);
+  const shareText = [
+    dua.arabic,
+    translation,
+    dua.source ? `${title} — ${dua.source}` : title,
+    `(${t("common.appName")})`,
+    buildGetTheAppLine(t),
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+
+  return (
+    <DuaFeedSlide
+      height={height}
+      title={title}
+      arabicText={dua.arabic}
+      transliteration={dua.transliteration}
+      translationText={translation}
+      source={dua.source}
+      showSwipeHint={showSwipeHint}
+      onShare={() => {
+        incrementShareCount();
+        Share.share({ message: shareText });
+      }}
+      onCopy={() => Clipboard.setStringAsync(shareText)}
+      onOpenDetail={() => router.push(`/duas/${dua.id}`)}
+    />
+  );
+}
+
 /**
- * One slide in the feed. The same ayah/hadith can legitimately appear more
- * than once as the user keeps scrolling (both corpora are finite), so the
+ * One slide in the feed. The same content can legitimately appear more
+ * than once as the user keeps scrolling (every pool is finite), so the
  * list key is a per-slide counter rather than the content id.
  */
 interface FeedEntry {
   readonly key: string;
-  readonly kind: "ayah" | "hadith";
+  readonly kind: FeedKind;
   readonly id: string;
 }
 
@@ -200,6 +285,24 @@ function pickHadithId(avoidIds: ReadonlySet<string>): string | undefined {
   return from[Math.floor(Math.random() * from.length)]?.arabic.id;
 }
 
+/** Same session-scoped anti-repeat as pickHadithId, over the 99 Names. */
+function pickNameNumber(avoidNumbers: ReadonlySet<number>): number | undefined {
+  const names = getAllNames();
+  if (names.length === 0) return undefined;
+  const pool = names.filter((n) => !avoidNumbers.has(n.number));
+  const from = pool.length > 0 ? pool : names;
+  return from[Math.floor(Math.random() * from.length)]?.number;
+}
+
+/** Same session-scoped anti-repeat over the invocations (only entries that have a translation to show). */
+function pickDuaId(avoidIds: ReadonlySet<string>): string | undefined {
+  const duas = getAllDuas().filter((d) => d.translation?.en || d.translation?.fr);
+  if (duas.length === 0) return undefined;
+  const pool = duas.filter((d) => !avoidIds.has(d.id));
+  const from = pool.length > 0 ? pool : duas;
+  return from[Math.floor(Math.random() * from.length)]?.id;
+}
+
 const NO_IDS: ReadonlySet<string> = new Set();
 
 /**
@@ -207,14 +310,23 @@ const NO_IDS: ReadonlySet<string> = new Set();
  * useState() initial value so the very first render already has content to
  * show instead of a blank flash while loadInitialState()'s async DB reads
  * (history, favorites) are still in flight. loadInitialState() still runs
- * right after mount and replaces this with the real "resume where you left
- * off" pick (most recent history entry) once that's available — this is
- * purely about never rendering nothing in between.
+ * right after mount and replaces this with a real selection-engine pick
+ * once that's available — this is purely about never rendering nothing in
+ * between.
  */
-function pickInitialFeedEntry(effectiveContentMode: ContentMode): FeedEntry | undefined {
-  if (nextFeedKind(effectiveContentMode, undefined) === "hadith") {
+function pickInitialFeedEntry(kinds: ContentKinds): FeedEntry | undefined {
+  const kind = nextFeedKind(kinds, undefined);
+  if (kind === "hadith") {
     const id = pickHadithId(NO_IDS);
     return id ? { key: "slide-0", kind: "hadith", id } : undefined;
+  }
+  if (kind === "name") {
+    const number = pickNameNumber(new Set());
+    return number !== undefined ? { key: "slide-0", kind: "name", id: String(number) } : undefined;
+  }
+  if (kind === "dua") {
+    const id = pickDuaId(NO_IDS);
+    return id ? { key: "slide-0", kind: "dua", id } : undefined;
   }
   const id = getRuntimeCorpus()[0]?.arabic.id;
   return id ? { key: "slide-0", kind: "ayah", id } : undefined;
@@ -222,23 +334,29 @@ function pickInitialFeedEntry(effectiveContentMode: ContentMode): FeedEntry | un
 
 
 export default function HomeScreen(): React.JSX.Element {
-  const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
+  const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
   const { t, locale } = useI18n();
   const router = useRouter();
   const db = useAppDatabase();
   const { preferences } = usePreferencesStore();
 
   // Hadith availability depends on the translation locale, not just the
-  // preference: hadith_only/mixed silently degrade to ayah-only for a
-  // locale with no hadith edition (es/pt/hi/it/zh-CN) rather than showing
+  // preference: hadith silently drops out of the rotation for a locale
+  // with no hadith edition (see effectiveContentKinds) rather than showing
   // broken/empty hadith cards — with an explicit notice so it never reads
   // as the preference being ignored for no reason.
   const hadithAvailable = hasAnyHadithContent(preferences.translationLocale);
-  const effectiveContentMode: ContentMode = effectiveContentMode_(preferences.contentMode, preferences.translationLocale);
-  const hadithUnavailableNotice = preferences.contentMode !== "ayah_only" && !hadithAvailable;
+  // Memoized on the stored preference object: appendSlide/loadInitialState
+  // hang off this value, and a fresh object identity every render would
+  // re-trigger their effects in a loop.
+  const contentKinds: ContentKinds = useMemo(
+    () => effectiveContentKinds(preferences.contentKinds, preferences.translationLocale),
+    [preferences.contentKinds, preferences.translationLocale],
+  );
+  const hadithUnavailableNotice = preferences.contentKinds.hadith && !hadithAvailable;
 
   const [feedItems, setFeedItems] = useState<FeedEntry[]>(() => {
-    const initial = pickInitialFeedEntry(effectiveContentMode);
+    const initial = pickInitialFeedEntry(contentKinds);
     return initial ? [initial] : [];
   });
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
@@ -266,6 +384,8 @@ export default function HomeScreen(): React.JSX.Element {
   // record for the session, on top of history's cross-session memory.
   const shownAyahIds = useRef<Set<string>>(new Set());
   const shownHadithIds = useRef<Set<string>>(new Set());
+  const shownNameNumbers = useRef<Set<number>>(new Set());
+  const shownDuaIds = useRef<Set<string>>(new Set());
 
   const pickAnotherAyah = useCallback(async (): Promise<string | undefined> => {
     if (!db) return undefined;
@@ -321,7 +441,7 @@ export default function HomeScreen(): React.JSX.Element {
    */
   const appendSlide = useCallback(async (): Promise<boolean> => {
     const lastEntry = feedItemsRef.current[feedItemsRef.current.length - 1];
-    const kind = nextFeedKind(effectiveContentMode, lastEntry?.kind);
+    const kind = nextFeedKind(contentKinds, lastEntry?.kind);
     let entry: FeedEntry | undefined;
     if (kind === "hadith") {
       const nextId = pickHadithId(shownHadithIds.current);
@@ -329,6 +449,18 @@ export default function HomeScreen(): React.JSX.Element {
         shownHadithIds.current.add(nextId);
         if (await isHadithFavorite(nextId)) setHadithFavoriteIds((prev) => new Set(prev).add(nextId));
         entry = { key: `slide-${slideCounter.current++}`, kind: "hadith", id: nextId };
+      }
+    } else if (kind === "name") {
+      const nextNumber = pickNameNumber(shownNameNumbers.current);
+      if (nextNumber !== undefined) {
+        shownNameNumbers.current.add(nextNumber);
+        entry = { key: `slide-${slideCounter.current++}`, kind: "name", id: String(nextNumber) };
+      }
+    } else if (kind === "dua") {
+      const nextId = pickDuaId(shownDuaIds.current);
+      if (nextId) {
+        shownDuaIds.current.add(nextId);
+        entry = { key: `slide-${slideCounter.current++}`, kind: "dua", id: nextId };
       }
     } else {
       const nextId = await pickAnotherAyah();
@@ -341,7 +473,7 @@ export default function HomeScreen(): React.JSX.Element {
     feedItemsRef.current = [...feedItemsRef.current, entry];
     setFeedItems(feedItemsRef.current);
     return true;
-  }, [effectiveContentMode, pickAnotherAyah]);
+  }, [contentKinds, pickAnotherAyah]);
 
   /**
    * Keeps FEED_BUFFER (src/services/feedBuffer.ts) slides ready *below* the
@@ -372,7 +504,7 @@ export default function HomeScreen(): React.JSX.Element {
 
   const loadInitialState = useCallback(async () => {
     if (!db) return;
-    const firstKind = nextFeedKind(effectiveContentMode, undefined);
+    const firstKind = nextFeedKind(contentKinds, undefined);
     if (firstKind === "hadith") {
       const firstHadithId = pickHadithId(shownHadithIds.current);
       if (firstHadithId) {
@@ -383,6 +515,17 @@ export default function HomeScreen(): React.JSX.Element {
         if (await isHadithFavorite(firstHadithId)) {
           setHadithFavoriteIds((prev) => new Set(prev).add(firstHadithId));
         }
+      }
+    } else if (firstKind === "name" || firstKind === "dua") {
+      // The rotation starts at the first enabled kind; āyāt lead whenever
+      // they're on, so this branch only runs when the user turned them off.
+      const entry = pickInitialFeedEntry(contentKinds);
+      if (entry) {
+        feedItemsRef.current = [entry];
+        currentIndexRef.current = 0;
+        setFeedItems(feedItemsRef.current);
+        if (entry.kind === "name") shownNameNumbers.current.add(Number(entry.id));
+        else shownDuaIds.current.add(entry.id);
       }
     } else {
       // Opening slide goes through the selection engine like every other
@@ -440,7 +583,7 @@ export default function HomeScreen(): React.JSX.Element {
       setStatusMessage(undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- deliberately scoped to schedule.enabled: AutoRescheduler (app/_layout.tsx) already reruns reschedule() reactively on every other preferences change, so this effect only needs to fire on mount and when scheduling is toggled, not on every unrelated preference edit.
-  }, [db, preferences.schedule.enabled, effectiveContentMode, t, pickAnotherAyah, topUpFeed]);
+  }, [db, preferences.schedule.enabled, contentKinds, t, pickAnotherAyah, topUpFeed]);
 
   useEffect(() => {
     loadInitialState();
@@ -451,12 +594,22 @@ export default function HomeScreen(): React.JSX.Element {
     return t("home.nextAyahAt", { time: formatDateTime(nextSlot.fireAtUtcIso, locale) });
   }, [nextSlot, locale, t]);
 
-  // Deterministic and state-free (see dailyAyah.ts) — recomputing on each
-  // render is cheap and needs no effect/refresh logic; the value only ever
-  // changes at local midnight.
-  const dailyAyahId = getDailyAyahId();
-  const dailyRef = dailyAyahId ? getCorpusEntry(dailyAyahId) : undefined;
-  const dailyName = getDailyName();
+  /**
+   * The quick-access rail: one slim row of circular shortcuts (Muslim
+   * Pro-style) so the four content worlds are one tap away without giving
+   * the header more than ~70px. Everything else lives in the Explore tab.
+   */
+  const quickLinks = useMemo(
+    () =>
+      [
+        { icon: "book-outline", label: t("quran.title"), route: "/quran" },
+        { icon: "layers-outline", label: t("hadith.menuTitle"), route: "/hadith" },
+        { icon: "flower-outline", label: t("duas.title"), route: "/duas" },
+        { icon: "diamond-outline", label: t("names.title"), route: "/names" },
+        { icon: "school-outline", label: t("hifz.title"), route: "/hifz" },
+      ] as const,
+    [t],
+  );
 
   const handleToggleFavorite = async (ayahId: string): Promise<void> => {
     if (!db) return;
@@ -521,94 +674,48 @@ export default function HomeScreen(): React.JSX.Element {
             ) : null}
           </View>
 
-          {/* The two dailies share one row: the āyah of the day and the Name
-              of the day, both communal (every user worldwide sees the same
-              pair on the same date), which is what makes them shareable —
-              "did you see today's name?" only works if everyone has it. */}
-          <View style={{ flexDirection: "row", gap: spacing.xs }}>
-            {dailyRef ? (
+          {/* Quick-access rail: five circular shortcuts on one slim row —
+              direct entry into each content world without giving the
+              header real estate back to a menu. The "of the day" cards
+              live at the top of the Explore tab, and the daily content
+              itself flows through the feed below. */}
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            {quickLinks.map((link) => (
               <Pressable
-                onPress={() => router.push(`/ayah/${dailyRef.arabic.surah}-${dailyRef.arabic.ayah}`)}
+                key={link.route}
+                onPress={() => router.push(link.route)}
                 accessibilityRole="button"
-                style={{
-                  flex: 1,
-                  gap: 2,
-                  backgroundColor: colors.surfaceElevated,
-                  borderWidth: 1,
-                  borderColor: colors.goldDecorative,
-                  borderRadius: radii.md,
-                  paddingVertical: spacing.sm,
-                  paddingHorizontal: spacing.sm,
-                }}
+                accessibilityLabel={link.label}
+                style={({ pressed }) => ({ alignItems: "center", gap: 3, width: 62, opacity: pressed ? 0.6 : 1 })}
               >
-                <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xxs }}>
-                  <Ionicons name="sunny-outline" size={14} color={colors.gold} />
-                  <Text
-                    numberOfLines={1}
-                    style={{
-                      flex: 1,
-                      color: colors.gold,
-                      fontSize: typography.sizes.caption * fontScaleMultiplier,
-                      fontWeight: typography.weights.semibold,
-                      textTransform: "uppercase",
-                      letterSpacing: 1,
-                    }}
-                  >
-                    {t("daily.bannerLabel")}
-                  </Text>
+                <View
+                  style={{
+                    width: 46,
+                    height: 46,
+                    borderRadius: 23,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: colors.surfaceElevated,
+                    borderWidth: 1,
+                    borderColor: colors.goldDecorative,
+                  }}
+                >
+                  <Ionicons name={link.icon} size={21} color={colors.gold} />
                 </View>
                 <Text
                   numberOfLines={1}
-                  style={{ color: colors.textPrimary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.medium }}
-                >
-                  {dailyRef.arabic.surahNameTransliterated} · {dailyRef.arabic.surah}:{dailyRef.arabic.ayah}
-                </Text>
-              </Pressable>
-            ) : null}
-            <Pressable
-              onPress={() => router.push(`/names?n=${dailyName.number}`)}
-              accessibilityRole="button"
-              style={{
-                flex: 1,
-                gap: 2,
-                backgroundColor: colors.surfaceElevated,
-                borderWidth: 1,
-                borderColor: colors.goldDecorative,
-                borderRadius: radii.md,
-                paddingVertical: spacing.sm,
-                paddingHorizontal: spacing.sm,
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xxs }}>
-                <Ionicons name="diamond-outline" size={14} color={colors.gold} />
-                <Text
-                  numberOfLines={1}
                   style={{
-                    flex: 1,
-                    color: colors.gold,
-                    fontSize: typography.sizes.caption * fontScaleMultiplier,
-                    fontWeight: typography.weights.semibold,
-                    textTransform: "uppercase",
-                    letterSpacing: 1,
+                    color: colors.textSecondary,
+                    fontSize: typography.sizes.caption * 0.92 * fontScaleMultiplier,
+                    fontWeight: typography.weights.medium,
                   }}
                 >
-                  {t("daily.nameBannerLabel")}
+                  {link.label}
                 </Text>
-              </View>
-              <Text
-                numberOfLines={1}
-                style={{ color: colors.textPrimary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.medium }}
-              >
-                {dailyName.transliteration} · {nameMeaningFor(dailyName, locale)}
-              </Text>
-            </Pressable>
+              </Pressable>
+            ))}
           </View>
 
-          {/* No navigation grid here anymore: every destination lives in
-              the Explore tab (app/(tabs)/explore.tsx). The home screen has
-              exactly one job — the feed — and giving it the full height is
-              what makes the swipe habit-forming; a half-screen menu buried
-              the app's best surface below the fold. */}
           {statusMessage ? (
             <NotificationStatusCard
               message={statusMessage}
@@ -644,6 +751,10 @@ export default function HomeScreen(): React.JSX.Element {
                     showSwipeHint={index === 0 && !hasSwiped}
                     onToggleFavorite={handleToggleHadithFavorite}
                   />
+                ) : item.kind === "name" ? (
+                  <NameFeedItem nameNumber={Number(item.id)} height={slideHeight} showSwipeHint={index === 0 && !hasSwiped} />
+                ) : item.kind === "dua" ? (
+                  <DuaFeedItem duaId={item.id} height={slideHeight} showSwipeHint={index === 0 && !hasSwiped} />
                 ) : (
                   <FeedItem
                     ayahId={item.id}

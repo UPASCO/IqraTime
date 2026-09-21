@@ -262,12 +262,28 @@ export interface NotificationSchedule {
 }
 
 /**
- * What kind of content the feed and notifications draw from.
- * "ayah_only" is the default — hadith is opt-in, never silently mixed in.
- * "mixed" alternates strictly one hadith, one ayah, one hadith, ... rather
- * than picking randomly between the two.
+ * Legacy content selector (pre-2.1.0): a single three-way switch. Kept
+ * only so preferencesStore.migrate() can map persisted values onto
+ * ContentKinds; nothing else should reference it.
  */
 export type ContentMode = "ayah_only" | "hadith_only" | "mixed";
+
+/**
+ * Which content kinds the feed and the notification queue draw from —
+ * independently toggleable, so "āyāt + invocations, no hadith" is as
+ * valid as any other combination. All four on is the default (2.1.0):
+ * the feed rotates through every enabled kind in a fixed order (see
+ * src/services/feedContentMode.ts) so the mix is predictable, never a
+ * random blend. At least one kind must remain enabled — the UI enforces
+ * it and effectiveContentKinds() falls back to āyāt if a stored value
+ * somehow has none.
+ */
+export interface ContentKinds {
+  readonly ayah: boolean;
+  readonly hadith: boolean;
+  readonly name: boolean;
+  readonly dua: boolean;
+}
 
 /** Full user preference set, persisted locally (see src/storage/preferencesStore.ts). */
 export interface UserPreferences {
@@ -282,7 +298,7 @@ export interface UserPreferences {
   readonly selectedThemes: readonly ThemeKey[];
   readonly selectionMode: SelectionMode;
   readonly schedule: NotificationSchedule;
-  readonly contentMode: ContentMode;
+  readonly contentKinds: ContentKinds;
   /** One "Name of the day" notification per day (kind "name"), on top of the āyah/hadith queue. */
   readonly dailyNameEnabled: boolean;
   /** Local hour (0-23) the daily name fires at. */

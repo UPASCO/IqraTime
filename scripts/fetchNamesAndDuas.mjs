@@ -35,7 +35,7 @@
  *   the dua text's French translation exists only for the Quranic entries
  *   (Hamidullah, from the same licensed dataset).
  */
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import path from "node:path";
 
 const ROOT = path.dirname(path.dirname(new URL(import.meta.url).pathname));
@@ -344,8 +344,14 @@ const readTranslation = (locale) => {
   const file = JSON.parse(readFileSync(path.join(READER_DIR, "translations", `${locale}.json`), "utf8"));
   return new Map(file.entries.map((e) => [`${e.surah}:${e.ayah}`, e.text]));
 };
-const readerEn = readTranslation("en");
-const readerFr = readTranslation("fr");
+// Every reader edition the app ships (the whole translations/ directory):
+// the quranic duas carry ALL of them, so a Hindi or Russian reader gets
+// these 13 entries fully in their language.
+const READER_LOCALES = readdirSync(path.join(READER_DIR, "translations"))
+  .filter((f) => f.endsWith(".json"))
+  .map((f) => f.slice(0, -5))
+  .sort();
+const readerTranslations = new Map(READER_LOCALES.map((locale) => [locale, readTranslation(locale)]));
 
 for (const dua of QURANIC_DUAS) {
   const [firstSurah, firstAyah] = dua.verses[0].split(":").map(Number);
@@ -361,7 +367,7 @@ for (const dua of QURANIC_DUAS) {
     order: QURANIC_DUAS.indexOf(dua) + 1,
     title: { en: dua.en, fr: dua.fr },
     arabic: join(readerArabic),
-    translation: { en: join(readerEn), fr: join(readerFr) },
+    translation: Object.fromEntries(READER_LOCALES.map((locale) => [locale, join(readerTranslations.get(locale))])),
     source: `Qur'an ${firstSurah}:${firstAyah}${dua.verses.length > 1 ? `–${last}` : ""}`,
   });
 }

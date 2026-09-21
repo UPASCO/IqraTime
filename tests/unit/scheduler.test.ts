@@ -144,7 +144,7 @@ describe("planNotifications", () => {
     horizonDays: 3,
     maxPendingSlots: 20,
     translationLocale: "en" as const,
-    contentMode: "ayah_only" as const,
+    contentKinds: { ayah: true, hadith: false, name: false, dua: false },
     timeZone: "UTC",
     generateId: (() => {
       let i = 0;
@@ -208,7 +208,7 @@ describe("planNotifications", () => {
   it("cancels queued hadith slots once the content mode no longer allows them, and keeps āyah slots", () => {
     const hadith = makeSlot({ id: "h", kind: "hadith", contentId: "bukhari:6116", fireAtUtcIso: new Date(2025, 0, 5).toISOString() });
     const ayah = makeSlot({ id: "a", fireAtUtcIso: new Date(2025, 0, 6).toISOString() });
-    const plan = planNotifications({ ...commonInput, contentMode: "ayah_only", now: new Date(2025, 0, 1, 6, 0, 0), existingSlots: [hadith, ayah] });
+    const plan = planNotifications({ ...commonInput, contentKinds: { ayah: true, hadith: false, name: false, dua: false }, now: new Date(2025, 0, 1, 6, 0, 0), existingSlots: [hadith, ayah] });
     expect(plan.toCancel).toEqual(["h"]);
     expect(plan.finalSlots.some((s) => s.id === "a")).toBe(true);
   });
@@ -216,7 +216,7 @@ describe("planNotifications", () => {
   it("keeps both kinds queued in mixed mode", () => {
     const hadith = makeSlot({ id: "h", kind: "hadith", contentId: "bukhari:6116", fireAtUtcIso: new Date(2025, 0, 5).toISOString() });
     const ayah = makeSlot({ id: "a", fireAtUtcIso: new Date(2025, 0, 6).toISOString() });
-    const plan = planNotifications({ ...commonInput, contentMode: "mixed", now: new Date(2025, 0, 1, 6, 0, 0), existingSlots: [hadith, ayah] });
+    const plan = planNotifications({ ...commonInput, contentKinds: { ayah: true, hadith: true, name: false, dua: false }, now: new Date(2025, 0, 1, 6, 0, 0), existingSlots: [hadith, ayah] });
     expect(plan.toCancel).toEqual([]);
   });
 
@@ -227,7 +227,7 @@ describe("planNotifications", () => {
     let flip = 0;
     const plan = planNotifications({
       ...commonInput,
-      contentMode: "mixed",
+      contentKinds: { ayah: true, hadith: true, name: false, dua: false },
       maxPendingSlots: 6,
       now: new Date(2025, 0, 1, 6, 0, 0),
       // Deliberately unordered: the plan must sort kept slots by time itself.

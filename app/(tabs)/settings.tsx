@@ -30,6 +30,15 @@ export default function SettingsScreen(): React.JSX.Element {
   const { preferences, update, reset } = usePreferencesStore();
   const db = useAppDatabase();
 
+  // Multi-select with a floor of one: turning the last enabled kind off is
+  // a silent no-op — an empty selection would blank the feed and the
+  // notification queue, which no one ever means.
+  const toggleContentKind = (kind: keyof typeof preferences.contentKinds): void => {
+    const next = { ...preferences.contentKinds, [kind]: !preferences.contentKinds[kind] };
+    if (!next.ayah && !next.hadith && !next.name && !next.dua) return;
+    update({ contentKinds: next });
+  };
+
   const handleResetAll = (): void => {
     Alert.alert(t("settings.resetConfirmTitle"), t("settings.resetConfirmBody"), [
       { text: t("common.cancel"), style: "cancel" },
@@ -142,11 +151,12 @@ export default function SettingsScreen(): React.JSX.Element {
         />
         <SettingRow label={t("settings.themesLink")} onPress={() => router.push("/themes")} />
         <SettingRow label={t("settings.progressLink")} onPress={() => router.push("/progress")} />
-        <SettingRow label={t("settings.contentModeLabel")} />
+        <SettingRow label={t("settings.contentModeLabel")} description={t("settings.contentKindsDescription")} />
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-          <Chip label={t("settings.contentModeAyahOnly")} selected={preferences.contentMode === "ayah_only"} onPress={() => update({ contentMode: "ayah_only" })} />
-          <Chip label={t("settings.contentModeHadithOnly")} selected={preferences.contentMode === "hadith_only"} onPress={() => update({ contentMode: "hadith_only" })} />
-          <Chip label={t("settings.contentModeMixed")} selected={preferences.contentMode === "mixed"} onPress={() => update({ contentMode: "mixed" })} />
+          <Chip label={t("settings.contentKindAyah")} selected={preferences.contentKinds.ayah} onPress={() => toggleContentKind("ayah")} />
+          <Chip label={t("settings.contentKindHadith")} selected={preferences.contentKinds.hadith} onPress={() => toggleContentKind("hadith")} />
+          <Chip label={t("settings.contentKindName")} selected={preferences.contentKinds.name} onPress={() => toggleContentKind("name")} />
+          <Chip label={t("settings.contentKindDua")} selected={preferences.contentKinds.dua} onPress={() => toggleContentKind("dua")} />
         </View>
 
         <SectionHeader title={t("settings.sectionLanguage")} />

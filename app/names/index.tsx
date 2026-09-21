@@ -112,9 +112,11 @@ export default function NamesScreen(): React.JSX.Element {
                 <Text style={{ color: colors.gold, fontSize: typography.sizes.subtitle * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
                   {daily.transliteration}
                 </Text>
-                <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier, textAlign: "center" }}>
-                  {nameMeaningFor(daily, locale)}
-                </Text>
+                {nameMeaningFor(daily, locale) ? (
+                  <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier, textAlign: "center" }}>
+                    {nameMeaningFor(daily, locale)}
+                  </Text>
+                ) : null}
                 <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
                   {t("names.positionLabel", { number: daily.number })}
                 </Text>
@@ -165,9 +167,11 @@ export default function NamesScreen(): React.JSX.Element {
                   <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier, fontWeight: typography.weights.semibold }}>
                     {item.transliteration}
                   </Text>
-                  <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-                    {nameMeaningFor(item, locale)}
-                  </Text>
+                  {nameMeaningFor(item, locale) ? (
+                    <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+                      {nameMeaningFor(item, locale)}
+                    </Text>
+                  ) : null}
                 </View>
                 <Text style={{ color: colors.gold, fontSize: 24 * fontScaleMultiplier, lineHeight: 40 * fontScaleMultiplier, writingDirection: "rtl" }}>
                   {item.arabic}

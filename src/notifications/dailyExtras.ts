@@ -24,6 +24,19 @@ export function isDailyExtraKind(kind: NotificationContentKind): kind is "name" 
   return kind === "name" || kind === "dua";
 }
 
+/**
+ * Every slot this planner creates carries this id prefix (the id is also
+ * the OS notification identifier). Since 2.1.0 the MAIN queue can carry
+ * "name"/"dua" slots too (see ContentKinds), so kind alone no longer says
+ * which planner owns a slot — the prefix does.
+ */
+export const DAILY_EXTRA_ID_PREFIX = "daily-";
+
+/** Whether this slot belongs to the daily-extras planner (vs. the main sliding queue). */
+export function isDailyExtraSlot(slot: NotificationSlot): boolean {
+  return isDailyExtraKind(slot.kind) && slot.id.startsWith(DAILY_EXTRA_ID_PREFIX);
+}
+
 export interface PlanDailyExtrasInput {
   readonly existingSlots: readonly NotificationSlot[];
   readonly preferences: UserPreferences;
@@ -80,7 +93,7 @@ export function planDailyExtras(input: PlanDailyExtrasInput): DailyExtrasPlan {
     }
   }
 
-  const existingExtras = input.existingSlots.filter((slot) => slot.status === "scheduled" && isDailyExtraKind(slot.kind));
+  const existingExtras = input.existingSlots.filter((slot) => slot.status === "scheduled" && isDailyExtraSlot(slot));
   const keptIds = new Set<string>();
   const toSchedule: NotificationSlot[] = [];
 
@@ -99,7 +112,7 @@ export function planDailyExtras(input: PlanDailyExtrasInput): DailyExtrasPlan {
       continue;
     }
     toSchedule.push({
-      id: input.generateId(),
+      id: DAILY_EXTRA_ID_PREFIX + input.generateId(),
       fireAtUtcIso: want.fireAt.toISOString(),
       kind: want.kind,
       contentId: want.contentId,
@@ -130,9 +143,12 @@ export interface DailyExtraContent {
 export function buildNameNotification(slot: NotificationSlot): DailyExtraContent | undefined {
   const name = getName(Number(slot.contentId));
   if (!name) return undefined;
+  // Arabic readers get no gloss (nameMeaningFor returns "" for ar — the
+  // name itself is the text); everyone else gets name + meaning.
+  const meaning = nameMeaningFor(name, slot.locale);
   return {
     title: nameNotificationTitle(slot.locale, name.transliteration, name.number),
-    bodyText: `${name.arabic}\n${nameMeaningFor(name, slot.locale)}`,
+    bodyText: meaning ? `${name.arabic}\n${meaning}` : name.arabic,
   };
 }
 

@@ -15,7 +15,8 @@ export interface DuaEntry {
   readonly title: { readonly en: string; readonly fr: string };
   readonly arabic: string;
   readonly transliteration?: string;
-  readonly translation?: { readonly en?: string; readonly fr?: string };
+  /** Per-locale translations. The quranic entries carry every reader edition (11 locales); the Hisn-style entries only exist in English. */
+  readonly translation?: { readonly [locale: string]: string | undefined };
   readonly benefits?: { readonly en: string };
   /** Attribution line (hadith collection or Qur'an reference); a few upstream tasbih entries ship without one. */
   readonly source?: string;
@@ -53,15 +54,21 @@ export function duaTitleFor(dua: DuaEntry, locale: string): string {
 }
 
 /**
- * The dua text's translation for the reader: French where a real one
- * exists (the Quranic entries, Hamidullah), English otherwise. English is
- * the only translated edition for the Hisn-style entries — shown to every
- * non-French locale as an explicit fallback, same policy as the hadith
- * corpus's language gaps (docs/CORPUS.md), never a silent substitution.
+ * The dua text's translation for the reader: their own language whenever
+ * a real licensed edition exists (the quranic entries carry all 11 reader
+ * editions), English otherwise. English is the only translated edition
+ * for the Hisn-style entries — shown to other locales as an explicit
+ * fallback, same policy as the hadith corpus's language gaps
+ * (docs/CORPUS.md), never a silent substitution. Use isDuaTranslationFallback
+ * to surface the notice.
  */
 export function duaTranslationFor(dua: DuaEntry, locale: string): string | undefined {
-  if (locale === "fr" && dua.translation?.fr) return dua.translation.fr;
-  return dua.translation?.en ?? dua.translation?.fr;
+  return dua.translation?.[locale] ?? dua.translation?.en ?? dua.translation?.fr;
+}
+
+/** True when duaTranslationFor had to fall back to another language for this reader. */
+export function isDuaTranslationFallback(dua: DuaEntry, locale: string): boolean {
+  return locale !== "en" && !!duaTranslationFor(dua, locale) && !dua.translation?.[locale];
 }
 
 /** Same local-calendar day arithmetic as the daily āyah/name. */

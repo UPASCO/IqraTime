@@ -6,7 +6,7 @@ import * as Clipboard from "expo-clipboard";
 import { Screen, ArabicText, TranslationText, EmptyState, Button } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
-import { duaTitleFor, duaTranslationFor, getDua } from "@/data/duas";
+import { duaTitleFor, duaTranslationFor, isDuaTranslationFallback, getDua } from "@/data/duas";
 import { buildGetTheAppLine } from "@/utils/shareText";
 import { incrementShareCount } from "@/storage/shareCounterStore";
 
@@ -39,11 +39,10 @@ export default function DuaDetailScreen(): React.JSX.Element {
 
   const title = duaTitleFor(dua, locale);
   const translation = duaTranslationFor(dua, locale);
-  // The Hisn-style entries only exist in English translation; when a
-  // non-English, non-French reader is shown that English text, say so
-  // rather than letting it pass as their own language (same policy as the
-  // hadith corpus's language gaps).
-  const showEnglishFallbackNotice = locale !== "en" && !!translation && translation === dua.translation?.en && !dua.translation?.fr;
+  // The Hisn-style entries only exist in English translation; when the
+  // reader is shown a language that isn't their own, say so rather than
+  // letting it pass silently (same policy as the hadith corpus's gaps).
+  const showEnglishFallbackNotice = isDuaTranslationFallback(dua, locale);
 
   const shareText = [
     dua.arabic,
