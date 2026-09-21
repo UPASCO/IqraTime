@@ -43,15 +43,15 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
   const [justCopied, setJustCopied] = React.useState(false);
   const [isPreparingShareImage, setIsPreparingShareImage] = React.useState(false);
   const shotRef = useRef<ViewShotRef>(null);
-  // Most āyāt are shorter than the slide, so the inner ScrollView has
-  // nothing to scroll — but on Android, a same-axis ScrollView nested
-  // inside the outer paging FlatList still grabs every vertical touch the
-  // instant it's scrollable at all (even by a few px of rounding), and
-  // never releases it back to the pager: swiping got stuck on one āyah with
-  // no way to reach the next. iOS's touch arbitration is lenient enough
-  // that this never showed up there. Disabling scroll outright whenever the
-  // content actually fits removes the conflict for the common case; only
-  // the rare overflowing āyah (Āyat al-Kursī and the like) still scrolls.
+  // A vertical swipe on a feed slide must mean exactly one thing: next
+  // page. Letting a long āyah scroll INSIDE the pager meant the same
+  // gesture sometimes read text and sometimes changed slide — and at the
+  // text's bottom edge the drag handed off to the pager mid-read, yanking
+  // the user to the next slide (on Android the nested ScrollView also
+  // fought the pager for every touch). So slides never scroll internally:
+  // when the content overflows, it is clipped and a "Read more" pill opens
+  // the detail screen with the full text — the TikTok/Instagram long-
+  // caption pattern.
   const [contentOverflows, setContentOverflows] = React.useState(false);
 
   const handleCopy = (): void => {
@@ -134,24 +134,15 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
 
   return (
     <View style={[styles.slide, { height: props.height, backgroundColor: appConfig.brand.night }]}>
-      {/* The longest āyāt (Āyat al-Kursī sets the ceiling) can just exceed a
-          phone screen, so the slide scrolls internally. `bounces={false}`
-          matters: at the top/bottom edge the gesture is handed straight back
-          to the paging list instead of rubber-banding, so swiping between
-          āyāt still feels immediate. */}
       <ViewShot ref={shotRef} style={[styles.tapArea, { backgroundColor: appConfig.brand.night }]} options={{ format: "png", quality: 0.95 }}>
+      {/* scrollEnabled is permanently false — the ScrollView remains only
+          as the overflow-measuring container (onContentSizeChange). */}
       <ScrollView
         style={styles.tapArea}
         contentContainerStyle={styles.scrollContent}
         bounces={false}
         showsVerticalScrollIndicator={false}
-        scrollEnabled={contentOverflows}
-        // Android only (no-op on iOS): when the text does overflow and this
-        // inner ScrollView is live, nested scrolling lets the outer paging
-        // FlatList take the gesture over once the inner one hits its top or
-        // bottom edge — otherwise a long slide traps every vertical swipe
-        // and the feed can't move on. iOS already hands off natively.
-        nestedScrollEnabled
+        scrollEnabled={false}
         onContentSizeChange={(_w, contentHeight) => setContentOverflows(contentHeight > props.height)}
       >
         <Pressable
@@ -264,6 +255,20 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
         ) : null}
       </View>
 
+      {contentOverflows && props.onOpenDetail ? (
+        <Pressable
+          onPress={props.onOpenDetail}
+          style={({ pressed }) => [styles.readMorePill, { opacity: pressed ? 0.7 : 1 }]}
+          accessibilityRole="button"
+          accessibilityLabel={t("home.readMoreCta")}
+        >
+          <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+            {t("home.readMoreCta")}
+          </Text>
+          <Ionicons name="chevron-forward" size={14} color={appConfig.brand.goldLight} />
+        </Pressable>
+      ) : null}
+
       {props.showSwipeHint ? (
         <View style={styles.swipeHint} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
           <Ionicons name="chevron-up" size={18} color={appConfig.brand.ivory} style={{ opacity: 0.6 }} />
@@ -299,4 +304,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   swipeHint: { position: "absolute", bottom: 28, alignSelf: "center", alignItems: "center", gap: 2 },
+  readMorePill: {
+    position: "absolute",
+    bottom: 60,
+    alignSelf: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    borderColor: "rgba(212,180,131,0.5)",
+    borderWidth: 1,
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+  },
 });

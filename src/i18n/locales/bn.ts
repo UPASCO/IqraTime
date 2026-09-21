@@ -107,6 +107,7 @@ export const bn: TranslationSchema = {
     streakLabel: pluralForm({ one: "{count} দিন ধারাবাহিক", other: "{count} দিন ধারাবাহিক" }),
     libraryCta: "ব্রাউজ ও খুঁজুন",
     momentCta: "এই মুহূর্তে আপনার কেমন অনুভব হচ্ছে?",
+    readMoreCta: "আরও পড়ুন",
   },
   moment: {
     title: "আপনার জন্য একটি মুহূর্ত",
@@ -403,6 +404,7 @@ export const bn: TranslationSchema = {
     emptyTitle: "এখনও কোনো আয়াত মুখস্থ করা হয়নি",
     emptyBody: "যেকোনো আয়াত খুলে «এই আয়াতটি মুখস্থ করুন» চাপুন। আপনার পুনরাবৃত্তিগুলো এখানে দেখা যাবে।",
     memorizeCta: "এই আয়াতটি মুখস্থ করুন",
+    memorizeDuaCta: "এই দোয়া মুখস্থ করুন",
     removeCta: "মুখস্থ তালিকা থেকে সরান",
     dueTodayTitle: "পুনরাবৃত্তির জন্য",
     noneDueBody: "এখন পুনরাবৃত্তির কিছু নেই। আগামীকাল আবার আসুন, ইনশাআল্লাহ।",

@@ -64,7 +64,7 @@ export default function DuasScreen(): React.JSX.Element {
   const [selectedCategory, setSelectedCategory] = useState<DuaCategory | undefined>(undefined);
 
   const all = getAllDuas();
-  const daily = getDailyDua();
+  const daily = getDailyDua(new Date(), locale);
   const filtered = useMemo(
     () => (selectedCategory ? all.filter((d) => d.category === selectedCategory) : all),
     [all, selectedCategory],

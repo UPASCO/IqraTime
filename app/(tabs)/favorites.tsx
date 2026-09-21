@@ -14,9 +14,12 @@ import { ayahIdToRouteParam, hadithIdToRouteParam } from "@/utils/routeParams";
 import { formatDateTime } from "@/utils/dateUtils";
 import { formatShareText, formatHadithShareText } from "@/utils/shareText";
 import { listHadithFavorites, removeHadithFavorite } from "@/storage/hadithFavoritesStore";
+import { listNameFavorites, removeNameFavorite, listDuaFavorites, removeDuaFavorite } from "@/storage/extrasFavoritesStore";
+import { getName, nameMeaningFor } from "@/data/names";
+import { getDua, duaTitleFor, duaTranslationFor } from "@/data/duas";
 
 type SortMode = "date" | "surah";
-type ContentType = "ayah" | "hadith";
+type ContentType = "ayah" | "hadith" | "name" | "dua";
 
 function FavoriteRow({
   entry,
@@ -142,6 +145,64 @@ function HadithFavoriteRow({
   );
 }
 
+/** A favorited Name of Allah: transliteration + meaning, the Arabic on the right. */
+function NameFavoriteRow({ number, onPress, onRemove }: { number: number; onPress: () => void; onRemove: () => void }): React.JSX.Element | null {
+  const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
+  const { t, locale } = useI18n();
+  const name = getName(number);
+  if (!name) return null;
+  const meaning = nameMeaningFor(name, locale);
+
+  return (
+    <Pressable
+      onPress={onPress}
+      style={{ backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1, borderRadius: radii.md, padding: spacing.sm, gap: spacing.xxs, marginBottom: spacing.xs }}
+    >
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.sm }}>
+        <View style={{ flex: 1, gap: 2 }}>
+          <Text style={{ color: colors.gold, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+            {t("names.positionLabel", { number: name.number })}
+          </Text>
+          <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier, fontWeight: typography.weights.semibold }}>
+            {name.transliteration}
+          </Text>
+          {meaning ? <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>{meaning}</Text> : null}
+        </View>
+        <Text style={{ color: colors.gold, fontSize: 24 * fontScaleMultiplier, lineHeight: 40 * fontScaleMultiplier, writingDirection: "rtl" }}>{name.arabic}</Text>
+      </View>
+      <View style={{ flexDirection: "row", gap: spacing.md }}>
+        <Button label={t("common.delete")} variant="ghost" onPress={onRemove} />
+      </View>
+    </Pressable>
+  );
+}
+
+/** A favorited invocation: localized title + a short preview of its translation. */
+function DuaFavoriteRow({ duaId, onPress, onRemove }: { duaId: string; onPress: () => void; onRemove: () => void }): React.JSX.Element | null {
+  const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
+  const { t, locale } = useI18n();
+  const dua = getDua(duaId);
+  if (!dua) return null;
+  const preview = duaTranslationFor(dua, locale) ?? dua.arabic;
+
+  return (
+    <Pressable
+      onPress={onPress}
+      style={{ backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1, borderRadius: radii.md, padding: spacing.sm, gap: spacing.xxs, marginBottom: spacing.xs }}
+    >
+      <Text style={{ color: colors.gold, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+        {duaTitleFor(dua, locale)}
+      </Text>
+      <Text numberOfLines={3} style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier }}>
+        {preview}
+      </Text>
+      <View style={{ flexDirection: "row", gap: spacing.md }}>
+        <Button label={t("common.delete")} variant="ghost" onPress={onRemove} />
+      </View>
+    </Pressable>
+  );
+}
+
 export default function FavoritesScreen(): React.JSX.Element {
   const { colors, spacing, radii } = useTheme();
   const { t } = useI18n();
@@ -151,6 +212,8 @@ export default function FavoritesScreen(): React.JSX.Element {
   const [contentType, setContentType] = useState<ContentType>("ayah");
   const [favorites, setFavorites] = useState<FavoriteEntry[]>([]);
   const [hadithFavorites, setHadithFavorites] = useState<readonly HadithId[]>([]);
+  const [nameFavorites, setNameFavorites] = useState<readonly number[]>([]);
+  const [duaFavorites, setDuaFavorites] = useState<readonly string[]>([]);
   const [query, setQuery] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("date");
   const [pendingUndo, setPendingUndo] = useState<FavoriteEntry | null>(null);
@@ -159,6 +222,8 @@ export default function FavoritesScreen(): React.JSX.Element {
   const load = useCallback(async () => {
     if (db) setFavorites(await db.favorites.list());
     setHadithFavorites(await listHadithFavorites());
+    setNameFavorites(await listNameFavorites());
+    setDuaFavorites(await listDuaFavorites());
   }, [db]);
 
   // Reload every time this tab regains focus, not just once on first mount:
@@ -209,35 +274,56 @@ export default function FavoritesScreen(): React.JSX.Element {
     setHadithFavorites((prev) => prev.filter((existing) => existing !== id));
   };
 
-  const isEmpty = contentType === "ayah" ? filtered.length === 0 : filteredHadith.length === 0;
+  const handleRemoveName = async (number: number): Promise<void> => {
+    await removeNameFavorite(number);
+    setNameFavorites((prev) => prev.filter((existing) => existing !== number));
+  };
+
+  const handleRemoveDua = async (id: string): Promise<void> => {
+    await removeDuaFavorite(id);
+    setDuaFavorites((prev) => prev.filter((existing) => existing !== id));
+  };
+
+  const isEmpty =
+    contentType === "ayah"
+      ? filtered.length === 0
+      : contentType === "hadith"
+        ? filteredHadith.length === 0
+        : contentType === "name"
+          ? nameFavorites.length === 0
+          : duaFavorites.length === 0;
 
   return (
     <Screen scroll={false}>
       <View style={{ gap: spacing.sm, flex: 1 }}>
-        <View style={{ flexDirection: "row", gap: 8 }}>
+        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
           <Chip label={t("quran.title")} selected={contentType === "ayah"} onPress={() => setContentType("ayah")} />
           <Chip label={t("hadith.menuTitle")} selected={contentType === "hadith"} onPress={() => setContentType("hadith")} />
+          <Chip label={t("names.title")} selected={contentType === "name"} onPress={() => setContentType("name")} />
+          <Chip label={t("duas.title")} selected={contentType === "dua"} onPress={() => setContentType("dua")} />
         </View>
 
         {isEmpty ? (
           <EmptyState title={t("favorites.emptyTitle")} body={t("favorites.emptyBody")} />
         ) : (
           <>
-            <TextInput
-              value={query}
-              onChangeText={setQuery}
-              placeholder={t("favorites.searchPlaceholder")}
-              placeholderTextColor={colors.textSecondary}
-              style={{
-                backgroundColor: colors.surface,
-                borderColor: colors.border,
-                borderWidth: 1,
-                borderRadius: radii.sm,
-                padding: spacing.sm,
-                color: colors.textPrimary,
-                minHeight: 44,
-              }}
-            />
+            {contentType === "ayah" || contentType === "hadith" ? (
+              <TextInput
+                value={query}
+                onChangeText={setQuery}
+                placeholder={t("favorites.searchPlaceholder")}
+                placeholderTextColor={colors.textSecondary}
+                style={{
+                  backgroundColor: colors.surface,
+                  borderColor: colors.border,
+                  borderWidth: 1,
+                  borderRadius: radii.sm,
+                  padding: spacing.sm,
+                  color: colors.textPrimary,
+                  minHeight: 44,
+                }}
+              />
+            ) : null}
             {contentType === "ayah" ? (
               <View style={{ flexDirection: "row", gap: 8 }}>
                 <Chip label={t("favorites.sortByDate")} selected={sortMode === "date"} onPress={() => setSortMode("date")} />
@@ -256,7 +342,7 @@ export default function FavoritesScreen(): React.JSX.Element {
                   />
                 )}
               />
-            ) : (
+            ) : contentType === "hadith" ? (
               <FlatList
                 data={filteredHadith}
                 keyExtractor={(id) => id}
@@ -266,6 +352,22 @@ export default function FavoritesScreen(): React.JSX.Element {
                     onPress={() => router.push(`/hadith/${hadithIdToRouteParam(item)}`)}
                     onRemove={() => handleRemoveHadith(item)}
                   />
+                )}
+              />
+            ) : contentType === "name" ? (
+              <FlatList
+                data={nameFavorites as number[]}
+                keyExtractor={(n) => String(n)}
+                renderItem={({ item }) => (
+                  <NameFavoriteRow number={item} onPress={() => router.push(`/names?n=${item}`)} onRemove={() => handleRemoveName(item)} />
+                )}
+              />
+            ) : (
+              <FlatList
+                data={duaFavorites as string[]}
+                keyExtractor={(id) => id}
+                renderItem={({ item }) => (
+                  <DuaFavoriteRow duaId={item} onPress={() => router.push(`/duas/${item}`)} onRemove={() => handleRemoveDua(item)} />
                 )}
               />
             )}

@@ -85,7 +85,7 @@ export function planDailyExtras(input: PlanDailyExtrasInput): DailyExtrasPlan {
       }
     }
     if (preferences.dailyDuaEnabled) {
-      const duaId = getDailyDuaId(day);
+      const duaId = getDailyDuaId(day, locale);
       const fireAt = new Date(day.getFullYear(), day.getMonth(), day.getDate(), preferences.dailyDuaHour, 0, 0, 0);
       if (duaId && fireAt.getTime() > now.getTime()) {
         desired.push({ kind: "dua", contentId: duaId, fireAt });

@@ -107,6 +107,7 @@ export const it: TranslationSchema = {
     streakLabel: pluralForm({ one: "{count} giorno consecutivo", other: "{count} giorni consecutivi" }),
     libraryCta: "Sfoglia e cerca",
     momentCta: "Come ti senti in questo momento?",
+    readMoreCta: "Leggi tutto",
   },
   moment: {
     title: "Un momento per te",
@@ -403,6 +404,7 @@ export const it: TranslationSchema = {
     emptyTitle: "Nessun versetto memorizzato",
     emptyBody: "Apri un versetto e tocca «Memorizza questo versetto» per iniziare. I tuoi ripassi appariranno qui.",
     memorizeCta: "Memorizza questo versetto",
+    memorizeDuaCta: "Memorizza questa invocazione",
     removeCta: "Rimuovi dalla memorizzazione",
     dueTodayTitle: "Da ripassare",
     noneDueBody: "Niente da ripassare per ora. Torna domani, inshaAllah.",

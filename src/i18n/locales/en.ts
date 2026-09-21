@@ -112,6 +112,7 @@ export const en = {
     streakLabel: pluralForm({ one: "{count} day in a row", other: "{count} days in a row" }),
     libraryCta: "Browse & search",
     momentCta: "How are you feeling right now?",
+    readMoreCta: "Read more",
   },
   moment: {
     title: "A moment for you",
@@ -408,6 +409,7 @@ export const en = {
     emptyTitle: "Nothing memorized yet",
     emptyBody: "Open any ayah and tap “Memorize this ayah” to start. Your reviews will appear here.",
     memorizeCta: "Memorize this ayah",
+    memorizeDuaCta: "Memorize this invocation",
     removeCta: "Remove from memorization",
     dueTodayTitle: "To review",
     noneDueBody: "Nothing to review right now. Come back tomorrow, inshaAllah.",

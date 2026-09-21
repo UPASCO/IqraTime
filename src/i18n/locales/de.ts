@@ -107,6 +107,7 @@ export const de: TranslationSchema = {
     streakLabel: pluralForm({ one: "{count} Tag in Folge", other: "{count} Tage in Folge" }),
     libraryCta: "Durchsuchen & suchen",
     momentCta: "Wie fühlst du dich gerade?",
+    readMoreCta: "Weiterlesen",
   },
   moment: {
     title: "Ein Moment für dich",
@@ -403,6 +404,7 @@ export const de: TranslationSchema = {
     emptyTitle: "Noch nichts auswendig gelernt",
     emptyBody: "Öffnen Sie einen Vers und tippen Sie auf „Diesen Vers auswendig lernen“. Ihre Wiederholungen erscheinen hier.",
     memorizeCta: "Diesen Vers auswendig lernen",
+    memorizeDuaCta: "Dieses Bittgebet auswendig lernen",
     removeCta: "Aus dem Lernprogramm entfernen",
     dueTodayTitle: "Zu wiederholen",
     noneDueBody: "Im Moment nichts zu wiederholen. Kommen Sie morgen wieder, inshaAllah.",

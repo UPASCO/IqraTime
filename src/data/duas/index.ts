@@ -71,30 +71,57 @@ export function isDuaTranslationFallback(dua: DuaEntry, locale: string): boolean
   return locale !== "en" && !!duaTranslationFor(dua, locale) && !dua.translation?.[locale];
 }
 
+/**
+ * The entries a reader of `locale` can be SERVED without a language
+ * fallback: everything for Arabic readers (the Arabic is the original
+ * text), otherwise only entries carrying a real translation in that
+ * locale — 13 fully-localized quranic duas everywhere, the full 110 for
+ * English. The feed rotation and the notification pools draw from this,
+ * so nothing lands on a lock screen or a feed slide in the wrong
+ * language; the LIBRARY still lists all 110 with the explicit
+ * English-fallback notice.
+ */
+export function duasTranslatedFor(locale: string): readonly DuaEntry[] {
+  if (locale === "ar") return entries;
+  const translated = entries.filter((entry) => entry.translation?.[locale]);
+  return translated.length > 0 ? translated : entries.filter((entry) => entry.translation?.en);
+}
+
+/**
+ * The source line for display. The dataset stores it verbatim; this only
+ * strips the upstream "HR." prefix (Indonesian "Hadits Riwayat" — the
+ * fitrahive dataset's citation convention), which reads as noise in every
+ * other language. Purely presentational — the citation itself is untouched.
+ */
+export function duaSourceLabel(dua: DuaEntry): string | undefined {
+  return dua.source?.replace(/^HR\.?\s+/, "");
+}
+
 /** Same local-calendar day arithmetic as the daily āyah/name. */
 function localDayNumber(now: Date): number {
   return Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86_400_000);
 }
 
 /**
- * Entries suitable for a one-glance daily notification: translated, and
- * short enough that the lock screen shows the whole text rather than the
- * first line of Āyat al-Kursī.
+ * Entries suitable for a one-glance daily notification: readable in the
+ * reader's own language (see duasTranslatedFor), and short enough that
+ * the lock screen shows the whole text rather than the first line of a
+ * multi-verse passage.
  */
 const DAILY_POOL_MAX_ARABIC = 340;
 
-export function getDailyDuaPool(): readonly DuaEntry[] {
-  return entries.filter((entry) => entry.translation?.en && entry.arabic.length <= DAILY_POOL_MAX_ARABIC);
+export function getDailyDuaPool(locale: string = "en"): readonly DuaEntry[] {
+  return duasTranslatedFor(locale).filter((entry) => entry.arabic.length <= DAILY_POOL_MAX_ARABIC);
 }
 
 /**
  * The invocation of the day — deterministic and identical for every user
- * on the same local calendar day, exactly like the daily āyah: a seeded
- * shuffle over the pool per period of pool-length days, so every dua
- * appears exactly once before any repeats.
+ * of the same language on the same local calendar day, exactly like the
+ * daily āyah: a seeded shuffle over the pool per period of pool-length
+ * days, so every dua appears exactly once before any repeats.
  */
-export function getDailyDuaId(now: Date = new Date()): string | undefined {
-  const pool = getDailyDuaPool();
+export function getDailyDuaId(now: Date = new Date(), locale: string = "en"): string | undefined {
+  const pool = getDailyDuaPool(locale);
   if (pool.length === 0) return undefined;
   const day = localDayNumber(now);
   const period = Math.floor(day / pool.length);
@@ -110,7 +137,7 @@ export function getDailyDuaId(now: Date = new Date()): string | undefined {
   return pool[indices[offset] as number]?.id;
 }
 
-export function getDailyDua(now: Date = new Date()): DuaEntry | undefined {
-  const id = getDailyDuaId(now);
+export function getDailyDua(now: Date = new Date(), locale: string = "en"): DuaEntry | undefined {
+  const id = getDailyDuaId(now, locale);
   return id ? byId.get(id) : undefined;
 }

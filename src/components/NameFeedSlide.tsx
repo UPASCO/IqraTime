@@ -13,7 +13,9 @@ export interface NameFeedSlideProps {
   transliteration: string;
   /** Localized one-line meaning; empty string for Arabic readers, where the name speaks for itself. */
   meaning: string;
+  isFavorite?: boolean;
   showSwipeHint?: boolean;
+  onToggleFavorite?: () => void;
   onShare?: () => void;
   onCopy?: () => void;
   onOpenDetail?: () => void;
@@ -86,6 +88,18 @@ export function NameFeedSlide(props: NameFeedSlideProps): React.JSX.Element {
       </Pressable>
 
       <View style={[styles.rail, { gap: spacing.lg }]}>
+        {props.onToggleFavorite ? (
+          <Pressable
+            onPress={props.onToggleFavorite}
+            hitSlop={8}
+            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
+            accessibilityRole="button"
+            accessibilityLabel={props.isFavorite ? t("home.favoriteRemove") : t("home.favoriteAdd")}
+            accessibilityState={{ selected: !!props.isFavorite }}
+          >
+            <Ionicons name={props.isFavorite ? "heart" : "heart-outline"} size={26} color={props.isFavorite ? appConfig.brand.goldLight : appConfig.brand.warmWhite} />
+          </Pressable>
+        ) : null}
         {props.onShare ? (
           <Pressable
             onPress={props.onShare}

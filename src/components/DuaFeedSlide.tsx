@@ -14,7 +14,9 @@ export interface DuaFeedSlideProps {
   transliteration?: string;
   translationText?: string;
   source?: string;
+  isFavorite?: boolean;
   showSwipeHint?: boolean;
+  onToggleFavorite?: () => void;
   onShare?: () => void;
   onCopy?: () => void;
   onOpenDetail?: () => void;
@@ -30,8 +32,9 @@ export function DuaFeedSlide(props: DuaFeedSlideProps): React.JSX.Element {
   const { spacing, typography, fontScaleMultiplier } = useTheme();
   const { t } = useI18n();
   const [justCopied, setJustCopied] = React.useState(false);
-  // Same Android nested-scroll trap as AyahFeedSlide: only let the inner
-  // ScrollView take the gesture when the dua genuinely overflows.
+  // Never scrolls internally — see AyahFeedSlide: a vertical swipe on a
+  // slide must always mean "next page"; overflowing text is clipped behind
+  // a "Read more" pill that opens the detail screen.
   const [contentOverflows, setContentOverflows] = React.useState(false);
 
   const handleCopy = (): void => {
@@ -47,8 +50,7 @@ export function DuaFeedSlide(props: DuaFeedSlideProps): React.JSX.Element {
         contentContainerStyle={styles.scrollContent}
         bounces={false}
         showsVerticalScrollIndicator={false}
-        scrollEnabled={contentOverflows}
-        nestedScrollEnabled
+        scrollEnabled={false}
         onContentSizeChange={(_w, contentHeight) => setContentOverflows(contentHeight > props.height)}
       >
         <Pressable
@@ -118,6 +120,18 @@ export function DuaFeedSlide(props: DuaFeedSlideProps): React.JSX.Element {
       </ScrollView>
 
       <View style={[styles.rail, { gap: spacing.lg }]}>
+        {props.onToggleFavorite ? (
+          <Pressable
+            onPress={props.onToggleFavorite}
+            hitSlop={8}
+            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
+            accessibilityRole="button"
+            accessibilityLabel={props.isFavorite ? t("home.favoriteRemove") : t("home.favoriteAdd")}
+            accessibilityState={{ selected: !!props.isFavorite }}
+          >
+            <Ionicons name={props.isFavorite ? "heart" : "heart-outline"} size={26} color={props.isFavorite ? appConfig.brand.goldLight : appConfig.brand.warmWhite} />
+          </Pressable>
+        ) : null}
         {props.onShare ? (
           <Pressable
             onPress={props.onShare}
@@ -153,6 +167,20 @@ export function DuaFeedSlide(props: DuaFeedSlideProps): React.JSX.Element {
         ) : null}
       </View>
 
+      {contentOverflows && props.onOpenDetail ? (
+        <Pressable
+          onPress={props.onOpenDetail}
+          style={({ pressed }) => [styles.readMorePill, { opacity: pressed ? 0.7 : 1 }]}
+          accessibilityRole="button"
+          accessibilityLabel={t("home.readMoreCta")}
+        >
+          <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+            {t("home.readMoreCta")}
+          </Text>
+          <Ionicons name="chevron-forward" size={14} color={appConfig.brand.goldLight} />
+        </Pressable>
+      ) : null}
+
       {props.showSwipeHint ? (
         <View style={styles.swipeHint} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
           <Ionicons name="chevron-up" size={18} color={appConfig.brand.ivory} style={{ opacity: 0.6 }} />
@@ -179,4 +207,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   swipeHint: { position: "absolute", bottom: 28, alignSelf: "center", alignItems: "center", gap: 2 },
+  readMorePill: {
+    position: "absolute",
+    bottom: 60,
+    alignSelf: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    borderColor: "rgba(212,180,131,0.5)",
+    borderWidth: 1,
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+  },
 });

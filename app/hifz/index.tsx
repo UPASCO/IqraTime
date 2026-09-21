@@ -8,10 +8,12 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAyahView } from "@/hooks/useAyahView";
-import { listHifzEntries, listDueHifzEntries, recordHifzReview, removeFromHifz, REVIEW_INTERVALS_DAYS, type HifzEntry } from "@/storage/hifzStore";
+import { listHifzEntries, listDueHifzEntries, recordHifzReview, removeFromHifz, hifzEntryKind, REVIEW_INTERVALS_DAYS, type HifzEntry } from "@/storage/hifzStore";
 import { ayahIdToRouteParam } from "@/utils/routeParams";
 import { formatDateTime } from "@/utils/dateUtils";
 import { appConfig } from "@/config/appConfig";
+import { getDua, duaTitleFor, duaTranslationFor } from "@/data/duas";
+import { getName, nameMeaningFor } from "@/data/names";
 
 /**
  * One due review: the reference is always visible, the āyah itself starts
@@ -84,6 +86,75 @@ function ReviewCard({ entry, onGraded }: { entry: HifzEntry; onGraded: () => voi
   );
 }
 
+/**
+ * The dua and name counterparts to ReviewCard: same hide-then-self-grade
+ * mechanic, different cue. A dua's cue is its localized title (recall the
+ * Arabic from what it's for); a Name's cue is its number and meaning
+ * (recall the Name itself) — exactly how the 99 are traditionally learned.
+ */
+function ExtraReviewCard({ entry, onGraded }: { entry: HifzEntry; onGraded: () => void }): React.JSX.Element {
+  const { spacing, radii, typography, fontScaleMultiplier } = useTheme();
+  const { t, locale } = useI18n();
+  const [revealed, setRevealed] = useState(false);
+
+  const kind = hifzEntryKind(entry);
+  const dua = kind === "dua" ? getDua(entry.ayahId) : undefined;
+  const name = kind === "name" ? getName(Number(entry.ayahId)) : undefined;
+  if (!dua && !name) return <></>;
+
+  const cue = dua ? duaTitleFor(dua, locale) : `${t("names.positionLabel", { number: name!.number })} — ${nameMeaningFor(name!, locale) || name!.transliteration}`;
+  const answerArabic = dua ? dua.arabic : name!.arabic;
+  const answerSecondary = dua ? (duaTranslationFor(dua, locale) ?? dua.transliteration) : name!.transliteration;
+
+  const grade = async (remembered: boolean): Promise<void> => {
+    await recordHifzReview(entry.ayahId, remembered);
+    setRevealed(false);
+    onGraded();
+  };
+
+  return (
+    <View style={{ backgroundColor: appConfig.brand.night, borderRadius: radii.lg, padding: spacing.lg, gap: spacing.md }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: spacing.sm }}>
+        <Text
+          style={{
+            color: appConfig.brand.goldLight,
+            fontWeight: typography.weights.semibold,
+            letterSpacing: 1,
+            fontSize: typography.sizes.caption * fontScaleMultiplier,
+            flexShrink: 1,
+          }}
+        >
+          {cue}
+        </Text>
+        <Text style={{ color: appConfig.brand.ivory, opacity: 0.7, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+          {t("hifz.stageLabel", { stage: entry.stage + 1, total: REVIEW_INTERVALS_DAYS.length })}
+        </Text>
+      </View>
+
+      {revealed ? (
+        <View style={{ gap: spacing.md }}>
+          <ArabicText text={answerArabic} style={{ color: appConfig.brand.warmWhite }} />
+          {answerSecondary ? (
+            <Text style={{ color: appConfig.brand.ivory, opacity: 0.85, fontSize: typography.sizes.body * fontScaleMultiplier }}>
+              {answerSecondary}
+            </Text>
+          ) : null}
+          <View style={{ flexDirection: "row", gap: spacing.md }}>
+            <View style={{ flex: 1 }}>
+              <Button label={t("hifz.knewItCta")} onPress={() => grade(true)} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Button label={t("hifz.forgotCta")} variant="secondary" onPress={() => grade(false)} />
+            </View>
+          </View>
+        </View>
+      ) : (
+        <Button label={t("hifz.revealCta")} variant="secondary" onPress={() => setRevealed(true)} />
+      )}
+    </View>
+  );
+}
+
 /** One row in the "your ayat" list below the review area. */
 function HifzRow({ entry, onRemove }: { entry: HifzEntry; onRemove: () => void }): React.JSX.Element | null {
   const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
@@ -120,6 +191,61 @@ function HifzRow({ entry, onRemove }: { entry: HifzEntry; onRemove: () => void }
           {view.arabicText}
         </Text>
       ) : null}
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: spacing.xs }}>
+        <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, flexShrink: 1 }}>
+          {t("hifz.nextReviewLabel")}: {formatDateTime(entry.nextReviewAtUtcIso, locale)}
+        </Text>
+        {entry.successCount > 0 ? (
+          <Text style={{ color: colors.gold, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.medium }}>
+            {t("hifz.reviewedCountLabel", { count: entry.successCount })}
+          </Text>
+        ) : null}
+      </View>
+    </Pressable>
+  );
+}
+
+/** The dua/name counterpart to HifzRow. */
+function ExtraHifzRow({ entry, onRemove }: { entry: HifzEntry; onRemove: () => void }): React.JSX.Element | null {
+  const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
+  const { t, locale } = useI18n();
+  const router = useRouter();
+
+  const kind = hifzEntryKind(entry);
+  const dua = kind === "dua" ? getDua(entry.ayahId) : undefined;
+  const name = kind === "name" ? getName(Number(entry.ayahId)) : undefined;
+  if (!dua && !name) return null;
+
+  const label = dua ? duaTitleFor(dua, locale) : `${name!.transliteration} — ${t("names.positionLabel", { number: name!.number })}`;
+  const arabicPreview = dua ? dua.arabic : name!.arabic;
+
+  return (
+    <Pressable
+      onPress={() => router.push(dua ? `/duas/${dua.id}` : `/names?n=${name!.number}`)}
+      style={{
+        backgroundColor: colors.surface,
+        borderColor: colors.border,
+        borderWidth: 1,
+        borderRadius: radii.md,
+        padding: spacing.sm,
+        gap: spacing.xxs,
+        marginBottom: spacing.xs,
+      }}
+    >
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: spacing.sm }}>
+        <Text
+          numberOfLines={1}
+          style={{ color: colors.gold, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier, flexShrink: 1 }}
+        >
+          {label}
+        </Text>
+        <Pressable onPress={onRemove} hitSlop={8} accessibilityRole="button" accessibilityLabel={t("hifz.removeCta")}>
+          <Ionicons name="close-circle-outline" size={18} color={colors.textSecondary} />
+        </Pressable>
+      </View>
+      <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier, textAlign: "right" }}>
+        {arabicPreview}
+      </Text>
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: spacing.xs }}>
         <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, flexShrink: 1 }}>
           {t("hifz.nextReviewLabel")}: {formatDateTime(entry.nextReviewAtUtcIso, locale)}
@@ -171,7 +297,13 @@ export default function HifzScreen(): React.JSX.Element {
       <FlatList
         data={all as HifzEntry[]}
         keyExtractor={(e) => e.ayahId}
-        renderItem={({ item }) => <HifzRow entry={item} onRemove={() => handleRemove(item.ayahId)} />}
+        renderItem={({ item }) =>
+          hifzEntryKind(item) === "ayah" ? (
+            <HifzRow entry={item} onRemove={() => handleRemove(item.ayahId)} />
+          ) : (
+            <ExtraHifzRow entry={item} onRemove={() => handleRemove(item.ayahId)} />
+          )
+        }
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View style={{ gap: spacing.md, paddingBottom: spacing.md }}>
@@ -203,12 +335,16 @@ export default function HifzScreen(): React.JSX.Element {
             {all.length > 0 ? <SectionHeader title={`${t("hifz.dueTodayTitle")} (${due.length})`} /> : null}
 
             {currentDue ? (
-              <ReviewCard
-                // Key by ayahId so the reveal state resets when the next due entry replaces this one.
-                key={currentDue.ayahId}
-                entry={currentDue}
-                onGraded={handleGraded}
-              />
+              hifzEntryKind(currentDue) === "ayah" ? (
+                <ReviewCard
+                  // Key by id so the reveal state resets when the next due entry replaces this one.
+                  key={currentDue.ayahId}
+                  entry={currentDue}
+                  onGraded={handleGraded}
+                />
+              ) : (
+                <ExtraReviewCard key={currentDue.ayahId} entry={currentDue} onGraded={handleGraded} />
+              )
             ) : all.length > 0 ? (
               <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.body * fontScaleMultiplier, fontStyle: "italic" }}>
                 {reviewedThisVisit > 0 ? `${t("hifz.doneTitle")} — ${t("hifz.doneBody")}` : t("hifz.noneDueBody")}

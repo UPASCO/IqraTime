@@ -107,6 +107,7 @@ export const nl: TranslationSchema = {
     streakLabel: pluralForm({ one: "{count} dag op rij", other: "{count} dagen op rij" }),
     libraryCta: "Bladeren & zoeken",
     momentCta: "Hoe voel je je op dit moment?",
+    readMoreCta: "Lees verder",
   },
   moment: {
     title: "Een moment voor jou",
@@ -403,6 +404,7 @@ export const nl: TranslationSchema = {
     emptyTitle: "Nog niets gememoriseerd",
     emptyBody: "Open een ayah en tik op “Deze ayah memoriseren” om te beginnen. Uw herhalingen verschijnen hier.",
     memorizeCta: "Deze ayah memoriseren",
+    memorizeDuaCta: "Deze smeekbede memoriseren",
     removeCta: "Verwijderen uit memorisatie",
     dueTodayTitle: "Te herhalen",
     noneDueBody: "Niets te herhalen op dit moment. Kom morgen terug, inshaAllah.",

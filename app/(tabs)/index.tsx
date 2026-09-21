@@ -27,7 +27,8 @@ import { isHadithFavorite, addHadithFavorite, removeHadithFavorite } from "@/sto
 import { hadithIdToRouteParam } from "@/utils/routeParams";
 import { nextFeedKind, effectiveContentKinds, type FeedKind } from "@/services/feedContentMode";
 import { getName, nameMeaningFor, getAllNames } from "@/data/names";
-import { getAllDuas, getDua, duaTitleFor, duaTranslationFor } from "@/data/duas";
+import { duasTranslatedFor, getDua, duaTitleFor, duaTranslationFor, duaSourceLabel } from "@/data/duas";
+import { isNameFavorite, toggleNameFavorite, isDuaFavorite, toggleDuaFavorite } from "@/storage/extrasFavoritesStore";
 import { settledSlideIndex, slidesNeeded } from "@/services/feedBuffer";
 
 /** One slide in the swipeable feed, resolved to its display data via useAyahView inside the render. */
@@ -163,6 +164,10 @@ function NameFeedItem({ nameNumber, height, showSwipeHint }: { nameNumber: numbe
   const router = useRouter();
   const { t, locale } = useI18n();
   const name = getName(nameNumber);
+  const [favorite, setFavorite] = useState(false);
+  useEffect(() => {
+    isNameFavorite(nameNumber).then(setFavorite);
+  }, [nameNumber]);
 
   if (!name) {
     return (
@@ -187,6 +192,10 @@ function NameFeedItem({ nameNumber, height, showSwipeHint }: { nameNumber: numbe
       arabic={name.arabic}
       transliteration={name.transliteration}
       meaning={meaning}
+      isFavorite={favorite}
+      onToggleFavorite={() => {
+        toggleNameFavorite(name.number).then(setFavorite);
+      }}
       showSwipeHint={showSwipeHint}
       onShare={() => {
         incrementShareCount();
@@ -203,6 +212,10 @@ function DuaFeedItem({ duaId, height, showSwipeHint }: { duaId: string; height: 
   const router = useRouter();
   const { t, locale } = useI18n();
   const dua = getDua(duaId);
+  const [favorite, setFavorite] = useState(false);
+  useEffect(() => {
+    isDuaFavorite(duaId).then(setFavorite);
+  }, [duaId]);
 
   if (!dua) {
     return (
@@ -214,10 +227,11 @@ function DuaFeedItem({ duaId, height, showSwipeHint }: { duaId: string; height: 
 
   const title = duaTitleFor(dua, locale);
   const translation = duaTranslationFor(dua, locale);
+  const sourceLabel = duaSourceLabel(dua);
   const shareText = [
     dua.arabic,
     translation,
-    dua.source ? `${title} — ${dua.source}` : title,
+    sourceLabel ? `${title} — ${sourceLabel}` : title,
     `(${t("common.appName")})`,
     buildGetTheAppLine(t),
   ]
@@ -231,7 +245,11 @@ function DuaFeedItem({ duaId, height, showSwipeHint }: { duaId: string; height: 
       arabicText={dua.arabic}
       transliteration={dua.transliteration}
       translationText={translation}
-      source={dua.source}
+      source={sourceLabel}
+      isFavorite={favorite}
+      onToggleFavorite={() => {
+        toggleDuaFavorite(dua.id).then(setFavorite);
+      }}
       showSwipeHint={showSwipeHint}
       onShare={() => {
         incrementShareCount();
@@ -294,9 +312,14 @@ function pickNameNumber(avoidNumbers: ReadonlySet<number>): number | undefined {
   return from[Math.floor(Math.random() * from.length)]?.number;
 }
 
-/** Same session-scoped anti-repeat over the invocations (only entries that have a translation to show). */
-function pickDuaId(avoidIds: ReadonlySet<string>): string | undefined {
-  const duas = getAllDuas().filter((d) => d.translation?.en || d.translation?.fr);
+/**
+ * Same session-scoped anti-repeat over the invocations. The pool is
+ * locale-pure (duasTranslatedFor): a French reader's feed only ever
+ * serves duas that exist in French — the full library, with its explicit
+ * English-fallback notice, stays one tap away on the Invocations screen.
+ */
+function pickDuaId(avoidIds: ReadonlySet<string>, locale: string): string | undefined {
+  const duas = duasTranslatedFor(locale);
   if (duas.length === 0) return undefined;
   const pool = duas.filter((d) => !avoidIds.has(d.id));
   const from = pool.length > 0 ? pool : duas;
@@ -314,7 +337,7 @@ const NO_IDS: ReadonlySet<string> = new Set();
  * once that's available — this is purely about never rendering nothing in
  * between.
  */
-function pickInitialFeedEntry(kinds: ContentKinds): FeedEntry | undefined {
+function pickInitialFeedEntry(kinds: ContentKinds, translationLocale: string): FeedEntry | undefined {
   const kind = nextFeedKind(kinds, undefined);
   if (kind === "hadith") {
     const id = pickHadithId(NO_IDS);
@@ -325,7 +348,7 @@ function pickInitialFeedEntry(kinds: ContentKinds): FeedEntry | undefined {
     return number !== undefined ? { key: "slide-0", kind: "name", id: String(number) } : undefined;
   }
   if (kind === "dua") {
-    const id = pickDuaId(NO_IDS);
+    const id = pickDuaId(NO_IDS, translationLocale);
     return id ? { key: "slide-0", kind: "dua", id } : undefined;
   }
   const id = getRuntimeCorpus()[0]?.arabic.id;
@@ -356,7 +379,7 @@ export default function HomeScreen(): React.JSX.Element {
   const hadithUnavailableNotice = preferences.contentKinds.hadith && !hadithAvailable;
 
   const [feedItems, setFeedItems] = useState<FeedEntry[]>(() => {
-    const initial = pickInitialFeedEntry(contentKinds);
+    const initial = pickInitialFeedEntry(contentKinds, preferences.translationLocale);
     return initial ? [initial] : [];
   });
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
@@ -457,7 +480,7 @@ export default function HomeScreen(): React.JSX.Element {
         entry = { key: `slide-${slideCounter.current++}`, kind: "name", id: String(nextNumber) };
       }
     } else if (kind === "dua") {
-      const nextId = pickDuaId(shownDuaIds.current);
+      const nextId = pickDuaId(shownDuaIds.current, preferences.translationLocale);
       if (nextId) {
         shownDuaIds.current.add(nextId);
         entry = { key: `slide-${slideCounter.current++}`, kind: "dua", id: nextId };
@@ -473,7 +496,7 @@ export default function HomeScreen(): React.JSX.Element {
     feedItemsRef.current = [...feedItemsRef.current, entry];
     setFeedItems(feedItemsRef.current);
     return true;
-  }, [contentKinds, pickAnotherAyah]);
+  }, [contentKinds, pickAnotherAyah, preferences.translationLocale]);
 
   /**
    * Keeps FEED_BUFFER (src/services/feedBuffer.ts) slides ready *below* the
@@ -519,7 +542,7 @@ export default function HomeScreen(): React.JSX.Element {
     } else if (firstKind === "name" || firstKind === "dua") {
       // The rotation starts at the first enabled kind; āyāt lead whenever
       // they're on, so this branch only runs when the user turned them off.
-      const entry = pickInitialFeedEntry(contentKinds);
+      const entry = pickInitialFeedEntry(contentKinds, preferences.translationLocale);
       if (entry) {
         feedItemsRef.current = [entry];
         currentIndexRef.current = 0;

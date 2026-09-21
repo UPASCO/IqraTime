@@ -10,6 +10,8 @@ import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { appConfig } from "@/config/appConfig";
 import { clearStreak } from "@/storage/streakStore";
 import { clearHifz } from "@/storage/hifzStore";
+import { clearHadithFavorites } from "@/storage/hadithFavoritesStore";
+import { clearExtrasFavorites } from "@/storage/extrasFavoritesStore";
 import type { TextSizeScale } from "@/domain/types";
 import type { TranslationKey } from "@/i18n/schema";
 
@@ -50,6 +52,10 @@ export default function SettingsScreen(): React.JSX.Element {
           await reset();
           await clearStreak();
           await clearHifz();
+          // The AsyncStorage-backed favorites (hadith, names, invocations)
+          // live outside the SQLite db that resetAll() wipes.
+          await clearHadithFavorites();
+          await clearExtrasFavorites();
         },
       },
     ]);

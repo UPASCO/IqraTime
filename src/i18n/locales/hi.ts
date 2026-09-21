@@ -107,6 +107,7 @@ export const hi: TranslationSchema = {
     streakLabel: pluralForm({ one: "{count} दिन लगातार", other: "{count} दिन लगातार" }),
     libraryCta: "ब्राउज़ करें और खोजें",
     momentCta: "अभी आप कैसा महसूस कर रहे हैं?",
+    readMoreCta: "आगे पढ़ें",
   },
   moment: {
     title: "आपके लिए एक पल",
@@ -403,6 +404,7 @@ export const hi: TranslationSchema = {
     emptyTitle: "अभी कोई आयत याद नहीं की गई",
     emptyBody: "कोई भी आयत खोलें और «यह आयत याद करें» दबाएँ। आपके दोहराव यहाँ दिखेंगे।",
     memorizeCta: "यह आयत याद करें",
+    memorizeDuaCta: "यह दुआ याद करें",
     removeCta: "याद सूची से हटाएँ",
     dueTodayTitle: "दोहराने के लिए",
     noneDueBody: "अभी दोहराने के लिए कुछ नहीं। कल फिर आएँ, इंशाअल्लाह।",

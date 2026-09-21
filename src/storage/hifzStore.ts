@@ -2,6 +2,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import type { AyahId } from "@/domain/types";
 
+/**
+ * What a memorization entry refers to (2.1.1): an āyah ("2:255"), an
+ * invocation (dua id, e.g. "daily-dua-27"), or one of the 99 Names (its
+ * number as a string, "42"). The id formats never collide, so one flat
+ * list keys everything by id alone. Entries persisted before this field
+ * existed have no `kind` — they are āyāt.
+ */
+export type HifzKind = "ayah" | "dua" | "name";
+
 const KEY = "ayahnow.hifz";
 
 /**
@@ -19,7 +28,10 @@ const KEY = "ayahnow.hifz";
  * memorized Qur'an is kept fresh, not archived.
  */
 export interface HifzEntry {
+  /** Content id — an AyahId for kind "ayah" (the historical field name predates the other kinds). */
   readonly ayahId: AyahId;
+  /** Absent on entries saved before 2.1.1 — read it through hifzEntryKind(), which maps undefined to "ayah". */
+  readonly kind?: HifzKind;
   /** Index into REVIEW_INTERVALS_DAYS. 0 = just added / failed last review. */
   readonly stage: number;
   readonly addedAtUtcIso: string;
@@ -64,13 +76,19 @@ export async function listDueHifzEntries(now: Date = new Date()): Promise<readon
     .sort((a, b) => (a.nextReviewAtUtcIso < b.nextReviewAtUtcIso ? -1 : 1));
 }
 
-/** Adds an āyah to memorization. Idempotent; a new entry is due immediately so the first review can happen right away. */
-export async function addToHifz(ayahId: AyahId, now: Date = new Date()): Promise<void> {
+/** The entry's kind, with pre-2.1.1 entries (no kind persisted) read as āyāt. */
+export function hifzEntryKind(entry: HifzEntry): HifzKind {
+  return entry.kind ?? "ayah";
+}
+
+/** Adds content to memorization. Idempotent; a new entry is due immediately so the first review can happen right away. */
+export async function addToHifz(id: string, now: Date = new Date(), kind: HifzKind = "ayah"): Promise<void> {
   const list = await readAll();
-  if (list.some((e) => e.ayahId === ayahId)) return;
+  if (list.some((e) => e.ayahId === id)) return;
   const nowIso = now.toISOString();
   list.push({
-    ayahId,
+    ayahId: id,
+    kind,
     stage: 0,
     addedAtUtcIso: nowIso,
     nextReviewAtUtcIso: nowIso,

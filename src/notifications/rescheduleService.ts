@@ -221,9 +221,9 @@ export async function reschedule(deps: RescheduleDependencies): Promise<Reschedu
   };
 
   const pickDua = (): PickedContent | null => {
-    // Same lock-screen-suitable pool as the daily invocation: translated
-    // and short enough to be read at a glance.
-    const picked = pickFromPool(getDailyDuaPool().map((d) => d.id), queuedDuaIds, extraRandom);
+    // Same lock-screen-suitable pool as the daily invocation: readable in
+    // the reader's own language and short enough to be read at a glance.
+    const picked = pickFromPool(getDailyDuaPool(translationLocale).map((d) => d.id), queuedDuaIds, extraRandom);
     return picked ? { kind: "dua", contentId: picked } : null;
   };
 

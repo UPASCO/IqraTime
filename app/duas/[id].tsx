@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Share, StyleSheet } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 
-import { Screen, ArabicText, TranslationText, EmptyState, Button } from "@/components";
+import { Screen, ArabicText, TranslationText, EmptyState, Button, FavoriteButton } from "@/components";
 import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
-import { duaTitleFor, duaTranslationFor, isDuaTranslationFallback, getDua } from "@/data/duas";
+import { duaTitleFor, duaTranslationFor, isDuaTranslationFallback, duaSourceLabel, getDua } from "@/data/duas";
 import { buildGetTheAppLine } from "@/utils/shareText";
 import { incrementShareCount } from "@/storage/shareCounterStore";
+import { isDuaFavorite, toggleDuaFavorite } from "@/storage/extrasFavoritesStore";
+import { addToHifz, isInHifz, removeFromHifz } from "@/storage/hifzStore";
 
 /**
  * One invocation in full: Arabic, transliteration where the source dataset
@@ -22,8 +24,16 @@ export default function DuaDetailScreen(): React.JSX.Element {
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
   const { t, locale } = useI18n();
   const [justCopied, setJustCopied] = useState(false);
+  const [favorite, setFavorite] = useState(false);
+  const [memorizing, setMemorizing] = useState(false);
 
   const dua = params.id ? getDua(params.id) : undefined;
+
+  useEffect(() => {
+    if (!dua) return;
+    isDuaFavorite(dua.id).then(setFavorite);
+    isInHifz(dua.id).then(setMemorizing);
+  }, [dua]);
 
   if (!dua) {
     return (
@@ -39,6 +49,17 @@ export default function DuaDetailScreen(): React.JSX.Element {
 
   const title = duaTitleFor(dua, locale);
   const translation = duaTranslationFor(dua, locale);
+  const sourceLabel = duaSourceLabel(dua);
+
+  const toggleMemorize = async (): Promise<void> => {
+    if (memorizing) {
+      await removeFromHifz(dua.id);
+      setMemorizing(false);
+    } else {
+      await addToHifz(dua.id, new Date(), "dua");
+      setMemorizing(true);
+    }
+  };
   // The Hisn-style entries only exist in English translation; when the
   // reader is shown a language that isn't their own, say so rather than
   // letting it pass silently (same policy as the hadith corpus's gaps).
@@ -57,15 +78,23 @@ export default function DuaDetailScreen(): React.JSX.Element {
   return (
     <Screen onBack={() => router.back()}>
       <View style={{ gap: spacing.md }}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xs, flexWrap: "wrap" }}>
-          <View style={[styles.badge, { backgroundColor: colors.gold }]}>
-            <Text style={{ color: colors.textOnAccent, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
-              {t(`duas.categories.${dua.category}` as Parameters<typeof t>[0])}
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.xs }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xs, flexWrap: "wrap", flexShrink: 1 }}>
+            <View style={[styles.badge, { backgroundColor: colors.gold }]}>
+              <Text style={{ color: colors.textOnAccent, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
+                {t(`duas.categories.${dua.category}` as Parameters<typeof t>[0])}
+              </Text>
+            </View>
+            <Text style={{ color: colors.gold, fontWeight: typography.weights.semibold, fontSize: typography.sizes.subtitle * fontScaleMultiplier, flexShrink: 1 }}>
+              {title}
             </Text>
           </View>
-          <Text style={{ color: colors.gold, fontWeight: typography.weights.semibold, fontSize: typography.sizes.subtitle * fontScaleMultiplier, flexShrink: 1 }}>
-            {title}
-          </Text>
+          <FavoriteButton
+            isFavorite={favorite}
+            onToggle={() => {
+              toggleDuaFavorite(dua.id).then(setFavorite);
+            }}
+          />
         </View>
 
         <ArabicText text={dua.arabic} />
@@ -84,11 +113,17 @@ export default function DuaDetailScreen(): React.JSX.Element {
           </Text>
         ) : null}
 
-        {dua.source ? (
+        {sourceLabel ? (
           <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-            {t("duas.sourceLabel")}: {dua.source}
+            {t("duas.sourceLabel")}: {sourceLabel}
           </Text>
         ) : null}
+
+        <Button
+          label={memorizing ? t("hifz.removeCta") : t("hifz.memorizeDuaCta")}
+          variant={memorizing ? "ghost" : "secondary"}
+          onPress={toggleMemorize}
+        />
 
         <View style={{ flexDirection: "row", gap: spacing.md }}>
           <Button

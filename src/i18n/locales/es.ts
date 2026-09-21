@@ -107,6 +107,7 @@ export const es: TranslationSchema = {
     streakLabel: pluralForm({ one: "{count} día seguido", other: "{count} días seguidos" }),
     libraryCta: "Explorar y buscar",
     momentCta: "¿Cómo te sientes ahora mismo?",
+    readMoreCta: "Leer más",
   },
   moment: {
     title: "Un momento para ti",
@@ -403,6 +404,7 @@ export const es: TranslationSchema = {
     emptyTitle: "Aún no hay aleyas memorizadas",
     emptyBody: "Abre cualquier aleya y toca «Memorizar esta aleya» para empezar. Tus repasos aparecerán aquí.",
     memorizeCta: "Memorizar esta aleya",
+    memorizeDuaCta: "Memorizar esta invocación",
     removeCta: "Quitar de la memorización",
     dueTodayTitle: "Para repasar",
     noneDueBody: "Nada que repasar por ahora. Vuelve mañana, inshaAllah.",

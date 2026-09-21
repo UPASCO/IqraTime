@@ -127,6 +127,7 @@ export const ar: TranslationSchema = {
     }),
     libraryCta: "تصفح وابحث",
     momentCta: "كيف تشعر الآن؟",
+    readMoreCta: "اقرأ المزيد",
   },
   moment: {
     title: "لحظة من أجلك",
@@ -458,6 +459,7 @@ export const ar: TranslationSchema = {
     emptyTitle: "لا توجد آيات للحفظ بعد",
     emptyBody: "افتح أي آية واضغط «أحفظ هذه الآية» للبدء. ستظهر مراجعاتك هنا.",
     memorizeCta: "أحفظ هذه الآية",
+    memorizeDuaCta: "احفظ هذا الدعاء",
     removeCta: "إزالة من الحفظ",
     dueTodayTitle: "للمراجعة",
     noneDueBody: "لا شيء للمراجعة الآن. عُد غدًا إن شاء الله.",

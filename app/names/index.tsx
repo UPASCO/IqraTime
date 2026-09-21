@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useRef } from "react";
-import { View, Text, FlatList } from "react-native";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { View, Text, FlatList, Pressable } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -8,6 +8,104 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { appConfig } from "@/config/appConfig";
 import { getAllNames, getDailyNameNumber, nameMeaningFor, type NameOfAllah } from "@/data/names";
+import { isNameFavorite, toggleNameFavorite } from "@/storage/extrasFavoritesStore";
+import { addToHifz, isInHifz, removeFromHifz } from "@/storage/hifzStore";
+
+/**
+ * One name in the list, with its two quiet actions: favorite (heart) and
+ * memorize (adds the name to the same spaced-repetition rotation as āyāt
+ * and invocations — learning the 99 by heart is the whole tradition).
+ */
+function NameRow({ name, highlighted, isDaily, meaning }: { name: NameOfAllah; highlighted: boolean; isDaily: boolean; meaning: string }): React.JSX.Element {
+  const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
+  const { t } = useI18n();
+  const [favorite, setFavorite] = useState(false);
+  const [memorizing, setMemorizing] = useState(false);
+
+  useEffect(() => {
+    isNameFavorite(name.number).then(setFavorite);
+    isInHifz(String(name.number)).then(setMemorizing);
+  }, [name.number]);
+
+  const toggleMemorize = async (): Promise<void> => {
+    if (memorizing) {
+      await removeFromHifz(String(name.number));
+      setMemorizing(false);
+    } else {
+      await addToHifz(String(name.number), new Date(), "name");
+      setMemorizing(true);
+    }
+  };
+
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: spacing.sm,
+        backgroundColor: highlighted ? colors.surfaceElevated : colors.surface,
+        borderWidth: 1,
+        borderColor: highlighted || isDaily ? colors.goldDecorative : colors.border,
+        borderRadius: radii.md,
+        paddingVertical: spacing.sm,
+        paddingHorizontal: spacing.sm,
+        marginBottom: spacing.xs,
+      }}
+    >
+      <View
+        style={{
+          width: 34,
+          height: 34,
+          borderRadius: 17,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: isDaily ? colors.gold : colors.surfaceElevated,
+          borderWidth: 1,
+          borderColor: isDaily ? colors.gold : colors.border,
+        }}
+      >
+        <Text style={{ color: isDaily ? colors.textOnAccent : colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
+          {name.number}
+        </Text>
+      </View>
+      <View style={{ flex: 1, gap: 2 }}>
+        <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier, fontWeight: typography.weights.semibold }}>
+          {name.transliteration}
+        </Text>
+        {meaning ? (
+          <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>{meaning}</Text>
+        ) : null}
+      </View>
+      <View style={{ alignItems: "flex-end", gap: spacing.xxs }}>
+        <Text style={{ color: colors.gold, fontSize: 24 * fontScaleMultiplier, lineHeight: 40 * fontScaleMultiplier, writingDirection: "rtl" }}>
+          {name.arabic}
+        </Text>
+        <View style={{ flexDirection: "row", gap: spacing.sm }}>
+          <Pressable
+            onPress={() => {
+              toggleNameFavorite(name.number).then(setFavorite);
+            }}
+            hitSlop={8}
+            accessibilityRole="button"
+            accessibilityLabel={favorite ? t("home.favoriteRemove") : t("home.favoriteAdd")}
+            accessibilityState={{ selected: favorite }}
+          >
+            <Ionicons name={favorite ? "heart" : "heart-outline"} size={18} color={favorite ? colors.gold : colors.textSecondary} />
+          </Pressable>
+          <Pressable
+            onPress={toggleMemorize}
+            hitSlop={8}
+            accessibilityRole="button"
+            accessibilityLabel={memorizing ? t("hifz.removeCta") : t("hifz.title")}
+            accessibilityState={{ selected: memorizing }}
+          >
+            <Ionicons name={memorizing ? "school" : "school-outline"} size={18} color={memorizing ? colors.gold : colors.textSecondary} />
+          </Pressable>
+        </View>
+      </View>
+    </View>
+  );
+}
 
 /**
  * The 99 Names of Allah (Al-Asma ul-Husna). One hero card carries the Name
@@ -123,62 +221,14 @@ export default function NamesScreen(): React.JSX.Element {
               </View>
             ) : null
           }
-          renderItem={({ item }) => {
-            const highlighted = item.number === highlightNumber;
-            const isDaily = item.number === dailyNumber;
-            return (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: spacing.sm,
-                  backgroundColor: highlighted ? colors.surfaceElevated : colors.surface,
-                  borderWidth: 1,
-                  borderColor: highlighted || isDaily ? colors.goldDecorative : colors.border,
-                  borderRadius: radii.md,
-                  paddingVertical: spacing.sm,
-                  paddingHorizontal: spacing.sm,
-                  marginBottom: spacing.xs,
-                }}
-              >
-                <View
-                  style={{
-                    width: 34,
-                    height: 34,
-                    borderRadius: 17,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: isDaily ? colors.gold : colors.surfaceElevated,
-                    borderWidth: 1,
-                    borderColor: isDaily ? colors.gold : colors.border,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: isDaily ? colors.textOnAccent : colors.textSecondary,
-                      fontSize: typography.sizes.caption * fontScaleMultiplier,
-                      fontWeight: typography.weights.bold,
-                    }}
-                  >
-                    {item.number}
-                  </Text>
-                </View>
-                <View style={{ flex: 1, gap: 2 }}>
-                  <Text style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier, fontWeight: typography.weights.semibold }}>
-                    {item.transliteration}
-                  </Text>
-                  {nameMeaningFor(item, locale) ? (
-                    <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-                      {nameMeaningFor(item, locale)}
-                    </Text>
-                  ) : null}
-                </View>
-                <Text style={{ color: colors.gold, fontSize: 24 * fontScaleMultiplier, lineHeight: 40 * fontScaleMultiplier, writingDirection: "rtl" }}>
-                  {item.arabic}
-                </Text>
-              </View>
-            );
-          }}
+          renderItem={({ item }) => (
+            <NameRow
+              name={item}
+              highlighted={item.number === highlightNumber}
+              isDaily={item.number === dailyNumber}
+              meaning={nameMeaningFor(item, locale)}
+            />
+          )}
         />
       </View>
     </Screen>

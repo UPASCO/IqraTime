@@ -117,6 +117,7 @@ export const ru: TranslationSchema = {
     }),
     libraryCta: "Обзор и поиск",
     momentCta: "Как вы себя чувствуете прямо сейчас?",
+    readMoreCta: "Читать далее",
   },
   moment: {
     title: "Момент для вас",
@@ -438,6 +439,7 @@ export const ru: TranslationSchema = {
     emptyTitle: "Пока нет заученных аятов",
     emptyBody: "Откройте любой аят и нажмите «Выучить этот аят». Ваши повторения появятся здесь.",
     memorizeCta: "Выучить этот аят",
+    memorizeDuaCta: "Выучить это дуа",
     removeCta: "Убрать из заучивания",
     dueTodayTitle: "На повторение",
     noneDueBody: "Сейчас нечего повторять. Возвращайтесь завтра, иншаАллах.",

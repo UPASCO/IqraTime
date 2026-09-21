@@ -107,6 +107,7 @@ export const zhCN: TranslationSchema = {
     streakLabel: pluralForm({ other: "连续 {count} 天" }),
     libraryCta: "浏览与搜索",
     momentCta: "你现在感觉如何?",
+    readMoreCta: "阅读全文",
   },
   moment: {
     title: "为你准备的时刻",
@@ -403,6 +404,7 @@ export const zhCN: TranslationSchema = {
     emptyTitle: "尚未背记任何经文",
     emptyBody: "打开任意经文并点按「背记这节经文」开始。您的复习将显示在这里。",
     memorizeCta: "背记这节经文",
+    memorizeDuaCta: "背记这段祈祷词",
     removeCta: "从背记中移除",
     dueTodayTitle: "待复习",
     noneDueBody: "目前没有需要复习的内容。明天再来，因沙安拉。",
