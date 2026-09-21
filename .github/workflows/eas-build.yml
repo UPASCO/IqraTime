@@ -42,9 +42,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 22, pas 20 : eas-cli récent (via @oclif/plugin-autocomplete) exige
+      # Node >= 22 ; le projet lui-même demande seulement >= 20.
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - uses: expo/expo-github-action@v8
