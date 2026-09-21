@@ -1,0 +1,4 @@
+# Mêmes conventions que UPASCO/IqraQuest (ios/fastlane/Appfile).
+app_identifier("com.IqraTime.com") # doit rester égal à iosBundleIdentifier (config/shared.js)
+team_id(ENV["APPLE_TEAM_ID"])          # Apple Developer Team ID, ex. "ABCDE12345"
+itc_team_id(ENV["APP_STORE_CONNECT_TEAM_ID"]) # seulement s'il diffère de team_id ; sinon laisser non défini

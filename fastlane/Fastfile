@@ -1,0 +1,184 @@
+default_platform(:ios)
+
+# Même circuit que UPASCO/IqraQuest (ios/fastlane/Fastfile) : clé API App
+# Store Connect + certificat de distribution stockés en secrets GitHub,
+# archive signée par Xcode en cloud-signing, upload direct vers App Store
+# Connect / TestFlight — sans passer par EAS/expo.dev. Seule différence :
+# IqraTime est un projet Expo, donc ios/ n'existe pas dans le dépôt ; le
+# workflow le génère avec `npx expo prebuild` avant d'appeler cette lane.
+#
+# Secrets attendus (mêmes noms que IqraQuest) : ASC_KEY_ID, ASC_ISSUER_ID,
+# ASC_KEY_CONTENT, APPLE_TEAM_ID, et de préférence IOS_DIST_CERT_P12 (+
+# IOS_DIST_CERT_PASSWORD).
+require "base64"
+require "shellwords"
+require "tmpdir"
+
+platform :ios do
+  # A missing secret must read as "add this secret", never as a Ruby
+  # KeyError stack trace (the CI checks them too, but this lane can also
+  # be run from a laptop).
+  def required_env(name)
+    value = ENV[name].to_s
+    if value.empty?
+      UI.user_error!(
+        "The #{name} secret/environment variable is not set. " \
+        "Add it (GitHub: Settings → Secrets and variables → Actions).",
+      )
+    end
+    value
+  end
+
+  # The .p8 content survives many paste accidents: quotes around it,
+  # literal \n sequences, newlines collapsed to spaces, or the whole file
+  # pasted as base64. Re-canonicalize instead of failing with OpenSSL's
+  # cryptic "invalid curve name".
+  def normalized_asc_key
+    raw = required_env("ASC_KEY_CONTENT").strip
+    raw = raw.delete_prefix('"').delete_suffix('"').delete_prefix("'").delete_suffix("'")
+    raw = raw.gsub('\n', "\n")
+
+    unless raw.include?("BEGIN PRIVATE KEY")
+      begin
+        decoded = Base64.strict_decode64(raw.gsub(/\s+/, ""))
+        raw = decoded if decoded.include?("BEGIN PRIVATE KEY")
+      rescue ArgumentError
+        # fall through to the explicit error below
+      end
+    end
+
+    body = raw[/-----BEGIN PRIVATE KEY-----(.*?)-----END PRIVATE KEY-----/m, 1]
+    if body.nil? || body.gsub(/\s+/, "").empty?
+      UI.user_error!(
+        "ASC_KEY_CONTENT does not look like an App Store Connect .p8 key. " \
+        "Open the downloaded AuthKey_XXXXXXXXXX.p8 file in a plain-text " \
+        "editor and paste its ENTIRE content into the GitHub secret, " \
+        "including the -----BEGIN PRIVATE KEY----- and " \
+        "-----END PRIVATE KEY----- lines.",
+      )
+    end
+    clean = body.gsub(/\s+/, "")
+    "-----BEGIN PRIVATE KEY-----\n#{clean.scan(/.{1,64}/).join("\n")}\n-----END PRIVATE KEY-----\n"
+  end
+
+  # Import the team's one distribution identity into a throwaway CI
+  # keychain, so `xcodebuild` signs with it instead of asking Apple for
+  # yet another certificate (Apple caps how many a team may hold, and a
+  # certificate minted on a hosted runner dies with the runner). A no-op
+  # (with a loud warning) when the secret is absent.
+  def install_distribution_certificate
+    encoded = ENV["IOS_DIST_CERT_P12"].to_s.gsub(/\s+/, "")
+    if encoded.empty?
+      UI.important(
+        "IOS_DIST_CERT_P12 is not set: signing will fall back to asking " \
+        "Apple for a NEW distribution certificate, which fails once the " \
+        "team's certificate limit is reached. Reuse the same secret as " \
+        "the IqraQuest repository.",
+      )
+      return
+    end
+
+    begin
+      p12 = Base64.strict_decode64(encoded)
+    rescue ArgumentError
+      UI.user_error!(
+        "IOS_DIST_CERT_P12 is not valid base64. Re-create it with " \
+        "`base64 -i ios_dist.p12 | tr -d '\\n'` and paste the whole " \
+        "single line into the GitHub secret.",
+      )
+    end
+    unless p12.start_with?("\x30")
+      UI.user_error!(
+        "IOS_DIST_CERT_P12 does not decode to a .p12 file. Make sure the " \
+        "secret holds the base64 of the exported certificate, not the " \
+        "certificate's text or a path to it.",
+      )
+    end
+
+    # setup_ci creates (and unlocks) a temporary keychain and puts it
+    # first in the search list; without it the identity would land in the
+    # runner's locked login keychain and codesign could not reach it.
+    setup_ci if ENV["CI"]
+    keychain = ENV["MATCH_KEYCHAIN_NAME"] || "fastlane_tmp_keychain"
+    keychain_password = ENV["MATCH_KEYCHAIN_PASSWORD"] || ""
+
+    # Apple's intermediate: without it the imported leaf certificate has
+    # no chain to a trusted root and codesign rejects the identity.
+    Dir.mktmpdir do |dir|
+      wwdr = File.join(dir, "AppleWWDRCAG3.cer")
+      if system("curl", "-fsSL", "-o", wwdr,
+                "https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer")
+        sh("security import #{wwdr.shellescape} -k #{keychain.shellescape} " \
+           "-T /usr/bin/codesign || true")
+      else
+        UI.important("Could not download Apple's WWDR intermediate; " \
+                     "relying on the one shipped with Xcode.")
+      end
+
+      path = File.join(dir, "ios_dist.p12")
+      File.binwrite(path, p12)
+      import_certificate(
+        certificate_path: path,
+        certificate_password: ENV["IOS_DIST_CERT_PASSWORD"].to_s,
+        keychain_name: keychain,
+        keychain_password: keychain_password,
+      )
+    end
+    UI.success("Distribution certificate imported: no new one will be created.")
+  end
+
+  desc "Build the signed IqraTime IPA and upload it to App Store Connect (TestFlight)"
+  lane :beta do
+    api_key = app_store_connect_api_key(
+      key_id: required_env("ASC_KEY_ID"),
+      issuer_id: required_env("ASC_ISSUER_ID"),
+      key_content: normalized_asc_key,
+      is_key_content_base64: false,
+      in_house: false,
+    )
+
+    install_distribution_certificate
+
+    # Xcode manages signing automatically using the API key below — with
+    # the certificate above already in the keychain, it only has to fetch
+    # the provisioning profile. The version (CFBundleShortVersionString)
+    # and build number (CFBundleVersion) come from config/shared.js via
+    # app.config.ts and `expo prebuild` — bump them in the repo, not here.
+    update_code_signing_settings(
+      use_automatic_signing: true,
+      path: "ios/IqraTime.xcodeproj",
+      team_id: required_env("APPLE_TEAM_ID"),
+    )
+
+    # A headless runner has no Xcode account, so automatic signing must
+    # authenticate to App Store Connect ITSELF (Xcode cloud signing):
+    # hand xcodebuild the same API key via -authenticationKey* so it can
+    # register the bundle id and create/download the distribution
+    # profile on the fly. Without this, archiving fails with
+    # "No Accounts" / "No profiles for '<bundle id>' were found".
+    api_key_path = File.absolute_path("asc_api_key.p8")
+    File.write(api_key_path, normalized_asc_key)
+    auth_args =
+      "-allowProvisioningUpdates " \
+      "-authenticationKeyPath \"#{api_key_path}\" " \
+      "-authenticationKeyID #{required_env('ASC_KEY_ID')} " \
+      "-authenticationKeyIssuerID #{required_env('ASC_ISSUER_ID')}"
+
+    build_app(
+      workspace: "ios/IqraTime.xcworkspace",
+      scheme: "IqraTime",
+      export_method: "app-store",
+      # gym forwards xcargs to BOTH the archive and the export commands,
+      # so the auth args go here once — duplicating them via
+      # export_xcargs makes xcodebuild reject the export
+      # ("-authenticationKeyPath may only be provided once", exit 64).
+      xcargs: auth_args,
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      skip_waiting_for_build_processing: true,
+      skip_submission: true,
+    )
+  end
+end

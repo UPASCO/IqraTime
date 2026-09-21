@@ -26,3 +26,10 @@ coverage/
 # directory and ignored wholesale — an accidental `git add` of it would
 # hand over publish rights to the Play listing.
 secrets/
+
+# fastlane / CI iOS byproducts (see fastlane/Fastfile)
+*.ipa
+*.dSYM.zip
+fastlane/report.xml
+fastlane/asc_api_key.p8
+asc_api_key.p8

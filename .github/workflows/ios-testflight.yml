@@ -1,0 +1,96 @@
+name: iOS — build & upload to App Store Connect
+
+# Publie l'app iOS DIRECTEMENT dans App Store Connect (TestFlight), sans
+# passer par EAS/expo.dev — même circuit que UPASCO/IqraQuest
+# (.github/workflows/ios-testflight.yml + fastlane). IqraTime étant un
+# projet Expo, le dossier ios/ n'est pas versionné : il est généré ici
+# par `expo prebuild` avant l'archive Xcode.
+#
+# Déclenchement manuel uniquement (onglet Actions → "Run workflow", ou
+# via l'API) : un upload réel vers App Store Connect ne doit jamais
+# partir sur un simple push.
+#
+# Secrets requis (mêmes noms — et mêmes valeurs — que dans IqraQuest) :
+#   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_CONTENT, APPLE_TEAM_ID
+#   IOS_DIST_CERT_P12 (+ IOS_DIST_CERT_PASSWORD)  — fortement recommandé
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build-and-upload:
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      # Échouer tout de suite avec un message clair, plutôt qu'au fond
+      # d'une stack trace Ruby après 20 minutes de compilation.
+      - name: Check the Apple secrets are configured
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          IOS_DIST_CERT_P12: ${{ secrets.IOS_DIST_CERT_P12 }}
+        run: |
+          missing=""
+          for name in ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_CONTENT APPLE_TEAM_ID; do
+            eval "value=\${$name}"
+            [ -z "$value" ] && missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Missing GitHub secret(s):$missing"
+            echo "::error::Add them under Settings → Secrets and variables → Actions."
+            echo "::error::Same names and values as in the IqraQuest repository."
+            exit 1
+          fi
+          echo "All four Apple secrets are present."
+          if [ -z "$IOS_DIST_CERT_P12" ]; then
+            echo "::warning::IOS_DIST_CERT_P12 is not set — this build will"
+            echo "::warning::ask Apple for a NEW distribution certificate and"
+            echo "::warning::will fail once the team's limit is reached."
+          fi
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install JS dependencies
+        run: npm ci
+
+      # ios/ est gitignoré (Expo CNG) : le projet Xcode — nom, bundle id
+      # com.IqraTime.com, version 2.0.0 et build 33 — est dérivé de
+      # config/shared.js via app.config.ts.
+      - name: Generate the native iOS project (expo prebuild)
+        run: npx expo prebuild --platform ios --no-install
+
+      - name: Install CocoaPods dependencies
+        run: npx pod-install ios
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: Install fastlane
+        run: gem install fastlane --no-document
+
+      - name: Build and upload to App Store Connect
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          IOS_DIST_CERT_P12: ${{ secrets.IOS_DIST_CERT_P12 }}
+          IOS_DIST_CERT_PASSWORD: ${{ secrets.IOS_DIST_CERT_PASSWORD }}
+        run: fastlane ios beta
+
+      - name: Upload build artifacts (for debugging failed uploads)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build-logs
+          path: |
+            ios/build/**/*.log
+            ~/Library/Logs/gym
+          if-no-files-found: ignore
