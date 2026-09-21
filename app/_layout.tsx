@@ -14,7 +14,6 @@ import {
   registerNotificationCategory,
   ensureAndroidNotificationChannels,
   registerBackgroundRequeueTask,
-  useNotificationResponseHandler,
   parseNotificationResponse,
   type ParsedNotificationAction,
 } from "@/notifications";
@@ -69,9 +68,32 @@ function NotificationRouting(): null {
     [router],
   );
 
+  // One tap must route exactly once, whichever path delivers it. Both the
+  // warm listener below and the cold-start read can surface the SAME
+  // response on some Android launches (the launch intent and the late
+  // listener emission), and pushing the detail screen twice stacks two
+  // copies the user then has to back out of. The in-memory key is the
+  // single gate for the whole process.
+  const lastRoutedTapRef = useRef<string | null>(null);
+
+  const routeResponse = useCallback(
+    (response: Notifications.NotificationResponse) => {
+      const action = parseNotificationResponse(response);
+      if (!action.data) return;
+      const tapKey = `${response.notification.request.identifier}@${response.notification.date}`;
+      if (lastRoutedTapRef.current === tapKey) return;
+      lastRoutedTapRef.current = tapKey;
+      routeAction(action);
+    },
+    [routeAction],
+  );
+
   // Warm path: the app process is already running (foreground/background)
   // when the notification is tapped, so the response listener fires.
-  useNotificationResponseHandler(routeAction);
+  useEffect(() => {
+    const subscription = Notifications.addNotificationResponseReceivedListener(routeResponse);
+    return () => subscription.remove();
+  }, [routeResponse]);
 
   // Cold path: when the tap itself LAUNCHES the app, iOS delivers the
   // response before JS is alive and Android bakes it into the launch
@@ -89,8 +111,7 @@ function NotificationRouting(): null {
     (async () => {
       const response = await Notifications.getLastNotificationResponseAsync();
       if (!response) return;
-      const action = parseNotificationResponse(response);
-      if (!action.data) return;
+      if (!parseNotificationResponse(response).data) return;
       const tapKey = `${response.notification.request.identifier}@${response.notification.date}`;
       try {
         if ((await AsyncStorage.getItem(LAST_COLD_START_TAP_KEY)) === tapKey) return;
@@ -98,9 +119,9 @@ function NotificationRouting(): null {
       } catch {
         // Storage unavailable — routing once too often beats never routing.
       }
-      routeAction(action);
+      routeResponse(response);
     })().catch(() => {});
-  }, [navigationReady, routeAction]);
+  }, [navigationReady, routeResponse]);
 
   return null;
 }
