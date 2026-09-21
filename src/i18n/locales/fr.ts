@@ -386,6 +386,11 @@ export const fr: TranslationSchema = {
       "selected-dua": "Douas choisies",
     },
   },
+  explore: {
+    tabLabel: "Explorer",
+    title: "Explorer",
+    subtitle: "Le Coran, les hadiths, les invocations, les 99 Noms, la mémorisation — tout au même endroit.",
+  },
   hifz: {
     title: "Mémorisation",
     subtitle: "Apprenez des āyāt par cœur, petit à petit — les révisions reviennent juste avant l'oubli.",

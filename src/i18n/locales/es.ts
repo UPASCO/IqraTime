@@ -386,6 +386,11 @@ export const es: TranslationSchema = {
       "selected-dua": "Duas escogidas",
     },
   },
+  explore: {
+    tabLabel: "Explorar",
+    title: "Explorar",
+    subtitle: "El Corán, los hadices, las invocaciones, los 99 Nombres, la memorización — todo en un solo lugar.",
+  },
   hifz: {
     title: "Memorización",
     subtitle: "Aprende aleyas de memoria, poco a poco — los repasos vuelven justo antes del olvido.",

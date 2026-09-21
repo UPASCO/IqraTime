@@ -386,6 +386,11 @@ export const nl: TranslationSchema = {
       "selected-dua": "Uitgelichte dua's",
     },
   },
+  explore: {
+    tabLabel: "Ontdekken",
+    title: "Ontdekken",
+    subtitle: "De Koran, hadith, smeekbeden, de 99 Namen, memorisatie — alles op één plek.",
+  },
   hifz: {
     title: "Memorisatie",
     subtitle: "Leer ayat uit het hoofd, stap voor stap — herhalingen komen terug net voordat u ze vergeet.",

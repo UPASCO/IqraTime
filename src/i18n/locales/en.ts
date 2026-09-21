@@ -391,6 +391,11 @@ export const en = {
       "selected-dua": "Selected duas",
     },
   },
+  explore: {
+    tabLabel: "Explore",
+    title: "Explore",
+    subtitle: "The Quran, hadith, invocations, the 99 Names, memorization — everything in one place.",
+  },
   hifz: {
     title: "Memorization",
     subtitle: "Learn ayat by heart, a little at a time — reviews come back just before you'd forget.",

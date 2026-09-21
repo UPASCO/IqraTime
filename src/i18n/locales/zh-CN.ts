@@ -386,6 +386,11 @@ export const zhCN: TranslationSchema = {
       "selected-dua": "精选祈祷词",
     },
   },
+  explore: {
+    tabLabel: "探索",
+    title: "探索",
+    subtitle: "《古兰经》、圣训、祈祷词、99个尊名、背记——尽在一处。",
+  },
   hifz: {
     title: "背记",
     subtitle: "一点一点地背记经文——复习会在您快要遗忘之前回来。",

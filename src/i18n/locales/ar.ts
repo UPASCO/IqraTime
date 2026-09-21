@@ -441,6 +441,11 @@ export const ar: TranslationSchema = {
       "selected-dua": "أدعية مختارة",
     },
   },
+  explore: {
+    tabLabel: "استكشف",
+    title: "استكشف",
+    subtitle: "القرآن والأحاديث والأدعية والأسماء الحسنى والحفظ — كل شيء في مكان واحد.",
+  },
   hifz: {
     title: "الحفظ",
     subtitle: "احفظ الآيات شيئًا فشيئًا — تعود المراجعات قُبيل النسيان.",

@@ -6,7 +6,7 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 
 /**
- * Bottom tab bar: Home, History, Favorites, Settings. No hamburger menu,
+ * Bottom tab bar: Home, Explore, History, Favorites, Settings. No hamburger menu,
  * icon + visible label on every tab, RTL-aware (expo-router's Tabs sit on
  * React Navigation's bottom-tabs, which mirrors tab order automatically
  * once native RTL layout is active — see docs/ACCESSIBILITY.md for the
@@ -33,6 +33,15 @@ export default function TabsLayout(): React.JSX.Element {
           tabBarLabel: t("home.title"),
           tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" size={size} color={color} />,
           tabBarAccessibilityLabel: t("home.title"),
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          title: t("explore.tabLabel"),
+          tabBarLabel: t("explore.tabLabel"),
+          tabBarIcon: ({ color, size }) => <Ionicons name="compass-outline" size={size} color={color} />,
+          tabBarAccessibilityLabel: t("explore.tabLabel"),
         }}
       />
       <Tabs.Screen

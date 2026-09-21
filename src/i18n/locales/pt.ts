@@ -386,6 +386,11 @@ export const pt: TranslationSchema = {
       "selected-dua": "Duas selecionadas",
     },
   },
+  explore: {
+    tabLabel: "Explorar",
+    title: "Explorar",
+    subtitle: "O Alcorão, os hadiths, as súplicas, os 99 Nomes, a memorização — tudo em um só lugar.",
+  },
   hifz: {
     title: "Memorização",
     subtitle: "Aprenda versículos de cor, pouco a pouco — as revisões voltam pouco antes do esquecimento.",

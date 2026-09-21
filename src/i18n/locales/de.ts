@@ -386,6 +386,11 @@ export const de: TranslationSchema = {
       "selected-dua": "Ausgewählte Duas",
     },
   },
+  explore: {
+    tabLabel: "Entdecken",
+    title: "Entdecken",
+    subtitle: "Koran, Hadithe, Bittgebete, die 99 Namen, Auswendiglernen — alles an einem Ort.",
+  },
   hifz: {
     title: "Auswendiglernen",
     subtitle: "Lernen Sie Verse auswendig, Stück für Stück — Wiederholungen kehren kurz vor dem Vergessen zurück.",

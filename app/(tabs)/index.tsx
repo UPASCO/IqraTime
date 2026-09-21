@@ -202,18 +202,6 @@ function pickHadithId(avoidIds: ReadonlySet<string>): string | undefined {
 
 const NO_IDS: ReadonlySet<string> = new Set();
 
-/** Columns in the home shortcut grid. Two keeps every label readable at the largest text size. */
-const MENU_COLUMNS = 2;
-
-/** One shortcut tile in the home screen's menu grid. */
-interface HomeMenuItem {
-  readonly icon: React.ComponentProps<typeof Ionicons>["name"];
-  readonly label: string;
-  readonly route: "/quran" | "/hadith" | "/duas" | "/names" | "/hifz" | "/progress" | "/library";
-  /** Gives the chip the gold-bordered treatment reserved for primary destinations. */
-  readonly emphasized: boolean;
-}
-
 /**
  * A synchronous first guess for the feed's opening slide, used only as the
  * useState() initial value so the very first render already has content to
@@ -235,7 +223,7 @@ function pickInitialFeedEntry(effectiveContentMode: ContentMode): FeedEntry | un
 
 export default function HomeScreen(): React.JSX.Element {
   const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
-  const { t, locale, direction } = useI18n();
+  const { t, locale } = useI18n();
   const router = useRouter();
   const db = useAppDatabase();
   const { preferences } = usePreferencesStore();
@@ -470,28 +458,6 @@ export default function HomeScreen(): React.JSX.Element {
   const dailyRef = dailyAyahId ? getCorpusEntry(dailyAyahId) : undefined;
   const dailyName = getDailyName();
 
-  /** The home shortcut row. Qur'an and Hadith lead as the two primary destinations. */
-  const menuItems = useMemo(
-    (): HomeMenuItem[] => [
-      { icon: "book-outline", label: t("quran.title"), route: "/quran", emphasized: true },
-      { icon: "layers-outline", label: t("hadith.menuTitle"), route: "/hadith", emphasized: true },
-      { icon: "flower-outline", label: t("duas.title"), route: "/duas", emphasized: true },
-      { icon: "diamond-outline", label: t("names.title"), route: "/names", emphasized: false },
-      { icon: "school-outline", label: t("hifz.title"), route: "/hifz", emphasized: false },
-      { icon: "ribbon-outline", label: t("progress.title"), route: "/progress", emphasized: false },
-      { icon: "search-outline", label: t("home.libraryCta"), route: "/library", emphasized: false },
-    ],
-    [t],
-  );
-
-  const menuRows = useMemo(() => {
-    const rows: HomeMenuItem[][] = [];
-    for (let i = 0; i < menuItems.length; i += MENU_COLUMNS) {
-      rows.push(menuItems.slice(i, i + MENU_COLUMNS));
-    }
-    return rows;
-  }, [menuItems]);
-
   const handleToggleFavorite = async (ayahId: string): Promise<void> => {
     if (!db) return;
     const isFav = favoriteIds.has(ayahId);
@@ -638,82 +604,11 @@ export default function HomeScreen(): React.JSX.Element {
             </Pressable>
           </View>
 
-          {/* Explicit rows of two flex:1 tiles rather than a wrapping pill
-              row. Pills sized themselves to their label, so the row broke
-              into ragged uneven groups (3 + 2 + 1) that read as
-              unstructured; a percentage width would overflow once the row
-              gap is added. Equal tiles line up cleanly whatever the label
-              lengths or the user's text-size setting. */}
-          <View style={{ gap: spacing.xs }}>
-            {menuRows.map((row, rowIndex) => (
-              <View key={rowIndex} style={{ flexDirection: "row", gap: spacing.xs }}>
-                {row.map((item) => (
-                  <Pressable
-                    key={item.route}
-                    onPress={() => router.push(item.route)}
-                    accessibilityRole="button"
-                    accessibilityLabel={item.label}
-                    style={{
-                      flex: 1,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: spacing.xs,
-                      backgroundColor: item.emphasized ? colors.surfaceElevated : colors.surface,
-                      borderWidth: 1,
-                      borderColor: item.emphasized ? colors.goldDecorative : colors.border,
-                      borderRadius: radii.md,
-                      paddingVertical: spacing.sm,
-                      paddingHorizontal: spacing.sm,
-                      minHeight: 48,
-                    }}
-                  >
-                    <Ionicons name={item.icon} size={18} color={item.emphasized ? colors.gold : colors.textSecondary} />
-                    <Text
-                      numberOfLines={1}
-                      style={{
-                        flex: 1,
-                        color: item.emphasized ? colors.textPrimary : colors.textSecondary,
-                        fontSize: typography.sizes.caption * fontScaleMultiplier,
-                        fontWeight: item.emphasized ? typography.weights.semibold : typography.weights.medium,
-                      }}
-                    >
-                      {item.label}
-                    </Text>
-                  </Pressable>
-                ))}
-                {/* Keeps a trailing odd tile at half width instead of letting
-                    it stretch across the whole row. */}
-                {row.length < MENU_COLUMNS ? <View style={{ flex: MENU_COLUMNS - row.length }} /> : null}
-              </View>
-            ))}
-          </View>
-
-          <Pressable
-            onPress={() => router.push("/moment")}
-            accessibilityRole="button"
-            accessibilityLabel={t("home.momentCta")}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              backgroundColor: colors.surfaceElevated,
-              borderRadius: radii.md,
-              paddingVertical: spacing.sm,
-              paddingHorizontal: spacing.md,
-            }}
-          >
-            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.sm, flexShrink: 1 }}>
-              <Ionicons name="sparkles-outline" size={18} color={colors.accent} />
-              <Text
-                style={{ color: colors.textPrimary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.medium }}
-                numberOfLines={1}
-              >
-                {t("home.momentCta")}
-              </Text>
-            </View>
-            <Ionicons name={direction === "rtl" ? "chevron-back" : "chevron-forward"} size={16} color={colors.textSecondary} />
-          </Pressable>
-
+          {/* No navigation grid here anymore: every destination lives in
+              the Explore tab (app/(tabs)/explore.tsx). The home screen has
+              exactly one job — the feed — and giving it the full height is
+              what makes the swipe habit-forming; a half-screen menu buried
+              the app's best surface below the fold. */}
           {statusMessage ? (
             <NotificationStatusCard
               message={statusMessage}

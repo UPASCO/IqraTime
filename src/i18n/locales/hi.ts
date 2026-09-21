@@ -386,6 +386,11 @@ export const hi: TranslationSchema = {
       "selected-dua": "चुनी हुई दुआएँ",
     },
   },
+  explore: {
+    tabLabel: "खोजें",
+    title: "खोजें",
+    subtitle: "क़ुरआन, हदीस, दुआएँ, 99 नाम, याद करना — सब एक जगह।",
+  },
   hifz: {
     title: "याद करना (हिफ़्ज़)",
     subtitle: "आयतें थोड़ा-थोड़ा करके याद करें — दोहराव भूलने से ठीक पहले लौटता है।",
