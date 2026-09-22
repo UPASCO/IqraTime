@@ -31,6 +31,7 @@ import { writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 
 import { hadithThemesFor } from "./hadithThemes.mjs";
+import { isStandaloneReport } from "./hadithFragmentPatterns.mjs";
 
 const ROOT = path.dirname(path.dirname(new URL(import.meta.url).pathname));
 const OUT = path.join(ROOT, "src", "data", "corpus", "hadith");
@@ -101,6 +102,12 @@ async function buildCollection(collection) {
   for (const [hadithnumber, enText] of enTable.entries()) {
     if (!isUsableText(enText)) continue;
     if (enText.length < MIN_EN || enText.length > MAX_EN) continue;
+    // Chain-variant notes ("with the same chain of transmitters", "the
+    // rest of the hadith is the same", ...) reference the collection's
+    // PRECEDING entry instead of carrying a standalone report — shown
+    // alone in the app they read as a translation mismatch. See
+    // scripts/hadithFragmentPatterns.mjs.
+    if (!isStandaloneReport(`${collection}:${hadithnumber}`, enText)) continue;
 
     const missingRequired = REQUIRED_LOCALES.some((loc) => !isUsableText(tablesByLocale[loc].get(hadithnumber)));
     if (missingRequired) continue;

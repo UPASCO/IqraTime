@@ -248,7 +248,7 @@ before any of it can be represented as fully vetted.
 tradition) text, opt-in via Settings → "What to show" (ayat only by
 default, hadith only, or mixed — strictly one hadith then one ayah when
 mixed, never a random blend). Shown in its own swipeable feed slide, a
-dedicated **"Hadith" menu** (`app/hadith/index.tsx`) that lists all 584
+dedicated **"Hadith" menu** (`app/hadith/index.tsx`) that lists all 510
 entries filterable by theme and searchable by collection/number, and the
 `/hadith/[id]` detail screen; favorited hadith live in AsyncStorage
 (`src/storage/hadithFavoritesStore.ts`), separate from the SQLite
@@ -288,6 +288,26 @@ the corpus under another number were not duplicated.
 `node scripts/extendHadithCorpus.mjs` fetches them verbatim from the same
 editions and appends them; it refuses any id not complete in Arabic,
 English, French and Bengali.
+
+**Chain-variant fragments are excluded (74 entries removed, 2026-09-22).**
+Sahih Muslim in particular records *mutāba'āt* — chain-of-transmission
+variant notes — as numbered entries whose text is not a standalone report
+but a reference to the collection's PRECEDING hadith: "This hadith has
+been narrated … with the same chain of transmitters", "A hadith like
+this…", "the rest of the hadith is the same". Shown alone on a feed card
+or notification they read exactly like a mismatched translation (reported
+against `muslim:5949` in build 36 — the French *did* faithfully render the
+Arabic; the entry itself was a variant note about an invisible base
+hadith). `scripts/hadithFragmentPatterns.mjs` holds the detection patterns
+(run against the English edition) plus a human-reviewed whitelist of 7
+entries whose complete report is present and whose variant note is only a
+trailing remark; `scripts/pruneHadithChainVariants.mjs` removed the 74
+matches from every corpus file in id lockstep (584 → 510 entries; ru
+415 → 391), and the build/extend scripts apply the same rule so
+regeneration cannot reintroduce them. This is a SELECTION rule — the same
+category as the existing "(see Hadith)" stub exclusion — no text was
+altered. `tests/unit/hadithCorpusIntegrity.test.ts` enforces both the
+id-lockstep pairing and the no-fragments invariant on every test run.
 
 **Theme tags** (powering the "Hadith" menu's theme filter) are assigned by
 the same MECHANICAL keyword-matching approach `scripts/buildFullCorpus.mjs`

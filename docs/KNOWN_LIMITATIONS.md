@@ -12,7 +12,7 @@ hasn't actually been tested in this development session.
   mechanical build plus 261 from a hand-picked whitelist. Not yet reviewed
   by a qualified scholar for religious/editorial accuracy — the whitelist
   was read for standalone adequacy, nothing more.
-- Hadith (584 entries, Sahih al-Bukhari + Sahih Muslim only) covers only
+- Hadith (510 entries, Sahih al-Bukhari + Sahih Muslim only) covers only
   5 of the app's 12 languages (ar/en/fr/bn/ru); tafsir covers 9 of 12
   (all but Portuguese, Dutch, and German). No edition exists yet in the
   open datasets this project sources from for the missing languages. See

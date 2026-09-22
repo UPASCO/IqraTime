@@ -56,7 +56,7 @@ in-image branding footer as the only recall mechanism, same as before.
       Muslim would recognise as significant on sight, plus 261 from the
       hand-picked whitelist applied by `node scripts/extendCorpus.mjs`)
       — not hand-typed.
-- [x] Every shipped catalog entry (561 ayat + 584 hadith) is marked
+- [x] Every shipped catalog entry (561 ayat + 510 hadith) is marked
       `status: "publishable"` — promoted in bulk by the project owner
       (2026-08-25) rather than individually walked through the
       `docs/CORPUS.md` reviewer checklist. The text itself is unchanged
@@ -72,7 +72,7 @@ in-image branding footer as the only recall mechanism, same as before.
       except Portuguese, Dutch, and German, which have no edition in the
       source dataset) via `node scripts/fetchTafsir.mjs` — see
       `docs/CORPUS.md` "Tafsir".
-- [x] Hadith corpus (Sahih al-Bukhari + Sahih Muslim only, 584 entries:
+- [x] Hadith corpus (Sahih al-Bukhari + Sahih Muslim only, 510 entries:
       500 via `node scripts/buildHadithCorpus.mjs` plus 84 curated via
       `node scripts/extendHadithCorpus.mjs`) fetched verbatim — covers
       5 of 12 languages (ar/en/fr/bn/ru); opt-in, off by default;

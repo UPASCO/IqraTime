@@ -2498,22 +2498,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:96",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:98",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:101",
       "status": "publishable",
       "themes": [
@@ -2523,14 +2507,6 @@
     },
     {
       "id": "muslim:103",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:105",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -2551,14 +2527,6 @@
       "status": "publishable",
       "themes": [
         "prayer"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:109",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2654,14 +2622,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:509",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:510",
       "status": "publishable",
       "themes": [
@@ -2671,14 +2631,6 @@
     },
     {
       "id": "muslim:511",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:512",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -2825,14 +2777,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:855",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:856",
       "status": "publishable",
       "themes": [
@@ -2862,14 +2806,6 @@
       "themes": [
         "prayer",
         "remembrance"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:860",
-      "status": "publishable",
-      "themes": [
-        "prayer"
       ],
       "isDemoOnly": false
     },
@@ -2941,14 +2877,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:1192",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:1193",
       "status": "publishable",
       "themes": [
@@ -2962,14 +2890,6 @@
       "themes": [
         "prayer",
         "family"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:1195",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -2999,30 +2919,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:1200",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:1533",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:1536",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:1537",
       "status": "publishable",
       "themes": [
@@ -3035,31 +2931,6 @@
       "status": "publishable",
       "themes": [
         "prayer"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:1539",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:1541",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:1543",
-      "status": "publishable",
-      "themes": [
-        "prayer",
-        "remembrance"
       ],
       "isDemoOnly": false
     },
@@ -3136,22 +3007,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:1868",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:1871",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:1872",
       "status": "publishable",
       "themes": [
@@ -3161,14 +3016,6 @@
     },
     {
       "id": "muslim:1874",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:1875",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -3200,31 +3047,7 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:1879",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:1880",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:1881",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:1882",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -3280,14 +3103,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:2246",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:2247",
       "status": "publishable",
       "themes": [
@@ -3297,14 +3112,6 @@
     },
     {
       "id": "muslim:2248",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:2249",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -3363,14 +3170,6 @@
     },
     {
       "id": "muslim:2615",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:2616",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -3442,22 +3241,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:2627",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:2628",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:2629",
       "status": "publishable",
       "themes": [
@@ -3467,14 +3250,6 @@
     },
     {
       "id": "muslim:2991",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:2993",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -3523,22 +3298,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:3000",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:3003",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:3005",
       "status": "publishable",
       "themes": [
@@ -3547,23 +3306,7 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:3006",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:3007",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:3008",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -3583,14 +3326,6 @@
       "status": "publishable",
       "themes": [
         "justice"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:3362",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -3699,14 +3434,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:3736",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:3737",
       "status": "publishable",
       "themes": [
@@ -3739,14 +3466,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:3741",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:3742",
       "status": "publishable",
       "themes": [
@@ -3763,23 +3482,7 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:3747",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:4069",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:4070",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -3803,14 +3506,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:4074",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:4075",
       "status": "publishable",
       "themes": [
@@ -3820,14 +3515,6 @@
     },
     {
       "id": "muslim:4076",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:4077",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -3885,14 +3572,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:4451",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:4452",
       "status": "publishable",
       "themes": [
@@ -3909,14 +3588,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:4456",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:4458",
       "status": "publishable",
       "themes": [
@@ -3925,23 +3596,7 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:4459",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:4460",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:4462",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -3959,14 +3614,6 @@
     },
     {
       "id": "muslim:4465",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:4466",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -4014,30 +3661,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:4878",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:4881",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:4882",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:4883",
       "status": "publishable",
       "themes": [
@@ -4078,14 +3701,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:5243",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:5244",
       "status": "publishable",
       "themes": [
@@ -4110,51 +3725,11 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:5247",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:5248",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:5249",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:5250",
       "status": "publishable",
       "themes": [
         "family",
         "justice"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:5251",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:5252",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -4167,14 +3742,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:5254",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:5593",
       "status": "publishable",
       "themes": [
@@ -4183,23 +3750,7 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:5594",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:5595",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:5596",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -4247,14 +3798,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:5602",
-      "status": "publishable",
-      "themes": [
-        "remembrance"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:5603",
       "status": "publishable",
       "themes": [
@@ -4287,14 +3830,6 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:5944",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:5946",
       "status": "publishable",
       "themes": [
@@ -4303,39 +3838,7 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:5949",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:5951",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:5952",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:5955",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:5956",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -4431,23 +3934,7 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:6350",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:6351",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:6352",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -4531,43 +4018,11 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:6719",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:6720",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:6721",
       "status": "publishable",
       "themes": [
         "good_deeds",
         "remembrance"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:6722",
-      "status": "publishable",
-      "themes": [
-        "remembrance"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:6724",
-      "status": "publishable",
-      "themes": [
-        "family"
       ],
       "isDemoOnly": false
     },
@@ -4580,42 +4035,10 @@
       "isDemoOnly": false
     },
     {
-      "id": "muslim:6727",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:6729",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
       "id": "muslim:6730",
       "status": "publishable",
       "themes": [
         "family"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:6732",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:6736",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
       ],
       "isDemoOnly": false
     },
@@ -4656,14 +4079,6 @@
     },
     {
       "id": "muslim:7136",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:7137",
       "status": "publishable",
       "themes": [
         "good_deeds"
@@ -4724,14 +4139,6 @@
       "status": "publishable",
       "themes": [
         "remembrance"
-      ],
-      "isDemoOnly": false
-    },
-    {
-      "id": "muslim:7153",
-      "status": "publishable",
-      "themes": [
-        "good_deeds"
       ],
       "isDemoOnly": false
     },

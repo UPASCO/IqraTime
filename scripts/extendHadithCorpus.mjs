@@ -24,6 +24,7 @@ import path from "node:path";
 
 import { CURATED_HADITH_ADDITIONS } from "./curatedHadithAdditions.mjs";
 import { hadithThemesFor } from "./hadithThemes.mjs";
+import { isStandaloneReport } from "./hadithFragmentPatterns.mjs";
 
 const ROOT = path.dirname(path.dirname(new URL(import.meta.url).pathname));
 const OUT = path.join(ROOT, "src", "data", "corpus", "hadith");
@@ -107,6 +108,13 @@ for (const id of toAdd) {
   const missing = REQUIRED_LOCALES.filter((locale) => !isUsableText(editions[collection][locale].get(number)));
   if (missing.length > 0) {
     failures.push(`${id}: no usable text in ${missing.join(", ")}`);
+    continue;
+  }
+  // Same standalone-report rule as buildHadithCorpus.mjs — a curated id
+  // that turns out to be a chain-variant note aborts the run so the
+  // whitelist gets fixed (see scripts/hadithFragmentPatterns.mjs).
+  if (!isStandaloneReport(id, editions[collection].en.get(number))) {
+    failures.push(`${id}: reference-only chain-variant note, not a standalone report`);
     continue;
   }
   accepted.push({ id, collection, number });
