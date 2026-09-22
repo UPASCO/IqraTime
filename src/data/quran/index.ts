@@ -107,6 +107,27 @@ export function getQuranTranslationSourceId(locale: SupportedLocale): string | u
   return getTranslationTable(locale)?.sourceId;
 }
 
+/**
+ * Latin phonetic transcription (transliteration) of the complete Qur'an —
+ * the verbatim ara-quranphoneticst-la edition (see
+ * scripts/buildQuranTransliteration.mjs). Lazy-loaded like the
+ * translations: ~800KB that only ever gets parsed once the phonetic line
+ * is actually shown.
+ */
+let transliterationTable: ReadonlyMap<AyahId, string> | undefined;
+
+function getTransliterationTable(): ReadonlyMap<AyahId, string> {
+  if (!transliterationTable) {
+    const file = require("./transliteration.json") as TranslationFileShape;
+    transliterationTable = new Map(file.entries.map((e) => [makeAyahId(e), e.text]));
+  }
+  return transliterationTable;
+}
+
+export function getQuranTransliterationText(id: AyahId): string | undefined {
+  return getTransliterationTable().get(id);
+}
+
 export function hasQuranTranslation(locale: SupportedLocale): boolean {
   return !!getTranslationTable(locale);
 }

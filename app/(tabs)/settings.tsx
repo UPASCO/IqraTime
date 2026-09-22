@@ -151,6 +151,12 @@ export default function SettingsScreen(): React.JSX.Element {
           onValueChange={(v) => update({ showArabicText: v })}
         />
         <SettingRow
+          label={t("settings.transliterationLabel")}
+          description={t("settings.transliterationDescription")}
+          value={preferences.showTransliteration}
+          onValueChange={(v) => update({ showTransliteration: v })}
+        />
+        <SettingRow
           label={t("settings.textOrder")}
           valueLabel={preferences.textOrder === "arabic_first" ? t("settings.textOrderArabicFirst") : t("settings.textOrderTranslationFirst")}
           onPress={() => update({ textOrder: preferences.textOrder === "arabic_first" ? "translation_first" : "arabic_first" })}

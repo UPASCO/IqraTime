@@ -8,11 +8,12 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { appConfig } from "@/config/appConfig";
-import { getSurahMeta, getSurahAyat, getQuranTranslationText } from "@/data/quran";
+import { getSurahMeta, getSurahAyat, getQuranTranslationText, getQuranTransliterationText } from "@/data/quran";
 import type { QuranAyahText } from "@/domain/quran";
 
 interface AyahRowProps {
   ayah: QuranAyahText;
+  transliterationText?: string;
   translationText?: string;
   showArabic: boolean;
   showTranslation: boolean;
@@ -21,7 +22,7 @@ interface AyahRowProps {
   onOpenDetail: () => void;
 }
 
-function AyahRow({ ayah, translationText, showArabic, showTranslation, arabicFirst, highlighted, onOpenDetail }: AyahRowProps): React.JSX.Element {
+function AyahRow({ ayah, transliterationText, translationText, showArabic, showTranslation, arabicFirst, highlighted, onOpenDetail }: AyahRowProps): React.JSX.Element {
   const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
   const { direction } = useI18n();
 
@@ -40,6 +41,20 @@ function AyahRow({ ayah, translationText, showArabic, showTranslation, arabicFir
     </Text>
   ) : null;
 
+  const transliterationBlock = transliterationText ? (
+    <Text
+      style={{
+        color: colors.textSecondary,
+        fontStyle: "italic",
+        opacity: 0.85,
+        fontSize: typography.sizes.body * fontScaleMultiplier,
+        lineHeight: typography.lineHeights.body * fontScaleMultiplier,
+      }}
+    >
+      {transliterationText}
+    </Text>
+  ) : null;
+
   const translationBlock = showTranslation && translationText ? (
     <Text
       style={{
@@ -53,7 +68,8 @@ function AyahRow({ ayah, translationText, showArabic, showTranslation, arabicFir
     </Text>
   ) : null;
 
-  const blocks = arabicFirst ? [arabicBlock, translationBlock] : [translationBlock, arabicBlock];
+  // The phonetic line always follows the Arabic it transcribes.
+  const blocks = arabicFirst ? [arabicBlock, transliterationBlock, translationBlock] : [translationBlock, arabicBlock, transliterationBlock];
 
   return (
     <View
@@ -227,6 +243,7 @@ export default function QuranSurahReaderScreen(): React.JSX.Element {
           renderItem={({ item }) => (
             <AyahRow
               ayah={item}
+              transliterationText={preferences.showTransliteration ? getQuranTransliterationText(item.id) : undefined}
               translationText={getQuranTranslationText(item.id, preferences.translationLocale)}
               showArabic={showArabic}
               showTranslation={showTranslation}

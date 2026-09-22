@@ -87,6 +87,22 @@ export function getHadithTranslation(id: HadithId, locale: SupportedLocale): Had
   return getTranslationTable(locale)?.get(id);
 }
 
+/**
+ * Latin romanization of the vocalized Arabic hadith text — derived
+ * mechanically by scripts/buildHadithTransliteration.mjs (no source
+ * dataset ships a hadith transliteration edition). Lazy-loaded like the
+ * translation files.
+ */
+let hadithTransliterationTable: ReadonlyMap<HadithId, string> | undefined;
+
+export function getHadithTransliteration(id: HadithId): string | undefined {
+  if (!hadithTransliterationTable) {
+    const file = require("./transliteration.json") as HadithTranslationFileShape;
+    hadithTransliterationTable = new Map(file.entries.map((entry) => [entry.id, entry.text]));
+  }
+  return hadithTransliterationTable.get(id);
+}
+
 /** Whether the hadith feature has any text at all (Arabic or a translation) for this locale. */
 export function hasAnyHadithContent(locale: SupportedLocale): boolean {
   if (locale === "ar") return true;

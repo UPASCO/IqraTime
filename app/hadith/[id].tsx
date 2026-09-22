@@ -9,6 +9,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useHadithView } from "@/hooks/useHadithView";
 import { isHadithFavorite, addHadithFavorite, removeHadithFavorite } from "@/storage/hadithFavoritesStore";
+import { getHadithTransliteration } from "@/data/corpus/hadith";
 import { routeParamToHadithId } from "@/utils/routeParams";
 import { formatHadithShareText, buildGetTheAppLine } from "@/utils/shareText";
 import { incrementShareCount } from "@/storage/shareCounterStore";
@@ -20,9 +21,10 @@ export default function HadithDetailScreen(): React.JSX.Element {
   const router = useRouter();
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
   const { t } = useI18n();
-  const { preferences } = usePreferencesStore();
+  const { preferences, update } = usePreferencesStore();
 
   const hadithView = useHadithView(hadithId, preferences.translationLocale);
+  const transliteration = preferences.showTransliteration && hadithId ? getHadithTransliteration(hadithId) : undefined;
   const [isFavorite, setIsFavorite] = useState(false);
   const [justCopied, setJustCopied] = useState(false);
   const [memorizing, setMemorizing] = useState(false);
@@ -95,9 +97,26 @@ export default function HadithDetailScreen(): React.JSX.Element {
         </View>
 
         {preferences.showArabicText && hadithView.arabicText ? <ArabicText text={hadithView.arabicText} /> : null}
+        {transliteration ? (
+          <Text
+            style={{
+              color: colors.textSecondary,
+              fontStyle: "italic",
+              fontSize: typography.sizes.body * fontScaleMultiplier,
+              lineHeight: typography.lineHeights.body * fontScaleMultiplier,
+            }}
+          >
+            {transliteration}
+          </Text>
+        ) : null}
         {hadithView.translationText ? <TranslationText text={hadithView.translationText} /> : (
           <Text style={{ color: colors.textSecondary, fontStyle: "italic" }}>{t("hadith.translationUnavailable")}</Text>
         )}
+        <Button
+          label={preferences.showTransliteration ? t("common.hideTransliterationCta") : t("common.showTransliterationCta")}
+          variant="ghost"
+          onPress={() => update({ showTransliteration: !preferences.showTransliteration })}
+        />
 
         <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontStyle: "italic" }}>
           {t("hadith.disclaimer")}

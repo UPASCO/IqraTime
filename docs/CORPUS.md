@@ -242,6 +242,35 @@ a well-established source) and explicitly **not** yet reviewed by a
 qualified human for accuracy — the same reviewer checklist above applies
 before any of it can be represented as fully vetted.
 
+## Phonetics (transliteration)
+
+The "Show phonetics" layer (2.2.0) adds a Latin pronunciation line under
+Arabic text, governed by one global preference (`showTransliteration`,
+default on) toggleable from Settings or in place on any detail screen.
+Three provenances, each the strongest available for its content:
+
+- **Qur'an** (`src/data/quran/transliteration.json`, all 6236 āyāt): the
+  `ara-quranphoneticst-la` edition of fawazahmed0/quran-api, copied
+  VERBATIM by `scripts/buildQuranTransliteration.mjs` — the same source
+  and rules as every other Qur'an file here. Never generated, never
+  edited.
+- **Hadith** (`src/data/corpus/hadith/transliteration.json`): no source
+  dataset ships a hadith transliteration edition, so this file is derived
+  MECHANICALLY from the corpus's own fully-vocalized Arabic by the fixed,
+  auditable character-rule romanizer in `scripts/arabicRomanizer.mjs`
+  (shadda doubling, sun-letter assimilation, aa/ee/oo long vowels), run
+  by `scripts/buildHadithTransliteration.mjs`. The only word-level table
+  is the handful of traditionally-fixed honorific formulas the dataset
+  leaves unvocalized (salla Allahu 'alayhi wa sallam, radiya Allahu
+  'anhu…). No AI model writes or edits any output character — the file is
+  reproducible from arabic.json on every run, the same "mechanical, not
+  editorial" category as the keyword theme tagger. Regenerate it whenever
+  arabic.json changes; `tests/unit/transliteration.test.ts` fails if the
+  two fall out of id lockstep.
+- **Duas and the 99 Names**: the curated transliterations their datasets
+  have always shipped (see their sections above), unchanged.
+
+
 ## Hadith
 
 `src/data/corpus/hadith/` holds a separate corpus of hadith (Prophetic

@@ -12,7 +12,7 @@ import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { useAyahView } from "@/hooks/useAyahView";
 import { useHadithView } from "@/hooks/useHadithView";
 import { getRuntimeCorpus, getTranslation, getCorpusEntry, getAntiRepeatWindow } from "@/data/corpus";
-import { getRuntimeHadithCorpus, hasAnyHadithContent } from "@/data/corpus/hadith";
+import { getRuntimeHadithCorpus, hasAnyHadithContent, getHadithTransliteration } from "@/data/corpus/hadith";
 import { selectAyah } from "@/services/selectionEngine";
 import { MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
 import { getPermissionSnapshot } from "@/notifications";
@@ -76,7 +76,7 @@ function FeedItem({
   const router = useRouter();
   const { t } = useI18n();
   const { preferences } = usePreferencesStore();
-  const ayahView = useAyahView(ayahId, preferences.translationLocale);
+  const ayahView = useAyahView(ayahId, preferences.translationLocale, preferences.showTransliteration);
   const { memorized, toggleMemorized } = useHifzToggle(ayahId, "ayah");
 
   if (!ayahView.found) {
@@ -106,6 +106,7 @@ function FeedItem({
       surah={ayahView.surah}
       ayah={ayahView.ayah}
       arabicText={preferences.showArabicText ? ayahView.arabicText : undefined}
+      transliteration={preferences.showTransliteration ? ayahView.transliterationText : undefined}
       translationText={ayahView.translationText}
       themeLabels={ayahView.themeLabels}
       textOrder={preferences.textOrder}
@@ -169,6 +170,7 @@ function HadithFeedItem({
       collectionDisplayName={hadithView.collectionDisplayName}
       hadithNumber={hadithView.hadithNumber}
       arabicText={preferences.showArabicText ? hadithView.arabicText : undefined}
+      transliteration={preferences.showTransliteration ? getHadithTransliteration(hadithId) : undefined}
       translationText={hadithView.translationText}
       textOrder={preferences.textOrder}
       isFavorite={isFavorite}
@@ -240,6 +242,7 @@ function NameFeedItem({ nameNumber, height, showSwipeHint }: { nameNumber: numbe
 function DuaFeedItem({ duaId, height, showSwipeHint }: { duaId: string; height: number; showSwipeHint: boolean }): React.JSX.Element {
   const router = useRouter();
   const { t, locale } = useI18n();
+  const { preferences } = usePreferencesStore();
   const dua = getDua(duaId);
   const [favorite, setFavorite] = useState(false);
   const { memorized, toggleMemorized } = useHifzToggle(duaId, "dua");
@@ -273,7 +276,7 @@ function DuaFeedItem({ duaId, height, showSwipeHint }: { duaId: string; height: 
       height={height}
       title={title}
       arabicText={dua.arabic}
-      transliteration={dua.transliteration}
+      transliteration={preferences.showTransliteration ? dua.transliteration : undefined}
       translationText={translation}
       source={sourceLabel}
       isFavorite={favorite}

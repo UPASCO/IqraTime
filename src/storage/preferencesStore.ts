@@ -34,6 +34,11 @@ export const defaultPreferences: UserPreferences = {
   dailyNameHour: 8,
   dailyDuaEnabled: false,
   dailyDuaHour: 20,
+  // On by default: the app's core audience reads the phonetic line to
+  // recite — and the dua slides have shown their transliteration since
+  // 2.1.0, so off-by-default would remove something users already have.
+  // One tap hides it (Settings, or the toggle on any detail screen).
+  showTransliteration: true,
   schedule: {
     enabled: false,
     startHour: appConfig.defaultSchedule.startHour,

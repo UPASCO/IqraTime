@@ -32,6 +32,8 @@ export const bn: TranslationSchema = {
     getTheAppShareLine: "📲 IqraTime ডাউনলোড করুন — iOS: {iosUrl} · Android: {androidUrl}",
     getTheAppShareLineAndroidOnly: "📲 Android-এ IqraTime ডাউনলোড করুন: {androidUrl}",
     imageBrandFooter: "অ্যাপ স্টোর ও গুগল প্লে-তে «IqraTime» খুঁজুন",
+    showTransliterationCta: "উচ্চারণ দেখান",
+    hideTransliterationCta: "উচ্চারণ লুকান",
   },
   onboarding: {
     step1: {
@@ -250,6 +252,8 @@ export const bn: TranslationSchema = {
     interfaceLanguage: "ইন্টারফেসের ভাষা",
     translationLanguage: "অনুবাদের ভাষা",
     showArabic: "আরবি পাঠ্য দেখান",
+    transliterationLabel: "উচ্চারণ (লিপ্যন্তর)",
+    transliterationDescription: "আরবি লেখার নিচে ল্যাটিন অক্ষরে উচ্চারণ দেখায় — ফিড, বিস্তারিত স্ক্রিন ও কুরআন রিডারে।",
     textOrder: "পাঠ্যের ক্রম",
     textOrderArabicFirst: "প্রথমে আরবি, তারপর অনুবাদ",
     textOrderTranslationFirst: "প্রথমে অনুবাদ, তারপর আরবি",

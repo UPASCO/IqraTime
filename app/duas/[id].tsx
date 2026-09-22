@@ -10,6 +10,7 @@ import { duaTitleFor, duaTranslationFor, isDuaTranslationFallback, duaSourceLabe
 import { buildGetTheAppLine } from "@/utils/shareText";
 import { incrementShareCount } from "@/storage/shareCounterStore";
 import { isDuaFavorite, toggleDuaFavorite } from "@/storage/extrasFavoritesStore";
+import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { addToHifz, isInHifz, removeFromHifz } from "@/storage/hifzStore";
 
 /**
@@ -23,6 +24,7 @@ export default function DuaDetailScreen(): React.JSX.Element {
   const router = useRouter();
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
   const { t, locale } = useI18n();
+  const { preferences, update } = usePreferencesStore();
   const [justCopied, setJustCopied] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const [memorizing, setMemorizing] = useState(false);
@@ -99,13 +101,21 @@ export default function DuaDetailScreen(): React.JSX.Element {
 
         <ArabicText text={dua.arabic} />
 
-        {dua.transliteration ? (
+        {preferences.showTransliteration && dua.transliteration ? (
           <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.body * fontScaleMultiplier, fontStyle: "italic" }}>
             {dua.transliteration}
           </Text>
         ) : null}
 
         {translation ? <TranslationText text={translation} /> : null}
+
+        {dua.transliteration ? (
+          <Button
+            label={preferences.showTransliteration ? t("common.hideTransliterationCta") : t("common.showTransliterationCta")}
+            variant="ghost"
+            onPress={() => update({ showTransliteration: !preferences.showTransliteration })}
+          />
+        ) : null}
 
         {showEnglishFallbackNotice ? (
           <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, fontStyle: "italic" }}>

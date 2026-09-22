@@ -306,6 +306,12 @@ export interface UserPreferences {
   /** One "Invocation of the day" notification per day (kind "dua"). */
   readonly dailyDuaEnabled: boolean;
   readonly dailyDuaHour: number;
+  /**
+   * Show the Latin phonetic line (transliteration) under Arabic text —
+   * everywhere at once: feed slides, detail screens, the Qur'an reader.
+   * One global switch, toggleable in place from any detail screen.
+   */
+  readonly showTransliteration: boolean;
 }
 
 export type NotificationSlotStatus = "scheduled" | "delivered" | "cancelled" | "failed";

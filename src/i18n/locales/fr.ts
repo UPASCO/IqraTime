@@ -32,6 +32,8 @@ export const fr: TranslationSchema = {
     getTheAppShareLine: "📲 Télécharger IqraTime — iOS : {iosUrl} · Android : {androidUrl}",
     getTheAppShareLineAndroidOnly: "📲 Télécharger IqraTime sur Android : {androidUrl}",
     imageBrandFooter: "Cherchez « IqraTime » sur l'App Store et Google Play",
+    showTransliterationCta: "Afficher la phonétique",
+    hideTransliterationCta: "Masquer la phonétique",
   },
   onboarding: {
     step1: {
@@ -250,6 +252,8 @@ export const fr: TranslationSchema = {
     interfaceLanguage: "Langue de l'interface",
     translationLanguage: "Langue de traduction",
     showArabic: "Afficher le texte arabe",
+    transliterationLabel: "Phonétique (translittération)",
+    transliterationDescription: "Affiche la prononciation en lettres latines sous le texte arabe — dans le fil, les écrans de détail et le lecteur du Coran.",
     textOrder: "Ordre du texte",
     textOrderArabicFirst: "Arabe puis traduction",
     textOrderTranslationFirst: "Traduction puis arabe",

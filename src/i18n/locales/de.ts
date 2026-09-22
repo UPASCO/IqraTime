@@ -32,6 +32,8 @@ export const de: TranslationSchema = {
     getTheAppShareLine: "📲 IqraTime herunterladen — iOS: {iosUrl} · Android: {androidUrl}",
     getTheAppShareLineAndroidOnly: "📲 IqraTime für Android herunterladen: {androidUrl}",
     imageBrandFooter: "Suche «IqraTime» im App Store und bei Google Play",
+    showTransliterationCta: "Lautschrift anzeigen",
+    hideTransliterationCta: "Lautschrift ausblenden",
   },
   onboarding: {
     step1: {
@@ -250,6 +252,8 @@ export const de: TranslationSchema = {
     interfaceLanguage: "Sprache der Oberfläche",
     translationLanguage: "Übersetzungssprache",
     showArabic: "Arabischen Text anzeigen",
+    transliterationLabel: "Lautschrift (Transliteration)",
+    transliterationDescription: "Zeigt die Aussprache in lateinischen Buchstaben unter dem arabischen Text — im Feed, auf Detailseiten und im Koran-Leser.",
     textOrder: "Textreihenfolge",
     textOrderArabicFirst: "Arabisch, dann Übersetzung",
     textOrderTranslationFirst: "Übersetzung, dann Arabisch",

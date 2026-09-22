@@ -15,6 +15,8 @@ export interface AyahFeedSlideProps {
   surah: number;
   ayah: number;
   arabicText?: string;
+  /** Latin phonetic line, shown between the Arabic and the translation when the reader has phonetics on. */
+  transliteration?: string;
   translationText?: string;
   themeLabels?: readonly string[];
   textOrder: TextOrder;
@@ -104,6 +106,20 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
     </Text>
   ) : null;
 
+  const transliterationBlock = props.transliteration ? (
+    <Text
+      style={{
+        color: appConfig.brand.ivory,
+        opacity: 0.7,
+        fontStyle: "italic",
+        fontSize: typography.sizes.body * fontScaleMultiplier,
+        lineHeight: typography.sizes.body * 1.5 * fontScaleMultiplier,
+      }}
+    >
+      {props.transliteration}
+    </Text>
+  ) : null;
+
   const translationBlock = props.translationText ? (
     <Text
       style={{
@@ -118,8 +134,11 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
     </Text>
   ) : null;
 
+  // The phonetic line always follows the Arabic it transcribes.
   const orderedBlocks =
-    props.textOrder === "arabic_first" ? [arabicBlock, translationBlock] : [translationBlock, arabicBlock];
+    props.textOrder === "arabic_first"
+      ? [arabicBlock, transliterationBlock, translationBlock]
+      : [translationBlock, arabicBlock, transliterationBlock];
 
   return (
     <View style={[styles.slide, { height: props.height, backgroundColor: appConfig.brand.night }]}>

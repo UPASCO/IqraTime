@@ -21,10 +21,10 @@ export default function AyahDetailScreen(): React.JSX.Element {
   const router = useRouter();
   const { colors, spacing, typography, fontScaleMultiplier } = useTheme();
   const { t } = useI18n();
-  const { preferences } = usePreferencesStore();
+  const { preferences, update } = usePreferencesStore();
   const db = useAppDatabase();
 
-  const ayahView = useAyahView(ayahId, preferences.translationLocale);
+  const ayahView = useAyahView(ayahId, preferences.translationLocale, preferences.showTransliteration);
   const [isFavorite, setIsFavorite] = useState(false);
   const [inHifz, setInHifz] = useState(false);
   const [justCopied, setJustCopied] = useState(false);
@@ -89,9 +89,26 @@ export default function AyahDetailScreen(): React.JSX.Element {
         </View>
 
         {preferences.showArabicText && ayahView.arabicText ? <ArabicText text={ayahView.arabicText} /> : null}
+        {preferences.showTransliteration && ayahView.transliterationText ? (
+          <Text
+            style={{
+              color: colors.textSecondary,
+              fontStyle: "italic",
+              fontSize: typography.sizes.body * fontScaleMultiplier,
+              lineHeight: typography.lineHeights.body * fontScaleMultiplier,
+            }}
+          >
+            {ayahView.transliterationText}
+          </Text>
+        ) : null}
         {ayahView.translationText ? <TranslationText text={ayahView.translationText} /> : (
           <Text style={{ color: colors.textSecondary, fontStyle: "italic" }}>{t("errors.translationMissing")}</Text>
         )}
+        <Button
+          label={preferences.showTransliteration ? t("common.hideTransliterationCta") : t("common.showTransliterationCta")}
+          variant="ghost"
+          onPress={() => update({ showTransliteration: !preferences.showTransliteration })}
+        />
 
         {ayahView.themeLabels.length > 0 ? (
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>

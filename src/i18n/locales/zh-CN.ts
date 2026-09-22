@@ -32,6 +32,8 @@ export const zhCN: TranslationSchema = {
     getTheAppShareLine: "📲 下载 IqraTime — iOS: {iosUrl} · Android: {androidUrl}",
     getTheAppShareLineAndroidOnly: "📲 在 Android 上下载 IqraTime:{androidUrl}",
     imageBrandFooter: "在 App Store 与 Google Play 搜索「IqraTime」",
+    showTransliterationCta: "显示拼音注音",
+    hideTransliterationCta: "隐藏拼音注音",
   },
   onboarding: {
     step1: {
@@ -250,6 +252,8 @@ export const zhCN: TranslationSchema = {
     interfaceLanguage: "界面语言",
     translationLanguage: "译文语言",
     showArabic: "显示阿拉伯文",
+    transliterationLabel: "拼音注音（拉丁转写）",
+    transliterationDescription: "在阿拉伯语文本下方以拉丁字母显示读音——在信息流、详情页和古兰经阅读器中。",
     textOrder: "文本顺序",
     textOrderArabicFirst: "先阿拉伯文，后译文",
     textOrderTranslationFirst: "先译文，后阿拉伯文",
