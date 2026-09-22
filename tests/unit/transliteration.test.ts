@@ -11,6 +11,7 @@
 import { getQuranTransliterationText, getSurahList } from "@/data/quran";
 import { getFullHadithCorpus, getHadithTransliteration } from "@/data/corpus/hadith";
 import { getFullCorpus } from "@/data/corpus";
+import { getAllDuas } from "@/data/duas";
 import { makeAyahId } from "@/domain/types";
 
 import quranTranslitData from "@/data/quran/transliteration.json";
@@ -39,6 +40,18 @@ describe("Qur'an phonetic transcription (verbatim edition)", () => {
       expect(text).toBeDefined();
       expect(text!.trim().length).toBeGreaterThan(0);
     }
+  });
+});
+
+describe("dua transliterations", () => {
+  it("every one of the 110 invocations carries a phonetic line — the 13 quranic duas verbatim from the phonetic edition", () => {
+    for (const dua of getAllDuas()) {
+      expect((dua.transliteration ?? "").trim().length).toBeGreaterThan(0);
+    }
+    // The dua of Yunus (the entry the missing-phonetics report was filed
+    // against): its line must be the phonetic edition's own 21:87 text.
+    const yunus = getAllDuas().find((d) => d.id === "quran-21-87")!;
+    expect(yunus.transliteration).toBe(getQuranTransliterationText(makeAyahId({ surah: 21, ayah: 87 })));
   });
 });
 
