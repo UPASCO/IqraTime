@@ -7,6 +7,7 @@ import * as Sharing from "expo-sharing";
 import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { appConfig } from "@/config/appConfig";
+import { FeedActionRail } from "./FeedActionRail";
 import type { TextOrder } from "@/domain/types";
 
 export interface AyahFeedSlideProps {
@@ -18,8 +19,10 @@ export interface AyahFeedSlideProps {
   themeLabels?: readonly string[];
   textOrder: TextOrder;
   isFavorite?: boolean;
+  isMemorized?: boolean;
   showSwipeHint?: boolean;
   onToggleFavorite?: () => void;
+  onToggleMemorize?: () => void;
   onShare?: () => void;
   /** Fires the moment the share button is tapped, regardless of whether the image capture or the plain-text fallback ends up being used — the single point for counting a share attempt. */
   onShareAttempted?: () => void;
@@ -27,20 +30,12 @@ export interface AyahFeedSlideProps {
   shareText?: string;
   onCopy?: () => void;
   onOpenDetail?: () => void;
-  /**
-   * Opens the ayah's tafsir. Pass only when a tafsir actually exists for
-   * this ayah in the reader's language (3 of 12 locales have no edition at
-   * all — see docs/CORPUS.md "Tafsir"), so the rail never offers a button
-   * that leads to an "unavailable" message.
-   */
-  onOpenTafsir?: () => void;
 }
 
 /** One full-bleed, immersive slide in the swipeable ayah feed — always the fixed brand palette, independent of light/dark theme, like a splash/hero moment rather than a themed UI surface. */
 export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
   const { spacing, typography, fontScaleMultiplier } = useTheme();
   const { t, direction } = useI18n();
-  const [justCopied, setJustCopied] = React.useState(false);
   const [isPreparingShareImage, setIsPreparingShareImage] = React.useState(false);
   const shotRef = useRef<ViewShotRef>(null);
   // A vertical swipe on a feed slide must mean exactly one thing: next
@@ -53,12 +48,6 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
   // the detail screen with the full text — the TikTok/Instagram long-
   // caption pattern.
   const [contentOverflows, setContentOverflows] = React.useState(false);
-
-  const handleCopy = (): void => {
-    props.onCopy?.();
-    setJustCopied(true);
-    setTimeout(() => setJustCopied(false), 1500);
-  };
 
   /**
    * Shares a rendered image of the card itself (exactly what's on screen,
@@ -134,6 +123,10 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
 
   return (
     <View style={[styles.slide, { height: props.height, backgroundColor: appConfig.brand.night }]}>
+      {/* Column layout: the measuring ScrollView fills the space ABOVE the
+          read-more footer, so an overflowing text is clipped cleanly at the
+          footer's edge — the pill never floats over the words (the old
+          absolute-positioned pill overlapped mid-paragraph). */}
       <ViewShot ref={shotRef} style={[styles.tapArea, { backgroundColor: appConfig.brand.night }]} options={{ format: "png", quality: 0.95 }}>
       {/* scrollEnabled is permanently false — the ScrollView remains only
           as the overflow-measuring container (onContentSizeChange). */}
@@ -203,71 +196,31 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
       </ScrollView>
       </ViewShot>
 
-      <View style={[styles.rail, { gap: spacing.lg }]}>
-        {props.onToggleFavorite ? (
-          <Pressable
-            onPress={props.onToggleFavorite}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={props.isFavorite ? t("home.favoriteRemove") : t("home.favoriteAdd")}
-            accessibilityState={{ selected: !!props.isFavorite }}
-          >
-            <Ionicons
-              name={props.isFavorite ? "heart" : "heart-outline"}
-              size={26}
-              color={props.isFavorite ? appConfig.brand.goldLight : appConfig.brand.warmWhite}
-            />
-          </Pressable>
-        ) : null}
-        {props.onShare ? (
-          <Pressable
-            onPress={handleShare}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={t("home.shareCta")}
-          >
-            <Ionicons name="share-outline" size={23} color={appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-        {props.onCopy ? (
-          <Pressable
-            onPress={handleCopy}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={justCopied ? t("home.copiedConfirmation") : t("home.copyCta")}
-          >
-            <Ionicons name={justCopied ? "checkmark" : "copy-outline"} size={21} color={justCopied ? appConfig.brand.goldLight : appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-        {props.onOpenTafsir ? (
-          <Pressable
-            onPress={props.onOpenTafsir}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={t("ayah.tafsirShowCta")}
-          >
-            <Ionicons name="book-outline" size={22} color={appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-      </View>
-
       {contentOverflows && props.onOpenDetail ? (
-        <Pressable
-          onPress={props.onOpenDetail}
-          style={({ pressed }) => [styles.readMorePill, { opacity: pressed ? 0.7 : 1 }]}
-          accessibilityRole="button"
-          accessibilityLabel={t("home.readMoreCta")}
-        >
-          <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-            {t("home.readMoreCta")}
-          </Text>
-          <Ionicons name="chevron-forward" size={14} color={appConfig.brand.goldLight} />
-        </Pressable>
+        <View style={styles.readMoreFooter}>
+          <Pressable
+            onPress={props.onOpenDetail}
+            style={({ pressed }) => [styles.readMorePill, { opacity: pressed ? 0.7 : 1 }]}
+            accessibilityRole="button"
+            accessibilityLabel={t("home.readMoreCta")}
+          >
+            <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+              {t("home.readMoreCta")}
+            </Text>
+            <Ionicons name="expand-outline" size={14} color={appConfig.brand.goldLight} />
+          </Pressable>
+        </View>
       ) : null}
+
+      <FeedActionRail
+        isFavorite={props.isFavorite}
+        onToggleFavorite={props.onToggleFavorite}
+        isMemorized={props.isMemorized}
+        onToggleMemorize={props.onToggleMemorize}
+        onShare={props.onShare ? handleShare : undefined}
+        onCopy={props.onCopy}
+        onExpand={props.onOpenDetail}
+      />
 
       {props.showSwipeHint ? (
         <View style={styles.swipeHint} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
@@ -294,28 +247,25 @@ const styles = StyleSheet.create({
   themeRow: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   brandFooter: { borderTopWidth: StyleSheet.hairlineWidth, gap: 2 },
   themePill: { backgroundColor: "rgba(247,243,232,0.14)", borderRadius: 999 },
-  rail: { position: "absolute", right: 16, bottom: 96, alignItems: "center" },
-  railButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "rgba(0,0,0,0.18)",
+  swipeHint: { position: "absolute", bottom: 28, alignSelf: "center", alignItems: "center", gap: 2 },
+  // A real layout row below the clipped text, not an overlay: the text ends
+  // where this footer begins.
+  readMoreFooter: {
+    height: 56,
     alignItems: "center",
     justifyContent: "center",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "rgba(247,243,232,0.16)",
   },
-  swipeHint: { position: "absolute", bottom: 28, alignSelf: "center", alignItems: "center", gap: 2 },
   readMorePill: {
-    position: "absolute",
-    bottom: 60,
-    alignSelf: "center",
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
-    backgroundColor: "rgba(0,0,0,0.45)",
+    gap: 6,
+    backgroundColor: "rgba(0,0,0,0.35)",
     borderColor: "rgba(212,180,131,0.5)",
     borderWidth: 1,
     borderRadius: 999,
-    paddingHorizontal: 14,
-    paddingVertical: 7,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
 });

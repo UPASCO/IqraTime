@@ -405,6 +405,7 @@ export const fr: TranslationSchema = {
     emptyBody: "Ouvrez une āyah et appuyez sur « Mémoriser cette āyah » pour commencer. Vos révisions apparaîtront ici.",
     memorizeCta: "Mémoriser cette āyah",
     memorizeDuaCta: "Mémoriser cette invocation",
+    memorizeHadithCta: "Mémoriser ce hadith",
     removeCta: "Retirer de la mémorisation",
     dueTodayTitle: "À réviser",
     noneDueBody: "Rien à réviser pour le moment. Revenez demain, inchAllah.",

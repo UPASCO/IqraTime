@@ -405,6 +405,7 @@ export const zhCN: TranslationSchema = {
     emptyBody: "打开任意经文并点按「背记这节经文」开始。您的复习将显示在这里。",
     memorizeCta: "背记这节经文",
     memorizeDuaCta: "背记这段祈祷词",
+    memorizeHadithCta: "背记这段圣训",
     removeCta: "从背记中移除",
     dueTodayTitle: "待复习",
     noneDueBody: "目前没有需要复习的内容。明天再来，因沙安拉。",

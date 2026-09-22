@@ -405,6 +405,7 @@ export const es: TranslationSchema = {
     emptyBody: "Abre cualquier aleya y toca «Memorizar esta aleya» para empezar. Tus repasos aparecerán aquí.",
     memorizeCta: "Memorizar esta aleya",
     memorizeDuaCta: "Memorizar esta invocación",
+    memorizeHadithCta: "Memorizar este hadiz",
     removeCta: "Quitar de la memorización",
     dueTodayTitle: "Para repasar",
     noneDueBody: "Nada que repasar por ahora. Vuelve mañana, inshaAllah.",

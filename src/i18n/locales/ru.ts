@@ -440,6 +440,7 @@ export const ru: TranslationSchema = {
     emptyBody: "Откройте любой аят и нажмите «Выучить этот аят». Ваши повторения появятся здесь.",
     memorizeCta: "Выучить этот аят",
     memorizeDuaCta: "Выучить это дуа",
+    memorizeHadithCta: "Выучить этот хадис",
     removeCta: "Убрать из заучивания",
     dueTodayTitle: "На повторение",
     noneDueBody: "Сейчас нечего повторять. Возвращайтесь завтра, иншаАллах.",

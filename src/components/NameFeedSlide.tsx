@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { appConfig } from "@/config/appConfig";
+import { FeedActionRail } from "./FeedActionRail";
 
 export interface NameFeedSlideProps {
   height: number;
@@ -14,8 +15,10 @@ export interface NameFeedSlideProps {
   /** Localized one-line meaning; empty string for Arabic readers, where the name speaks for itself. */
   meaning: string;
   isFavorite?: boolean;
+  isMemorized?: boolean;
   showSwipeHint?: boolean;
   onToggleFavorite?: () => void;
+  onToggleMemorize?: () => void;
   onShare?: () => void;
   onCopy?: () => void;
   onOpenDetail?: () => void;
@@ -30,13 +33,6 @@ export interface NameFeedSlideProps {
 export function NameFeedSlide(props: NameFeedSlideProps): React.JSX.Element {
   const { spacing, typography, fontScaleMultiplier } = useTheme();
   const { t } = useI18n();
-  const [justCopied, setJustCopied] = React.useState(false);
-
-  const handleCopy = (): void => {
-    props.onCopy?.();
-    setJustCopied(true);
-    setTimeout(() => setJustCopied(false), 1500);
-  };
 
   return (
     <View style={[styles.slide, { height: props.height, backgroundColor: appConfig.brand.night }]}>
@@ -87,53 +83,15 @@ export function NameFeedSlide(props: NameFeedSlideProps): React.JSX.Element {
         </View>
       </Pressable>
 
-      <View style={[styles.rail, { gap: spacing.lg }]}>
-        {props.onToggleFavorite ? (
-          <Pressable
-            onPress={props.onToggleFavorite}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={props.isFavorite ? t("home.favoriteRemove") : t("home.favoriteAdd")}
-            accessibilityState={{ selected: !!props.isFavorite }}
-          >
-            <Ionicons name={props.isFavorite ? "heart" : "heart-outline"} size={26} color={props.isFavorite ? appConfig.brand.goldLight : appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-        {props.onShare ? (
-          <Pressable
-            onPress={props.onShare}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={t("home.shareCta")}
-          >
-            <Ionicons name="share-outline" size={23} color={appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-        {props.onCopy ? (
-          <Pressable
-            onPress={handleCopy}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={justCopied ? t("home.copiedConfirmation") : t("home.copyCta")}
-          >
-            <Ionicons name={justCopied ? "checkmark" : "copy-outline"} size={21} color={justCopied ? appConfig.brand.goldLight : appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-        {props.onOpenDetail ? (
-          <Pressable
-            onPress={props.onOpenDetail}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={t("names.title")}
-          >
-            <Ionicons name="diamond-outline" size={22} color={appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-      </View>
+      <FeedActionRail
+        isFavorite={props.isFavorite}
+        onToggleFavorite={props.onToggleFavorite}
+        isMemorized={props.isMemorized}
+        onToggleMemorize={props.onToggleMemorize}
+        onShare={props.onShare}
+        onCopy={props.onCopy}
+        onExpand={props.onOpenDetail}
+      />
 
       {props.showSwipeHint ? (
         <View style={styles.swipeHint} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
@@ -150,14 +108,5 @@ export function NameFeedSlide(props: NameFeedSlideProps): React.JSX.Element {
 const styles = StyleSheet.create({
   slide: { width: "100%" },
   center: { flex: 1, justifyContent: "center" },
-  rail: { position: "absolute", right: 16, bottom: 96, alignItems: "center" },
-  railButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "rgba(0,0,0,0.18)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   swipeHint: { position: "absolute", bottom: 28, alignSelf: "center", alignItems: "center", gap: 2 },
 });

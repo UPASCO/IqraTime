@@ -410,6 +410,7 @@ export const en = {
     emptyBody: "Open any ayah and tap “Memorize this ayah” to start. Your reviews will appear here.",
     memorizeCta: "Memorize this ayah",
     memorizeDuaCta: "Memorize this invocation",
+    memorizeHadithCta: "Memorize this hadith",
     removeCta: "Remove from memorization",
     dueTodayTitle: "To review",
     noneDueBody: "Nothing to review right now. Come back tomorrow, inshaAllah.",

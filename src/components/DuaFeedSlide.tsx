@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { appConfig } from "@/config/appConfig";
+import { FeedActionRail } from "./FeedActionRail";
 
 export interface DuaFeedSlideProps {
   height: number;
@@ -15,8 +16,10 @@ export interface DuaFeedSlideProps {
   translationText?: string;
   source?: string;
   isFavorite?: boolean;
+  isMemorized?: boolean;
   showSwipeHint?: boolean;
   onToggleFavorite?: () => void;
+  onToggleMemorize?: () => void;
   onShare?: () => void;
   onCopy?: () => void;
   onOpenDetail?: () => void;
@@ -31,17 +34,10 @@ export interface DuaFeedSlideProps {
 export function DuaFeedSlide(props: DuaFeedSlideProps): React.JSX.Element {
   const { spacing, typography, fontScaleMultiplier } = useTheme();
   const { t } = useI18n();
-  const [justCopied, setJustCopied] = React.useState(false);
   // Never scrolls internally — see AyahFeedSlide: a vertical swipe on a
-  // slide must always mean "next page"; overflowing text is clipped behind
-  // a "Read more" pill that opens the detail screen.
+  // slide must always mean "next page"; overflowing text is clipped above
+  // a "Read more" footer that opens the detail screen.
   const [contentOverflows, setContentOverflows] = React.useState(false);
-
-  const handleCopy = (): void => {
-    props.onCopy?.();
-    setJustCopied(true);
-    setTimeout(() => setJustCopied(false), 1500);
-  };
 
   return (
     <View style={[styles.slide, { height: props.height, backgroundColor: appConfig.brand.night }]}>
@@ -119,67 +115,31 @@ export function DuaFeedSlide(props: DuaFeedSlideProps): React.JSX.Element {
         </Pressable>
       </ScrollView>
 
-      <View style={[styles.rail, { gap: spacing.lg }]}>
-        {props.onToggleFavorite ? (
-          <Pressable
-            onPress={props.onToggleFavorite}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={props.isFavorite ? t("home.favoriteRemove") : t("home.favoriteAdd")}
-            accessibilityState={{ selected: !!props.isFavorite }}
-          >
-            <Ionicons name={props.isFavorite ? "heart" : "heart-outline"} size={26} color={props.isFavorite ? appConfig.brand.goldLight : appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-        {props.onShare ? (
-          <Pressable
-            onPress={props.onShare}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={t("home.shareCta")}
-          >
-            <Ionicons name="share-outline" size={23} color={appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-        {props.onCopy ? (
-          <Pressable
-            onPress={handleCopy}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={justCopied ? t("home.copiedConfirmation") : t("home.copyCta")}
-          >
-            <Ionicons name={justCopied ? "checkmark" : "copy-outline"} size={21} color={justCopied ? appConfig.brand.goldLight : appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-        {props.onOpenDetail ? (
+      {contentOverflows && props.onOpenDetail ? (
+        <View style={styles.readMoreFooter}>
           <Pressable
             onPress={props.onOpenDetail}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
+            style={({ pressed }) => [styles.readMorePill, { opacity: pressed ? 0.7 : 1 }]}
             accessibilityRole="button"
-            accessibilityLabel={t("duas.title")}
+            accessibilityLabel={t("home.readMoreCta")}
           >
-            <Ionicons name="flower-outline" size={22} color={appConfig.brand.warmWhite} />
+            <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+              {t("home.readMoreCta")}
+            </Text>
+            <Ionicons name="expand-outline" size={14} color={appConfig.brand.goldLight} />
           </Pressable>
-        ) : null}
-      </View>
-
-      {contentOverflows && props.onOpenDetail ? (
-        <Pressable
-          onPress={props.onOpenDetail}
-          style={({ pressed }) => [styles.readMorePill, { opacity: pressed ? 0.7 : 1 }]}
-          accessibilityRole="button"
-          accessibilityLabel={t("home.readMoreCta")}
-        >
-          <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-            {t("home.readMoreCta")}
-          </Text>
-          <Ionicons name="chevron-forward" size={14} color={appConfig.brand.goldLight} />
-        </Pressable>
+        </View>
       ) : null}
+
+      <FeedActionRail
+        isFavorite={props.isFavorite}
+        onToggleFavorite={props.onToggleFavorite}
+        isMemorized={props.isMemorized}
+        onToggleMemorize={props.onToggleMemorize}
+        onShare={props.onShare}
+        onCopy={props.onCopy}
+        onExpand={props.onOpenDetail}
+      />
 
       {props.showSwipeHint ? (
         <View style={styles.swipeHint} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
@@ -197,28 +157,23 @@ const styles = StyleSheet.create({
   slide: { width: "100%" },
   tapArea: { flex: 1 },
   scrollContent: { flexGrow: 1, justifyContent: "flex-start", paddingTop: 32, paddingBottom: 24 },
-  rail: { position: "absolute", right: 16, bottom: 96, alignItems: "center" },
-  railButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "rgba(0,0,0,0.18)",
+  swipeHint: { position: "absolute", bottom: 28, alignSelf: "center", alignItems: "center", gap: 2 },
+  readMoreFooter: {
+    height: 56,
     alignItems: "center",
     justifyContent: "center",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "rgba(247,243,232,0.16)",
   },
-  swipeHint: { position: "absolute", bottom: 28, alignSelf: "center", alignItems: "center", gap: 2 },
   readMorePill: {
-    position: "absolute",
-    bottom: 60,
-    alignSelf: "center",
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
-    backgroundColor: "rgba(0,0,0,0.45)",
+    gap: 6,
+    backgroundColor: "rgba(0,0,0,0.35)",
     borderColor: "rgba(212,180,131,0.5)",
     borderWidth: 1,
     borderRadius: 999,
-    paddingHorizontal: 14,
-    paddingVertical: 7,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
 });

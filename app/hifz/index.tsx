@@ -8,8 +8,9 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAyahView } from "@/hooks/useAyahView";
+import { useHadithView } from "@/hooks/useHadithView";
 import { listHifzEntries, listDueHifzEntries, recordHifzReview, removeFromHifz, hifzEntryKind, REVIEW_INTERVALS_DAYS, type HifzEntry } from "@/storage/hifzStore";
-import { ayahIdToRouteParam } from "@/utils/routeParams";
+import { ayahIdToRouteParam, hadithIdToRouteParam } from "@/utils/routeParams";
 import { formatDateTime } from "@/utils/dateUtils";
 import { appConfig } from "@/config/appConfig";
 import { getDua, duaTitleFor, duaTranslationFor } from "@/data/duas";
@@ -64,6 +65,71 @@ function ReviewCard({ entry, onGraded }: { entry: HifzEntry; onGraded: () => voi
           {/* style overrides the ambient theme color — on this fixed-dark card
               the default textPrimary would be near-black on near-black in
               light mode (the exact bug once fixed on the moment screen). */}
+          {view.arabicText ? <ArabicText text={view.arabicText} style={{ color: appConfig.brand.warmWhite }} /> : null}
+          {view.translationText ? (
+            <Text style={{ color: appConfig.brand.ivory, opacity: 0.85, fontSize: typography.sizes.body * fontScaleMultiplier }}>
+              {view.translationText}
+            </Text>
+          ) : null}
+          <View style={{ flexDirection: "row", gap: spacing.md }}>
+            <View style={{ flex: 1 }}>
+              <Button label={t("hifz.knewItCta")} onPress={() => grade(true)} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Button label={t("hifz.forgotCta")} variant="secondary" onPress={() => grade(false)} />
+            </View>
+          </View>
+        </View>
+      ) : (
+        <Button label={t("hifz.revealCta")} variant="secondary" onPress={() => setRevealed(true)} />
+      )}
+    </View>
+  );
+}
+
+/**
+ * The hadith counterpart to ReviewCard — its own component (not a branch
+ * of ExtraReviewCard) because resolving a hadith goes through the
+ * useHadithView hook, which can't be called conditionally. The cue is the
+ * reference (collection + number), the reveal is the matn with its
+ * translation — how ahādīth are traditionally memorized.
+ */
+function HadithReviewCard({ entry, onGraded }: { entry: HifzEntry; onGraded: () => void }): React.JSX.Element {
+  const { spacing, radii, typography, fontScaleMultiplier } = useTheme();
+  const { t } = useI18n();
+  const { preferences } = usePreferencesStore();
+  const view = useHadithView(entry.ayahId, preferences.translationLocale);
+  const [revealed, setRevealed] = useState(false);
+
+  if (!view.found) return <></>;
+
+  const grade = async (remembered: boolean): Promise<void> => {
+    await recordHifzReview(entry.ayahId, remembered);
+    setRevealed(false);
+    onGraded();
+  };
+
+  return (
+    <View style={{ backgroundColor: appConfig.brand.night, borderRadius: radii.lg, padding: spacing.lg, gap: spacing.md }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: spacing.sm }}>
+        <Text
+          style={{
+            color: appConfig.brand.goldLight,
+            fontWeight: typography.weights.semibold,
+            letterSpacing: 1,
+            fontSize: typography.sizes.caption * fontScaleMultiplier,
+            flexShrink: 1,
+          }}
+        >
+          {view.collectionDisplayName} #{view.hadithNumber}
+        </Text>
+        <Text style={{ color: appConfig.brand.ivory, opacity: 0.7, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+          {t("hifz.stageLabel", { stage: entry.stage + 1, total: REVIEW_INTERVALS_DAYS.length })}
+        </Text>
+      </View>
+
+      {revealed ? (
+        <View style={{ gap: spacing.md }}>
           {view.arabicText ? <ArabicText text={view.arabicText} style={{ color: appConfig.brand.warmWhite }} /> : null}
           {view.translationText ? (
             <Text style={{ color: appConfig.brand.ivory, opacity: 0.85, fontSize: typography.sizes.body * fontScaleMultiplier }}>
@@ -205,6 +271,56 @@ function HifzRow({ entry, onRemove }: { entry: HifzEntry; onRemove: () => void }
   );
 }
 
+/** The hadith counterpart to HifzRow — own component for the same hook reason as HadithReviewCard. */
+function HadithHifzRow({ entry, onRemove }: { entry: HifzEntry; onRemove: () => void }): React.JSX.Element | null {
+  const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
+  const { t, locale } = useI18n();
+  const router = useRouter();
+  const { preferences } = usePreferencesStore();
+  const view = useHadithView(entry.ayahId, preferences.translationLocale);
+
+  if (!view.found) return null;
+
+  return (
+    <Pressable
+      onPress={() => router.push(`/hadith/${hadithIdToRouteParam(entry.ayahId)}`)}
+      style={{
+        backgroundColor: colors.surface,
+        borderColor: colors.border,
+        borderWidth: 1,
+        borderRadius: radii.md,
+        padding: spacing.sm,
+        gap: spacing.xxs,
+        marginBottom: spacing.xs,
+      }}
+    >
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+        <Text style={{ color: colors.gold, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+          {view.collectionDisplayName} #{view.hadithNumber}
+        </Text>
+        <Pressable onPress={onRemove} hitSlop={8} accessibilityRole="button" accessibilityLabel={t("hifz.removeCta")}>
+          <Ionicons name="close-circle-outline" size={18} color={colors.textSecondary} />
+        </Pressable>
+      </View>
+      {view.arabicText ? (
+        <Text numberOfLines={1} style={{ color: colors.textPrimary, fontSize: typography.sizes.body * fontScaleMultiplier, textAlign: "right" }}>
+          {view.arabicText}
+        </Text>
+      ) : null}
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: spacing.xs }}>
+        <Text style={{ color: colors.textSecondary, fontSize: typography.sizes.caption * fontScaleMultiplier, flexShrink: 1 }}>
+          {t("hifz.nextReviewLabel")}: {formatDateTime(entry.nextReviewAtUtcIso, locale)}
+        </Text>
+        {entry.successCount > 0 ? (
+          <Text style={{ color: colors.gold, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.medium }}>
+            {t("hifz.reviewedCountLabel", { count: entry.successCount })}
+          </Text>
+        ) : null}
+      </View>
+    </Pressable>
+  );
+}
+
 /** The dua/name counterpart to HifzRow. */
 function ExtraHifzRow({ entry, onRemove }: { entry: HifzEntry; onRemove: () => void }): React.JSX.Element | null {
   const { colors, spacing, radii, typography, fontScaleMultiplier } = useTheme();
@@ -300,6 +416,8 @@ export default function HifzScreen(): React.JSX.Element {
         renderItem={({ item }) =>
           hifzEntryKind(item) === "ayah" ? (
             <HifzRow entry={item} onRemove={() => handleRemove(item.ayahId)} />
+          ) : hifzEntryKind(item) === "hadith" ? (
+            <HadithHifzRow entry={item} onRemove={() => handleRemove(item.ayahId)} />
           ) : (
             <ExtraHifzRow entry={item} onRemove={() => handleRemove(item.ayahId)} />
           )
@@ -342,6 +460,8 @@ export default function HifzScreen(): React.JSX.Element {
                   entry={currentDue}
                   onGraded={handleGraded}
                 />
+              ) : hifzEntryKind(currentDue) === "hadith" ? (
+                <HadithReviewCard key={currentDue.ayahId} entry={currentDue} onGraded={handleGraded} />
               ) : (
                 <ExtraReviewCard key={currentDue.ayahId} entry={currentDue} onGraded={handleGraded} />
               )

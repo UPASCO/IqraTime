@@ -460,6 +460,7 @@ export const ar: TranslationSchema = {
     emptyBody: "افتح أي آية واضغط «أحفظ هذه الآية» للبدء. ستظهر مراجعاتك هنا.",
     memorizeCta: "أحفظ هذه الآية",
     memorizeDuaCta: "احفظ هذا الدعاء",
+    memorizeHadithCta: "احفظ هذا الحديث",
     removeCta: "إزالة من الحفظ",
     dueTodayTitle: "للمراجعة",
     noneDueBody: "لا شيء للمراجعة الآن. عُد غدًا إن شاء الله.",

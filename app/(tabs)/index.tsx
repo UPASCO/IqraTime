@@ -11,7 +11,7 @@ import { usePreferencesStore } from "@/hooks/usePreferencesStore";
 import { useAppDatabase } from "@/hooks/AppDatabaseProvider";
 import { useAyahView } from "@/hooks/useAyahView";
 import { useHadithView } from "@/hooks/useHadithView";
-import { getRuntimeCorpus, getTranslation, getCorpusEntry, getAntiRepeatWindow, getTafsir } from "@/data/corpus";
+import { getRuntimeCorpus, getTranslation, getCorpusEntry, getAntiRepeatWindow } from "@/data/corpus";
 import { getRuntimeHadithCorpus, hasAnyHadithContent } from "@/data/corpus/hadith";
 import { selectAyah } from "@/services/selectionEngine";
 import { MAX_NOTIFICATION_AYAH_LENGTH } from "@/domain/constants";
@@ -29,7 +29,35 @@ import { nextFeedKind, effectiveContentKinds, type FeedKind } from "@/services/f
 import { getName, nameMeaningFor, getAllNames } from "@/data/names";
 import { duasTranslatedFor, getDua, duaTitleFor, duaTranslationFor, duaSourceLabel } from "@/data/duas";
 import { isNameFavorite, toggleNameFavorite, isDuaFavorite, toggleDuaFavorite } from "@/storage/extrasFavoritesStore";
+import { isInHifz, addToHifz, removeFromHifz, type HifzKind } from "@/storage/hifzStore";
 import { settledSlideIndex, slidesNeeded } from "@/services/feedBuffer";
+
+/**
+ * Memorization state for one feed slide, backed by hifzStore — the same
+ * optimistic-toggle pattern for all four content kinds, so the rail's
+ * 🎓 button behaves identically everywhere.
+ */
+function useHifzToggle(id: string, kind: HifzKind): { memorized: boolean; toggleMemorized: () => void } {
+  const [memorized, setMemorized] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    isInHifz(id).then((value) => {
+      if (!cancelled) setMemorized(value);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+  const toggleMemorized = useCallback((): void => {
+    setMemorized((current) => {
+      const next = !current;
+      if (next) addToHifz(id, new Date(), kind);
+      else removeFromHifz(id);
+      return next;
+    });
+  }, [id, kind]);
+  return { memorized, toggleMemorized };
+}
 
 /** One slide in the swipeable feed, resolved to its display data via useAyahView inside the render. */
 function FeedItem({
@@ -49,7 +77,7 @@ function FeedItem({
   const { t } = useI18n();
   const { preferences } = usePreferencesStore();
   const ayahView = useAyahView(ayahId, preferences.translationLocale);
-  const hasTafsir = !!getTafsir(ayahId, preferences.translationLocale);
+  const { memorized, toggleMemorized } = useHifzToggle(ayahId, "ayah");
 
   if (!ayahView.found) {
     return (
@@ -89,13 +117,8 @@ function FeedItem({
       onShareAttempted={() => incrementShareCount()}
       onCopy={() => Clipboard.setStringAsync(shareText())}
       onOpenDetail={() => router.push(`/ayah/${ayahView.surah}-${ayahView.ayah}`)}
-      // Only offered when a tafsir actually exists for this āyah in the
-      // reader's language — 3 of the 12 locales have no edition at all
-      // (docs/CORPUS.md "Tafsir"), and an always-present button that leads
-      // to "unavailable" is worse than no button.
-      onOpenTafsir={
-        hasTafsir ? () => router.push(`/ayah/${ayahView.surah}-${ayahView.ayah}?tafsir=1`) : undefined
-      }
+      isMemorized={memorized}
+      onToggleMemorize={toggleMemorized}
     />
   );
 }
@@ -118,6 +141,7 @@ function HadithFeedItem({
   const { t } = useI18n();
   const { preferences } = usePreferencesStore();
   const hadithView = useHadithView(hadithId, preferences.translationLocale);
+  const { memorized, toggleMemorized } = useHifzToggle(hadithId, "hadith");
 
   if (!hadithView.found) {
     return (
@@ -155,6 +179,8 @@ function HadithFeedItem({
       onShareAttempted={() => incrementShareCount()}
       onCopy={() => Clipboard.setStringAsync(shareText())}
       onOpenDetail={() => router.push(`/hadith/${hadithIdToRouteParam(hadithId)}`)}
+      isMemorized={memorized}
+      onToggleMemorize={toggleMemorized}
     />
   );
 }
@@ -165,6 +191,7 @@ function NameFeedItem({ nameNumber, height, showSwipeHint }: { nameNumber: numbe
   const { t, locale } = useI18n();
   const name = getName(nameNumber);
   const [favorite, setFavorite] = useState(false);
+  const { memorized, toggleMemorized } = useHifzToggle(String(nameNumber), "name");
   useEffect(() => {
     isNameFavorite(nameNumber).then(setFavorite);
   }, [nameNumber]);
@@ -196,6 +223,8 @@ function NameFeedItem({ nameNumber, height, showSwipeHint }: { nameNumber: numbe
       onToggleFavorite={() => {
         toggleNameFavorite(name.number).then(setFavorite);
       }}
+      isMemorized={memorized}
+      onToggleMemorize={toggleMemorized}
       showSwipeHint={showSwipeHint}
       onShare={() => {
         incrementShareCount();
@@ -213,6 +242,7 @@ function DuaFeedItem({ duaId, height, showSwipeHint }: { duaId: string; height: 
   const { t, locale } = useI18n();
   const dua = getDua(duaId);
   const [favorite, setFavorite] = useState(false);
+  const { memorized, toggleMemorized } = useHifzToggle(duaId, "dua");
   useEffect(() => {
     isDuaFavorite(duaId).then(setFavorite);
   }, [duaId]);
@@ -250,6 +280,8 @@ function DuaFeedItem({ duaId, height, showSwipeHint }: { duaId: string; height: 
       onToggleFavorite={() => {
         toggleDuaFavorite(dua.id).then(setFavorite);
       }}
+      isMemorized={memorized}
+      onToggleMemorize={toggleMemorized}
       showSwipeHint={showSwipeHint}
       onShare={() => {
         incrementShareCount();

@@ -12,6 +12,7 @@ import { isHadithFavorite, addHadithFavorite, removeHadithFavorite } from "@/sto
 import { routeParamToHadithId } from "@/utils/routeParams";
 import { formatHadithShareText, buildGetTheAppLine } from "@/utils/shareText";
 import { incrementShareCount } from "@/storage/shareCounterStore";
+import { addToHifz, isInHifz, removeFromHifz } from "@/storage/hifzStore";
 
 export default function HadithDetailScreen(): React.JSX.Element {
   const params = useLocalSearchParams<{ id: string }>();
@@ -24,10 +25,12 @@ export default function HadithDetailScreen(): React.JSX.Element {
   const hadithView = useHadithView(hadithId, preferences.translationLocale);
   const [isFavorite, setIsFavorite] = useState(false);
   const [justCopied, setJustCopied] = useState(false);
+  const [memorizing, setMemorizing] = useState(false);
 
   useEffect(() => {
     if (!hadithId) return;
     isHadithFavorite(hadithId).then(setIsFavorite);
+    isInHifz(hadithId).then(setMemorizing);
   }, [hadithId]);
 
   if (!hadithView.found) {
@@ -50,6 +53,17 @@ export default function HadithDetailScreen(): React.JSX.Element {
       await addHadithFavorite(hadithId);
     }
     setIsFavorite(!isFavorite);
+  };
+
+  const toggleMemorize = async (): Promise<void> => {
+    if (!hadithId) return;
+    if (memorizing) {
+      await removeFromHifz(hadithId);
+      setMemorizing(false);
+    } else {
+      await addToHifz(hadithId, new Date(), "hadith");
+      setMemorizing(true);
+    }
   };
 
   const shareText = formatHadithShareText({
@@ -94,6 +108,12 @@ export default function HadithDetailScreen(): React.JSX.Element {
             "unavailable" is worse than none — the same rule the āyah slide
             applies to its tafsir button. Reinstate it with the i18n keys
             hadith.explanation* once a real source exists. */}
+
+        <Button
+          label={memorizing ? t("hifz.removeCta") : t("hifz.memorizeHadithCta")}
+          variant={memorizing ? "ghost" : "secondary"}
+          onPress={toggleMemorize}
+        />
 
         <View style={{ flexDirection: "row", gap: spacing.md }}>
           <Button

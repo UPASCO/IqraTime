@@ -405,6 +405,7 @@ export const bn: TranslationSchema = {
     emptyBody: "যেকোনো আয়াত খুলে «এই আয়াতটি মুখস্থ করুন» চাপুন। আপনার পুনরাবৃত্তিগুলো এখানে দেখা যাবে।",
     memorizeCta: "এই আয়াতটি মুখস্থ করুন",
     memorizeDuaCta: "এই দোয়া মুখস্থ করুন",
+    memorizeHadithCta: "এই হাদিস মুখস্থ করুন",
     removeCta: "মুখস্থ তালিকা থেকে সরান",
     dueTodayTitle: "পুনরাবৃত্তির জন্য",
     noneDueBody: "এখন পুনরাবৃত্তির কিছু নেই। আগামীকাল আবার আসুন, ইনশাআল্লাহ।",

@@ -405,6 +405,7 @@ export const de: TranslationSchema = {
     emptyBody: "Öffnen Sie einen Vers und tippen Sie auf „Diesen Vers auswendig lernen“. Ihre Wiederholungen erscheinen hier.",
     memorizeCta: "Diesen Vers auswendig lernen",
     memorizeDuaCta: "Dieses Bittgebet auswendig lernen",
+    memorizeHadithCta: "Diesen Hadith auswendig lernen",
     removeCta: "Aus dem Lernprogramm entfernen",
     dueTodayTitle: "Zu wiederholen",
     noneDueBody: "Im Moment nichts zu wiederholen. Kommen Sie morgen wieder, inshaAllah.",

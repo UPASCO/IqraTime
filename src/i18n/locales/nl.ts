@@ -405,6 +405,7 @@ export const nl: TranslationSchema = {
     emptyBody: "Open een ayah en tik op “Deze ayah memoriseren” om te beginnen. Uw herhalingen verschijnen hier.",
     memorizeCta: "Deze ayah memoriseren",
     memorizeDuaCta: "Deze smeekbede memoriseren",
+    memorizeHadithCta: "Deze hadith memoriseren",
     removeCta: "Verwijderen uit memorisatie",
     dueTodayTitle: "Te herhalen",
     noneDueBody: "Niets te herhalen op dit moment. Kom morgen terug, inshaAllah.",

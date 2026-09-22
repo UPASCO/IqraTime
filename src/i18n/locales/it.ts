@@ -405,6 +405,7 @@ export const it: TranslationSchema = {
     emptyBody: "Apri un versetto e tocca «Memorizza questo versetto» per iniziare. I tuoi ripassi appariranno qui.",
     memorizeCta: "Memorizza questo versetto",
     memorizeDuaCta: "Memorizza questa invocazione",
+    memorizeHadithCta: "Memorizza questo hadith",
     removeCta: "Rimuovi dalla memorizzazione",
     dueTodayTitle: "Da ripassare",
     noneDueBody: "Niente da ripassare per ora. Torna domani, inshaAllah.",

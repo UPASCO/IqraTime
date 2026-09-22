@@ -3,13 +3,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { AyahId } from "@/domain/types";
 
 /**
- * What a memorization entry refers to (2.1.1): an āyah ("2:255"), an
- * invocation (dua id, e.g. "daily-dua-27"), or one of the 99 Names (its
- * number as a string, "42"). The id formats never collide, so one flat
- * list keys everything by id alone. Entries persisted before this field
- * existed have no `kind` — they are āyāt.
+ * What a memorization entry refers to (2.1.1, hadith added in 2.1.2): an
+ * āyah ("2:255"), a hadith route id ("nawawi40/13"), an invocation (dua
+ * id, e.g. "daily-dua-27"), or one of the 99 Names (its number as a
+ * string, "42"). The id formats never collide, so one flat list keys
+ * everything by id alone. Entries persisted before this field existed
+ * have no `kind` — they are āyāt.
  */
-export type HifzKind = "ayah" | "dua" | "name";
+export type HifzKind = "ayah" | "hadith" | "dua" | "name";
 
 const KEY = "ayahnow.hifz";
 

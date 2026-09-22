@@ -7,6 +7,7 @@ import * as Sharing from "expo-sharing";
 import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { appConfig } from "@/config/appConfig";
+import { FeedActionRail } from "./FeedActionRail";
 
 export interface HadithFeedSlideProps {
   height: number;
@@ -16,8 +17,10 @@ export interface HadithFeedSlideProps {
   translationText?: string;
   textOrder: "arabic_first" | "translation_first";
   isFavorite?: boolean;
+  isMemorized?: boolean;
   showSwipeHint?: boolean;
   onToggleFavorite?: () => void;
+  onToggleMemorize?: () => void;
   onShare?: () => void;
   /** Fires the moment the share button is tapped, regardless of whether the image capture or the plain-text fallback ends up being used — the single point for counting a share attempt. */
   onShareAttempted?: () => void;
@@ -36,7 +39,6 @@ export interface HadithFeedSlideProps {
 export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element {
   const { spacing, typography, fontScaleMultiplier } = useTheme();
   const { t, direction } = useI18n();
-  const [justCopied, setJustCopied] = React.useState(false);
   const [isPreparingShareImage, setIsPreparingShareImage] = React.useState(false);
   const shotRef = useRef<ViewShotRef>(null);
   // See AyahFeedSlide's identical state for why: on Android a same-axis
@@ -45,12 +47,6 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
   // back — swiping got stuck. Disabling scroll unless the hadith text
   // actually overflows the slide removes the conflict for the common case.
   const [contentOverflows, setContentOverflows] = React.useState(false);
-
-  const handleCopy = (): void => {
-    props.onCopy?.();
-    setJustCopied(true);
-    setTimeout(() => setJustCopied(false), 1500);
-  };
 
   /** The brand/download footer only exists for the captured image — see AyahFeedSlide's identical handleShare for why it's mounted/unmounted around the capture instead of always shown. */
   const handleShare = async (): Promise<void> => {
@@ -172,56 +168,31 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
       </ScrollView>
       </ViewShot>
 
-      <View style={[styles.rail, { gap: spacing.lg }]}>
-        {props.onToggleFavorite ? (
-          <Pressable
-            onPress={props.onToggleFavorite}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={props.isFavorite ? t("home.favoriteRemove") : t("home.favoriteAdd")}
-            accessibilityState={{ selected: !!props.isFavorite }}
-          >
-            <Ionicons name={props.isFavorite ? "heart" : "heart-outline"} size={26} color={props.isFavorite ? appConfig.brand.goldLight : appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-        {props.onShare ? (
-          <Pressable
-            onPress={handleShare}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={t("home.shareCta")}
-          >
-            <Ionicons name="share-outline" size={23} color={appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-        {props.onCopy ? (
-          <Pressable
-            onPress={handleCopy}
-            hitSlop={8}
-            style={({ pressed }) => [styles.railButton, { opacity: pressed ? 0.7 : 1, transform: [{ scale: pressed ? 0.9 : 1 }] }]}
-            accessibilityRole="button"
-            accessibilityLabel={justCopied ? t("home.copiedConfirmation") : t("home.copyCta")}
-          >
-            <Ionicons name={justCopied ? "checkmark" : "copy-outline"} size={21} color={justCopied ? appConfig.brand.goldLight : appConfig.brand.warmWhite} />
-          </Pressable>
-        ) : null}
-      </View>
-
       {contentOverflows && props.onOpenDetail ? (
-        <Pressable
-          onPress={props.onOpenDetail}
-          style={({ pressed }) => [styles.readMorePill, { opacity: pressed ? 0.7 : 1 }]}
-          accessibilityRole="button"
-          accessibilityLabel={t("home.readMoreCta")}
-        >
-          <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
-            {t("home.readMoreCta")}
-          </Text>
-          <Ionicons name="chevron-forward" size={14} color={appConfig.brand.goldLight} />
-        </Pressable>
+        <View style={styles.readMoreFooter}>
+          <Pressable
+            onPress={props.onOpenDetail}
+            style={({ pressed }) => [styles.readMorePill, { opacity: pressed ? 0.7 : 1 }]}
+            accessibilityRole="button"
+            accessibilityLabel={t("home.readMoreCta")}
+          >
+            <Text style={{ color: appConfig.brand.goldLight, fontWeight: typography.weights.semibold, fontSize: typography.sizes.caption * fontScaleMultiplier }}>
+              {t("home.readMoreCta")}
+            </Text>
+            <Ionicons name="expand-outline" size={14} color={appConfig.brand.goldLight} />
+          </Pressable>
+        </View>
       ) : null}
+
+      <FeedActionRail
+        isFavorite={props.isFavorite}
+        onToggleFavorite={props.onToggleFavorite}
+        isMemorized={props.isMemorized}
+        onToggleMemorize={props.onToggleMemorize}
+        onShare={props.onShare ? handleShare : undefined}
+        onCopy={props.onCopy}
+        onExpand={props.onOpenDetail}
+      />
 
       {props.showSwipeHint ? (
         <View style={styles.swipeHint} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
@@ -242,21 +213,23 @@ const styles = StyleSheet.create({
   arabicText: { textAlign: "right", writingDirection: "rtl", fontWeight: "500" },
   hadithPill: { backgroundColor: "rgba(228,193,112,0.9)", borderRadius: 999 },
   brandFooter: { borderTopWidth: StyleSheet.hairlineWidth, gap: 2 },
-  rail: { position: "absolute", right: 16, bottom: 96, alignItems: "center" },
-  railButton: { width: 48, height: 48, borderRadius: 24, backgroundColor: "rgba(0,0,0,0.18)", alignItems: "center", justifyContent: "center" },
   swipeHint: { position: "absolute", bottom: 28, alignSelf: "center", alignItems: "center", gap: 2 },
+  readMoreFooter: {
+    height: 56,
+    alignItems: "center",
+    justifyContent: "center",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "rgba(247,243,232,0.16)",
+  },
   readMorePill: {
-    position: "absolute",
-    bottom: 60,
-    alignSelf: "center",
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
-    backgroundColor: "rgba(0,0,0,0.45)",
+    gap: 6,
+    backgroundColor: "rgba(0,0,0,0.35)",
     borderColor: "rgba(212,180,131,0.5)",
     borderWidth: 1,
     borderRadius: 999,
-    paddingHorizontal: 14,
-    paddingVertical: 7,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
 });

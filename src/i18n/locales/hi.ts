@@ -405,6 +405,7 @@ export const hi: TranslationSchema = {
     emptyBody: "कोई भी आयत खोलें और «यह आयत याद करें» दबाएँ। आपके दोहराव यहाँ दिखेंगे।",
     memorizeCta: "यह आयत याद करें",
     memorizeDuaCta: "यह दुआ याद करें",
+    memorizeHadithCta: "यह हदीस याद करें",
     removeCta: "याद सूची से हटाएँ",
     dueTodayTitle: "दोहराने के लिए",
     noneDueBody: "अभी दोहराने के लिए कुछ नहीं। कल फिर आएँ, इंशाअल्लाह।",
