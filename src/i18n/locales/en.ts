@@ -39,6 +39,10 @@ export const en = {
     imageBrandFooter: "Search “IqraTime” on the App Store & Google Play",
     showTransliterationCta: "Show phonetics",
     hideTransliterationCta: "Hide phonetics",
+    badgeAyah: "Ayah",
+    badgeHadith: "Hadith",
+    badgeName: "Name of Allah",
+    badgeDua: "Invocation",
   },
   onboarding: {
     step1: {
@@ -365,10 +369,10 @@ export const en = {
     noAccountBody: "There is no sign-up, no login, and no user identifier of any kind.",
   },
   notifications: {
-    titleTemplate: "IqraTime • Surah {surahName} {surah}:{ayah}",
-    hadithTitleTemplate: "IqraTime • {collection} #{number}",
-    nameTitleTemplate: "IqraTime • {transliteration} — Name {number}/99",
-    duaTitleTemplate: "IqraTime • {title}",
+    titleTemplate: "{kind} • Surah {surahName} {surah}:{ayah}",
+    hadithTitleTemplate: "{kind} • {collection} #{number}",
+    nameTitleTemplate: "{kind} • {transliteration} — Name {number}/99",
+    duaTitleTemplate: "{kind} • {title}",
     actionFavorite: "Favorite",
     actionAnother: "Another ayah",
     actionOpen: "Open",

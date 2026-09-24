@@ -5,6 +5,7 @@ export { AyahFeedSlide } from "./AyahFeedSlide";
 export { HadithFeedSlide } from "./HadithFeedSlide";
 export { NameFeedSlide } from "./NameFeedSlide";
 export { FeedActionRail } from "./FeedActionRail";
+export { KindBadge } from "./KindBadge";
 export { DuaFeedSlide } from "./DuaFeedSlide";
 export { EmptyState } from "./EmptyState";
 export { SectionHeader } from "./SectionHeader";

@@ -6,6 +6,7 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { appConfig } from "@/config/appConfig";
 import { FeedActionRail } from "./FeedActionRail";
+import { KindBadge } from "./KindBadge";
 
 export interface NameFeedSlideProps {
   height: number;
@@ -43,6 +44,7 @@ export function NameFeedSlide(props: NameFeedSlideProps): React.JSX.Element {
         style={styles.center}
       >
         <View style={{ alignItems: "center", gap: spacing.md, paddingHorizontal: spacing.lg, paddingRight: spacing.lg + 40 }}>
+          <KindBadge kind="name" />
           <Text
             style={{
               color: appConfig.brand.goldLight,

@@ -8,6 +8,7 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { appConfig } from "@/config/appConfig";
 import { FeedActionRail } from "./FeedActionRail";
+import { KindBadge } from "./KindBadge";
 
 export interface HadithFeedSlideProps {
   height: number;
@@ -150,11 +151,7 @@ export function HadithFeedSlide(props: HadithFeedSlideProps): React.JSX.Element 
               hadith's last lines render underneath the buttons. */}
           <View style={{ gap: spacing.lg, paddingLeft: spacing.lg, paddingRight: spacing.lg + 56 }}>
             <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xs }}>
-              <View style={[styles.hadithPill, { paddingHorizontal: spacing.sm, paddingVertical: spacing.xxs }]}>
-                <Text style={{ color: appConfig.brand.night, fontSize: typography.sizes.caption * fontScaleMultiplier, fontWeight: typography.weights.bold }}>
-                  {t("hadith.badgeLabel")}
-                </Text>
-              </View>
+              <KindBadge kind="hadith" />
               <Text
                 style={{
                   color: appConfig.brand.goldLight,
@@ -230,7 +227,6 @@ const styles = StyleSheet.create({
   // keeps content anchored near the top instead of floating too low.
   scrollContent: { flexGrow: 1, justifyContent: "flex-start", paddingTop: 32, paddingBottom: 24 },
   arabicText: { textAlign: "right", writingDirection: "rtl", fontWeight: "500" },
-  hadithPill: { backgroundColor: "rgba(228,193,112,0.9)", borderRadius: 999 },
   brandFooter: { borderTopWidth: StyleSheet.hairlineWidth, gap: 2 },
   swipeHint: { position: "absolute", bottom: 28, alignSelf: "center", alignItems: "center", gap: 2 },
   readMoreFooter: {

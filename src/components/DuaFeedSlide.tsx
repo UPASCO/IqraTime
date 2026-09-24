@@ -6,6 +6,7 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { appConfig } from "@/config/appConfig";
 import { FeedActionRail } from "./FeedActionRail";
+import { KindBadge } from "./KindBadge";
 
 export interface DuaFeedSlideProps {
   height: number;
@@ -55,16 +56,20 @@ export function DuaFeedSlide(props: DuaFeedSlideProps): React.JSX.Element {
           accessibilityLabel={`${props.title}. ${props.translationText ?? ""}`}
         >
           <View style={{ gap: spacing.lg, paddingLeft: spacing.lg, paddingRight: spacing.lg + 56 }}>
-            <Text
-              style={{
-                color: appConfig.brand.goldLight,
-                fontWeight: typography.weights.semibold,
-                fontSize: typography.sizes.body * fontScaleMultiplier,
-                letterSpacing: 1,
-              }}
-            >
-              {props.title.toUpperCase()}
-            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xs, flexWrap: "wrap" }}>
+              <KindBadge kind="dua" />
+              <Text
+                style={{
+                  color: appConfig.brand.goldLight,
+                  fontWeight: typography.weights.semibold,
+                  fontSize: typography.sizes.body * fontScaleMultiplier,
+                  letterSpacing: 1,
+                  flexShrink: 1,
+                }}
+              >
+                {props.title.toUpperCase()}
+              </Text>
+            </View>
 
             <Text
               accessibilityLanguage="ar"

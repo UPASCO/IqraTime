@@ -8,6 +8,7 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { appConfig } from "@/config/appConfig";
 import { FeedActionRail } from "./FeedActionRail";
+import { KindBadge } from "./KindBadge";
 import type { TextOrder } from "@/domain/types";
 
 export interface AyahFeedSlideProps {
@@ -169,16 +170,19 @@ export function AyahFeedSlide(props: AyahFeedSlideProps): React.JSX.Element {
               two overlap (spec: keep the action rail legible against text at
               every content length). */}
           <View style={{ gap: spacing.lg, paddingLeft: spacing.lg, paddingRight: spacing.lg + 56 }}>
-          <Text
-            style={{
-              color: appConfig.brand.goldLight,
-              fontWeight: typography.weights.semibold,
-              fontSize: typography.sizes.body * fontScaleMultiplier,
-              letterSpacing: 1,
-            }}
-          >
-            {referenceLabel.toUpperCase()}
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.xs }}>
+            <KindBadge kind="ayah" />
+            <Text
+              style={{
+                color: appConfig.brand.goldLight,
+                fontWeight: typography.weights.semibold,
+                fontSize: typography.sizes.body * fontScaleMultiplier,
+                letterSpacing: 1,
+              }}
+            >
+              {referenceLabel.toUpperCase()}
+            </Text>
+          </View>
 
           <View style={{ gap: spacing.md }}>
             {orderedBlocks.map((block, index) => (block ? <React.Fragment key={index}>{block}</React.Fragment> : null))}

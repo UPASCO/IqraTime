@@ -34,6 +34,10 @@ export const nl: TranslationSchema = {
     imageBrandFooter: "Zoek «IqraTime» in de App Store en Google Play",
     showTransliterationCta: "Fonetiek tonen",
     hideTransliterationCta: "Fonetiek verbergen",
+    badgeAyah: "Aya",
+    badgeHadith: "Hadith",
+    badgeName: "Naam van Allah",
+    badgeDua: "Smeekbede",
   },
   onboarding: {
     step1: {
@@ -360,10 +364,10 @@ export const nl: TranslationSchema = {
     noAccountBody: "Er is geen registratie, geen login en geen enkele vorm van gebruikersidentificatie.",
   },
   notifications: {
-    titleTemplate: "IqraTime • Soera {surahName} {surah}:{ayah}",
-    hadithTitleTemplate: "IqraTime • {collection} #{number}",
-    nameTitleTemplate: "IqraTime • {transliteration} — Naam {number}/99",
-    duaTitleTemplate: "IqraTime • {title}",
+    titleTemplate: "{kind} • Soera {surahName} {surah}:{ayah}",
+    hadithTitleTemplate: "{kind} • {collection} #{number}",
+    nameTitleTemplate: "{kind} • {transliteration} — Naam {number}/99",
+    duaTitleTemplate: "{kind} • {title}",
     actionFavorite: "Favoriet",
     actionAnother: "Nog een ayah",
     actionOpen: "Openen",

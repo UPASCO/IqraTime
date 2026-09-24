@@ -118,8 +118,8 @@ describe("reschedule() integration", () => {
     const ayahCalls = scheduleMock.mock.calls.filter((call) => (call[0] as { slot: NotificationSlot }).slot.kind === "ayah");
     expect(ayahCalls.length).toBeGreaterThan(0);
     const titles = ayahCalls.map((call) => (call[0] as { title: string }).title);
-    // e.g. "IqraTime • Surah Al-Baqarah 2:286" — a name, then the numeric reference.
-    expect(titles.every((title) => /IqraTime • Surah [^\d]+ \d+:\d+$/.test(title))).toBe(true);
+    // e.g. "Ayah • Surah Al-Baqarah 2:286" — the kind badge, a name, then the numeric reference.
+    expect(titles.every((title) => /^Ayah • Surah [^\d]+ \d+:\d+$/.test(title))).toBe(true);
   });
 
   it("cancels the whole queue and rebuilds it when the translation language changes", async () => {

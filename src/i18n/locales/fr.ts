@@ -34,6 +34,10 @@ export const fr: TranslationSchema = {
     imageBrandFooter: "Cherchez « IqraTime » sur l'App Store et Google Play",
     showTransliterationCta: "Afficher la phonétique",
     hideTransliterationCta: "Masquer la phonétique",
+    badgeAyah: "Āyah",
+    badgeHadith: "Hadith",
+    badgeName: "Nom d'Allah",
+    badgeDua: "Invocation",
   },
   onboarding: {
     step1: {
@@ -360,10 +364,10 @@ export const fr: TranslationSchema = {
     noAccountBody: "Il n'y a ni inscription, ni connexion, ni identifiant utilisateur d'aucune sorte.",
   },
   notifications: {
-    titleTemplate: "IqraTime • Sourate {surahName} {surah}:{ayah}",
-    hadithTitleTemplate: "IqraTime • {collection} #{number}",
-    nameTitleTemplate: "IqraTime • {transliteration} — Nom {number}/99",
-    duaTitleTemplate: "IqraTime • {title}",
+    titleTemplate: "{kind} • Sourate {surahName} {surah}:{ayah}",
+    hadithTitleTemplate: "{kind} • {collection} #{number}",
+    nameTitleTemplate: "{kind} • {transliteration} — Nom {number}/99",
+    duaTitleTemplate: "{kind} • {title}",
     actionFavorite: "Favori",
     actionAnother: "Une autre āyah",
     actionOpen: "Ouvrir",

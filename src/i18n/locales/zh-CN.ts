@@ -34,6 +34,10 @@ export const zhCN: TranslationSchema = {
     imageBrandFooter: "在 App Store 与 Google Play 搜索「IqraTime」",
     showTransliterationCta: "显示拼音注音",
     hideTransliterationCta: "隐藏拼音注音",
+    badgeAyah: "经文",
+    badgeHadith: "圣训",
+    badgeName: "真主之名",
+    badgeDua: "祈祷词",
   },
   onboarding: {
     step1: {
@@ -360,10 +364,10 @@ export const zhCN: TranslationSchema = {
     noAccountBody: "没有注册、没有登录，也没有任何形式的用户标识符。",
   },
   notifications: {
-    titleTemplate: "IqraTime • {surahName} 第 {surah} 章 第 {ayah} 节",
-    hadithTitleTemplate: "IqraTime • {collection} #{number}",
-    nameTitleTemplate: "IqraTime • {transliteration} — 尊名 {number}/99",
-    duaTitleTemplate: "IqraTime • {title}",
+    titleTemplate: "{kind} • {surahName} 第 {surah} 章 第 {ayah} 节",
+    hadithTitleTemplate: "{kind} • {collection} #{number}",
+    nameTitleTemplate: "{kind} • {transliteration} — 尊名 {number}/99",
+    duaTitleTemplate: "{kind} • {title}",
     actionFavorite: "收藏",
     actionAnother: "换一条",
     actionOpen: "打开",

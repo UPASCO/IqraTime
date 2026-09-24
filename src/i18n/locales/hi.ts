@@ -34,6 +34,10 @@ export const hi: TranslationSchema = {
     imageBrandFooter: "ऐप स्टोर और गूगल प्ले पर «IqraTime» खोजें",
     showTransliterationCta: "उच्चारण दिखाएँ",
     hideTransliterationCta: "उच्चारण छिपाएँ",
+    badgeAyah: "आयत",
+    badgeHadith: "हदीस",
+    badgeName: "अल्लाह का नाम",
+    badgeDua: "दुआ",
   },
   onboarding: {
     step1: {
@@ -360,10 +364,10 @@ export const hi: TranslationSchema = {
     noAccountBody: "कोई साइन-अप नहीं, कोई लॉगिन नहीं, और किसी भी प्रकार का कोई उपयोगकर्ता पहचानकर्ता नहीं है।",
   },
   notifications: {
-    titleTemplate: "IqraTime • सूरह {surahName} {surah}:{ayah}",
-    hadithTitleTemplate: "IqraTime • {collection} #{number}",
-    nameTitleTemplate: "IqraTime • {transliteration} — नाम {number}/99",
-    duaTitleTemplate: "IqraTime • {title}",
+    titleTemplate: "{kind} • सूरह {surahName} {surah}:{ayah}",
+    hadithTitleTemplate: "{kind} • {collection} #{number}",
+    nameTitleTemplate: "{kind} • {transliteration} — नाम {number}/99",
+    duaTitleTemplate: "{kind} • {title}",
     actionFavorite: "पसंदीदा",
     actionAnother: "एक और आयत",
     actionOpen: "खोलें",
