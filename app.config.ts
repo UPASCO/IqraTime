@@ -33,6 +33,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       NSUserNotificationsUsageDescription:
         "IqraTime uses local notifications to deliver a Quran verse to your lock screen at the times you choose. No data leaves your device.",
       ITSAppUsesNonExemptEncryption: false,
+      // The App Store's "Languages" card reads this list from the binary —
+      // without it the store shows "EN" only, even though the app ships 12
+      // in-app locales (src/i18n/locales/). Keep in sync with
+      // appConfig.supportedLocales. Also enables per-app language override
+      // in iOS Settings.
+      CFBundleDevelopmentRegion: "en",
+      CFBundleAllowMixedLocalizations: true,
+      CFBundleLocalizations: ["en", "fr", "ar", "bn", "de", "es", "hi", "it", "nl", "pt", "ru", "zh-Hans"],
     },
   },
   android: {
